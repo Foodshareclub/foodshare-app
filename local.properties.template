@@ -1,0 +1,12 @@
+# Copy this file to local.properties and fill in your values
+# DO NOT commit local.properties to version control
+
+# Supabase (self-hosted)
+supabase.url=https://api.foodshare.club
+supabase.anon.key=YOUR_SUPABASE_ANON_KEY
+
+# Google Maps
+google.maps.api.key=YOUR_GOOGLE_MAPS_API_KEY
+
+# Android SDK (auto-detected by Android Studio)
+# sdk.dir=/Users/YOU/Library/Android/sdk
