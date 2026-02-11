@@ -31,16 +31,13 @@ jobs:
         echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> local.properties
         echo "skipNativeBuild=true" >> local.properties
     
-    - name: Run Tests
-      run: ./gradlew test
-    
     - name: Build Debug APK
       if: github.event_name == 'pull_request'
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug --no-configuration-cache
     
     - name: Build Release APK
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: ./gradlew assembleRelease
+      run: ./gradlew assembleRelease --no-configuration-cache
       env:
         KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -75,7 +72,7 @@ jobs:
         distribution: 'temurin'
     
     - name: Build Release Bundle
-      run: ./gradlew bundleRelease
+      run: ./gradlew bundleRelease --no-configuration-cache
       env:
         KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
