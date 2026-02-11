@@ -1,8 +1,9 @@
 package com.foodshare.features.insights.data.repository
 
-import com.foodshare.core.network.SupabaseClient
+import io.github.jan.supabase.SupabaseClient
 import com.foodshare.features.insights.domain.model.UserInsights
 import com.foodshare.features.insights.domain.repository.InsightsRepository
+import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -20,7 +21,7 @@ class SupabaseInsightsRepository @Inject constructor(
                 put("p_user_id", userId)
             }
 
-            val insights = supabaseClient.client.postgrest
+            val insights = supabaseClient.postgrest
                 .rpc("get_user_insights", params)
                 .decodeSingle<UserInsights>()
 

@@ -2,9 +2,10 @@ package com.foodshare.features.insights.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.foodshare.features.auth.domain.repository.AuthRepository
 import com.foodshare.features.insights.domain.model.UserInsights
 import com.foodshare.features.insights.domain.repository.InsightsRepository
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,7 @@ data class InsightsUiState(
 @HiltViewModel
 class InsightsViewModel @Inject constructor(
     private val insightsRepository: InsightsRepository,
-    private val authRepository: AuthRepository
+    private val supabaseClient: SupabaseClient
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(InsightsUiState())
@@ -34,7 +35,7 @@ class InsightsViewModel @Inject constructor(
 
     fun loadInsights() {
         viewModelScope.launch {
-            val userId = authRepository.getCurrentUser()?.id ?: return@launch
+            val userId = supabaseClient.auth.currentUserOrNull()?.id ?: return@launch
 
             _uiState.update { it.copy(isLoading = true, error = null) }
 

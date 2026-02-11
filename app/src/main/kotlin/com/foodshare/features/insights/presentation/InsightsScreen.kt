@@ -25,8 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.foodshare.features.insights.domain.model.CategoryStat
 import com.foodshare.features.insights.domain.model.MonthlyStats
 import com.foodshare.features.insights.domain.model.UserInsights
-import com.foodshare.ui.theme.FoodShareDarkBlue
-import com.foodshare.ui.theme.FoodSharePurple
+import com.foodshare.ui.design.tokens.LiquidGlassColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +49,7 @@ fun InsightsScreen(
                 ),
                 modifier = Modifier.background(
                     Brush.horizontalGradient(
-                        colors = listOf(FoodShareDarkBlue, FoodSharePurple)
+                        colors = listOf(LiquidGlassColors.blueDark, LiquidGlassColors.brandPurple)
                     )
                 )
             )
@@ -62,7 +61,7 @@ fun InsightsScreen(
                 .padding(padding)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(FoodShareDarkBlue, FoodSharePurple)
+                        colors = listOf(LiquidGlassColors.blueDark, LiquidGlassColors.brandPurple)
                     )
                 )
         ) {

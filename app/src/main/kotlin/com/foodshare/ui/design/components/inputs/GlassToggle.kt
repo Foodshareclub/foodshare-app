@@ -42,15 +42,15 @@ fun GlassToggle(
         targetValue = if (checked && enabled) {
             Color.Transparent
         } else {
-            LiquidGlassColors.glassSurface
+            LiquidGlassColors.Glass.surface
         },
-        animationSpec = tween(durationMillis = LiquidGlassAnimations.durationNormal),
+        animationSpec = tween(durationMillis = LiquidGlassAnimations.Duration.standard),
         label = "track_color"
     )
 
     val thumbOffset by animateDpAsState(
         targetValue = if (checked) 24.dp else 0.dp,
-        animationSpec = tween(durationMillis = LiquidGlassAnimations.durationNormal),
+        animationSpec = tween(durationMillis = LiquidGlassAnimations.Duration.standard),
         label = "thumb_offset"
     )
 
@@ -72,9 +72,9 @@ fun GlassToggle(
                 text = it,
                 style = MaterialTheme.typography.bodyMedium,
                 color = if (enabled) {
-                    LiquidGlassColors.textPrimary
+                    LiquidGlassColors.Text.primary
                 } else {
-                    LiquidGlassColors.textSecondary.copy(alpha = 0.5f)
+                    LiquidGlassColors.Text.secondary.copy(alpha = 0.5f)
                 }
             )
         }
@@ -88,9 +88,7 @@ fun GlassToggle(
                 .then(
                     if (checked && enabled) {
                         Modifier.background(
-                            brush = Brush.linearGradient(
-                                colors = LiquidGlassGradients.brandGradient
-                            )
+                            brush = LiquidGlassGradients.brand
                         )
                     } else {
                         Modifier.background(trackColor)
@@ -101,7 +99,7 @@ fun GlassToggle(
                     color = if (checked && enabled) {
                         Color.Transparent
                     } else {
-                        LiquidGlassColors.glassBorder
+                        LiquidGlassColors.Glass.border
                     },
                     shape = RoundedCornerShape(16.dp)
                 )

@@ -1,6 +1,8 @@
 package com.foodshare.core.admin
 
 import com.foodshare.core.validation.ValidationBridge
+import com.foodshare.core.validation.ValidationResult
+import com.foodshare.core.validation.ValidationError
 
 /**
  * Bridge to Swift AdminValidator via swift-java generated classes.
@@ -18,7 +20,7 @@ object AdminValidationBridge {
     const val MIN_MODERATION_NOTES_LENGTH = 5
     const val MAX_MODERATION_NOTES_LENGTH = 1000
 
-    fun validateBanReason(reason: String): ValidationBridge.ValidationResult {
+    fun validateBanReason(reason: String): ValidationResult {
         val trimmed = reason.trim()
         val errors = mutableListOf<String>()
 
@@ -30,13 +32,13 @@ object AdminValidationBridge {
                 errors.add("Ban reason cannot exceed $MAX_BAN_REASON_LENGTH characters")
         }
 
-        return ValidationBridge.ValidationResult(
+        return ValidationResult(
             isValid = errors.isEmpty(),
-            errors = errors.map { ValidationBridge.ValidationError.Custom(it) }
+            errors = errors.map { ValidationError.Custom(it) }
         )
     }
 
-    fun validateModerationNotes(notes: String): ValidationBridge.ValidationResult {
+    fun validateModerationNotes(notes: String): ValidationResult {
         val trimmed = notes.trim()
         val errors = mutableListOf<String>()
 
@@ -48,9 +50,9 @@ object AdminValidationBridge {
                 errors.add("Notes cannot exceed $MAX_MODERATION_NOTES_LENGTH characters")
         }
 
-        return ValidationBridge.ValidationResult(
+        return ValidationResult(
             isValid = errors.isEmpty(),
-            errors = errors.map { ValidationBridge.ValidationError.Custom(it) }
+            errors = errors.map { ValidationError.Custom(it) }
         )
     }
 }

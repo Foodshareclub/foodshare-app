@@ -1,6 +1,9 @@
 package com.foodshare.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.foodshare.BuildConfig
 import com.foodshare.core.network.EdgeFunctionClient
 import com.foodshare.core.network.RateLimitedRPCClient
@@ -31,9 +34,19 @@ import javax.inject.Singleton
 /**
  * Hilt module for providing application-wide dependencies
  */
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "foodshare_settings")
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> {
+        return context.dataStore
+    }
 
     /**
      * Provides the Supabase client as a singleton

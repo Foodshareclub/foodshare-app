@@ -242,7 +242,7 @@ class NewsletterSubscriptionViewModel @Inject constructor(
             put("newsletter_frequency", state.frequency.key)
             putJsonArray("newsletter_topics") {
                 state.selectedTopics.forEach { topic ->
-                    add(topic.key)
+                    add(kotlinx.serialization.json.JsonPrimitive(topic.key))
                 }
             }
         }

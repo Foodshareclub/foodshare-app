@@ -30,7 +30,7 @@ fun AnimatedMeshGradientBackground(
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = LiquidGlassAnimations.durationSlow,
+                durationMillis = LiquidGlassAnimations.Duration.slow,
                 easing = LinearEasing
             ),
             repeatMode = RepeatMode.Restart
@@ -43,7 +43,7 @@ fun AnimatedMeshGradientBackground(
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = LiquidGlassAnimations.durationSlow + 2000,
+                durationMillis = LiquidGlassAnimations.Duration.slow + 2000,
                 easing = LinearEasing
             ),
             repeatMode = RepeatMode.Restart
@@ -56,7 +56,7 @@ fun AnimatedMeshGradientBackground(
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = LiquidGlassAnimations.durationSlow + 4000,
+                durationMillis = LiquidGlassAnimations.Duration.slow + 4000,
                 easing = LinearEasing
             ),
             repeatMode = RepeatMode.Restart

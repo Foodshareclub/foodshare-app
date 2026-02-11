@@ -41,11 +41,10 @@ class MFAVerificationViewModel @Inject constructor(
             try {
                 // Get the first TOTP factor (assuming single MFA factor setup)
                 val factors = supabaseClient.auth.mfa.retrieveFactorsForCurrentUser()
-                val totpFactor = factors.firstOrNull { it.factorType.name == "totp" }
+                val totpFactor = factors.firstOrNull { it.factorType == "totp" }
 
                 if (totpFactor != null) {
-                    val challenge = supabaseClient.auth.mfa.challenge(factorId = totpFactor.id)
-                    supabaseClient.auth.mfa.verify(
+                    supabaseClient.auth.mfa.createChallengeAndVerify(
                         factorId = totpFactor.id,
                         code = state.code
                     )

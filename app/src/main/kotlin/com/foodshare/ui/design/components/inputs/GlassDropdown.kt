@@ -37,7 +37,7 @@ fun GlassDropdown(
 
     val arrowRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
-        animationSpec = tween(durationMillis = LiquidGlassAnimations.durationNormal),
+        animationSpec = tween(durationMillis = LiquidGlassAnimations.Duration.standard),
         label = "arrow_rotation"
     )
 
@@ -50,7 +50,7 @@ fun GlassDropdown(
             Text(
                 text = it,
                 style = MaterialTheme.typography.labelMedium,
-                color = LiquidGlassColors.textSecondary
+                color = LiquidGlassColors.Text.secondary
             )
         }
 
@@ -64,10 +64,10 @@ fun GlassDropdown(
                     .fillMaxWidth()
                     .menuAnchor()
                     .clip(RoundedCornerShape(CornerRadius.medium))
-                    .background(LiquidGlassColors.glassSurface)
+                    .background(LiquidGlassColors.Glass.surface)
                     .border(
                         width = 1.dp,
-                        color = LiquidGlassColors.glassBorder,
+                        color = LiquidGlassColors.Glass.border,
                         shape = RoundedCornerShape(CornerRadius.medium)
                     )
                     .clickable(enabled = enabled) { expanded = !expanded }
@@ -82,16 +82,16 @@ fun GlassDropdown(
                         text = selectedValue.ifEmpty { "Select an option" },
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (selectedValue.isEmpty()) {
-                            LiquidGlassColors.textSecondary
+                            LiquidGlassColors.Text.secondary
                         } else {
-                            LiquidGlassColors.textPrimary
+                            LiquidGlassColors.Text.primary
                         }
                     )
 
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = if (expanded) "Collapse" else "Expand",
-                        tint = LiquidGlassColors.textSecondary,
+                        tint = LiquidGlassColors.Text.secondary,
                         modifier = Modifier.rotate(arrowRotation)
                     )
                 }
@@ -102,10 +102,10 @@ fun GlassDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .background(LiquidGlassColors.glassSurface)
+                    .background(LiquidGlassColors.Glass.surface)
                     .border(
                         width = 1.dp,
-                        color = LiquidGlassColors.glassBorder,
+                        color = LiquidGlassColors.Glass.border,
                         shape = RoundedCornerShape(CornerRadius.medium)
                     )
             ) {
@@ -115,7 +115,7 @@ fun GlassDropdown(
                             Text(
                                 text = option,
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = LiquidGlassColors.textPrimary
+                                color = LiquidGlassColors.Text.primary
                             )
                         },
                         onClick = {
@@ -124,7 +124,7 @@ fun GlassDropdown(
                         },
                         modifier = Modifier.background(
                             color = if (option == selectedValue) {
-                                LiquidGlassColors.glassMicro
+                                LiquidGlassColors.Glass.micro
                             } else {
                                 Color.Transparent
                             }

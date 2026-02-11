@@ -297,9 +297,6 @@ data class ForumTrustLevel(
     }
 
     companion object {
-        /** All static trust levels (matching iOS ForumTrustLevel.all). */
-        val all: List<ForumTrustLevel> = listOf(newUser, basic, member, regular, leader)
-
         val newUser = ForumTrustLevel(
             level = 0,
             name = "New User",
@@ -459,6 +456,9 @@ data class ForumTrustLevel(
             maxLikesPerDay = 200,
             maxFlagsPerDay = 20
         )
+
+        /** All static trust levels (matching iOS ForumTrustLevel.all). */
+        val all: List<ForumTrustLevel> = listOf(newUser, basic, member, regular, leader)
     }
 }
 

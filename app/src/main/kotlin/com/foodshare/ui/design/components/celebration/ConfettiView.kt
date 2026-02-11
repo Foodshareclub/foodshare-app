@@ -8,6 +8,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.foodshare.ui.design.tokens.LiquidGlassColors
+import androidx.compose.runtime.withFrameMillis
 import kotlinx.coroutines.isActive
 import kotlin.math.cos
 import kotlin.math.sin
@@ -114,6 +115,3 @@ private fun createRandomParticle(colors: List<Color>): ConfettiParticle {
         size = Random.nextFloat() * 8f + 4f // Size between 4-12
     )
 }
-
-// Missing import
-import androidx.compose.animation.core.withFrameMillis

@@ -72,8 +72,8 @@ class TwoFactorAuthViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         isEnrolling = false,
-                        qrCode = enrollResult.totp?.qrCode,
-                        secret = enrollResult.totp?.secret,
+                        qrCode = enrollResult.data.qrCode,
+                        secret = enrollResult.data.secret,
                         factorId = enrollResult.id,
                         showVerificationDialog = true
                     )
@@ -97,7 +97,7 @@ class TwoFactorAuthViewModel @Inject constructor(
                 val factorId = _uiState.value.factorId ?: return@launch
 
                 // Verify the TOTP code
-                supabaseClient.auth.mfa.challengeAndVerify(
+                supabaseClient.auth.mfa.createChallengeAndVerify(
                     factorId = factorId,
                     code = code
                 )

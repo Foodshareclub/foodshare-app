@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -66,7 +67,7 @@ fun MilestoneOverlay(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(LiquidGlassColors.scrimDark)
+                .background(LiquidGlassColors.Overlay.scrim)
                 .clickable(onClick = onDismiss),
             contentAlignment = Alignment.Center
         ) {
@@ -80,12 +81,12 @@ fun MilestoneOverlay(
             Column(
                 modifier = Modifier
                     .padding(Spacing.xl)
-                    .clip(CornerRadius.Large)
+                    .clip(RoundedCornerShape(CornerRadius.large))
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                LiquidGlassColors.glassBg,
-                                LiquidGlassColors.glassBg.copy(alpha = 0.95f)
+                                LiquidGlassColors.Glass.background,
+                                LiquidGlassColors.Glass.background.copy(alpha = 0.95f)
                             )
                         )
                     )
@@ -97,7 +98,7 @@ fun MilestoneOverlay(
                 Box(
                     modifier = Modifier
                         .size(80.dp)
-                        .clip(CornerRadius.Full)
+                        .clip(RoundedCornerShape(CornerRadius.full))
                         .background(
                             brush = Brush.radialGradient(
                                 colors = listOf(
@@ -121,7 +122,7 @@ fun MilestoneOverlay(
                     text = title,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LiquidGlassColors.textPrimary,
+                    color = LiquidGlassColors.Text.primary,
                     textAlign = TextAlign.Center
                 )
 
@@ -129,7 +130,7 @@ fun MilestoneOverlay(
                 Text(
                     text = subtitle,
                     fontSize = 16.sp,
-                    color = LiquidGlassColors.textSecondary,
+                    color = LiquidGlassColors.Text.secondary,
                     textAlign = TextAlign.Center
                 )
             }

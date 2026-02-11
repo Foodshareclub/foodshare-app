@@ -484,6 +484,33 @@ class SupabaseForumRepository @Inject constructor(
             }
     }
 
+    // Polls (TODO: implement when backend is ready)
+
+    override suspend fun getPoll(forumId: Int): Result<ForumPoll> =
+        Result.failure(NotImplementedError("getPoll not yet implemented"))
+
+    override suspend fun castVote(pollId: String, optionIds: List<String>): Result<ForumPoll> =
+        Result.failure(NotImplementedError("castVote not yet implemented"))
+
+    override suspend fun createPoll(request: CreatePollRequest): Result<ForumPoll> =
+        Result.failure(NotImplementedError("createPoll not yet implemented"))
+
+    // Badges (TODO: implement when backend is ready)
+
+    override suspend fun getBadges(): Result<List<ForumBadge>> =
+        Result.failure(NotImplementedError("getBadges not yet implemented"))
+
+    override suspend fun getUserBadges(): Result<List<UserBadge>> =
+        Result.failure(NotImplementedError("getUserBadges not yet implemented"))
+
+    // User Stats & Trust Levels (TODO: implement when backend is ready)
+
+    override suspend fun getUserStats(): Result<ForumUserStats> =
+        Result.failure(NotImplementedError("getUserStats not yet implemented"))
+
+    override suspend fun getTrustLevels(): Result<List<ForumTrustLevel>> =
+        Result.failure(NotImplementedError("getTrustLevels not yet implemented"))
+
     companion object {
         private const val POSTS_SELECT = """
             *,

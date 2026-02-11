@@ -134,12 +134,12 @@ private fun PollHeader(
         if (poll.hasEnded) {
             Surface(
                 shape = RoundedCornerShape(CornerRadius.small),
-                color = LiquidGlassColors.textSecondary.copy(alpha = 0.1f)
+                color = LiquidGlassColors.Text.secondary.copy(alpha = 0.1f)
             ) {
                 Text(
                     text = "Ended",
                     style = MaterialTheme.typography.labelSmall,
-                    color = LiquidGlassColors.textSecondary,
+                    color = LiquidGlassColors.Text.secondary,
                     modifier = Modifier.padding(horizontal = Spacing.xxs, vertical = Spacing.xxxs)
                 )
             }
@@ -226,7 +226,7 @@ private fun PollFooter(
         Text(
             text = "${poll.totalVotes} ${if (poll.totalVotes == 1) "vote" else "votes"}",
             style = MaterialTheme.typography.bodySmall,
-            color = LiquidGlassColors.textSecondary
+            color = LiquidGlassColors.Text.secondary
         )
 
         // Time remaining
@@ -239,12 +239,12 @@ private fun PollFooter(
                     imageVector = Icons.Outlined.Schedule,
                     contentDescription = null,
                     modifier = Modifier.size(14.dp),
-                    tint = LiquidGlassColors.textSecondary
+                    tint = LiquidGlassColors.Text.secondary
                 )
                 Text(
                     text = timeText,
                     style = MaterialTheme.typography.bodySmall,
-                    color = LiquidGlassColors.textSecondary
+                    color = LiquidGlassColors.Text.secondary
                 )
             }
         }
@@ -254,7 +254,7 @@ private fun PollFooter(
             Text(
                 text = "Anonymous",
                 style = MaterialTheme.typography.bodySmall,
-                color = LiquidGlassColors.textSecondary,
+                color = LiquidGlassColors.Text.secondary,
                 fontWeight = FontWeight.Medium
             )
         }

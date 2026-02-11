@@ -43,6 +43,8 @@ class CacheWarmingService @Inject constructor(
         private const val FEED_PAGE_SIZE = 20
         private const val NEARBY_PAGE_SIZE = 10
         private const val WARM_TTL_MS = 10 * 60 * 1000L // 10 minutes
+        const val CACHE_KEY_NEARBY = "nearby_listings"
+        const val CACHE_KEY_UNREAD_COUNT = "unread_notification_count"
     }
 
     private val json = Json {
@@ -225,10 +227,6 @@ class CacheWarmingService @Inject constructor(
     // Cache Keys
     // ========================================================================
 
-    companion object CacheKeyConstants {
-        const val CACHE_KEY_NEARBY = "nearby_listings"
-        const val CACHE_KEY_UNREAD_COUNT = "unread_notification_count"
-    }
 }
 
 // ============================================================================

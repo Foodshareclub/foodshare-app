@@ -1,6 +1,7 @@
 package com.foodshare.core.search
 
 import com.foodshare.core.validation.ValidationBridge
+import com.foodshare.core.validation.ValidationResult
 
 /**
  * Search validation bridge - delegates to swift-java ValidationBridge
@@ -12,7 +13,7 @@ object SearchValidationBridge {
     const val MIN_RADIUS_KM = ValidationBridge.MIN_SEARCH_RADIUS_KM
     const val MAX_RADIUS_KM = ValidationBridge.MAX_SEARCH_RADIUS_KM
 
-    fun validateSearchQuery(query: String): ValidationBridge.ValidationResult {
+    fun validateSearchQuery(query: String): ValidationResult {
         return ValidationBridge.validateSearchQuery(query)
     }
 

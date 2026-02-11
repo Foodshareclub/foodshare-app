@@ -1,7 +1,9 @@
 package com.foodshare.ui.design.components.layout
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -91,8 +93,8 @@ fun GlassExpander(
         // Animated content
         AnimatedVisibility(
             visible = isExpanded,
-            enter = expandVertically(animationSpec = LiquidGlassAnimations.appearTransition) + fadeIn(),
-            exit = shrinkVertically(animationSpec = LiquidGlassAnimations.appearTransition) + fadeOut()
+            enter = expandVertically(animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow)) + fadeIn(),
+            exit = shrinkVertically(animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow)) + fadeOut()
         ) {
             Column(
                 modifier = Modifier

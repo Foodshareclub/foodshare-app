@@ -2,6 +2,7 @@ package com.foodshare.core.security
 
 import com.foodshare.core.network.EdgeFunctionClient
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
@@ -33,10 +34,9 @@ class GDPRExportService @Inject constructor(
                 put("userId", userId)
             }
 
-            val response = edgeFunctionClient.invokeFunction<ExportResponse>(
-                functionName = "gdpr-export",
-                payload = payload
-            )
+            val response = edgeFunctionClient.invoke<ExportResponse>(
+                functionName = "gdpr-export"
+            ).getOrThrow()
 
             Result.success(response.exportId)
         } catch (e: Exception) {

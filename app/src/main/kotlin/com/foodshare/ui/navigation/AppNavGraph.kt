@@ -902,7 +902,8 @@ fun AppNavGraph(
         // Login & Security
         composable(NavRoutes.LOGIN_SECURITY) {
             LoginSecurityScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToMfaEnrollment = { navController.navigate(NavRoutes.MFA_ENROLLMENT) }
             )
         }
 

@@ -88,15 +88,15 @@ class ArrangementViewModel @Inject constructor(
                 .onSuccess { user ->
                     _uiState.update {
                         it.copy(
-                            currentUserId = user.id,
-                            isOwner = user.id == ownerId
+                            currentUserId = user?.id,
+                            isOwner = user?.id == ownerId
                         )
                     }
                 }
         }
     }
 
-    fun loadArrangement(id: String = arrangementId ?: return) {
+    fun loadArrangement(id: String) {
         if (_uiState.value.isLoading) return
 
         viewModelScope.launch {

@@ -1,5 +1,6 @@
 package com.foodshare.features.help.presentation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,7 +58,8 @@ fun HelpCenterScreen(
         },
         containerColor = Color.Transparent
     ) { paddingValues ->
-        AnimatedMeshGradientBackground {
+        Box(modifier = Modifier.fillMaxSize()) {
+            AnimatedMeshGradientBackground()
             Column(
                 modifier = Modifier
                     .fillMaxSize()

@@ -56,14 +56,14 @@ fun GlassPollCard(
             Text(
                 text = question,
                 style = MaterialTheme.typography.titleMedium,
-                color = LiquidGlassColors.textPrimary
+                color = LiquidGlassColors.Text.primary
             )
 
             // Total votes display
             Text(
                 text = "$totalVotes ${if (totalVotes == 1) "vote" else "votes"}",
                 style = MaterialTheme.typography.bodySmall,
-                color = LiquidGlassColors.textSecondary
+                color = LiquidGlassColors.Text.secondary
             )
 
             Spacer(modifier = Modifier.height(Spacing.xs))
@@ -99,7 +99,7 @@ private fun PollOptionRow(
 
     val animatedPercentage by animateFloatAsState(
         targetValue = if (hasVoted) percentage else 0f,
-        animationSpec = tween(durationMillis = LiquidGlassAnimations.durationNormal),
+        animationSpec = tween(durationMillis = LiquidGlassAnimations.Duration.standard),
         label = "progress_${option.text}"
     )
 
@@ -107,13 +107,13 @@ private fun PollOptionRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(CornerRadius.medium))
-            .background(LiquidGlassColors.glassMicro)
+            .background(LiquidGlassColors.Glass.micro)
             .border(
                 width = if (option.isSelected) 2.dp else 1.dp,
                 color = if (option.isSelected) {
                     LiquidGlassColors.brandPink
                 } else {
-                    LiquidGlassColors.glassBorder
+                    LiquidGlassColors.Glass.border
                 },
                 shape = RoundedCornerShape(CornerRadius.medium)
             )
@@ -147,7 +147,7 @@ private fun PollOptionRow(
             Text(
                 text = option.text,
                 style = MaterialTheme.typography.bodyMedium,
-                color = LiquidGlassColors.textPrimary,
+                color = LiquidGlassColors.Text.primary,
                 modifier = Modifier.weight(1f)
             )
 
@@ -162,14 +162,14 @@ private fun PollOptionRow(
                         color = if (option.isSelected) {
                             LiquidGlassColors.brandPink
                         } else {
-                            LiquidGlassColors.textSecondary
+                            LiquidGlassColors.Text.secondary
                         }
                     )
 
                     Text(
                         text = "(${option.voteCount})",
                         style = MaterialTheme.typography.bodySmall,
-                        color = LiquidGlassColors.textSecondary
+                        color = LiquidGlassColors.Text.secondary
                     )
                 }
             }

@@ -1,5 +1,6 @@
 package com.foodshare.ui.design.components.chat
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
@@ -76,26 +78,26 @@ private fun ReactionChip(
     } else {
         Brush.linearGradient(
             colors = listOf(
-                LiquidGlassColors.glassBorder,
-                LiquidGlassColors.glassBorder.copy(alpha = 0.5f)
+                LiquidGlassColors.Glass.border,
+                LiquidGlassColors.Glass.border.copy(alpha = 0.5f)
             )
         )
     }
 
     val backgroundColor = if (reaction.isSelected) {
-        LiquidGlassColors.glassMicroBg.copy(alpha = 0.3f)
+        LiquidGlassColors.Glass.micro.copy(alpha = 0.3f)
     } else {
-        LiquidGlassColors.glassMicroBg
+        LiquidGlassColors.Glass.micro
     }
 
     Row(
         modifier = Modifier
-            .clip(CornerRadius.Full)
+            .clip(RoundedCornerShape(CornerRadius.full))
             .clickable(onClick = onClick)
             .border(
                 width = 1.dp,
                 brush = borderBrush,
-                shape = CornerRadius.Full
+                shape = RoundedCornerShape(CornerRadius.full)
             )
             .background(backgroundColor)
             .padding(horizontal = Spacing.sm, vertical = Spacing.xs),
@@ -115,11 +117,8 @@ private fun ReactionChip(
             color = if (reaction.isSelected) {
                 LiquidGlassColors.brandPink
             } else {
-                LiquidGlassColors.textPrimary.copy(alpha = 0.8f)
+                LiquidGlassColors.Text.primary.copy(alpha = 0.8f)
             }
         )
     }
 }
-
-// Missing import - adding background
-import androidx.compose.foundation.background

@@ -1,6 +1,7 @@
 package com.foodshare.core.messaging
 
 import com.foodshare.core.validation.ValidationBridge
+import com.foodshare.core.validation.ValidationResult
 
 /**
  * Message validation bridge - delegates to swift-java ValidationBridge
@@ -13,7 +14,7 @@ object MessageValidationBridge {
     const val MAX_ATTACHMENTS = 5
     const val SUPPORTED_IMAGE_TYPES = "jpg,jpeg,png,gif,webp"
 
-    fun validateMessage(content: String): ValidationBridge.ValidationResult {
+    fun validateMessage(content: String): ValidationResult {
         return ValidationBridge.validateMessage(content)
     }
 

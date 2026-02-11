@@ -303,12 +303,13 @@ fun EditProfileScreen(
                 Spacer(Modifier.height(Spacing.lg))
 
                 // Error display
-                if (uiState.error != null) {
+                val errorText = uiState.error
+                if (errorText != null) {
                     GlassCard(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = uiState.error,
+                            text = errorText,
                             style = MaterialTheme.typography.bodyMedium,
                             color = LiquidGlassColors.error,
                             modifier = Modifier.padding(Spacing.md)

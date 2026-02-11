@@ -28,6 +28,7 @@ import com.foodshare.ui.design.components.cards.GlassCard
 import com.foodshare.ui.design.components.sheets.GlassBottomSheet
 import com.foodshare.ui.design.tokens.LiquidGlassGradients
 import com.foodshare.ui.design.tokens.Spacing
+import androidx.compose.material3.ExperimentalMaterial3Api
 
 /**
  * Sign In Prompt Screen
@@ -41,6 +42,7 @@ import com.foodshare.ui.design.tokens.Spacing
  * - Sign In button (Primary)
  * - Maybe Later button (Ghost)
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInPromptScreen(
     onSignIn: () -> Unit,

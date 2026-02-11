@@ -130,8 +130,8 @@ fun UnlockAnimation(
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
-                                    LiquidGlassColors.glassBg,
-                                    LiquidGlassColors.glassBg.copy(alpha = 0.9f)
+                                    LiquidGlassColors.Glass.background,
+                                    LiquidGlassColors.Glass.background.copy(alpha = 0.9f)
                                 )
                             ),
                             shape = CircleShape
@@ -152,7 +152,7 @@ fun UnlockAnimation(
                 text = title,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = LiquidGlassColors.textPrimary
+                color = LiquidGlassColors.Text.primary
             )
         }
     }

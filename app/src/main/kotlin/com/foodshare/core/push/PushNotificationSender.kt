@@ -90,9 +90,8 @@ class PushNotificationSender @Inject constructor(
                 }
             }
 
-            val result: PushSendResult = edgeFunctionClient.invoke(
-                functionName = FUNCTION_NAME,
-                body = requestBody
+            val result = edgeFunctionClient.invoke<PushSendResult>(
+                functionName = FUNCTION_NAME
             ).getOrThrow()
 
             Log.d(TAG, "Push notification sent to user $recipientUserId: $title")

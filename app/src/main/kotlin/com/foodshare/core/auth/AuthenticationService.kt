@@ -44,7 +44,7 @@ class AuthenticationService @Inject constructor(
     suspend fun isMFAEnabled(): Boolean {
         return try {
             val factors = supabaseClient.auth.mfa.retrieveFactorsForCurrentUser()
-            factors.any { it.status.name == "verified" }
+            factors.any { it.isVerified }
         } catch (e: Exception) { false }
     }
 }

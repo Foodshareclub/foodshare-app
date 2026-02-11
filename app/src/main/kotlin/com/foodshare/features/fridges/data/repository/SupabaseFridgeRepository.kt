@@ -1,6 +1,6 @@
 package com.foodshare.features.fridges.data.repository
 
-import com.foodshare.core.network.SupabaseClient
+import io.github.jan.supabase.SupabaseClient
 import com.foodshare.features.fridges.data.dto.CommunityFridgeDto
 import com.foodshare.features.fridges.data.dto.FridgeReportDto
 import com.foodshare.features.fridges.data.dto.ReportStockRequest
@@ -10,7 +10,9 @@ import com.foodshare.features.fridges.domain.model.FridgeReport
 import com.foodshare.features.fridges.domain.model.StockLevel
 import com.foodshare.features.fridges.domain.repository.FridgeRepository
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.query.Order
 import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -36,7 +38,7 @@ class SupabaseFridgeRepository @Inject constructor(
                 put("p_radius_km", radiusKm)
             }
 
-            val fridges = supabaseClient.client.postgrest
+            val fridges = supabaseClient.postgrest
                 .rpc("get_nearby_fridges", params)
                 .decodeList<CommunityFridgeDto>()
                 .map { it.toDomain() }
@@ -49,7 +51,7 @@ class SupabaseFridgeRepository @Inject constructor(
 
     override suspend fun getFridgeDetail(id: Int): Result<CommunityFridge> {
         return try {
-            val fridge = supabaseClient.client.postgrest
+            val fridge = supabaseClient.postgrest
                 .from("community_fridges")
                 .select(columns = Columns.ALL) {
                     filter {
@@ -82,7 +84,7 @@ class SupabaseFridgeRepository @Inject constructor(
                 notes = notes
             )
 
-            supabaseClient.client.postgrest
+            supabaseClient.postgrest
                 .from("fridge_reports")
                 .insert(request)
 
@@ -94,13 +96,13 @@ class SupabaseFridgeRepository @Inject constructor(
 
     override suspend fun getFridgeReports(fridgeId: Int): Result<List<FridgeReport>> {
         return try {
-            val reports = supabaseClient.client.postgrest
+            val reports = supabaseClient.postgrest
                 .from("fridge_reports")
                 .select(columns = Columns.ALL) {
                     filter {
                         eq("fridge_id", fridgeId)
                     }
-                    order("created_at", ascending = false)
+                    order("created_at", Order.DESCENDING)
                     limit(5)
                 }
                 .decodeList<FridgeReportDto>()

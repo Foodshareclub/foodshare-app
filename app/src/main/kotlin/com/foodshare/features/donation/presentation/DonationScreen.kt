@@ -164,7 +164,7 @@ fun DonationScreen(
                                     Text(
                                         text = "No donations yet",
                                         style = LiquidGlassTypography.bodyMedium,
-                                        color = LiquidGlassColors.textSecondary
+                                        color = LiquidGlassColors.Text.secondary
                                     )
                                 }
                             }
@@ -282,7 +282,7 @@ private fun DonationCard(
                             LiquidGlassColors.success
                         com.foodshare.features.donation.domain.model.DonationStatus.CANCELLED ->
                             LiquidGlassColors.error
-                        else -> LiquidGlassColors.textSecondary
+                        else -> LiquidGlassColors.Text.secondary
                     }
                 )
             }
@@ -293,7 +293,7 @@ private fun DonationCard(
                     Text(
                         text = notes,
                         style = LiquidGlassTypography.bodyMedium,
-                        color = LiquidGlassColors.textSecondary,
+                        color = LiquidGlassColors.Text.secondary,
                         maxLines = 2
                     )
                 }
@@ -304,7 +304,7 @@ private fun DonationCard(
                 Text(
                     text = formatDate(createdAt),
                     style = LiquidGlassTypography.captionSmall,
-                    color = LiquidGlassColors.textTertiary
+                    color = LiquidGlassColors.Text.tertiary
                 )
             }
         }

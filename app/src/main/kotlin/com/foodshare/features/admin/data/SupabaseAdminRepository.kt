@@ -13,6 +13,7 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.rpc
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import javax.inject.Inject
@@ -50,7 +51,7 @@ class SupabaseAdminRepository @Inject constructor(
                 }
                 limit(limit.toLong())
                 range(offset.toLong(), (offset + limit - 1).toLong())
-                order("created_at", referenceName = null) { ascending = false }
+                order("created_at", io.github.jan.supabase.postgrest.query.Order.DESCENDING)
             }
             .decodeList<AdminUserProfile>()
     }
@@ -138,7 +139,7 @@ class SupabaseAdminRepository @Inject constructor(
                 }
                 limit(limit.toLong())
                 range(offset.toLong(), (offset + limit - 1).toLong())
-                order("created_at", referenceName = null) { ascending = false }
+                order("created_at", io.github.jan.supabase.postgrest.query.Order.DESCENDING)
             }
             .decodeList<ModerationQueueItem>()
     }
@@ -201,7 +202,7 @@ class SupabaseAdminRepository @Inject constructor(
             .select {
                 limit(limit.toLong())
                 range(offset.toLong(), (offset + limit - 1).toLong())
-                order("created_at", referenceName = null) { ascending = false }
+                order("created_at", io.github.jan.supabase.postgrest.query.Order.DESCENDING)
             }
             .decodeList<AdminAuditLog>()
     }

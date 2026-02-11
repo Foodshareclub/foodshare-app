@@ -21,7 +21,7 @@ import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
-import androidx.glance.color.ColorProvider
+import androidx.compose.ui.graphics.Color
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -38,8 +38,11 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import androidx.glance.color.ColorProvider
 import com.foodshare.MainActivity
 import com.foodshare.R
+
+private const val MAX_LISTINGS = 5
 
 /**
  * Nearby Food Widget - Shows the 3-5 nearest available food listings.
@@ -241,7 +244,7 @@ private fun NearbyListingRow(context: Context, listing: WidgetListing) {
 
 @Composable
 private fun FoodTypeIndicator(postType: String?) {
-    val (emoji, bgColor) = when (postType?.lowercase()) {
+    val pair: Pair<String, androidx.glance.unit.ColorProvider> = when (postType?.lowercase()) {
         "food" -> "\uD83C\uDF3F" to WidgetColors.greenBadge
         "fridge" -> "\u2744\uFE0F" to WidgetColors.blueBadge
         "foodbank" -> "\uD83C\uDFE2" to WidgetColors.purpleBadge
@@ -249,6 +252,8 @@ private fun FoodTypeIndicator(postType: String?) {
         "wanted" -> "\uD83D\uDD0D" to WidgetColors.yellowBadge
         else -> "\uD83C\uDF3F" to WidgetColors.greenBadge
     }
+    val emoji = pair.first
+    val bgColor = pair.second
 
     Box(
         modifier = GlanceModifier
@@ -328,96 +333,96 @@ class NearbyFoodWidgetReceiver : GlanceAppWidgetReceiver() {
  */
 object WidgetColors {
     val darkBackground = ColorProvider(
-        day = android.graphics.Color.parseColor("#1A1A2E"),
-        night = android.graphics.Color.parseColor("#0F0F1A")
+        day = Color(android.graphics.Color.parseColor("#1A1A2E")),
+        night = Color(android.graphics.Color.parseColor("#0F0F1A"))
     )
 
     val cardBackground = ColorProvider(
-        day = android.graphics.Color.parseColor("#232342"),
-        night = android.graphics.Color.parseColor("#1A1A30")
+        day = Color(android.graphics.Color.parseColor("#232342")),
+        night = Color(android.graphics.Color.parseColor("#1A1A30"))
     )
 
     val textPrimary = ColorProvider(
-        day = android.graphics.Color.parseColor("#FFFFFF"),
-        night = android.graphics.Color.parseColor("#F0F0F0")
+        day = Color(android.graphics.Color.parseColor("#FFFFFF")),
+        night = Color(android.graphics.Color.parseColor("#F0F0F0"))
     )
 
     val textSecondary = ColorProvider(
-        day = android.graphics.Color.parseColor("#B0B0C0"),
-        night = android.graphics.Color.parseColor("#9090A0")
+        day = Color(android.graphics.Color.parseColor("#B0B0C0")),
+        night = Color(android.graphics.Color.parseColor("#9090A0"))
     )
 
     val textTertiary = ColorProvider(
-        day = android.graphics.Color.parseColor("#707088"),
-        night = android.graphics.Color.parseColor("#606078")
+        day = Color(android.graphics.Color.parseColor("#707088")),
+        night = Color(android.graphics.Color.parseColor("#606078"))
     )
 
     val accent = ColorProvider(
-        day = android.graphics.Color.parseColor("#2ECC71"),
-        night = android.graphics.Color.parseColor("#27AE60")
+        day = Color(android.graphics.Color.parseColor("#2ECC71")),
+        night = Color(android.graphics.Color.parseColor("#27AE60"))
     )
 
     val divider = ColorProvider(
-        day = android.graphics.Color.parseColor("#2A2A48"),
-        night = android.graphics.Color.parseColor("#1F1F35")
+        day = Color(android.graphics.Color.parseColor("#2A2A48")),
+        night = Color(android.graphics.Color.parseColor("#1F1F35"))
     )
 
     // Badge colors
     val greenBadge = ColorProvider(
-        day = android.graphics.Color.parseColor("#1B4332"),
-        night = android.graphics.Color.parseColor("#163828")
+        day = Color(android.graphics.Color.parseColor("#1B4332")),
+        night = Color(android.graphics.Color.parseColor("#163828"))
     )
 
     val blueBadge = ColorProvider(
-        day = android.graphics.Color.parseColor("#1B3A4B"),
-        night = android.graphics.Color.parseColor("#152F3E")
+        day = Color(android.graphics.Color.parseColor("#1B3A4B")),
+        night = Color(android.graphics.Color.parseColor("#152F3E"))
     )
 
     val purpleBadge = ColorProvider(
-        day = android.graphics.Color.parseColor("#2D1B4E"),
-        night = android.graphics.Color.parseColor("#231440")
+        day = Color(android.graphics.Color.parseColor("#2D1B4E")),
+        night = Color(android.graphics.Color.parseColor("#231440"))
     )
 
     val orangeBadge = ColorProvider(
-        day = android.graphics.Color.parseColor("#4E2D1B"),
-        night = android.graphics.Color.parseColor("#402314")
+        day = Color(android.graphics.Color.parseColor("#4E2D1B")),
+        night = Color(android.graphics.Color.parseColor("#402314"))
     )
 
     val yellowBadge = ColorProvider(
-        day = android.graphics.Color.parseColor("#4E4B1B"),
-        night = android.graphics.Color.parseColor("#403E14")
+        day = Color(android.graphics.Color.parseColor("#4E4B1B")),
+        night = Color(android.graphics.Color.parseColor("#403E14"))
     )
 
     // Stat card colors
     val statGreen = ColorProvider(
-        day = android.graphics.Color.parseColor("#2ECC71"),
-        night = android.graphics.Color.parseColor("#27AE60")
+        day = Color(android.graphics.Color.parseColor("#2ECC71")),
+        night = Color(android.graphics.Color.parseColor("#27AE60"))
     )
 
     val statBlue = ColorProvider(
-        day = android.graphics.Color.parseColor("#3498DB"),
-        night = android.graphics.Color.parseColor("#2980B9")
+        day = Color(android.graphics.Color.parseColor("#3498DB")),
+        night = Color(android.graphics.Color.parseColor("#2980B9"))
     )
 
     val statPurple = ColorProvider(
-        day = android.graphics.Color.parseColor("#9B59B6"),
-        night = android.graphics.Color.parseColor("#8E44AD")
+        day = Color(android.graphics.Color.parseColor("#9B59B6")),
+        night = Color(android.graphics.Color.parseColor("#8E44AD"))
     )
 
     val statOrange = ColorProvider(
-        day = android.graphics.Color.parseColor("#E67E22"),
-        night = android.graphics.Color.parseColor("#D35400")
+        day = Color(android.graphics.Color.parseColor("#E67E22")),
+        night = Color(android.graphics.Color.parseColor("#D35400"))
     )
 
     // Progress bar colors
     val progressBackground = ColorProvider(
-        day = android.graphics.Color.parseColor("#2A2A48"),
-        night = android.graphics.Color.parseColor("#1F1F35")
+        day = Color(android.graphics.Color.parseColor("#2A2A48")),
+        night = Color(android.graphics.Color.parseColor("#1F1F35"))
     )
 
     val progressFill = ColorProvider(
-        day = android.graphics.Color.parseColor("#F39C12"),
-        night = android.graphics.Color.parseColor("#E67E22")
+        day = Color(android.graphics.Color.parseColor("#F39C12")),
+        night = Color(android.graphics.Color.parseColor("#E67E22"))
     )
 }
 

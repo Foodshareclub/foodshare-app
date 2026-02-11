@@ -1,6 +1,7 @@
 package com.foodshare.core.forum
 
 import com.foodshare.core.validation.ValidationBridge
+import com.foodshare.core.validation.ValidationResult
 
 /**
  * Forum validation bridge - delegates to swift-java ValidationBridge
@@ -18,15 +19,15 @@ object ForumValidationBridge {
     const val MAX_POLL_OPTIONS = 6
     const val MIN_POLL_OPTIONS = 2
 
-    fun validateTitle(title: String): ValidationBridge.ValidationResult {
+    fun validateTitle(title: String): ValidationResult {
         return ValidationBridge.validateForumTitle(title)
     }
 
-    fun validateContent(content: String): ValidationBridge.ValidationResult {
+    fun validateContent(content: String): ValidationResult {
         return ValidationBridge.validateForumContent(content)
     }
 
-    fun validateComment(content: String): ValidationBridge.ValidationResult {
+    fun validateComment(content: String): ValidationResult {
         return ValidationBridge.validateForumComment(content)
     }
 

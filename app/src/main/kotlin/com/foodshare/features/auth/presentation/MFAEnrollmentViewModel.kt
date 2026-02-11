@@ -38,8 +38,8 @@ class MFAEnrollmentViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         factorId = factor.id,
-                        qrCodeUri = factor.totp?.qrCode,
-                        secret = factor.totp?.secret
+                        qrCodeUri = factor.data.qrCode,
+                        secret = factor.data.secret
                     )
                 }
             } catch (e: Exception) {
@@ -65,8 +65,7 @@ class MFAEnrollmentViewModel @Inject constructor(
             _uiState.update { it.copy(isVerifying = true, error = null) }
 
             try {
-                supabaseClient.auth.mfa.challenge(factorId = state.factorId)
-                supabaseClient.auth.mfa.verify(
+                supabaseClient.auth.mfa.createChallengeAndVerify(
                     factorId = state.factorId,
                     code = state.verificationCode
                 )

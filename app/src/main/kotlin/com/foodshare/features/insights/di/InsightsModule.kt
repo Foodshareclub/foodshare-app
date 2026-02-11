@@ -5,15 +5,15 @@ import com.foodshare.features.insights.domain.repository.InsightsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class InsightsModule {
 
     @Binds
-    @ActivityScoped
+    @Singleton
     abstract fun bindInsightsRepository(
         impl: SupabaseInsightsRepository
     ): InsightsRepository

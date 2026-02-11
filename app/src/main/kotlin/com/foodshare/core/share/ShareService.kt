@@ -188,24 +188,13 @@ class ShareService @Inject constructor(
 
     /**
      * Launch the system share chooser with the given text and subject.
-     * Uses the application context by default.
      */
     private fun launchShareChooser(
         text: String,
         subject: String,
-        chooserTitle: String,
-        context: Context = this.context
+        chooserTitle: String
     ) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, text)
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        val chooser = Intent.createChooser(intent, chooserTitle).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        context.startActivity(chooser)
+        doLaunchShareChooser(this.context, text, subject, chooserTitle)
     }
 
     /**
@@ -213,6 +202,15 @@ class ShareService @Inject constructor(
      */
     private fun launchShareChooser(
         context: Context,
+        text: String,
+        subject: String,
+        chooserTitle: String
+    ) {
+        doLaunchShareChooser(context, text, subject, chooserTitle)
+    }
+
+    private fun doLaunchShareChooser(
+        ctx: Context,
         text: String,
         subject: String,
         chooserTitle: String
@@ -226,6 +224,6 @@ class ShareService @Inject constructor(
         val chooser = Intent.createChooser(intent, chooserTitle).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        context.startActivity(chooser)
+        ctx.startActivity(chooser)
     }
 }

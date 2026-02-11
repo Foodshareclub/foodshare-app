@@ -196,6 +196,13 @@ dependencies {
     // DataStore (for preferences)
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
+    // Glance (Widgets)
+    implementation("androidx.glance:glance-appwidget:1.1.1")
+    implementation("androidx.glance:glance-material3:1.1.1")
+
+    // Biometric
+    implementation("androidx.biometric:biometric:1.1.0")
+
     // Google Play Billing
     implementation("com.android.billingclient:billing-ktx:7.1.1")
 

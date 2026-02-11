@@ -131,7 +131,7 @@ fun AppLockSettingsScreen(
                             GlassDropdown(
                                 label = "Timeout",
                                 options = timeoutOptions,
-                                selectedOption = lockTimeout,
+                                selectedValue = lockTimeout,
                                 onOptionSelected = { lockTimeout = it },
                                 modifier = Modifier.fillMaxWidth()
                             )

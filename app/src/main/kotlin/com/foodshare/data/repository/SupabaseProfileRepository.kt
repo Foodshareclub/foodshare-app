@@ -100,7 +100,7 @@ class SupabaseProfileRepository @Inject constructor(
             supabaseClient.storage
                 .from("avatars")
                 .upload(filePath, imageBytes) {
-                    contentType = mimeType
+                    contentType = io.ktor.http.ContentType.parse(mimeType)
                     upsert = true
                 }
 

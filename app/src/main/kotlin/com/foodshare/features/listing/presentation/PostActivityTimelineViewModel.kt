@@ -3,12 +3,14 @@ package com.foodshare.features.listing.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.foodshare.core.network.SupabaseClient
+import io.github.jan.supabase.SupabaseClient
 import com.foodshare.features.listing.presentation.components.EventType
 import com.foodshare.features.listing.presentation.components.TimelineEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,13 +56,13 @@ class PostActivityTimelineViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
 
             try {
-                val events = supabaseClient.client.postgrest
+                val events = supabaseClient.postgrest
                     .from("listing_activity_timeline")
                     .select(columns = Columns.ALL) {
                         filter {
                             eq("listing_id", listingId)
                         }
-                        order("timestamp", ascending = false)
+                        order("timestamp", Order.DESCENDING)
                     }
                     .decodeList<TimelineEventDto>()
                     .map { it.toDomain() }

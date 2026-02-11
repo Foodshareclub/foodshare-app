@@ -3,6 +3,7 @@ package com.foodshare.features.fridges.presentation
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,8 +27,7 @@ import com.foodshare.features.fridges.domain.model.CommunityFridge
 import com.foodshare.features.fridges.domain.model.FridgeReport
 import com.foodshare.features.fridges.domain.model.FridgeStatus
 import com.foodshare.features.fridges.domain.model.StockLevel
-import com.foodshare.ui.theme.FoodShareDarkBlue
-import com.foodshare.ui.theme.FoodSharePurple
+import com.foodshare.ui.design.tokens.LiquidGlassColors
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -62,7 +62,7 @@ fun CommunityFridgeDetailScreen(
                 ),
                 modifier = Modifier.background(
                     Brush.horizontalGradient(
-                        colors = listOf(FoodShareDarkBlue, FoodSharePurple)
+                        colors = listOf(LiquidGlassColors.blueDark, LiquidGlassColors.brandPurple)
                     )
                 )
             )
@@ -74,7 +74,7 @@ fun CommunityFridgeDetailScreen(
                 .padding(padding)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(FoodShareDarkBlue, FoodSharePurple)
+                        colors = listOf(LiquidGlassColors.blueDark, LiquidGlassColors.brandPurple)
                     )
                 )
         ) {

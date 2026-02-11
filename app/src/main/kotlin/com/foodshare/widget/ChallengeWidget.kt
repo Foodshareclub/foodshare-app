@@ -270,12 +270,14 @@ private fun ProgressBar(progress: Float, current: Int, target: Int) {
 
 @Composable
 private fun DaysRemainingBadge(days: Int) {
-    val (text, color) = when {
+    val pair: Pair<String, androidx.glance.unit.ColorProvider> = when {
         days <= 0 -> "Ended" to WidgetColors.textTertiary
         days == 1 -> "1 day left" to WidgetColors.statOrange
         days <= 3 -> "$days days left" to WidgetColors.statOrange
         else -> "$days days left" to WidgetColors.textSecondary
     }
+    val text = pair.first
+    val color = pair.second
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(

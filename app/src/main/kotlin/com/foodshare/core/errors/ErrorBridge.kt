@@ -653,6 +653,26 @@ object ErrorBridge {
     // These methods provide consistent error messages across ViewModels
 
     /**
+     * Map an arrangement-related error to a user-friendly message.
+     * Used by ArrangementViewModel.
+     */
+    fun mapArrangementError(error: Throwable): String {
+        val message = error.message?.lowercase() ?: ""
+        return when {
+            message.contains("not found") -> "Arrangement not found"
+            message.contains("permission") || message.contains("unauthorized") ->
+                "You don't have permission for this arrangement"
+            message.contains("already") || message.contains("duplicate") ->
+                "This arrangement already exists"
+            message.contains("expired") -> "This arrangement has expired"
+            message.contains("network") || message.contains("connection") ->
+                "Connection error. Please try again."
+            message.contains("timeout") -> "Request timed out. Please try again."
+            else -> error.message ?: "Failed to process arrangement"
+        }
+    }
+
+    /**
      * Map a listing-related error to a user-friendly message.
      * Used by CreateListingViewModel, FeedViewModel, etc.
      */

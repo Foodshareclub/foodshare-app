@@ -40,10 +40,10 @@ fun GlassSegmentedControl(
             .fillMaxWidth()
             .height(44.dp)
             .clip(RoundedCornerShape(CornerRadius.large))
-            .background(LiquidGlassColors.glassSurface)
+            .background(LiquidGlassColors.Glass.surface)
             .border(
                 width = 1.dp,
-                color = LiquidGlassColors.glassBorder,
+                color = LiquidGlassColors.Glass.border,
                 shape = RoundedCornerShape(CornerRadius.large)
             )
             .padding(4.dp),
@@ -54,7 +54,7 @@ fun GlassSegmentedControl(
 
             val backgroundColor by animateColorAsState(
                 targetValue = if (isSelected) Color.Transparent else Color.Transparent,
-                animationSpec = tween(durationMillis = LiquidGlassAnimations.durationNormal),
+                animationSpec = tween(durationMillis = LiquidGlassAnimations.Duration.standard),
                 label = "background_color_$index"
             )
 
@@ -62,9 +62,9 @@ fun GlassSegmentedControl(
                 targetValue = if (isSelected) {
                     Color.White
                 } else {
-                    LiquidGlassColors.textSecondary
+                    LiquidGlassColors.Text.secondary
                 },
-                animationSpec = tween(durationMillis = LiquidGlassAnimations.durationNormal),
+                animationSpec = tween(durationMillis = LiquidGlassAnimations.Duration.standard),
                 label = "text_color_$index"
             )
 
@@ -76,9 +76,7 @@ fun GlassSegmentedControl(
                     .then(
                         if (isSelected) {
                             Modifier.background(
-                                brush = Brush.linearGradient(
-                                    colors = LiquidGlassGradients.brandGradient
-                                )
+                                brush = LiquidGlassGradients.brand
                             )
                         } else {
                             Modifier.background(backgroundColor)
