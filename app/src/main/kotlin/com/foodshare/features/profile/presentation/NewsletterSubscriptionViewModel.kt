@@ -8,20 +8,15 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.profile.domain.repository.ProfileActionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
-import kotlinx.serialization.json.putJsonArray
 import javax.inject.Inject
 
 // DataStore for newsletter preferences
@@ -74,15 +69,15 @@ enum class NewsletterFrequency(val key: String, val displayName: String) {
  * ViewModel for the Newsletter Subscription screen.
  *
  * Manages newsletter opt-in/opt-out, frequency selection, and topic preferences.
- * Persists settings locally via DataStore and syncs to the Supabase
- * "newsletter_preferences" table.
+ * Persists settings locally via DataStore and syncs to the backend via
+ * ProfileActionRepository.
  *
  * SYNC: Mirrors Swift NewsletterSubscriptionViewModel
  */
 @HiltViewModel
 class NewsletterSubscriptionViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val supabaseClient: SupabaseClient
+    private val profileActionRepository: ProfileActionRepository
 ) : ViewModel() {
 
     /**
@@ -231,24 +226,14 @@ class NewsletterSubscriptionViewModel @Inject constructor(
     }
 
     /**
-     * Sync newsletter preferences to the Supabase backend.
+     * Sync newsletter preferences to the backend via repository.
      */
     private suspend fun syncToBackend(state: UiState) {
-        val userId = supabaseClient.auth.currentUserOrNull()?.id ?: return
-
-        val updateData = buildJsonObject {
-            put("user_id", userId)
-            put("newsletter_subscribed", state.isSubscribed)
-            put("newsletter_frequency", state.frequency.key)
-            putJsonArray("newsletter_topics") {
-                state.selectedTopics.forEach { topic ->
-                    add(kotlinx.serialization.json.JsonPrimitive(topic.key))
-                }
-            }
-        }
-
-        supabaseClient.from("newsletter_preferences")
-            .upsert(updateData)
+        profileActionRepository.syncNewsletterPreferences(
+            isSubscribed = state.isSubscribed,
+            frequency = state.frequency.key,
+            topics = state.selectedTopics.map { it.key }
+        ).getOrThrow()
     }
 
     /**

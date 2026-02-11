@@ -58,6 +58,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.foodshare.features.admin.presentation.components.AdminActivityCard
+import com.foodshare.features.admin.presentation.components.AdminStatCard
+import com.foodshare.features.admin.presentation.components.AdminDashboardStatsRow
+import com.foodshare.features.admin.presentation.components.AdminUserChart
 import com.foodshare.ui.design.components.cards.GlassCard
 import com.foodshare.ui.design.tokens.LiquidGlassColors
 import com.foodshare.ui.design.tokens.LiquidGlassGradients
@@ -221,256 +225,16 @@ private fun DashboardContent(uiState: AdminUiState) {
         verticalArrangement = Arrangement.spacedBy(Spacing.md)
     ) {
         // Stats grid
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
-        ) {
-            StatCard(
-                title = "Total Users",
-                value = uiState.stats.totalUsers.toString(),
-                icon = Icons.Default.People,
-                color = LiquidGlassColors.brandTeal,
-                modifier = Modifier.weight(1f)
-            )
-            StatCard(
-                title = "Active Posts",
-                value = uiState.stats.activePosts.toString(),
-                icon = Icons.Default.List,
-                color = LiquidGlassColors.success,
-                modifier = Modifier.weight(1f)
-            )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
-        ) {
-            StatCard(
-                title = "Pending Reports",
-                value = uiState.stats.pendingReports.toString(),
-                icon = Icons.Default.Report,
-                color = LiquidGlassColors.warning,
-                modifier = Modifier.weight(1f)
-            )
-            StatCard(
-                title = "Banned Users",
-                value = uiState.stats.bannedUsers.toString(),
-                icon = Icons.Default.Block,
-                color = LiquidGlassColors.error,
-                modifier = Modifier.weight(1f)
-            )
-        }
+        AdminDashboardStatsRow(stats = uiState.stats)
 
         // Today's activity
-        GlassCard(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(Spacing.lg)) {
-                Text(
-                    text = "Today's Activity",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Spacer(Modifier.height(Spacing.md))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    ActivityItem(
-                        label = "New Users",
-                        value = uiState.stats.newUsersToday.toString(),
-                        icon = Icons.Default.Group,
-                        color = LiquidGlassColors.brandTeal
-                    )
-                    ActivityItem(
-                        label = "Resolved",
-                        value = uiState.stats.resolvedToday.toString(),
-                        icon = Icons.Default.CheckCircle,
-                        color = LiquidGlassColors.success
-                    )
-                }
-            }
-        }
+        AdminActivityCard(stats = uiState.stats)
 
         // Ring chart
-        GlassCard(modifier = Modifier.fillMaxWidth()) {
-            Column(
-                modifier = Modifier.padding(Spacing.lg),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "User Overview",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Spacer(Modifier.height(Spacing.lg))
-                AdminRingChart(
-                    active = uiState.stats.activeUsers,
-                    banned = uiState.stats.bannedUsers,
-                    total = uiState.stats.totalUsers,
-                    modifier = Modifier.size(160.dp)
-                )
-                Spacer(Modifier.height(Spacing.md))
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.lg)
-                ) {
-                    LegendItem("Active", LiquidGlassColors.success)
-                    LegendItem("Banned", LiquidGlassColors.error)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun StatCard(
-    title: String,
-    value: String,
-    icon: ImageVector,
-    color: Color,
-    modifier: Modifier = Modifier
-) {
-    GlassCard(modifier = modifier) {
-        Column(modifier = Modifier.padding(Spacing.md)) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = color,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(Modifier.height(Spacing.sm))
-            Text(
-                text = value,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.7f)
-            )
-        }
-    }
-}
-
-@Composable
-private fun ActivityItem(
-    label: String,
-    value: String,
-    icon: ImageVector,
-    color: Color
-) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = color,
-            modifier = Modifier.size(28.dp)
-        )
-        Spacer(Modifier.height(Spacing.xs))
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelSmall,
-            color = Color.White.copy(alpha = 0.6f)
-        )
-    }
-}
-
-@Composable
-private fun AdminRingChart(
-    active: Int,
-    banned: Int,
-    total: Int,
-    modifier: Modifier = Modifier
-) {
-    val activeColor = LiquidGlassColors.success
-    val bannedColor = LiquidGlassColors.error
-    val bgColor = LiquidGlassColors.Glass.border
-
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val strokeWidth = 20f
-            val radius = (size.minDimension - strokeWidth) / 2
-            val center = Offset(size.width / 2, size.height / 2)
-            val arcSize = Size(radius * 2, radius * 2)
-            val topLeft = Offset(center.x - radius, center.y - radius)
-
-            // Background ring
-            drawArc(
-                color = bgColor,
-                startAngle = 0f,
-                sweepAngle = 360f,
-                useCenter = false,
-                topLeft = topLeft,
-                size = arcSize,
-                style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-            )
-
-            if (total > 0) {
-                val activeSweep = (active.toFloat() / total) * 360f
-                val bannedSweep = (banned.toFloat() / total) * 360f
-
-                // Active arc
-                drawArc(
-                    color = activeColor,
-                    startAngle = -90f,
-                    sweepAngle = activeSweep,
-                    useCenter = false,
-                    topLeft = topLeft,
-                    size = arcSize,
-                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                )
-
-                // Banned arc
-                drawArc(
-                    color = bannedColor,
-                    startAngle = -90f + activeSweep,
-                    sweepAngle = bannedSweep,
-                    useCenter = false,
-                    topLeft = topLeft,
-                    size = arcSize,
-                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                )
-            }
-        }
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = total.toString(),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-            Text(
-                text = "Total",
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.6f)
-            )
-        }
-    }
-}
-
-@Composable
-private fun LegendItem(label: String, color: Color) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            modifier = Modifier
-                .size(10.dp)
-                .background(color, shape = androidx.compose.foundation.shape.CircleShape)
-        )
-        Spacer(Modifier.width(Spacing.xs))
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelSmall,
-            color = Color.White.copy(alpha = 0.7f)
+        AdminUserChart(
+            active = uiState.stats.activeUsers,
+            banned = uiState.stats.bannedUsers,
+            total = uiState.stats.totalUsers
         )
     }
 }

@@ -29,6 +29,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -74,10 +77,13 @@ fun MainScreen(
     onNavigateToChallenge: (Int) -> Unit = {},
     onNavigateToForumPost: (Int) -> Unit = {},
     onNavigateToEditProfile: () -> Unit = {},
-    onNavigateToAdminDashboard: () -> Unit = {}
+    onNavigateToAdminDashboard: () -> Unit = {},
+    onNavigateToSavedPosts: () -> Unit = {},
+    viewModel: MainScreenViewModel = hiltViewModel()
 ) {
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
     var showCreateSheet by rememberSaveable { mutableIntStateOf(0) } // 0 = hidden
+    val unreadCount by viewModel.unreadCount.collectAsStateWithLifecycle()
 
     // Tab items matching iOS structure
     val tabs = listOf(
@@ -90,7 +96,7 @@ fun MainScreen(
             label = "Chats",
             icon = Icons.AutoMirrored.Outlined.Chat,
             selectedIcon = Icons.AutoMirrored.Filled.Chat,
-            badge = null // TODO: unread count
+            badge = if (unreadCount > 0) unreadCount else null
         ),
         GlassTabItem(
             label = "Challenges",
@@ -148,7 +154,9 @@ fun MainScreen(
                     onNavigateToUserReviews = onNavigateToUserReviews,
                     onNavigateToTranslationTest = onNavigateToTranslationTest,
                     onNavigateToEditProfile = onNavigateToEditProfile,
-                    onNavigateToAdminDashboard = onNavigateToAdminDashboard
+                    onNavigateToAdminDashboard = onNavigateToAdminDashboard,
+                    onNavigateToSavedPosts = onNavigateToSavedPosts,
+                    onNavigateToNotifications = onNavigateToNotifications
                 )
             }
         }

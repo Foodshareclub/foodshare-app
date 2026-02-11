@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foodshare.features.forum.domain.model.*
+import com.foodshare.features.forum.presentation.components.ForumCategoryChip
+import com.foodshare.features.forum.presentation.components.ForumPostTypeChip
 import com.foodshare.ui.design.components.buttons.GlassButton
 import com.foodshare.ui.design.components.inputs.GlassTextField
 import com.foodshare.ui.design.modifiers.glassBackground
@@ -125,7 +127,7 @@ fun CreateForumPostScreen(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
                     ) {
                         items(ForumPostType.entries) { postType ->
-                            PostTypeChip(
+                            ForumPostTypeChip(
                                 postType = postType,
                                 isSelected = uiState.postType == postType,
                                 onClick = { viewModel.selectPostType(postType) }
@@ -150,7 +152,7 @@ fun CreateForumPostScreen(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
                     ) {
                         items(uiState.categories) { category ->
-                            CategoryChip(
+                            ForumCategoryChip(
                                 category = category,
                                 isSelected = uiState.selectedCategory?.id == category.id,
                                 onClick = {
@@ -294,88 +296,6 @@ fun CreateForumPostScreen(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun PostTypeChip(
-    postType: ForumPostType,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    val palette = LocalThemePalette.current
-
-    val icon = when (postType) {
-        ForumPostType.DISCUSSION -> Icons.Default.Forum
-        ForumPostType.QUESTION -> Icons.Default.Help
-        ForumPostType.ANNOUNCEMENT -> Icons.Default.Campaign
-        ForumPostType.GUIDE -> Icons.Default.MenuBook
-    }
-
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(
-                if (isSelected) palette.primaryColor.copy(alpha = 0.2f)
-                else LiquidGlassColors.Glass.background
-            )
-            .border(
-                width = if (isSelected) 2.dp else 1.dp,
-                color = if (isSelected) palette.primaryColor else LiquidGlassColors.Glass.border,
-                shape = RoundedCornerShape(12.dp)
-            )
-            .clickable { onClick() }
-            .padding(horizontal = Spacing.md, vertical = Spacing.sm)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
-                tint = if (isSelected) palette.primaryColor else Color.White.copy(alpha = 0.7f)
-            )
-            Text(
-                text = postType.displayName,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
-                color = if (isSelected) palette.primaryColor else Color.White.copy(alpha = 0.8f)
-            )
-        }
-    }
-}
-
-@Composable
-private fun CategoryChip(
-    category: ForumCategory,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    val palette = LocalThemePalette.current
-
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(50))
-            .background(
-                if (isSelected) palette.primaryColor.copy(alpha = 0.2f)
-                else LiquidGlassColors.Glass.background
-            )
-            .border(
-                width = if (isSelected) 2.dp else 1.dp,
-                color = if (isSelected) palette.primaryColor else LiquidGlassColors.Glass.border,
-                shape = RoundedCornerShape(50)
-            )
-            .clickable { onClick() }
-            .padding(horizontal = Spacing.md, vertical = Spacing.sm)
-    ) {
-        Text(
-            text = category.name,
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
-            color = if (isSelected) palette.primaryColor else Color.White.copy(alpha = 0.8f)
-        )
     }
 }
 

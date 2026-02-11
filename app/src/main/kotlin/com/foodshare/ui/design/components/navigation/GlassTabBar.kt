@@ -12,6 +12,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -173,7 +174,8 @@ private fun GlassTabButton(
             .scale(scale)
             .clickable(
                 interactionSource = interactionSource,
-                indication = null
+                indication = null,
+                role = Role.Tab
             ) { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

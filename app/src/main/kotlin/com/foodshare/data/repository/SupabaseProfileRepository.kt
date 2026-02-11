@@ -8,6 +8,8 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.query.Count
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -143,17 +145,59 @@ class SupabaseProfileRepository @Inject constructor(
         return runCatching {
             val profile = fetchUserProfile(userId)
 
-            // For now, create stats from profile data
-            // In future, this could query aggregated stats from separate table
+            // Query chat rooms count
+            val conversationsCount = supabaseClient.from("chat_rooms")
+                .select {
+                    filter {
+                        or {
+                            eq("user1_id", userId)
+                            eq("user2_id", userId)
+                        }
+                    }
+                    count(Count.EXACT)
+                }
+                .countOrNull() ?: 0
+
+            // Query completed challenges
+            val challengesCompleted = supabaseClient.from("user_challenges")
+                .select {
+                    filter {
+                        eq("user_id", userId)
+                        eq("status", "completed")
+                    }
+                    count(Count.EXACT)
+                }
+                .countOrNull() ?: 0
+
+            // Query forum posts count
+            val forumPosts = supabaseClient.from("forum_posts")
+                .select {
+                    filter { eq("user_id", userId) }
+                    count(Count.EXACT)
+                }
+                .countOrNull() ?: 0
+
+            // Aggregate food saved (sum of estimated_weight from completed listings)
+            val foodSavedResult = supabaseClient.from("food_listings")
+                .select(columns = Columns.list("estimated_weight")) {
+                    filter {
+                        eq("user_id", userId)
+                        eq("status", "completed")
+                    }
+                }
+                .decodeList<Map<String, Double?>>()
+            
+            val foodSavedKg = foodSavedResult.sumOf { it["estimated_weight"] ?: 0.0 }
+
             ProfileStats(
                 itemsShared = profile.itemsShared ?: 0,
                 itemsReceived = profile.itemsReceived ?: 0,
                 ratingAverage = profile.ratingAverage,
                 ratingCount = profile.ratingCount ?: 0,
-                totalConversations = 0, // TODO: Query from chat_rooms
-                challengesCompleted = 0, // TODO: Query from user_challenges
-                forumPosts = 0, // TODO: Query from forum_posts
-                foodSavedKg = 0.0 // TODO: Calculate from listings
+                totalConversations = conversationsCount.toInt(),
+                challengesCompleted = challengesCompleted.toInt(),
+                forumPosts = forumPosts.toInt(),
+                foodSavedKg = foodSavedKg
             )
         }
     }

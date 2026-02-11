@@ -3,6 +3,7 @@ package com.foodshare.features.create.presentation
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.core.errors.ErrorBridge
 import com.foodshare.core.moderation.ModerationBridge
 import com.foodshare.core.moderation.ModerationContentType
 import com.foodshare.core.moderation.ModerationSeverity
@@ -153,7 +154,7 @@ class CreateListingViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         isSubmitting = false,
-                        error = e.message ?: "Failed to create listing"
+                        error = ErrorBridge.mapListingError(e)
                     )
                 }
             }

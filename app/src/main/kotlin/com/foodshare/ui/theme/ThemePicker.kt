@@ -29,8 +29,8 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,8 +53,8 @@ import com.foodshare.ui.design.tokens.Spacing
 fun ThemePicker(
     modifier: Modifier = Modifier
 ) {
-    val currentTheme by ThemeManager.currentTheme.collectAsState()
-    val colorSchemePreference by ThemeManager.colorSchemePreference.collectAsState()
+    val currentTheme by ThemeManager.currentTheme.collectAsStateWithLifecycle()
+    val colorSchemePreference by ThemeManager.colorSchemePreference.collectAsStateWithLifecycle()
 
     GlassCard(modifier = modifier.fillMaxWidth()) {
         Column(
@@ -235,7 +235,7 @@ fun ThemePickerCompact(
     modifier: Modifier = Modifier,
     onExpandRequest: () -> Unit = {}
 ) {
-    val currentTheme by ThemeManager.currentTheme.collectAsState()
+    val currentTheme by ThemeManager.currentTheme.collectAsStateWithLifecycle()
 
     Row(
         modifier = modifier

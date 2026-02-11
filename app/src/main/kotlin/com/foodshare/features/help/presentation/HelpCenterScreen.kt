@@ -34,9 +34,11 @@ import com.foodshare.ui.design.tokens.Spacing
 @Composable
 fun HelpCenterScreen(
     onNavigateBack: () -> Unit,
+    onNavigateToConversation: (String) -> Unit = {},
     viewModel: HelpCenterViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     Scaffold(
         topBar = {
@@ -96,10 +98,15 @@ fun HelpCenterScreen(
                     // Contact card
                     ContactCard(
                         onEmailClick = {
-                            // TODO: Open email client
+                            val intent = android.content.Intent(android.content.Intent.ACTION_SENDTO).apply {
+                                data = android.net.Uri.parse("mailto:support@foodshare.club")
+                                putExtra(android.content.Intent.EXTRA_SUBJECT, "FoodShare Support Request")
+                            }
+                            context.startActivity(intent)
                         },
                         onChatClick = {
-                            // TODO: Navigate to in-app support chat
+                            // Navigate to support chat (room ID: "support")
+                            onNavigateToConversation("support")
                         },
                         modifier = Modifier.fillMaxWidth()
                     )

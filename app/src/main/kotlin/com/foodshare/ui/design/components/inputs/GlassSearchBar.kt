@@ -123,7 +123,7 @@ fun GlassSearchBar(
             // Search Icon
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = null,
+                contentDescription = "Search",
                 tint = iconColor,
                 modifier = Modifier.size(20.dp)
             )

@@ -3,6 +3,7 @@ package com.foodshare.features.messaging.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.core.errors.ErrorBridge
 import com.foodshare.core.optimistic.EntityType
 import com.foodshare.core.optimistic.ErrorCategory
 import com.foodshare.core.optimistic.OptimisticUpdateBridge
@@ -199,7 +200,7 @@ class ConversationViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            error = error.message ?: "Failed to load messages"
+                            error = ErrorBridge.mapMessageError(error)
                         )
                     }
                 }

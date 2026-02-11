@@ -58,4 +58,23 @@ interface ChallengeRepository {
      * Check if user has liked a challenge.
      */
     suspend fun hasLiked(challengeId: Int, userId: String): Result<Boolean>
+
+    /**
+     * Get global leaderboard entries (all users across all challenges).
+     * @param limit Maximum number of entries to return (default 50)
+     * @return List of leaderboard entries with user profiles and scores
+     */
+    suspend fun getGlobalLeaderboard(limit: Int = 50): Result<List<GlobalLeaderboardEntry>>
 }
+
+/**
+ * Global leaderboard entry with user profile and aggregated scores.
+ */
+data class GlobalLeaderboardEntry(
+    val userId: String,
+    val nickname: String,
+    val avatarUrl: String?,
+    val foodSharedCount: Int,
+    val communityImpactScore: Int,
+    val challengesWonCount: Int
+)

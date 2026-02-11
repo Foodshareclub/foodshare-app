@@ -17,25 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.foodshare.domain.repository.TimelineEvent
+import com.foodshare.domain.repository.TimelineEventType
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-
-data class TimelineEvent(
-    val id: String,
-    val type: EventType,
-    val description: String,
-    val timestamp: String,
-    val count: Int? = null
-)
-
-enum class EventType {
-    CREATED,
-    VIEWED,
-    MESSAGED,
-    ARRANGED,
-    COMPLETED
-}
 
 @Composable
 fun PostActivityTimeline(
@@ -160,23 +146,23 @@ private fun TimelineEventItem(
     }
 }
 
-private fun getEventIcon(type: EventType): ImageVector {
+private fun getEventIcon(type: TimelineEventType): ImageVector {
     return when (type) {
-        EventType.CREATED -> Icons.Default.Add
-        EventType.VIEWED -> Icons.Default.Visibility
-        EventType.MESSAGED -> Icons.Default.Message
-        EventType.ARRANGED -> Icons.Default.Event
-        EventType.COMPLETED -> Icons.Default.CheckCircle
+        TimelineEventType.CREATED -> Icons.Default.Add
+        TimelineEventType.VIEWED -> Icons.Default.Visibility
+        TimelineEventType.MESSAGED -> Icons.Default.Message
+        TimelineEventType.ARRANGED -> Icons.Default.Event
+        TimelineEventType.COMPLETED -> Icons.Default.CheckCircle
     }
 }
 
-private fun getEventColor(type: EventType): Color {
+private fun getEventColor(type: TimelineEventType): Color {
     return when (type) {
-        EventType.CREATED -> Color(0xFF2196F3)
-        EventType.VIEWED -> Color(0xFFFFEB3B)
-        EventType.MESSAGED -> Color(0xFF9C27B0)
-        EventType.ARRANGED -> Color(0xFFFF9800)
-        EventType.COMPLETED -> Color(0xFF4CAF50)
+        TimelineEventType.CREATED -> Color(0xFF2196F3)
+        TimelineEventType.VIEWED -> Color(0xFFFFEB3B)
+        TimelineEventType.MESSAGED -> Color(0xFF9C27B0)
+        TimelineEventType.ARRANGED -> Color(0xFFFF9800)
+        TimelineEventType.COMPLETED -> Color(0xFF4CAF50)
     }
 }
 

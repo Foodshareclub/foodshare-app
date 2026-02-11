@@ -1,7 +1,10 @@
 package com.foodshare.features.profile.di
 
 import com.foodshare.data.repository.SupabaseProfileRepository
+import com.foodshare.domain.repository.AuthRepository
 import com.foodshare.domain.repository.ProfileRepository
+import com.foodshare.features.profile.data.repository.SupabaseProfileActionRepository
+import com.foodshare.features.profile.domain.repository.ProfileActionRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +25,14 @@ object ProfileModule {
         supabaseClient: SupabaseClient
     ): ProfileRepository {
         return SupabaseProfileRepository(supabaseClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileActionRepository(
+        supabaseClient: SupabaseClient,
+        authRepository: AuthRepository
+    ): ProfileActionRepository {
+        return SupabaseProfileActionRepository(supabaseClient, authRepository)
     }
 }

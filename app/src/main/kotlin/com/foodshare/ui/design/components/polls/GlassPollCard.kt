@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -117,7 +118,7 @@ private fun PollOptionRow(
                 },
                 shape = RoundedCornerShape(CornerRadius.medium)
             )
-            .clickable(enabled = !hasVoted, onClick = onClick)
+            .clickable(enabled = !hasVoted, role = Role.RadioButton, onClick = onClick)
             .height(56.dp)
     ) {
         // Animated progress bar

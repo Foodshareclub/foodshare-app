@@ -8,9 +8,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
@@ -95,8 +95,8 @@ fun FoodShareTheme(
     content: @Composable () -> Unit
 ) {
     // Get theme state from ThemeManager
-    val currentTheme by ThemeManager.currentTheme.collectAsState()
-    val schemePreference by ThemeManager.colorSchemePreference.collectAsState()
+    val currentTheme by ThemeManager.currentTheme.collectAsStateWithLifecycle()
+    val schemePreference by ThemeManager.colorSchemePreference.collectAsStateWithLifecycle()
 
     // Determine if dark mode is active
     val isDark = when (schemePreference) {

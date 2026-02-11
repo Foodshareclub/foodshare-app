@@ -6,19 +6,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.profile.domain.repository.ProfileActionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import javax.inject.Inject
 
 // DataStore for email preferences
@@ -39,14 +35,14 @@ private object EmailPrefKeys {
  * ViewModel for the Email Preferences screen.
  *
  * Manages per-type email notification toggles, persisting settings locally
- * via DataStore and syncing to the Supabase "email_preferences" table.
+ * via DataStore and syncing to the backend via ProfileActionRepository.
  *
  * SYNC: Mirrors Swift EmailPreferencesViewModel
  */
 @HiltViewModel
 class EmailPreferencesViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val supabaseClient: SupabaseClient
+    private val profileActionRepository: ProfileActionRepository
 ) : ViewModel() {
 
     /**
@@ -160,36 +156,31 @@ class EmailPreferencesViewModel @Inject constructor(
     }
 
     /**
-     * Sync all current email preferences to the Supabase backend.
+     * Sync all current email preferences to the backend via repository.
      *
      * Upserts into the "email_preferences" table keyed by user ID.
      */
     private fun syncToBackend() {
         viewModelScope.launch {
             val state = _uiState.value
-            val userId = supabaseClient.auth.currentUserOrNull()?.id ?: return@launch
 
-            try {
-                val updateData = buildJsonObject {
-                    put("user_id", userId)
-                    put("marketing_enabled", state.marketingEnabled)
-                    put("product_updates_enabled", state.productUpdatesEnabled)
-                    put("community_notifications_enabled", state.communityNotificationsEnabled)
-                    put("food_alerts_enabled", state.foodAlertsEnabled)
-                    put("weekly_digest_enabled", state.weeklyDigestEnabled)
+            profileActionRepository.syncEmailPreferences(
+                marketingEnabled = state.marketingEnabled,
+                productUpdatesEnabled = state.productUpdatesEnabled,
+                communityNotificationsEnabled = state.communityNotificationsEnabled,
+                foodAlertsEnabled = state.foodAlertsEnabled,
+                weeklyDigestEnabled = state.weeklyDigestEnabled
+            )
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(successMessage = "Preferences saved")
+                    }
                 }
-
-                supabaseClient.from("email_preferences")
-                    .upsert(updateData)
-
-                _uiState.update {
-                    it.copy(successMessage = "Preferences saved")
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(error = error.message ?: "Failed to sync preferences")
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(error = e.message ?: "Failed to sync preferences")
-                }
-            }
         }
     }
 

@@ -231,7 +231,8 @@ class RateLimitedRPCClient @Inject constructor(
     ) {
         try {
             Log.i(TAG, "AUDIT [$requestId] $functionName params=$paramsJson")
-            // TODO: Send to audit service when available
+            // Audit logs are currently logged locally. When centralized audit service is available,
+            // send events to audit_logs table or dedicated audit service endpoint.
         } catch (e: Exception) {
             Log.w(TAG, "Failed to log audit: ${e.message}")
         }

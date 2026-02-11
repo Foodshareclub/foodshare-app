@@ -8,6 +8,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,10 +28,10 @@ fun TranslationTestScreen(
     val translationService = remember { TranslationService.getInstance(context) }
     val scope = rememberCoroutineScope()
     
-    val currentLocale by translationService.currentLocale.collectAsState()
-    val isLoading by translationService.isLoading.collectAsState()
-    val lastSyncDate by translationService.lastSyncDate.collectAsState()
-    val error by translationService.error.collectAsState()
+    val currentLocale by translationService.currentLocale.collectAsStateWithLifecycle()
+    val isLoading by translationService.isLoading.collectAsStateWithLifecycle()
+    val lastSyncDate by translationService.lastSyncDate.collectAsStateWithLifecycle()
+    val error by translationService.error.collectAsStateWithLifecycle()
     
     var syncStatus by remember { mutableStateOf("Not synced yet") }
     var testResults by remember { mutableStateOf<List<Pair<String, String>>>(emptyList()) }

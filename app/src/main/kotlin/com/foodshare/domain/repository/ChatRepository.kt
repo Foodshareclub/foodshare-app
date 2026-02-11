@@ -76,6 +76,11 @@ interface ChatRepository {
     fun observeUnreadCount(): Flow<Int>
 
     /**
+     * Get current unread count
+     */
+    suspend fun getUnreadCount(): Result<Int>
+
+    /**
      * Mute/unmute a room
      */
     suspend fun setRoomMuted(roomId: String, muted: Boolean): Result<Unit>

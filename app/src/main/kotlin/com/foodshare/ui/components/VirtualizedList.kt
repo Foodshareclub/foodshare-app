@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -198,8 +199,8 @@ fun <T> VirtualizedListWithPaginator(
     emptyContent: @Composable () -> Unit = { DefaultEmptyContent() },
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
-    val items by paginator.items.collectAsState()
-    val state by paginator.state.collectAsState()
+    val items by paginator.items.collectAsStateWithLifecycle()
+    val state by paginator.state.collectAsStateWithLifecycle()
 
     // Load initial data on first composition
     LaunchedEffect(Unit) {

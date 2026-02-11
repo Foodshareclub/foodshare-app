@@ -484,32 +484,116 @@ class SupabaseForumRepository @Inject constructor(
             }
     }
 
-    // Polls (TODO: implement when backend is ready)
+    // Polls
 
-    override suspend fun getPoll(forumId: Int): Result<ForumPoll> =
-        Result.failure(NotImplementedError("getPoll not yet implemented"))
+    override suspend fun getPoll(forumId: Int): Result<ForumPoll> = runCatching {
+        supabaseClient.from("forum_polls")
+            .select(Columns.raw(POLLS_SELECT)) {
+                filter { eq("forum_id", forumId) }
+                limit(1)
+            }
+            .decodeSingleOrNull<ForumPollDto>()
+            ?.toDomain()
+            ?: throw NoSuchElementException("Poll not found for forum $forumId")
+    }
 
-    override suspend fun castVote(pollId: String, optionIds: List<String>): Result<ForumPoll> =
-        Result.failure(NotImplementedError("castVote not yet implemented"))
+    override suspend fun castVote(pollId: String, optionIds: List<String>): Result<ForumPoll> {
+        val userId = currentUserId ?: return Result.failure(IllegalStateException("Not authenticated"))
 
-    override suspend fun createPoll(request: CreatePollRequest): Result<ForumPoll> =
-        Result.failure(NotImplementedError("createPoll not yet implemented"))
+        val params = CastVoteParams(
+            pollId = pollId,
+            optionIds = optionIds,
+            userId = userId
+        )
 
-    // Badges (TODO: implement when backend is ready)
+        return rpcClient.call<CastVoteParams, ForumPollDto>(
+            functionName = "cast_poll_vote",
+            params = params,
+            config = RPCConfig.normal
+        ).map { it.toDomain() }
+    }
 
-    override suspend fun getBadges(): Result<List<ForumBadge>> =
-        Result.failure(NotImplementedError("getBadges not yet implemented"))
+    override suspend fun createPoll(request: CreatePollRequest): Result<ForumPoll> = runCatching {
+        // Insert poll
+        val pollResult = supabaseClient.from("forum_polls")
+            .insert(mapOf(
+                "forum_id" to request.forumId,
+                "question" to request.question,
+                "poll_type" to request.pollType.name.lowercase(),
+                "ends_at" to request.endsAt,
+                "is_anonymous" to request.isAnonymous,
+                "show_results_before_vote" to request.showResultsBeforeVote
+            )) {
+                select()
+            }
+            .decodeSingle<ForumPollDto>()
 
-    override suspend fun getUserBadges(): Result<List<UserBadge>> =
-        Result.failure(NotImplementedError("getUserBadges not yet implemented"))
+        // Insert poll options
+        val pollId = pollResult.id
+        val optionsToInsert = request.options.mapIndexed { index, optionText ->
+            mapOf(
+                "poll_id" to pollId,
+                "option_text" to optionText,
+                "sort_order" to index
+            )
+        }
 
-    // User Stats & Trust Levels (TODO: implement when backend is ready)
+        val optionsResult = supabaseClient.from("forum_poll_options")
+            .insert(optionsToInsert) {
+                select()
+            }
+            .decodeList<ForumPollOptionDto>()
 
-    override suspend fun getUserStats(): Result<ForumUserStats> =
-        Result.failure(NotImplementedError("getUserStats not yet implemented"))
+        // Return poll with options
+        pollResult.copy(options = optionsResult).toDomain()
+    }
 
-    override suspend fun getTrustLevels(): Result<List<ForumTrustLevel>> =
-        Result.failure(NotImplementedError("getTrustLevels not yet implemented"))
+    // Badges
+
+    override suspend fun getBadges(): Result<List<ForumBadge>> = runCatching {
+        supabaseClient.from("forum_badges")
+            .select {
+                filter { eq("is_active", true) }
+                order("badge_type", Order.ASCENDING)
+                order("points", Order.DESCENDING)
+            }
+            .decodeList<ForumBadgeDto>()
+            .map { it.toDomain() }
+    }
+
+    override suspend fun getUserBadges(): Result<List<UserBadge>> = runCatching {
+        val userId = currentUserId ?: throw IllegalStateException("Not authenticated")
+
+        supabaseClient.from("forum_user_badges")
+            .select {
+                filter { eq("profile_id", userId) }
+                order("awarded_at", Order.DESCENDING)
+            }
+            .decodeList<UserBadgeDto>()
+            .map { it.toDomain() }
+    }
+
+    // User Stats & Trust Levels
+
+    override suspend fun getUserStats(): Result<ForumUserStats> = runCatching {
+        val userId = currentUserId ?: throw IllegalStateException("Not authenticated")
+
+        supabaseClient.from("forum_user_stats")
+            .select {
+                filter { eq("profile_id", userId) }
+                limit(1)
+            }
+            .decodeSingleOrNull<ForumUserStats>()
+            ?: ForumUserStats.empty(userId)
+    }
+
+    override suspend fun getTrustLevels(): Result<List<ForumTrustLevel>> = runCatching {
+        supabaseClient.from("forum_trust_levels")
+            .select {
+                order("level", Order.ASCENDING)
+            }
+            .decodeList<ForumTrustLevel>()
+    }
 
     companion object {
         private const val POSTS_SELECT = """
@@ -526,6 +610,11 @@ class SupabaseForumRepository @Inject constructor(
         private const val NOTIFICATIONS_SELECT = """
             *,
             actor:actor_id(id, nickname, avatar_url)
+        """
+
+        private const val POLLS_SELECT = """
+            *,
+            forum_poll_options(*)
         """
     }
 }
@@ -592,4 +681,11 @@ private data class DepthDto(val depth: Int = 0)
 @Serializable
 private data class BookmarkWithPostDto(
     val forums: ForumPostDto? = null
+)
+
+@Serializable
+private data class CastVoteParams(
+    @SerialName("p_poll_id") val pollId: String,
+    @SerialName("p_option_ids") val optionIds: List<String>,
+    @SerialName("p_user_id") val userId: String
 )

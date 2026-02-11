@@ -84,7 +84,7 @@ fun GlassContextMenu(
                     {
                         Icon(
                             imageVector = icon,
-                            contentDescription = null,
+                            contentDescription = item.label,
                             tint = if (item.isDestructive) {
                                 LiquidGlassColors.error
                             } else {

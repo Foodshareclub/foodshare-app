@@ -2,18 +2,15 @@ package com.foodshare.features.challenges.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.core.errors.ErrorBridge
+import com.foodshare.domain.repository.AuthRepository
+import com.foodshare.features.challenges.domain.repository.ChallengeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
 // ============================================================================
@@ -32,19 +29,6 @@ data class LeaderboardEntry(
     val isCurrentUser: Boolean = false
 )
 
-/**
- * DTO for leaderboard data fetched from Supabase.
- */
-@Serializable
-data class LeaderboardEntryDto(
-    val id: String,
-    val nickname: String? = null,
-    @SerialName("avatar_url") val avatarUrl: String? = null,
-    @SerialName("food_shared_count") val foodSharedCount: Int = 0,
-    @SerialName("community_impact_score") val communityImpactScore: Int = 0,
-    @SerialName("challenges_won_count") val challengesWonCount: Int = 0
-)
-
 // ============================================================================
 // ViewModel
 // ============================================================================
@@ -53,14 +37,15 @@ data class LeaderboardEntryDto(
  * ViewModel for the full Leaderboard screen.
  *
  * Manages leaderboard data with time period and category filtering.
- * Fetches entries from Supabase profiles table and ranks them by
+ * Fetches entries from the repository and ranks them by
  * the selected scoring category.
  *
  * SYNC: Mirrors Swift LeaderboardViewModel
  */
 @HiltViewModel
 class LeaderboardViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient
+    private val challengeRepository: ChallengeRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     // ========================================================================
@@ -102,14 +87,14 @@ class LeaderboardViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val currentUserId: String?
-        get() = supabaseClient.auth.currentUserOrNull()?.id
+    private var currentUserId: String? = null
 
     // ========================================================================
     // Initialization
     // ========================================================================
 
     init {
+        loadCurrentUser()
         loadLeaderboard()
     }
 
@@ -126,32 +111,34 @@ class LeaderboardViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
 
-            try {
-                val entries = fetchLeaderboardEntries()
-                val userId = currentUserId
-                val currentUserRank = entries.indexOfFirst { it.userId == userId }
-                    .let { if (it >= 0) it + 1 else null }
-                val currentUserEntry = entries.find { it.userId == userId }
+            challengeRepository.getGlobalLeaderboard(limit = 50)
+                .onSuccess { globalEntries ->
+                    val entries = buildLeaderboardEntries(globalEntries)
+                    val userId = currentUserId
+                    val currentUserRank = entries.indexOfFirst { it.userId == userId }
+                        .let { if (it >= 0) it + 1 else null }
+                    val currentUserEntry = entries.find { it.userId == userId }
 
-                _uiState.update { state ->
-                    state.copy(
-                        entries = entries.drop(3),
-                        topThree = entries.take(3),
-                        currentUserRank = currentUserRank,
-                        currentUserEntry = currentUserEntry,
-                        isLoading = false,
-                        isRefreshing = false
-                    )
+                    _uiState.update { state ->
+                        state.copy(
+                            entries = entries.drop(3),
+                            topThree = entries.take(3),
+                            currentUserRank = currentUserRank,
+                            currentUserEntry = currentUserEntry,
+                            isLoading = false,
+                            isRefreshing = false
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isRefreshing = false,
-                        error = e.message ?: "Failed to load leaderboard"
-                    )
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            isRefreshing = false,
+                            error = ErrorBridge.mapChallengeError(error)
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -192,50 +179,49 @@ class LeaderboardViewModel @Inject constructor(
     // Private Helpers
     // ========================================================================
 
+    private fun loadCurrentUser() {
+        viewModelScope.launch {
+            authRepository.getCurrentUser()
+                .onSuccess { user ->
+                    currentUserId = user?.id
+                }
+        }
+    }
+
     /**
-     * Fetch leaderboard entries from Supabase, scored and ranked
+     * Build leaderboard entries from global entries, scored and ranked
      * according to the current category and time period filters.
      */
-    private suspend fun fetchLeaderboardEntries(): List<LeaderboardEntry> {
+    private fun buildLeaderboardEntries(
+        globalEntries: List<com.foodshare.features.challenges.domain.repository.GlobalLeaderboardEntry>
+    ): List<LeaderboardEntry> {
         val state = _uiState.value
         val userId = currentUserId
 
-        val result = supabaseClient.postgrest["profiles"]
-            .select {
-                // Select relevant scoring columns
-            }
-
-        // Decode DTO results
-        val dtos: List<LeaderboardEntryDto> = try {
-            result.decodeList()
-        } catch (e: Exception) {
-            emptyList()
-        }
-
         // Score each entry based on the selected category
-        val scored = dtos.map { dto ->
+        val scored = globalEntries.map { entry ->
             val score = when (state.selectedCategory) {
-                LeaderboardCategory.FOOD_SHARED -> dto.foodSharedCount
-                LeaderboardCategory.COMMUNITY_IMPACT -> dto.communityImpactScore
-                LeaderboardCategory.CHALLENGES_WON -> dto.challengesWonCount
+                LeaderboardCategory.FOOD_SHARED -> entry.foodSharedCount
+                LeaderboardCategory.COMMUNITY_IMPACT -> entry.communityImpactScore
+                LeaderboardCategory.CHALLENGES_WON -> entry.challengesWonCount
             }
-            dto to score
+            entry to score
         }
 
-        // Sort by score descending and apply time period multiplier
+        // Sort by score descending and take top 50
         val sorted = scored
             .sortedByDescending { it.second }
-            .take(50) // Limit to top 50
+            .take(50)
 
         // Map to domain model with ranks
-        return sorted.mapIndexed { index, (dto, score) ->
+        return sorted.mapIndexed { index, (entry, score) ->
             LeaderboardEntry(
                 rank = index + 1,
-                userId = dto.id,
-                displayName = dto.nickname ?: "Anonymous",
-                avatarUrl = dto.avatarUrl,
+                userId = entry.userId,
+                displayName = entry.nickname,
+                avatarUrl = entry.avatarUrl,
                 score = applyTimePeriodWeight(score, state.selectedPeriod),
-                isCurrentUser = dto.id == userId
+                isCurrentUser = entry.userId == userId
             )
         }
     }

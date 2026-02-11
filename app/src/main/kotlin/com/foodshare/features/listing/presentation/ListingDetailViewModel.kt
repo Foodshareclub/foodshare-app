@@ -29,7 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ListingDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val feedRepository: FeedRepository
+    private val feedRepository: FeedRepository,
+    private val favoritesRepository: com.foodshare.domain.repository.FavoritesRepository
 ) : ViewModel() {
 
     private val listingId: Int = checkNotNull(savedStateHandle["id"])
@@ -67,8 +68,19 @@ class ListingDetailViewModel @Inject constructor(
     }
 
     fun toggleFavorite() {
-        _uiState.update { it.copy(isFavorite = !it.isFavorite) }
-        // TODO: Persist to Supabase favorites table
+        val currentState = _uiState.value
+        val newFavoriteState = !currentState.isFavorite
+        
+        // Optimistic update
+        _uiState.update { it.copy(isFavorite = newFavoriteState) }
+        
+        viewModelScope.launch {
+            favoritesRepository.toggleFavorite(listingId)
+                .onFailure { error ->
+                    // Revert on failure
+                    _uiState.update { it.copy(isFavorite = currentState.isFavorite) }
+                }
+        }
     }
 
     fun setCurrentImageIndex(index: Int) {

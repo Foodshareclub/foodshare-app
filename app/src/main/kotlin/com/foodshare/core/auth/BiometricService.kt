@@ -4,14 +4,21 @@ import android.content.Context
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
+
+private val Context.dataStore by preferencesDataStore("biometric_prefs")
 
 @Singleton
 class BiometricService @Inject constructor(
@@ -19,6 +26,19 @@ class BiometricService @Inject constructor(
 ) {
     private val _isLocked = MutableStateFlow(false)
     val isLocked: StateFlow<Boolean> = _isLocked
+
+    private val BIOMETRIC_ENABLED_KEY = booleanPreferencesKey("biometric_enabled")
+
+    val isBiometricEnabled: Flow<Boolean> = context.dataStore.data
+        .map { it[BIOMETRIC_ENABLED_KEY] ?: false }
+
+    suspend fun enableBiometric() {
+        context.dataStore.edit { it[BIOMETRIC_ENABLED_KEY] = true }
+    }
+
+    suspend fun disableBiometric() {
+        context.dataStore.edit { it[BIOMETRIC_ENABLED_KEY] = false }
+    }
 
     fun isBiometricAvailable(): Boolean {
         val biometricManager = BiometricManager.from(context)

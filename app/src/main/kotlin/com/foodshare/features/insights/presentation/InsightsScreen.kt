@@ -9,8 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +25,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.foodshare.features.insights.domain.model.CategoryStat
 import com.foodshare.features.insights.domain.model.MonthlyStats
 import com.foodshare.features.insights.domain.model.UserInsights
+import com.foodshare.features.insights.presentation.components.InsightsCategoryBreakdown
+import com.foodshare.features.insights.presentation.components.InsightsImpactCard
+import com.foodshare.features.insights.presentation.components.InsightsMonthlyChart
+import com.foodshare.features.insights.presentation.components.InsightsStatCard
+import com.foodshare.ui.design.tokens.CornerRadius
 import com.foodshare.ui.design.tokens.LiquidGlassColors
+import com.foodshare.ui.design.tokens.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +39,7 @@ fun InsightsScreen(
     onNavigateBack: () -> Unit,
     viewModel: InsightsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -82,7 +88,7 @@ fun InsightsScreen(
                         Text(
                             text = uiState.error ?: "Unknown error",
                             color = Color.White,
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(Spacing.sm)
                         )
                     }
                 }
@@ -99,7 +105,7 @@ private fun InsightsContent(insights: UserInsights) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.sm)
     ) {
         // Environmental Impact Cards
         item {
@@ -108,22 +114,22 @@ private fun InsightsContent(insights: UserInsights) {
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = Spacing.xxs)
             )
         }
 
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
             ) {
-                ImpactCard(
+                InsightsImpactCard(
                     icon = Icons.Default.Restaurant,
                     title = "Food Saved",
                     value = String.format("%.1f kg", insights.foodSavedKg),
                     modifier = Modifier.weight(1f)
                 )
-                ImpactCard(
+                InsightsImpactCard(
                     icon = Icons.Default.CloudQueue,
                     title = "CO2 Saved",
                     value = String.format("%.1f kg", insights.co2SavedKg),
@@ -135,15 +141,15 @@ private fun InsightsContent(insights: UserInsights) {
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
             ) {
-                ImpactCard(
+                InsightsImpactCard(
                     icon = Icons.Default.WaterDrop,
                     title = "Water Saved",
                     value = String.format("%.0f L", insights.waterSavedLiters),
                     modifier = Modifier.weight(1f)
                 )
-                ImpactCard(
+                InsightsImpactCard(
                     icon = Icons.Default.AttachMoney,
                     title = "Money Saved",
                     value = String.format("$%.2f", insights.moneySaved),
@@ -159,22 +165,22 @@ private fun InsightsContent(insights: UserInsights) {
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = Spacing.xxs)
             )
         }
 
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
             ) {
-                StatCard(
+                InsightsStatCard(
                     icon = Icons.Default.Upload,
                     title = "Items Shared",
                     value = insights.itemsShared.toString(),
                     modifier = Modifier.weight(1f)
                 )
-                StatCard(
+                InsightsStatCard(
                     icon = Icons.Default.Download,
                     title = "Items Received",
                     value = insights.itemsReceived.toString(),
@@ -198,14 +204,14 @@ private fun InsightsContent(insights: UserInsights) {
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = Spacing.xxs)
                 )
             }
         }
 
         item {
             if (insights.monthlyStats.isNotEmpty()) {
-                MonthlyActivityChart(monthlyStats = insights.monthlyStats)
+                InsightsMonthlyChart(monthlyStats = insights.monthlyStats)
             }
         }
 
@@ -217,14 +223,14 @@ private fun InsightsContent(insights: UserInsights) {
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = Spacing.xxs)
                 )
             }
         }
 
         item {
             if (insights.categoryStats.isNotEmpty()) {
-                CategoryBreakdown(categoryStats = insights.categoryStats)
+                InsightsCategoryBreakdown(categoryStats = insights.categoryStats)
             }
         }
     }
@@ -241,11 +247,11 @@ private fun ImpactCard(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White.copy(alpha = 0.15f))
-            .padding(16.dp)
+            .padding(Spacing.sm)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
         ) {
             Icon(
                 icon,
@@ -279,11 +285,11 @@ private fun StatCard(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White.copy(alpha = 0.15f))
-            .padding(16.dp)
+            .padding(Spacing.sm)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
         ) {
             Icon(
                 icon,
@@ -322,11 +328,11 @@ private fun StreakCard(streakDays: Int) {
                     )
                 )
             )
-            .padding(16.dp)
+            .padding(Spacing.sm)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
         ) {
             Icon(
                 Icons.Default.LocalFireDepartment,
@@ -359,7 +365,7 @@ private fun MonthlyActivityChart(monthlyStats: List<MonthlyStats>) {
             .height(250.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White.copy(alpha = 0.15f))
-            .padding(16.dp)
+            .padding(Spacing.sm)
     ) {
         val maxValue = monthlyStats.maxOfOrNull { maxOf(it.shared, it.received) } ?: 1
 
@@ -392,8 +398,8 @@ private fun MonthlyActivityChart(monthlyStats: List<MonthlyStats>) {
         Row(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(Spacing.xxs),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
         ) {
             LegendItem(color = Color(0xFF4CAF50), label = "Shared")
             LegendItem(color = Color(0xFF2196F3), label = "Received")
@@ -405,7 +411,7 @@ private fun MonthlyActivityChart(monthlyStats: List<MonthlyStats>) {
 private fun LegendItem(color: Color, label: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(Spacing.xxxs)
     ) {
         Box(
             modifier = Modifier
@@ -427,9 +433,9 @@ private fun CategoryBreakdown(categoryStats: List<CategoryStat>) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White.copy(alpha = 0.15f))
-            .padding(16.dp)
+            .padding(Spacing.sm)
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
             categoryStats.forEach { stat ->
                 CategoryBar(stat = stat)
             }
@@ -439,7 +445,7 @@ private fun CategoryBreakdown(categoryStats: List<CategoryStat>) {
 
 @Composable
 private fun CategoryBar(stat: CategoryStat) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(Spacing.xxxs)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween

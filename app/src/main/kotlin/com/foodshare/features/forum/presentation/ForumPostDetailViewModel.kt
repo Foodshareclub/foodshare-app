@@ -3,6 +3,7 @@ package com.foodshare.features.forum.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.core.errors.ErrorBridge
 import com.foodshare.core.moderation.ModerationBridge
 import com.foodshare.core.moderation.ModerationContentType
 import com.foodshare.core.moderation.ModerationSeverity
@@ -87,7 +88,7 @@ class ForumPostDetailViewModel @Inject constructor(
                 }
                 .onFailure { error ->
                     _uiState.update {
-                        it.copy(isLoading = false, error = error.message)
+                        it.copy(isLoading = false, error = ErrorBridge.mapForumError(error))
                     }
                 }
         }
@@ -184,7 +185,7 @@ class ForumPostDetailViewModel @Inject constructor(
                 }
                 .onFailure { error ->
                     _uiState.update {
-                        it.copy(error = error.message, isSubmittingComment = false)
+                        it.copy(error = ErrorBridge.mapForumError(error), isSubmittingComment = false)
                     }
                 }
         }
@@ -254,7 +255,7 @@ class ForumPostDetailViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             reactions = currentReactions,  // Restore original
-                            error = error.message
+                            error = ErrorBridge.mapForumError(error)
                         )
                     }
                 }
@@ -344,7 +345,7 @@ class ForumPostDetailViewModel @Inject constructor(
                     loadComments()
                 }
                 .onFailure { error ->
-                    _uiState.update { it.copy(error = error.message) }
+                    _uiState.update { it.copy(error = ErrorBridge.mapForumError(error)) }
                 }
         }
     }

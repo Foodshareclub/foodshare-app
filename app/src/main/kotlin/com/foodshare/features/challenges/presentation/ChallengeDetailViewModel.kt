@@ -3,11 +3,11 @@ package com.foodshare.features.challenges.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.core.errors.ErrorBridge
+import com.foodshare.domain.repository.AuthRepository
 import com.foodshare.features.challenges.domain.model.*
 import com.foodshare.features.challenges.domain.repository.ChallengeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +36,7 @@ data class ChallengeDetailUiState(
 class ChallengeDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: ChallengeRepository,
-    private val supabaseClient: SupabaseClient
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val challengeId: Int = savedStateHandle.get<Int>("challengeId") ?: -1
@@ -44,12 +44,21 @@ class ChallengeDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ChallengeDetailUiState())
     val uiState: StateFlow<ChallengeDetailUiState> = _uiState.asStateFlow()
 
-    private val currentUserId: String?
-        get() = supabaseClient.auth.currentUserOrNull()?.id
+    private var currentUserId: String? = null
 
     init {
+        loadCurrentUser()
         if (challengeId != -1) {
             loadChallenge()
+        }
+    }
+
+    private fun loadCurrentUser() {
+        viewModelScope.launch {
+            authRepository.getCurrentUser()
+                .onSuccess { user ->
+                    currentUserId = user?.id
+                }
         }
     }
 
@@ -73,7 +82,7 @@ class ChallengeDetailViewModel @Inject constructor(
                 }
                 .onFailure { error ->
                     _uiState.update {
-                        it.copy(isLoading = false, error = error.message)
+                        it.copy(isLoading = false, error = ErrorBridge.mapChallengeError(error))
                     }
                 }
         }
@@ -118,7 +127,7 @@ class ChallengeDetailViewModel @Inject constructor(
                     loadChallenge() // Refresh to get updated status
                 }
                 .onFailure { error ->
-                    _uiState.update { it.copy(error = error.message, isActionLoading = false) }
+                    _uiState.update { it.copy(error = ErrorBridge.mapChallengeError(error), isActionLoading = false) }
                 }
         }
     }
@@ -135,7 +144,7 @@ class ChallengeDetailViewModel @Inject constructor(
                     loadChallenge()
                 }
                 .onFailure { error ->
-                    _uiState.update { it.copy(error = error.message, isActionLoading = false) }
+                    _uiState.update { it.copy(error = ErrorBridge.mapChallengeError(error), isActionLoading = false) }
                 }
         }
     }

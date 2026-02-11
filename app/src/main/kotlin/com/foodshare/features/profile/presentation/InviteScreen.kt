@@ -53,6 +53,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foodshare.core.invitation.SentInvite
 import com.foodshare.core.validation.ValidationBridge
+import com.foodshare.features.profile.presentation.components.InviteForm
+import com.foodshare.features.profile.presentation.components.InviteHistoryList
+import com.foodshare.features.profile.presentation.components.InviteReferralCard
 import com.foodshare.ui.design.components.buttons.GlassButton
 import com.foodshare.ui.design.components.buttons.GlassButtonStyle
 import com.foodshare.ui.design.components.cards.GlassCard
@@ -119,193 +122,35 @@ fun InviteScreen(
             Spacer(Modifier.height(Spacing.sm))
 
             // Referral Link Section
-            GlassCard(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(Spacing.md)) {
-                    Text(
-                        text = "Your Referral Link",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-
-                    Spacer(Modifier.height(Spacing.xxs))
-
-                    Text(
-                        text = "Share this link with friends to invite them to FoodShare.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.7f)
-                    )
-
-                    Spacer(Modifier.height(Spacing.sm))
-
-                    // Referral link with copy button
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(LiquidGlassColors.Glass.micro)
-                            .clickable {
-                                copyToClipboard(context, uiState.referralLink)
-                            }
-                            .padding(Spacing.xs),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = uiState.referralLink,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = LiquidGlassColors.brandTeal,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
-                        )
-
-                        Spacer(Modifier.width(Spacing.xxs))
-
-                        Icon(
-                            imageVector = Icons.Default.ContentCopy,
-                            contentDescription = "Copy link",
-                            tint = Color.White.copy(alpha = 0.7f),
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-
-                    Spacer(Modifier.height(Spacing.sm))
-
-                    // Share button
-                    GlassButton(
-                        text = "Share via...",
-                        onClick = {
-                            shareReferralLink(context, uiState.shareText)
-                        },
-                        icon = Icons.Default.Share,
-                        style = GlassButtonStyle.Primary,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
+            InviteReferralCard(
+                referralLink = uiState.referralLink,
+                shareText = uiState.shareText,
+                onCopyLink = { copyToClipboard(context, uiState.referralLink) },
+                onShare = { shareReferralLink(context, uiState.shareText) }
+            )
 
             Spacer(Modifier.height(Spacing.md))
 
             // Direct Invitation Section
-            GlassCard(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(Spacing.md)) {
-                    Text(
-                        text = "Send Direct Invitation",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-
-                    Spacer(Modifier.height(Spacing.xxs))
-
-                    Text(
-                        text = "Send a personalized invitation directly to someone's email.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.7f)
-                    )
-
-                    Spacer(Modifier.height(Spacing.sm))
-
-                    // Email input
-                    GlassTextField(
-                        value = uiState.email,
-                        onValueChange = { viewModel.updateEmail(it) },
-                        label = "Email Address",
-                        placeholder = "friend@example.com",
-                        error = uiState.emailError,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(Modifier.height(Spacing.xs))
-
-                    // Personal message
-                    GlassTextArea(
-                        value = uiState.message,
-                        onValueChange = { viewModel.updateMessage(it) },
-                        label = "Personal Message (optional)",
-                        placeholder = "Hey! Join me on FoodShare...",
-                        error = uiState.messageError,
-                        helperText = "${uiState.message.length}/${ValidationBridge.MAX_INVITATION_MESSAGE_LENGTH}",
-                        minLines = 3,
-                        maxLines = 5,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(Modifier.height(Spacing.sm))
-
-                    // Success message
-                    if (uiState.successMessage != null) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(LiquidGlassColors.success.copy(alpha = 0.15f))
-                                .padding(Spacing.xs),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.CheckCircle,
-                                contentDescription = null,
-                                tint = LiquidGlassColors.success,
-                                modifier = Modifier.size(16.dp)
-                            )
-
-                            Spacer(Modifier.width(Spacing.xxs))
-
-                            Text(
-                                text = uiState.successMessage ?: "",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = LiquidGlassColors.success
-                            )
-                        }
-
-                        Spacer(Modifier.height(Spacing.xs))
-                    }
-
-                    // Error message
-                    if (uiState.error != null) {
-                        Text(
-                            text = uiState.error ?: "",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = LiquidGlassColors.error,
-                            modifier = Modifier.padding(bottom = Spacing.xs)
-                        )
-                    }
-
-                    // Send button
-                    GlassButton(
-                        text = if (uiState.isSending) "Sending..." else "Send Invitation",
-                        onClick = { viewModel.sendInvitation() },
-                        icon = Icons.AutoMirrored.Filled.Send,
-                        style = GlassButtonStyle.PinkTeal,
-                        isLoading = uiState.isSending,
-                        enabled = uiState.canSend,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
+            InviteForm(
+                email = uiState.email,
+                emailError = uiState.emailError,
+                message = uiState.message,
+                messageError = uiState.messageError,
+                successMessage = uiState.successMessage,
+                error = uiState.error,
+                isSending = uiState.isSending,
+                canSend = uiState.canSend,
+                onEmailChange = { viewModel.updateEmail(it) },
+                onMessageChange = { viewModel.updateMessage(it) },
+                onSend = { viewModel.sendInvitation() }
+            )
 
             Spacer(Modifier.height(Spacing.md))
 
             // Invitation History Section
             if (uiState.invitesSent.isNotEmpty()) {
-                GlassCard(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(Spacing.md)) {
-                        Text(
-                            text = "Sent Invitations",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-
-                        Spacer(Modifier.height(Spacing.xs))
-
-                        uiState.invitesSent.forEach { invite ->
-                            InviteHistoryRow(invite = invite)
-                            Spacer(Modifier.height(Spacing.xxs))
-                        }
-                    }
-                }
+                InviteHistoryList(invites = uiState.invitesSent)
             } else if (uiState.isLoading) {
                 Box(
                     modifier = Modifier
@@ -323,106 +168,6 @@ fun InviteScreen(
 
             Spacer(Modifier.height(Spacing.xxl))
         }
-    }
-}
-
-/**
- * Row displaying a single sent invitation with its status.
- */
-@Composable
-private fun InviteHistoryRow(
-    invite: SentInvite,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(LiquidGlassColors.Glass.micro)
-            .padding(Spacing.xs),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Email icon
-        Icon(
-            imageVector = Icons.Default.Mail,
-            contentDescription = null,
-            tint = Color.White.copy(alpha = 0.6f),
-            modifier = Modifier.size(18.dp)
-        )
-
-        Spacer(Modifier.width(Spacing.xxs))
-
-        // Email and date
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = invite.email,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Medium,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = ValidationBridge.formatDateShort(invite.sentAt),
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.5f)
-            )
-        }
-
-        Spacer(Modifier.width(Spacing.xxs))
-
-        // Status indicator
-        InviteStatusIndicator(status = invite.status)
-    }
-}
-
-/**
- * Status indicator for a sent invitation.
- */
-@Composable
-private fun InviteStatusIndicator(
-    status: String,
-    modifier: Modifier = Modifier
-) {
-    val statusColor = when (status.lowercase()) {
-        "accepted" -> LiquidGlassColors.success
-        "expired" -> LiquidGlassColors.accentGray
-        else -> LiquidGlassColors.warning
-    }
-
-    val statusIcon = when (status.lowercase()) {
-        "accepted" -> Icons.Default.CheckCircle
-        "expired" -> Icons.Default.Timer
-        else -> Icons.Default.HourglassEmpty
-    }
-
-    val statusLabel = when (status.lowercase()) {
-        "accepted" -> "Accepted"
-        "expired" -> "Expired"
-        else -> "Sent"
-    }
-
-    Row(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(statusColor.copy(alpha = 0.15f))
-            .padding(horizontal = Spacing.xxs, vertical = Spacing.xxxs),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.xxxs)
-    ) {
-        Icon(
-            imageVector = statusIcon,
-            contentDescription = null,
-            tint = statusColor,
-            modifier = Modifier.size(12.dp)
-        )
-
-        Text(
-            text = statusLabel,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.SemiBold,
-            color = statusColor
-        )
     }
 }
 

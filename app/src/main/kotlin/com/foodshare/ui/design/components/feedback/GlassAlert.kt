@@ -132,7 +132,7 @@ fun GlassAlert(
                 ) {
                     Icon(
                         imageVector = type.icon,
-                        contentDescription = null,
+                        contentDescription = title ?: message,
                         tint = type.color,
                         modifier = Modifier.size(20.dp)
                     )
@@ -197,7 +197,7 @@ fun GlassAlertInline(
     ) {
         Icon(
             imageVector = type.icon,
-            contentDescription = null,
+            contentDescription = message,
             tint = type.color,
             modifier = Modifier.size(16.dp)
         )

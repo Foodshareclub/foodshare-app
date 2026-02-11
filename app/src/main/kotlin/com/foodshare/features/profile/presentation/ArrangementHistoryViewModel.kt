@@ -2,11 +2,8 @@ package com.foodshare.features.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.profile.domain.repository.ProfileActionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,14 +30,13 @@ data class ArrangementHistoryItem(
  * ViewModel for the Arrangement History screen.
  *
  * Loads and manages the list of past arrangements for the current user.
- * Fetches data from the Supabase "arrangements" table, joining with
- * profiles and listings for display names.
+ * Uses ProfileActionRepository to fetch arrangement history data.
  *
  * SYNC: Mirrors Swift ArrangementHistoryViewModel
  */
 @HiltViewModel
 class ArrangementHistoryViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient
+    private val profileActionRepository: ProfileActionRepository
 ) : ViewModel() {
 
     /**
@@ -63,7 +59,7 @@ class ArrangementHistoryViewModel @Inject constructor(
     }
 
     /**
-     * Load arrangement history from the Supabase "arrangements" table.
+     * Load arrangement history from the repository.
      *
      * Queries arrangements where the current user is either the requester or the owner,
      * ordered by creation date descending (most recent first).
@@ -72,61 +68,24 @@ class ArrangementHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
 
-            try {
-                val userId = supabaseClient.auth.currentUserOrNull()?.id
-                if (userId == null) {
+            profileActionRepository.getArrangementHistory()
+                .onSuccess { arrangements ->
+                    _uiState.update {
+                        it.copy(
+                            arrangements = arrangements,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+                }
+                .onFailure { error ->
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            error = "Please sign in to view your arrangements"
+                            error = error.message ?: "Failed to load arrangements"
                         )
                     }
-                    return@launch
                 }
-
-                val arrangements = supabaseClient.from("arrangements")
-                    .select {
-                        filter {
-                            or {
-                                eq("requester_id", userId)
-                                eq("owner_id", userId)
-                            }
-                        }
-                        order("created_at", Order.DESCENDING)
-                    }
-                    .decodeList<ArrangementHistoryDto>()
-
-                val historyItems = arrangements.map { dto ->
-                    val isRequester = dto.requesterId == userId
-                    ArrangementHistoryItem(
-                        id = dto.id,
-                        listingTitle = dto.listingTitle ?: "Unknown Listing",
-                        counterpartyName = if (isRequester) {
-                            dto.ownerName ?: "Unknown User"
-                        } else {
-                            dto.requesterName ?: "Unknown User"
-                        },
-                        status = dto.status,
-                        createdAt = dto.createdAt ?: "",
-                        completedAt = dto.completedAt
-                    )
-                }
-
-                _uiState.update {
-                    it.copy(
-                        arrangements = historyItems,
-                        isLoading = false,
-                        error = null
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = e.message ?: "Failed to load arrangements"
-                    )
-                }
-            }
         }
     }
 
@@ -144,19 +103,3 @@ class ArrangementHistoryViewModel @Inject constructor(
         _uiState.update { it.copy(error = null) }
     }
 }
-
-/**
- * Internal DTO for decoding arrangement rows from Supabase.
- */
-@Serializable
-private data class ArrangementHistoryDto(
-    val id: String,
-    @SerialName("requester_id") val requesterId: String,
-    @SerialName("owner_id") val ownerId: String,
-    val status: String,
-    @SerialName("created_at") val createdAt: String? = null,
-    @SerialName("completed_at") val completedAt: String? = null,
-    @SerialName("listing_title") val listingTitle: String? = null,
-    @SerialName("requester_name") val requesterName: String? = null,
-    @SerialName("owner_name") val ownerName: String? = null
-)

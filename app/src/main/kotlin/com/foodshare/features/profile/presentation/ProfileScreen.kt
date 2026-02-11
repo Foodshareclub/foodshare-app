@@ -78,6 +78,8 @@ fun ProfileScreen(
     onNavigateToTranslationTest: (() -> Unit)? = null,
     onNavigateToEditProfile: (() -> Unit)? = null,
     onNavigateToAdminDashboard: (() -> Unit)? = null,
+    onNavigateToSavedPosts: (() -> Unit)? = null,
+    onNavigateToNotifications: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -256,13 +258,13 @@ fun ProfileScreen(
                         icon = Icons.Default.Favorite,
                         title = "Saved Items",
                         subtitle = "Items you've bookmarked",
-                        onClick = { /* TODO: Navigate to favorites */ }
+                        onClick = { onNavigateToSavedPosts?.invoke() }
                     )
                     ProfileMenuItem(
                         icon = Icons.Default.Notifications,
                         title = "Notifications",
                         subtitle = "Manage your alerts",
-                        onClick = { /* TODO: Navigate to notifications */ }
+                        onClick = { onNavigateToNotifications?.invoke() }
                     )
                     ProfileMenuItem(
                         icon = Icons.Default.Settings,

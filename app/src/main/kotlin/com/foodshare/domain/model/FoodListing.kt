@@ -38,7 +38,8 @@ data class FoodListing(
     val donation: String? = null,
     @SerialName("donation_rules") val donationRules: String? = null,
     @SerialName("category_id") val categoryId: Int? = null,
-    @SerialName("distance_meters") val distanceMeters: Double? = null
+    @SerialName("distance_meters") val distanceMeters: Double? = null,
+    @SerialName("created_at") val createdAt: String? = null
 ) {
     // Computed properties
     val isAvailable: Boolean get() = isActive && !isArranged

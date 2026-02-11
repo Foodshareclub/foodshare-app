@@ -26,7 +26,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.foodshare.features.forum.domain.model.*
+import com.foodshare.features.forum.presentation.components.ForumCategoryChips
 import com.foodshare.features.forum.presentation.components.ForumPostCard
+import com.foodshare.features.forum.presentation.components.ForumSearchBar
+import com.foodshare.features.forum.presentation.components.ForumSortChips
 import com.foodshare.features.forum.presentation.components.TrendingPostsSection
 import com.foodshare.ui.design.tokens.LiquidGlassColors
 import com.foodshare.ui.design.tokens.Spacing
@@ -116,17 +119,19 @@ fun ForumScreen(
             ) {
                 // Search bar
                 item {
-                    SearchBar(
+                    ForumSearchBar(
                         query = uiState.searchQuery,
                         onQueryChange = { viewModel.search(it) },
-                        modifier = Modifier.padding(horizontal = Spacing.md, vertical = Spacing.sm)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.md, vertical = Spacing.sm)
                     )
                 }
 
                 // Categories horizontal scroll
                 if (uiState.categories.isNotEmpty()) {
                     item {
-                        CategoryChips(
+                        ForumCategoryChips(
                             categories = uiState.categories,
                             selectedCategoryId = uiState.filters.categoryId,
                             onCategorySelected = { viewModel.setCategory(it) },
@@ -148,7 +153,7 @@ fun ForumScreen(
 
                 // Sort options
                 item {
-                    SortChips(
+                    ForumSortChips(
                         currentSort = uiState.filters.sortBy,
                         onSortSelected = { viewModel.setSortOption(it) },
                         modifier = Modifier.padding(horizontal = Spacing.md, vertical = Spacing.xs)
@@ -296,93 +301,6 @@ fun ForumScreen(
                 showFiltersSheet = false
             }
         )
-    }
-}
-
-@Composable
-private fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        value = query,
-        onValueChange = onQueryChange,
-        modifier = modifier.fillMaxWidth(),
-        placeholder = { Text("Search discussions...") },
-        leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = "Search")
-        },
-        trailingIcon = {
-            if (query.isNotEmpty()) {
-                IconButton(onClick = { onQueryChange("") }) {
-                    Icon(Icons.Default.Clear, contentDescription = "Clear")
-                }
-            }
-        },
-        singleLine = true,
-        shape = RoundedCornerShape(12.dp),
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        )
-    )
-}
-
-@Composable
-private fun CategoryChips(
-    categories: List<ForumCategory>,
-    selectedCategoryId: Int?,
-    onCategorySelected: (Int?) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
-        contentPadding = PaddingValues(horizontal = Spacing.md)
-    ) {
-        // All categories chip
-        item {
-            FilterChip(
-                selected = selectedCategoryId == null,
-                onClick = { onCategorySelected(null) },
-                label = { Text("All") },
-                leadingIcon = if (selectedCategoryId == null) {
-                    { Icon(Icons.Default.Check, contentDescription = null, Modifier.size(18.dp)) }
-                } else null
-            )
-        }
-
-        items(categories) { category ->
-            FilterChip(
-                selected = selectedCategoryId == category.id,
-                onClick = { onCategorySelected(category.id) },
-                label = { Text(category.name) },
-                leadingIcon = if (selectedCategoryId == category.id) {
-                    { Icon(Icons.Default.Check, contentDescription = null, Modifier.size(18.dp)) }
-                } else null
-            )
-        }
-    }
-}
-
-@Composable
-private fun SortChips(
-    currentSort: ForumSortOption,
-    onSortSelected: (ForumSortOption) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
-    ) {
-        items(ForumSortOption.entries) { sortOption ->
-            FilterChip(
-                selected = currentSort == sortOption,
-                onClick = { onSortSelected(sortOption) },
-                label = { Text(sortOption.displayName) }
-            )
-        }
     }
 }
 

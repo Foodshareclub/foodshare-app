@@ -29,6 +29,7 @@ import com.foodshare.ui.design.components.buttons.GlassButton
 import com.foodshare.ui.design.components.cards.GlassCard
 import com.foodshare.ui.design.modifiers.glassBackground
 import com.foodshare.ui.design.modifiers.glow
+import com.foodshare.ui.design.tokens.CornerRadius
 import com.foodshare.ui.design.tokens.LiquidGlassColors
 import com.foodshare.ui.design.tokens.LiquidGlassGradients
 import com.foodshare.ui.design.tokens.Spacing
@@ -47,6 +48,8 @@ fun ChallengeDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val palette = LocalThemePalette.current
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val shareService = remember { com.foodshare.core.share.ShareService(context) }
 
     Box(
         modifier = Modifier
@@ -102,6 +105,15 @@ fun ChallengeDetailScreen(
                     onAccept = { viewModel.acceptChallenge() },
                     onComplete = { viewModel.completeChallenge() },
                     onToggleLike = { viewModel.toggleLike() },
+                    onShare = {
+                        uiState.challenge?.let { challengeWithStatus ->
+                            shareService.shareChallenge(
+                                context = context,
+                                challengeId = challengeWithStatus.challenge.id,
+                                title = challengeWithStatus.challenge.title
+                            )
+                        }
+                    },
                     onNavigateBack = onNavigateBack
                 )
             }
@@ -121,6 +133,7 @@ private fun ChallengeDetailContent(
     onAccept: () -> Unit,
     onComplete: () -> Unit,
     onToggleLike: () -> Unit,
+    onShare: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
     val challenge = challengeWithStatus.challenge
@@ -151,7 +164,7 @@ private fun ChallengeDetailContent(
                         )
                     }
                     // Share button
-                    IconButton(onClick = { /* TODO: Share */ }) {
+                    IconButton(onClick = onShare) {
                         Icon(
                             Icons.Default.Share,
                             contentDescription = "Share",
@@ -169,7 +182,7 @@ private fun ChallengeDetailContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentPadding = PaddingValues(bottom = 100.dp)
+            contentPadding = PaddingValues(bottom = Spacing.xxxl)
         ) {
             // Hero Image
             item {
@@ -228,7 +241,7 @@ private fun ChallengeDetailContent(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(Spacing.md)
-                            .clip(RoundedCornerShape(50))
+                            .clip(CircleShape)
                             .background(Color(challenge.difficulty.color))
                             .padding(horizontal = Spacing.sm, vertical = Spacing.xs)
                     ) {
@@ -328,12 +341,12 @@ private fun ChallengeDetailContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clip(RoundedCornerShape(12.dp))
+                                    .clip(RoundedCornerShape(CornerRadius.medium))
                                     .background(LiquidGlassColors.success.copy(alpha = 0.2f))
                                     .border(
                                         width = 1.dp,
                                         color = LiquidGlassColors.success.copy(alpha = 0.5f),
-                                        shape = RoundedCornerShape(12.dp)
+                                        shape = RoundedCornerShape(CornerRadius.medium)
                                     )
                                     .padding(Spacing.md),
                                 contentAlignment = Alignment.Center
@@ -466,12 +479,12 @@ private fun StatusBadge(status: ChallengeUserStatus) {
 
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(50))
+            .clip(CircleShape)
             .background(color.copy(alpha = 0.2f))
             .border(
                 width = 1.dp,
                 color = color.copy(alpha = 0.5f),
-                shape = RoundedCornerShape(50)
+                shape = CircleShape
             )
             .padding(horizontal = Spacing.md, vertical = Spacing.xs)
     ) {

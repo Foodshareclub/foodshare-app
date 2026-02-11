@@ -49,12 +49,14 @@ class PushTokenManager @Inject constructor(
 
     /**
      * Get the current push token.
-     * 
-     * TODO: Implement with your preferred push provider.
-     * For now, returns null as Firebase has been removed.
+     *
+     * TODO(push): Integrate push notification provider (FCM, OneSignal, or Pushy)
+     * - For FCM: Use FirebaseMessaging.getInstance().token
+     * - For OneSignal: Use OneSignal.getDeviceState()?.userId
+     * For now, returns null as no push provider is configured.
      */
     suspend fun getToken(): String? {
-        Log.d(TAG, "Push token retrieval not implemented - Firebase removed")
+        Log.d(TAG, "Push token retrieval not implemented - no push provider configured")
         return null
     }
 

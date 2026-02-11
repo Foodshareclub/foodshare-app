@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foodshare.features.onboarding.presentation.components.*
+import com.foodshare.ui.design.tokens.CornerRadius
 import com.foodshare.ui.design.tokens.LiquidGlassColors
 import com.foodshare.ui.design.tokens.LiquidGlassGradients
 import com.foodshare.ui.design.tokens.Spacing
@@ -52,27 +53,27 @@ fun OnboardingScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = Spacing.lg),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(Spacing.xxxl))
 
             // Hero Section - Logo with glow
             HeroSection()
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(Spacing.xl))
 
             // Welcome Section
             WelcomeSection()
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(Spacing.xl))
 
             // Disclaimer Card
             DisclaimerCard(
                 onReadFullDisclaimer = { viewModel.showFullDisclaimer() }
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(Spacing.xl))
 
             // Confirmation Section
             ConfirmationSection(
@@ -88,7 +89,7 @@ fun OnboardingScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(Spacing.xl))
 
             // Get Started Button
             GetStartedButton(
@@ -97,7 +98,7 @@ fun OnboardingScreen(
                 onClick = { viewModel.completeOnboarding(onOnboardingComplete) }
             )
 
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(Spacing.xxl))
         }
     }
 
@@ -220,7 +221,7 @@ private fun DisclaimerCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(CornerRadius.large),
         colors = CardDefaults.cardColors(
             containerColor = LiquidGlassColors.Glass.background
         ),
@@ -313,7 +314,7 @@ private fun ConfirmationSection(
         )
 
         Row(
-            modifier = Modifier.padding(start = 38.dp),
+            modifier = Modifier.padding(start = Spacing.xl),
             horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -365,7 +366,7 @@ private fun GetStartedButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
-        shape = RoundedCornerShape(28.dp),
+        shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent
@@ -391,7 +392,7 @@ private fun GetStartedButton(
                             )
                         )
                     },
-                    shape = RoundedCornerShape(28.dp)
+                    shape = CircleShape
                 ),
             contentAlignment = Alignment.Center
         ) {

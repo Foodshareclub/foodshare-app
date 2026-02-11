@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -112,6 +113,7 @@ fun GlassListingCard(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
+                role = Role.Button,
                 onClick = onClick
             ),
         shape = RoundedCornerShape(cornerRadius),
@@ -206,7 +208,7 @@ private fun ModernCardLayout(
                     .align(Alignment.BottomStart)
                     .padding(Spacing.sm)
             ) {
-                TimeBadge(text = "2h") // TODO: Calculate from createdAt
+                TimeBadge(text = com.foodshare.core.utilities.RelativeTimeFormatter.format(listing.createdAt))
             }
         }
 
@@ -314,7 +316,7 @@ private fun ListingImage(
     if (imageUrl != null) {
         AsyncImage(
             model = imageUrl,
-            contentDescription = null,
+            contentDescription = "Listing image",
             contentScale = ContentScale.Crop,
             modifier = modifier
         )
@@ -333,7 +335,7 @@ private fun ListingImage(
         ) {
             Icon(
                 imageVector = getCategoryIcon(category),
-                contentDescription = null,
+                contentDescription = getCategoryLabel(category),
                 tint = Color.White.copy(alpha = 0.6f),
                 modifier = Modifier.size(48.dp)
             )
@@ -356,7 +358,7 @@ private fun CategoryBadge(
     ) {
         Icon(
             imageVector = getCategoryIcon(category),
-            contentDescription = null,
+            contentDescription = getCategoryLabel(category),
             tint = Color.White,
             modifier = Modifier.size(12.dp)
         )
@@ -401,7 +403,7 @@ private fun DistanceBadge(distance: String) {
     ) {
         Icon(
             imageVector = Icons.Default.LocationOn,
-            contentDescription = null,
+            contentDescription = "Location",
             tint = Color.White,
             modifier = Modifier.size(12.dp)
         )
@@ -426,7 +428,7 @@ private fun TimeBadge(text: String) {
     ) {
         Icon(
             imageVector = Icons.Default.AccessTime,
-            contentDescription = null,
+            contentDescription = "Time posted",
             tint = Color.White,
             modifier = Modifier.size(12.dp)
         )
@@ -449,7 +451,7 @@ private fun FavoriteButton(
             .size(32.dp)
             .clip(CircleShape)
             .background(Color.Black.copy(alpha = 0.4f))
-            .clickable(onClick = onClick),
+            .clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -491,7 +493,7 @@ private fun ModernContentSection(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Person,
-                        contentDescription = null,
+                        contentDescription = "User",
                         tint = categoryColor,
                         modifier = Modifier.size(14.dp)
                     )
@@ -512,7 +514,7 @@ private fun ModernContentSection(
                 ) {
                     Icon(
                         imageVector = Icons.Default.LocationOn,
-                        contentDescription = null,
+                        contentDescription = "Location",
                         tint = LiquidGlassColors.Text.secondary,
                         modifier = Modifier.size(12.dp)
                     )
@@ -591,7 +593,7 @@ private fun StandardContentSection(listing: FoodListing) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.AccessTime,
-                        contentDescription = null,
+                        contentDescription = "Pickup time",
                         tint = LiquidGlassColors.Text.secondary,
                         modifier = Modifier.size(14.dp)
                     )
@@ -619,7 +621,7 @@ private fun StandardContentSection(listing: FoodListing) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.RemoveRedEye,
-                        contentDescription = null,
+                        contentDescription = "Views",
                         tint = LiquidGlassColors.Text.tertiary,
                         modifier = Modifier.size(14.dp)
                     )
@@ -639,7 +641,7 @@ private fun StandardContentSection(listing: FoodListing) {
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Favorite,
-                                contentDescription = null,
+                                contentDescription = "Likes",
                                 tint = LiquidGlassColors.error.copy(alpha = 0.8f),
                                 modifier = Modifier.size(14.dp)
                             )

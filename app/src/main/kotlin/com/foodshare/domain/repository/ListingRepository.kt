@@ -116,6 +116,14 @@ interface ListingRepository {
         imageUris: List<Uri>,
         matchRadiusKm: Double = 5.0
     ): Result<ListingCreationResult>
+
+    /**
+     * Get activity timeline events for a listing
+     *
+     * @param listingId The listing ID
+     * @return Result containing the list of timeline events
+     */
+    suspend fun getListingTimeline(listingId: Int): Result<List<TimelineEvent>>
 }
 
 /**
@@ -177,3 +185,25 @@ data class MatchInfo(
     val notificationsSent: Int,
     val radiusKm: Double
 )
+
+/**
+ * Timeline event for listing activity
+ */
+data class TimelineEvent(
+    val id: String,
+    val type: TimelineEventType,
+    val description: String,
+    val timestamp: String,
+    val count: Int? = null
+)
+
+/**
+ * Timeline event types
+ */
+enum class TimelineEventType {
+    CREATED,
+    VIEWED,
+    MESSAGED,
+    ARRANGED,
+    COMPLETED
+}

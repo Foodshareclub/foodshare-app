@@ -140,7 +140,7 @@ fun UnlockAnimation(
                 ) {
                     Icon(
                         imageVector = icon,
-                        contentDescription = null,
+                        contentDescription = "Badge unlocked",
                         modifier = Modifier.size(50.dp),
                         tint = LiquidGlassColors.brandPink
                     )

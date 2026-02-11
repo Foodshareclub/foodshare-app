@@ -3,6 +3,7 @@ package com.foodshare.ui.design.components.chat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -93,7 +94,7 @@ private fun ReactionChip(
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(CornerRadius.full))
-            .clickable(onClick = onClick)
+            .clickable(role = Role.Button, onClick = onClick)
             .border(
                 width = 1.dp,
                 brush = borderBrush,

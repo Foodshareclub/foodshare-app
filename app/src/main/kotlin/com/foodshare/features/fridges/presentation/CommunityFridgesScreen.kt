@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +31,7 @@ fun CommunityFridgesScreen(
     onNavigateBack: () -> Unit,
     viewModel: CommunityFridgesViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -181,7 +182,7 @@ private fun FridgeCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.White.copy(alpha = 0.15f))
+            .background(LiquidGlassColors.Glass.surface)
             .clickable(onClick = onClick)
             .padding(16.dp)
     ) {
@@ -210,13 +211,13 @@ private fun FridgeCard(
                 Icon(
                     Icons.Default.LocationOn,
                     contentDescription = null,
-                    tint = Color.White.copy(alpha = 0.7f),
+                    tint = LiquidGlassColors.Text.secondary,
                     modifier = Modifier.size(16.dp)
                 )
                 Text(
                     text = fridge.address,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = LiquidGlassColors.Text.secondary
                 )
             }
 
@@ -237,7 +238,7 @@ private fun FridgeCard(
                     Text(
                         text = fridge.status.name.lowercase().replaceFirstChar { it.uppercase() },
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.7f)
+                        color = LiquidGlassColors.Text.secondary
                     )
                 }
 
@@ -245,7 +246,7 @@ private fun FridgeCard(
                     Text(
                         text = String.format("%.1f km", distance),
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.7f)
+                        color = LiquidGlassColors.Text.secondary
                     )
                 }
             }
@@ -256,11 +257,11 @@ private fun FridgeCard(
 @Composable
 private fun StockLevelBadge(stockLevel: StockLevel) {
     val (color, text) = when (stockLevel) {
-        StockLevel.FULL -> Color(0xFF4CAF50) to "Full"
-        StockLevel.HALF -> Color(0xFFFFEB3B) to "Half"
-        StockLevel.LOW -> Color(0xFFFF9800) to "Low"
-        StockLevel.EMPTY -> Color(0xFFF44336) to "Empty"
-        StockLevel.UNKNOWN -> Color.Gray to "Unknown"
+        StockLevel.FULL -> LiquidGlassColors.success to "Full"
+        StockLevel.HALF -> LiquidGlassColors.accentYellow to "Half"
+        StockLevel.LOW -> LiquidGlassColors.warning to "Low"
+        StockLevel.EMPTY -> LiquidGlassColors.error to "Empty"
+        StockLevel.UNKNOWN -> LiquidGlassColors.accentGray to "Unknown"
     }
 
     Surface(

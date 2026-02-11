@@ -33,6 +33,7 @@ import coil.compose.AsyncImage
 import com.foodshare.features.forum.domain.model.*
 import com.foodshare.ui.design.components.cards.GlassCard
 import com.foodshare.ui.design.modifiers.glassBackground
+import com.foodshare.ui.design.tokens.CornerRadius
 import com.foodshare.ui.design.tokens.LiquidGlassColors
 import com.foodshare.ui.design.tokens.LiquidGlassGradients
 import com.foodshare.ui.design.tokens.Spacing
@@ -52,6 +53,8 @@ fun ForumPostDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val palette = LocalThemePalette.current
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val shareService = remember { com.foodshare.core.share.ShareService(context) }
 
     Box(
         modifier = Modifier
@@ -110,6 +113,16 @@ fun ForumPostDetailScreen(
                     onToggleBookmark = { viewModel.toggleBookmark() },
                     onToggleCommentReaction = { id, type -> viewModel.toggleCommentReaction(id, type) },
                     onMarkBestAnswer = { viewModel.markAsBestAnswer(it) },
+                    onSharePost = {
+                        uiState.post?.let { post ->
+                            shareService.shareForumPost(
+                                context = context,
+                                postId = post.id,
+                                title = post.title,
+                                excerpt = post.previewDescription
+                            )
+                        }
+                    },
                     onReportPost = {
                         uiState.post?.let { post ->
                             onReportPost?.invoke(post.id, post.title)
@@ -141,6 +154,7 @@ private fun ForumPostDetailContent(
     onToggleBookmark: () -> Unit,
     onToggleCommentReaction: (Int, String) -> Unit,
     onMarkBestAnswer: (Int) -> Unit,
+    onSharePost: () -> Unit = {},
     onReportPost: () -> Unit = {}
 ) {
     val palette = LocalThemePalette.current
@@ -179,7 +193,7 @@ private fun ForumPostDetailContent(
                             tint = if (isBookmarked) palette.primaryColor else Color.White
                         )
                     }
-                    IconButton(onClick = { /* TODO: Share */ }) {
+                    IconButton(onClick = onSharePost) {
                         Icon(
                             Icons.Default.Share,
                             contentDescription = "Share",
@@ -207,7 +221,7 @@ private fun ForumPostDetailContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentPadding = PaddingValues(bottom = 16.dp)
+            contentPadding = PaddingValues(bottom = Spacing.sm)
         ) {
             // Post content
             item {
@@ -373,7 +387,7 @@ private fun PostContent(
             // Post type badge
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(50))
+                    .clip(CircleShape)
                     .background(palette.primaryColor.copy(alpha = 0.2f))
                     .padding(horizontal = Spacing.sm, vertical = Spacing.xxs)
             ) {
@@ -420,7 +434,7 @@ private fun PostContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .clip(RoundedCornerShape(CornerRadius.medium)),
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(Spacing.md))
@@ -439,12 +453,12 @@ private fun PostContent(
         if (post.category != null) {
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(50))
+                    .clip(CircleShape)
                     .background(LiquidGlassColors.Glass.background)
                     .border(
                         width = 1.dp,
                         color = LiquidGlassColors.Glass.border,
-                        shape = RoundedCornerShape(50)
+                        shape = CircleShape
                     )
                     .padding(horizontal = Spacing.sm, vertical = Spacing.xxs)
             ) {
@@ -532,7 +546,7 @@ private fun ReactionBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(CornerRadius.medium))
             .background(LiquidGlassColors.Glass.background)
             .padding(Spacing.sm),
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -790,12 +804,12 @@ private fun CommentInputBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(24.dp))
+                .clip(RoundedCornerShape(CornerRadius.xxl))
                 .background(LiquidGlassColors.Glass.background)
                 .border(
                     width = 1.dp,
                     color = LiquidGlassColors.Glass.border,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(CornerRadius.xxl)
                 )
                 .padding(horizontal = Spacing.md, vertical = Spacing.sm),
             verticalAlignment = Alignment.CenterVertically

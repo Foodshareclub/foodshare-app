@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foodshare.core.errors.ErrorBridge
-import com.foodshare.data.repository.SupabaseAuthRepository
+import com.foodshare.domain.repository.AuthRepository
 import com.foodshare.features.arrangement.domain.model.Arrangement
 import com.foodshare.features.arrangement.domain.model.ArrangementStatus
 import com.foodshare.features.arrangement.domain.repository.ArrangementRepository
@@ -61,7 +61,7 @@ data class ArrangementUiState(
 @HiltViewModel
 class ArrangementViewModel @Inject constructor(
     private val repository: ArrangementRepository,
-    private val authRepository: SupabaseAuthRepository,
+    private val authRepository: AuthRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

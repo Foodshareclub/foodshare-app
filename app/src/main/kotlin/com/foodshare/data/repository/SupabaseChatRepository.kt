@@ -237,6 +237,25 @@ class SupabaseChatRepository @Inject constructor(
 
     override fun observeUnreadCount(): Flow<Int> = _unreadCount.asStateFlow()
 
+    override suspend fun getUnreadCount(): Result<Int> {
+        return runCatching {
+            val userId = currentUserId ?: return@runCatching 0
+            
+            supabaseClient.from("chat_rooms")
+                .select {
+                    filter {
+                        or {
+                            eq("user1_id", userId)
+                            eq("user2_id", userId)
+                        }
+                        gt("unread_count", 0)
+                    }
+                }
+                .decodeList<Map<String, Int>>()
+                .sumOf { it["unread_count"] ?: 0 }
+        }
+    }
+
     override suspend fun setRoomMuted(roomId: String, muted: Boolean): Result<Unit> {
         return runCatching {
             supabaseClient.from("room_members")

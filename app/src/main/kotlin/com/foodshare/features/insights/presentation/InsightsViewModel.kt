@@ -1,5 +1,6 @@
 package com.foodshare.features.insights.presentation
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foodshare.features.insights.domain.model.UserInsights
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Immutable
 data class InsightsUiState(
     val insights: UserInsights? = null,
     val isLoading: Boolean = false,

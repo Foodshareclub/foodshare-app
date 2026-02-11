@@ -258,3 +258,140 @@ data class GetReactionsResponse(
         totalCount = totalCount
     )
 }
+
+// Poll DTOs
+
+/**
+ * DTO for forum poll from Supabase.
+ */
+@Serializable
+data class ForumPollDto(
+    val id: String,
+    @SerialName("forum_id") val forumId: Int,
+    val question: String,
+    @SerialName("poll_type") val pollType: String,
+    @SerialName("ends_at") val endsAt: String? = null,
+    @SerialName("is_anonymous") val isAnonymous: Boolean = false,
+    @SerialName("show_results_before_vote") val showResultsBeforeVote: Boolean = false,
+    @SerialName("total_votes") val totalVotes: Int = 0,
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("updated_at") val updatedAt: String? = null,
+    // Joined data
+    @SerialName("forum_poll_options") val options: List<ForumPollOptionDto>? = null,
+    @SerialName("user_votes") val userVotes: List<String>? = null
+) {
+    fun toDomain() = ForumPoll(
+        id = id,
+        forumId = forumId,
+        question = question,
+        pollType = parsePollType(pollType),
+        endsAt = endsAt,
+        isAnonymous = isAnonymous,
+        showResultsBeforeVote = showResultsBeforeVote,
+        totalVotes = totalVotes,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        options = options?.map { it.toDomain() },
+        userVotes = userVotes
+    )
+
+    private fun parsePollType(type: String): PollType = when (type) {
+        "multiple" -> PollType.MULTIPLE
+        else -> PollType.SINGLE
+    }
+}
+
+/**
+ * DTO for forum poll option from Supabase.
+ */
+@Serializable
+data class ForumPollOptionDto(
+    val id: String,
+    @SerialName("poll_id") val pollId: String,
+    @SerialName("option_text") val optionText: String,
+    @SerialName("votes_count") val votesCount: Int = 0,
+    @SerialName("sort_order") val sortOrder: Int = 0,
+    @SerialName("created_at") val createdAt: String? = null
+) {
+    fun toDomain() = ForumPollOption(
+        id = id,
+        pollId = pollId,
+        optionText = optionText,
+        votesCount = votesCount,
+        sortOrder = sortOrder,
+        createdAt = createdAt
+    )
+}
+
+/**
+ * DTO for poll with options from nested query.
+ */
+@Serializable
+data class PollWithOptionsDto(
+    @SerialName("forum_polls") val poll: ForumPollDto? = null
+)
+
+// Badge DTOs
+
+/**
+ * DTO for forum badge from Supabase.
+ */
+@Serializable
+data class ForumBadgeDto(
+    val id: Int,
+    val name: String = "",
+    val slug: String = "",
+    val description: String = "",
+    @SerialName("icon_name") val iconName: String? = null,
+    val color: String? = null,
+    @SerialName("badge_type") val badgeType: String = "achievement",
+    val criteria: BadgeCriteria? = null,
+    val points: Int = 0,
+    @SerialName("is_active") val isActive: Boolean = true,
+    @SerialName("created_at") val createdAt: String? = null
+) {
+    fun toDomain() = ForumBadge(
+        id = id,
+        name = name,
+        slug = slug,
+        description = description,
+        iconName = iconName,
+        color = color,
+        badgeType = parseBadgeType(badgeType),
+        criteria = criteria,
+        points = points,
+        isActive = isActive,
+        createdAt = createdAt
+    )
+
+    private fun parseBadgeType(type: String): BadgeType = when (type) {
+        "milestone" -> BadgeType.MILESTONE
+        "special" -> BadgeType.SPECIAL
+        else -> BadgeType.ACHIEVEMENT
+    }
+}
+
+/**
+ * DTO for user badge from Supabase.
+ */
+@Serializable
+data class UserBadgeDto(
+    val id: String,
+    @SerialName("profile_id") val profileId: String,
+    @SerialName("badge_id") val badgeId: Int,
+    @SerialName("awarded_at") val awardedAt: String? = null,
+    @SerialName("awarded_by") val awardedBy: String? = null,
+    @SerialName("is_featured") val isFeatured: Boolean = false
+) {
+    fun toDomain() = UserBadge(
+        id = id,
+        profileId = profileId,
+        badgeId = badgeId,
+        awardedAt = awardedAt,
+        awardedBy = awardedBy,
+        isFeatured = isFeatured
+    )
+}
+
+// User Stats DTOs - using domain model directly since it already has @Serializable
+// ForumUserStats and ForumTrustLevel are used directly as they are already @Serializable

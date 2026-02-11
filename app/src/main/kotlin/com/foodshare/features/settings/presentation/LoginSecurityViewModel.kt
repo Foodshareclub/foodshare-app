@@ -2,9 +2,8 @@ package com.foodshare.features.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +29,7 @@ data class ActiveSession(
  */
 @HiltViewModel
 class LoginSecurityViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     data class UiState(
@@ -56,45 +55,30 @@ class LoginSecurityViewModel @Inject constructor(
 
     private fun loadSecurityData() {
         viewModelScope.launch {
-            try {
-                val user = supabaseClient.auth.currentUserOrNull()
-                if (user == null) {
-                    _uiState.update { it.copy(isLoading = false) }
-                    return@launch
+            // Load MFA status
+            settingsRepository.getTwoFactorStatus()
+                .onSuccess { status ->
+                    _uiState.update { it.copy(isMfaEnabled = status.isEnabled) }
                 }
 
-                val hasMFA = user.factors?.isNotEmpty() == true
-
-                // Build active sessions from current session info
-                val currentSession = supabaseClient.auth.currentSessionOrNull()
-                val sessions = mutableListOf<ActiveSession>()
-
-                currentSession?.let { session ->
-                    sessions.add(
-                        ActiveSession(
-                            id = session.accessToken.take(12),
-                            deviceName = "Current Device",
-                            lastActiveAt = "Now",
-                            isCurrent = true
+            // Load active sessions
+            settingsRepository.getActiveSessions()
+                .onSuccess { sessions ->
+                    _uiState.update {
+                        it.copy(
+                            sessions = sessions,
+                            isLoading = false
                         )
-                    )
+                    }
                 }
-
-                _uiState.update {
-                    it.copy(
-                        isMfaEnabled = hasMFA,
-                        sessions = sessions,
-                        isLoading = false
-                    )
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = e.message
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = e.message
-                    )
-                }
-            }
         }
     }
 
@@ -134,41 +118,26 @@ class LoginSecurityViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isChangingPassword = true, passwordError = null) }
 
-            try {
-                // Re-authenticate with current password to verify identity
-                val user = supabaseClient.auth.currentUserOrNull()
-                val email = user?.email
-                if (email != null) {
-                    supabaseClient.auth.signInWith(
-                        io.github.jan.supabase.auth.providers.builtin.Email
-                    ) {
-                        this.email = email
-                        this.password = state.currentPassword
+            settingsRepository.changePassword(state.currentPassword, state.newPassword)
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(
+                            isChangingPassword = false,
+                            currentPassword = "",
+                            newPassword = "",
+                            confirmPassword = "",
+                            successMessage = "Password changed successfully"
+                        )
                     }
                 }
-
-                // Update to new password
-                supabaseClient.auth.updateUser {
-                    password = state.newPassword
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isChangingPassword = false,
+                            passwordError = "Failed to change password: ${e.message}"
+                        )
+                    }
                 }
-
-                _uiState.update {
-                    it.copy(
-                        isChangingPassword = false,
-                        currentPassword = "",
-                        newPassword = "",
-                        confirmPassword = "",
-                        successMessage = "Password changed successfully"
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isChangingPassword = false,
-                        passwordError = "Failed to change password: ${e.message}"
-                    )
-                }
-            }
         }
     }
 
@@ -178,16 +147,18 @@ class LoginSecurityViewModel @Inject constructor(
 
     fun revokeSession(sessionId: String) {
         viewModelScope.launch {
-            try {
-                // Remove the session from the local list
-                _uiState.update { state ->
-                    state.copy(
-                        sessions = state.sessions.filter { it.id != sessionId }
-                    )
+            settingsRepository.revokeSession(sessionId)
+                .onSuccess {
+                    // Remove the session from the local list
+                    _uiState.update { state ->
+                        state.copy(
+                            sessions = state.sessions.filter { it.id != sessionId }
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message) }
-            }
+                .onFailure { e ->
+                    _uiState.update { it.copy(error = e.message) }
+                }
         }
     }
 

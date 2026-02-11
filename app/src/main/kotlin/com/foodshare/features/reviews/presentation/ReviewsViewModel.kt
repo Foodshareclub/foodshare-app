@@ -3,6 +3,7 @@ package com.foodshare.features.reviews.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.core.errors.ErrorBridge
 import com.foodshare.core.moderation.ModerationBridge
 import com.foodshare.core.moderation.ModerationContentType
 import com.foodshare.core.moderation.ModerationSeverity
@@ -61,7 +62,7 @@ class UserReviewsViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            error = error.message ?: "Failed to load reviews"
+                            error = ErrorBridge.mapReviewError(error)
                         )
                     }
                 }
@@ -259,7 +260,7 @@ class SubmitReviewViewModel @Inject constructor(
                             it.copy(
                                 isSubmitting = false,
                                 isSubmitted = false,  // Rollback: show form again
-                                error = error.message ?: "Failed to submit review"
+                                error = ErrorBridge.mapReviewError(error)
                             )
                         }
                     } else if (recommendation.shouldRetry && recommendation.delayMs != null) {
@@ -272,7 +273,7 @@ class SubmitReviewViewModel @Inject constructor(
                         it.copy(
                             isSubmitting = false,
                             isSubmitted = false,
-                            error = error.message ?: "Failed to submit review"
+                            error = ErrorBridge.mapReviewError(error)
                         )
                     }
                 }

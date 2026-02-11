@@ -38,8 +38,8 @@ android {
         applicationId = "com.foodshare"
         minSdk = 28  // Matches Swift SDK for Android requirement (API 28+)
         targetSdk = 35
-        versionCode = 273
-        versionName = "3.0.2"
+        versionCode = 274
+        versionName = "3.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

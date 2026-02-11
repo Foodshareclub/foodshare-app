@@ -3,11 +3,10 @@ package com.foodshare.features.challenges.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foodshare.core.errors.ErrorBridge
+import com.foodshare.domain.repository.AuthRepository
 import com.foodshare.features.challenges.domain.model.*
 import com.foodshare.features.challenges.domain.repository.ChallengeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -58,17 +57,26 @@ data class ChallengesUiState(
 @HiltViewModel
 class ChallengesViewModel @Inject constructor(
     private val repository: ChallengeRepository,
-    private val supabaseClient: SupabaseClient
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChallengesUiState())
     val uiState: StateFlow<ChallengesUiState> = _uiState.asStateFlow()
 
-    private val currentUserId: String?
-        get() = supabaseClient.auth.currentUserOrNull()?.id
+    private var currentUserId: String? = null
 
     init {
+        loadCurrentUser()
         loadChallenges()
+    }
+
+    private fun loadCurrentUser() {
+        viewModelScope.launch {
+            authRepository.getCurrentUser()
+                .onSuccess { user ->
+                    currentUserId = user?.id
+                }
+        }
     }
 
     fun loadChallenges() {

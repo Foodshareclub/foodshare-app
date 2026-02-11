@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -59,6 +60,7 @@ fun GlassButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
+    iconContentDescription: String? = null,
     style: GlassButtonStyle = GlassButtonStyle.Primary,
     isLoading: Boolean = false,
     enabled: Boolean = true
@@ -110,6 +112,10 @@ fun GlassButton(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .graphicsLayer {
+                    // Enable GPU rasterization for layered gradient effects
+                    compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+                }
                 .background(
                     brush = style.gradient,
                     shape = buttonShape
@@ -135,7 +141,7 @@ fun GlassButton(
                     icon?.let {
                         Icon(
                             imageVector = it,
-                            contentDescription = null,
+                            contentDescription = iconContentDescription,
                             tint = style.foregroundColor,
                             modifier = Modifier.size(22.dp)
                         )
@@ -162,6 +168,7 @@ fun GlassButtonSmall(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
+    iconContentDescription: String? = null,
     style: GlassButtonStyle = GlassButtonStyle.Primary,
     isLoading: Boolean = false,
     enabled: Boolean = true
@@ -207,6 +214,10 @@ fun GlassButtonSmall(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .graphicsLayer {
+                    // Enable GPU rasterization for layered gradient effects
+                    compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+                }
                 .background(
                     brush = style.gradient,
                     shape = buttonShape
@@ -232,7 +243,7 @@ fun GlassButtonSmall(
                     icon?.let {
                         Icon(
                             imageVector = it,
-                            contentDescription = null,
+                            contentDescription = iconContentDescription,
                             tint = style.foregroundColor,
                             modifier = Modifier.size(16.dp)
                         )

@@ -20,6 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foodshare.features.challenges.domain.model.*
 import com.foodshare.features.challenges.presentation.components.ChallengeCard
+import com.foodshare.features.challenges.presentation.components.ChallengeFilterBar
+import com.foodshare.features.challenges.presentation.components.ChallengeStatsRow
 import com.foodshare.features.challenges.presentation.components.LeaderboardSection
 import com.foodshare.ui.design.tokens.LiquidGlassColors
 import com.foodshare.ui.design.tokens.Spacing
@@ -161,26 +163,16 @@ private fun ChallengesListView(
     ) {
         // Filter chips
         item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+            ChallengeFilterBar(
+                selectedFilter = uiState.selectedFilter,
+                onFilterChange = onFilterChange,
                 modifier = Modifier.padding(bottom = Spacing.md)
-            ) {
-                ChallengeFilter.entries.forEach { filter ->
-                    FilterChip(
-                        selected = uiState.selectedFilter == filter,
-                        onClick = { onFilterChange(filter) },
-                        label = { Text(filter.displayName) },
-                        leadingIcon = if (uiState.selectedFilter == filter) {
-                            { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) }
-                        } else null
-                    )
-                }
-            }
+            )
         }
 
         // Stats summary
         item {
-            StatsRow(
+            ChallengeStatsRow(
                 joinedCount = uiState.joinedChallengesCount,
                 completedCount = uiState.completedChallengesCount,
                 modifier = Modifier.padding(bottom = Spacing.md)

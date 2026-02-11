@@ -3,8 +3,8 @@ package com.foodshare.ui.theme
 import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -112,8 +112,8 @@ object ThemeManager {
      */
     @Composable
     fun currentPalette(): ThemePalette {
-        val theme by currentTheme.collectAsState()
-        val schemePreference by colorSchemePreference.collectAsState()
+        val theme by currentTheme.collectAsStateWithLifecycle()
+        val schemePreference by colorSchemePreference.collectAsStateWithLifecycle()
 
         val isDark = when (schemePreference) {
             ColorSchemePreference.LIGHT -> false
@@ -129,7 +129,7 @@ object ThemeManager {
      */
     @Composable
     fun isDarkMode(): Boolean {
-        val schemePreference by colorSchemePreference.collectAsState()
+        val schemePreference by colorSchemePreference.collectAsStateWithLifecycle()
         return when (schemePreference) {
             ColorSchemePreference.LIGHT -> false
             ColorSchemePreference.DARK -> true

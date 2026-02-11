@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.foodshare.core.invitation.InvitationService
 import com.foodshare.core.invitation.SentInvite
 import com.foodshare.core.validation.ValidationBridge
+import com.foodshare.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -27,7 +27,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class InviteViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient,
+    private val authRepository: AuthRepository,
     private val invitationService: InvitationService
 ) : ViewModel() {
 
@@ -77,19 +77,22 @@ class InviteViewModel @Inject constructor(
      * ensuring consistency across sessions.
      */
     private fun generateReferralCode() {
-        val userId = supabaseClient.auth.currentUserOrNull()?.id
-        val code = if (userId != null) {
-            userId.take(8).uppercase()
-        } else {
-            UUID.randomUUID().toString().take(8).uppercase()
-        }
-        val link = invitationService.generateReferralLink(code)
+        viewModelScope.launch {
+            val currentUser = authRepository.currentUser.first()
+            val userId = currentUser?.id
+            val code = if (userId != null) {
+                userId.take(8).uppercase()
+            } else {
+                UUID.randomUUID().toString().take(8).uppercase()
+            }
+            val link = invitationService.generateReferralLink(code)
 
-        _uiState.update {
-            it.copy(
-                referralCode = code,
-                referralLink = link
-            )
+            _uiState.update {
+                it.copy(
+                    referralCode = code,
+                    referralLink = link
+                )
+            }
         }
     }
 

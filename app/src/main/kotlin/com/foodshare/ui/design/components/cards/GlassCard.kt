@@ -8,8 +8,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.foodshare.ui.design.tokens.CornerRadius
@@ -44,6 +46,10 @@ fun GlassCard(
                 spotColor = Color.Black.copy(alpha = shadow.opacity)
             )
             .clip(shape)
+            .graphicsLayer {
+                // Enable GPU rasterization for layered glass effects
+                compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+            }
             .background(brush = LiquidGlassGradients.glassSurface)
             .border(
                 width = 1.dp,
@@ -75,6 +81,10 @@ fun SolidGlassCard(
                 spotColor = Color.Black.copy(alpha = shadow.opacity)
             )
             .clip(shape)
+            .graphicsLayer {
+                // Enable GPU rasterization for layered glass effects
+                compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+            }
             .background(color = backgroundColor)
             .border(
                 width = 1.dp,
@@ -134,6 +144,10 @@ fun Modifier.glassCard(
             spotColor = Color.Black.copy(alpha = shadow.opacity)
         )
         .clip(shape)
+        .graphicsLayer {
+            // Enable GPU rasterization for layered glass effects
+            compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+        }
         .background(brush = LiquidGlassGradients.glassSurface)
         .border(
             width = 1.dp,
@@ -151,6 +165,10 @@ fun Modifier.glassBackground(
     val shape = RoundedCornerShape(cornerRadius)
     return this
         .clip(shape)
+        .graphicsLayer {
+            // Enable GPU rasterization for layered glass effects
+            compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+        }
         .background(brush = LiquidGlassGradients.glassSurface)
         .border(
             width = 1.dp,

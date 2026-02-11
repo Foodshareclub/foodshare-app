@@ -23,6 +23,7 @@ import com.foodshare.features.auth.presentation.AuthState
 import com.foodshare.features.auth.presentation.AuthViewModel
 import com.foodshare.features.auth.presentation.BiometricLockScreen
 import com.foodshare.features.auth.presentation.BiometricSetupPromptScreen
+import com.foodshare.features.auth.presentation.BiometricSetupViewModel
 import com.foodshare.features.auth.presentation.GuestUpgradePromptScreen
 import com.foodshare.features.auth.presentation.MFAEnrollmentScreen
 import com.foodshare.features.auth.presentation.MFAVerificationScreen
@@ -304,6 +305,9 @@ fun AppNavGraph(
                 },
                 onNavigateToAdminDashboard = {
                     navController.navigate(NavRoutes.ADMIN_DASHBOARD)
+                },
+                onNavigateToSavedPosts = {
+                    navController.navigate(NavRoutes.FORUM_SAVED)
                 }
             )
         }
@@ -683,21 +687,24 @@ fun AppNavGraph(
 
         // Biometric Lock
         composable(NavRoutes.BIOMETRIC_LOCK) {
+            // Note: Biometric authentication is triggered by BiometricLockScreen internally
+            // using BiometricService. The callbacks here just handle navigation after unlock.
             BiometricLockScreen(
                 onUnlocked = { navController.popBackStack() },
-                onBiometricUnlock = {
-                    // TODO: Trigger biometric authentication
-                    navController.popBackStack()
-                }
+                onBiometricUnlock = { navController.popBackStack() }
             )
         }
 
         // Biometric Setup Prompt
         composable(NavRoutes.BIOMETRIC_SETUP) {
+            val viewModel: BiometricSetupViewModel = hiltViewModel()
             BiometricSetupPromptScreen(
                 onEnable = {
-                    // TODO: Enable biometric authentication
-                    navController.popBackStack()
+                    viewModel.enableBiometric {
+                        navController.navigate(NavRoutes.APP_LOCK_SETTINGS) {
+                            popUpTo(NavRoutes.BIOMETRIC_SETUP) { inclusive = true }
+                        }
+                    }
                 },
                 onSkip = { navController.popBackStack() }
             )

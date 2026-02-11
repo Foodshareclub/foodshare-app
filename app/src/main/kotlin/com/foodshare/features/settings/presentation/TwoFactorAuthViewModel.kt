@@ -2,10 +2,8 @@ package com.foodshare.features.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.mfa.MfaLevel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +16,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TwoFactorAuthViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TwoFactorAuthUiState())
@@ -30,31 +28,24 @@ class TwoFactorAuthViewModel @Inject constructor(
 
     private fun loadMFAStatus() {
         viewModelScope.launch {
-            try {
-                val user = supabaseClient.auth.currentUserOrNull()
-                if (user == null) {
-                    _uiState.update { it.copy(isLoading = false) }
-                    return@launch
+            settingsRepository.getTwoFactorStatus()
+                .onSuccess { status ->
+                    _uiState.update {
+                        it.copy(
+                            isEnabled = status.isEnabled,
+                            enrolledFactors = status.enrolledFactors,
+                            isLoading = false
+                        )
+                    }
                 }
-
-                val hasMFA = user.factors?.isNotEmpty() == true
-                val enrolledFactors = user.factors?.size ?: 0
-
-                _uiState.update {
-                    it.copy(
-                        isEnabled = hasMFA,
-                        enrolledFactors = enrolledFactors,
-                        isLoading = false
-                    )
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = e.message
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = e.message
-                    )
-                }
-            }
         }
     }
 
@@ -62,30 +53,26 @@ class TwoFactorAuthViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isEnrolling = true) }
 
-            try {
-                // Enroll TOTP MFA
-                val enrollResult = supabaseClient.auth.mfa.enroll(
-                    factorType = io.github.jan.supabase.auth.mfa.FactorType.TOTP,
-                    friendlyName = "Authenticator App"
-                )
-
-                _uiState.update {
-                    it.copy(
-                        isEnrolling = false,
-                        qrCode = enrollResult.data.qrCode,
-                        secret = enrollResult.data.secret,
-                        factorId = enrollResult.id,
-                        showVerificationDialog = true
-                    )
+            settingsRepository.enableTwoFactor("Authenticator App")
+                .onSuccess { setupData ->
+                    _uiState.update {
+                        it.copy(
+                            isEnrolling = false,
+                            qrCode = setupData.qrCode,
+                            secret = setupData.secret,
+                            factorId = setupData.factorId,
+                            showVerificationDialog = true
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isEnrolling = false,
-                        error = e.message
-                    )
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isEnrolling = false,
+                            error = e.message
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -93,34 +80,30 @@ class TwoFactorAuthViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isVerifying = true) }
 
-            try {
-                val factorId = _uiState.value.factorId ?: return@launch
+            val factorId = _uiState.value.factorId ?: return@launch
 
-                // Verify the TOTP code
-                supabaseClient.auth.mfa.createChallengeAndVerify(
-                    factorId = factorId,
-                    code = code
-                )
-
-                _uiState.update {
-                    it.copy(
-                        isVerifying = false,
-                        isEnabled = true,
-                        enrolledFactors = it.enrolledFactors + 1,
-                        showVerificationDialog = false,
-                        qrCode = null,
-                        secret = null,
-                        factorId = null
-                    )
+            settingsRepository.verifyTwoFactor(factorId, code)
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(
+                            isVerifying = false,
+                            isEnabled = true,
+                            enrolledFactors = it.enrolledFactors + 1,
+                            showVerificationDialog = false,
+                            qrCode = null,
+                            secret = null,
+                            factorId = null
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isVerifying = false,
-                        error = "Invalid verification code"
-                    )
+                .onFailure {
+                    _uiState.update {
+                        it.copy(
+                            isVerifying = false,
+                            error = "Invalid verification code"
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -128,28 +111,24 @@ class TwoFactorAuthViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isUnenrolling = true) }
 
-            try {
-                // Get all factors and unenroll them
-                val user = supabaseClient.auth.currentUserOrNull()
-                user?.factors?.forEach { factor ->
-                    supabaseClient.auth.mfa.unenroll(factor.id)
+            settingsRepository.disableTwoFactor()
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(
+                            isUnenrolling = false,
+                            isEnabled = false,
+                            enrolledFactors = 0
+                        )
+                    }
                 }
-
-                _uiState.update {
-                    it.copy(
-                        isUnenrolling = false,
-                        isEnabled = false,
-                        enrolledFactors = 0
-                    )
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isUnenrolling = false,
+                            error = e.message
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isUnenrolling = false,
-                        error = e.message
-                    )
-                }
-            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.foodshare.features.donation.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.domain.repository.AuthRepository
 import com.foodshare.features.donation.domain.model.Donation
 import com.foodshare.features.donation.domain.model.DonationStatus
 import com.foodshare.features.donation.domain.model.DonationType
@@ -12,8 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
 import java.util.UUID
 import javax.inject.Inject
 
@@ -37,7 +36,7 @@ data class DonationUiState(
 @HiltViewModel
 class DonationViewModel @Inject constructor(
     private val donationRepository: DonationRepository,
-    private val supabaseClient: SupabaseClient
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DonationUiState())
@@ -51,8 +50,11 @@ class DonationViewModel @Inject constructor(
 
     private fun loadUserAndDonations() {
         viewModelScope.launch {
-            currentUserId = supabaseClient.auth.currentUserOrNull()?.id
-            currentUserId?.let { loadDonations(it) }
+            authRepository.getCurrentUser()
+                .onSuccess { user ->
+                    currentUserId = user?.id
+                    currentUserId?.let { loadDonations(it) }
+                }
         }
     }
 

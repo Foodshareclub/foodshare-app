@@ -2,10 +2,9 @@ package com.foodshare.features.notifications.presentation.components
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.domain.repository.AuthRepository
 import com.foodshare.features.notifications.domain.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -69,7 +68,7 @@ data class NotificationItem(
 @HiltViewModel
 class NotificationDropdownViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-    private val supabaseClient: SupabaseClient
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     // ========================================================================
@@ -90,16 +89,25 @@ class NotificationDropdownViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val currentUserId: String?
-        get() = supabaseClient.auth.currentUserOrNull()?.id
+    private var currentUserId: String? = null
 
     // ========================================================================
     // Initialization
     // ========================================================================
 
     init {
+        loadCurrentUser()
         loadRecentNotifications()
         subscribeToRealTimeUpdates()
+    }
+
+    private fun loadCurrentUser() {
+        viewModelScope.launch {
+            authRepository.getCurrentUser()
+                .onSuccess { user ->
+                    currentUserId = user?.id
+                }
+        }
     }
 
     // ========================================================================

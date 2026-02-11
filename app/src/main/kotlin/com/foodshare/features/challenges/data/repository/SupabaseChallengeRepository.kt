@@ -5,6 +5,7 @@ import com.foodshare.core.network.RPCConfig
 import com.foodshare.features.challenges.data.dto.*
 import com.foodshare.features.challenges.domain.model.*
 import com.foodshare.features.challenges.domain.repository.ChallengeRepository
+import com.foodshare.features.challenges.domain.repository.GlobalLeaderboardEntry
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
@@ -231,12 +232,40 @@ class SupabaseChallengeRepository @Inject constructor(
         count > 0
     }
 
+    override suspend fun getGlobalLeaderboard(limit: Int): Result<List<GlobalLeaderboardEntry>> = runCatching {
+        supabaseClient.from("profiles")
+            .select()
+            .decodeList<GlobalLeaderboardEntryDto>()
+            .map { it.toDomain() }
+            .sortedByDescending { it.communityImpactScore + it.foodSharedCount + it.challengesWonCount }
+            .take(limit)
+    }
+
     companion object {
         private const val CHALLENGE_WITH_ACTIVITY_SELECT = """
             *,
             challenge_activities(*)
         """
     }
+}
+
+@Serializable
+private data class GlobalLeaderboardEntryDto(
+    val id: String,
+    val nickname: String? = null,
+    @SerialName("avatar_url") val avatarUrl: String? = null,
+    @SerialName("food_shared_count") val foodSharedCount: Int = 0,
+    @SerialName("community_impact_score") val communityImpactScore: Int = 0,
+    @SerialName("challenges_won_count") val challengesWonCount: Int = 0
+) {
+    fun toDomain() = GlobalLeaderboardEntry(
+        userId = id,
+        nickname = nickname ?: "Anonymous",
+        avatarUrl = avatarUrl,
+        foodSharedCount = foodSharedCount,
+        communityImpactScore = communityImpactScore,
+        challengesWonCount = challengesWonCount
+    )
 }
 
 // RPC Parameter classes

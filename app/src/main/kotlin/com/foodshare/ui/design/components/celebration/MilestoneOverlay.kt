@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -68,7 +69,7 @@ fun MilestoneOverlay(
             modifier = Modifier
                 .fillMaxSize()
                 .background(LiquidGlassColors.Overlay.scrim)
-                .clickable(onClick = onDismiss),
+                .clickable(role = Role.Button, onClick = onDismiss),
             contentAlignment = Alignment.Center
         ) {
             // Confetti background
@@ -111,7 +112,7 @@ fun MilestoneOverlay(
                 ) {
                     Icon(
                         imageVector = icon,
-                        contentDescription = null,
+                        contentDescription = "Milestone achievement",
                         modifier = Modifier.size(40.dp),
                         tint = LiquidGlassColors.brandPink
                     )

@@ -67,6 +67,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foodshare.features.subscription.domain.model.SubscriptionPeriod
 import com.foodshare.features.subscription.domain.model.SubscriptionPlan
+import com.foodshare.features.subscription.presentation.components.SubscriptionBenefits
+import com.foodshare.features.subscription.presentation.components.SubscriptionHero
+import com.foodshare.features.subscription.presentation.components.SubscriptionPlanCard
 import com.foodshare.ui.design.components.buttons.GlassButton
 import com.foodshare.ui.design.components.buttons.GlassButtonStyle
 import com.foodshare.ui.design.components.cards.GlassCard
@@ -178,12 +181,12 @@ private fun SubscriptionContent(
         Spacer(Modifier.height(Spacing.lg))
 
         // Hero
-        HeroSection()
+        SubscriptionHero()
 
         Spacer(Modifier.height(Spacing.xl))
 
         // Benefits
-        BenefitsSection()
+        SubscriptionBenefits()
 
         Spacer(Modifier.height(Spacing.xl))
 
@@ -197,7 +200,7 @@ private fun SubscriptionContent(
         Spacer(Modifier.height(Spacing.md))
 
         uiState.plans.forEach { plan ->
-            PlanCard(
+            SubscriptionPlanCard(
                 plan = plan,
                 isSelected = uiState.selectedPlan == plan,
                 savingsPercent = if (plan.isYearly) uiState.pricing.savingsPercent else 0,
@@ -245,222 +248,6 @@ private fun SubscriptionContent(
         )
 
         Spacer(Modifier.height(Spacing.xxl))
-    }
-}
-
-@Composable
-private fun HeroSection() {
-    val infiniteTransition = rememberInfiniteTransition(label = "crown_glow")
-    val glowAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 0.8f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "glow"
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        // Crown icon with glow
-        Box(
-            modifier = Modifier
-                .size(90.dp)
-                .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            premiumGold.copy(alpha = glowAlpha),
-                            premiumGold.copy(alpha = 0.1f)
-                        )
-                    )
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Default.Diamond,
-                contentDescription = null,
-                tint = premiumGold,
-                modifier = Modifier.size(44.dp)
-            )
-        }
-
-        Spacer(Modifier.height(Spacing.lg))
-
-        Text(
-            text = "Foodshare Premium",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = premiumGold,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(Modifier.height(Spacing.xs))
-
-        Text(
-            text = "Unlock the full potential of food sharing",
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = 0.7f),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-private fun BenefitsSection() {
-    val benefits = listOf(
-        BenefitItem(Icons.Default.Block, "Ad-Free Experience", "Enjoy Foodshare without any advertisements"),
-        BenefitItem(Icons.Default.Speed, "Priority Matching", "Get matched with food sharers first"),
-        BenefitItem(Icons.Default.Verified, "Premium Badge", "Stand out with a verified premium badge"),
-        BenefitItem(Icons.Default.AutoAwesome, "Advanced Filters", "Access premium search and filter options")
-    )
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(Spacing.sm)
-    ) {
-        benefits.forEach { benefit ->
-            BenefitRow(benefit)
-        }
-    }
-}
-
-private data class BenefitItem(
-    val icon: ImageVector,
-    val title: String,
-    val description: String
-)
-
-@Composable
-private fun BenefitRow(benefit: BenefitItem) {
-    GlassCard(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.padding(Spacing.md),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(premiumGold.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = benefit.icon,
-                    contentDescription = null,
-                    tint = premiumGold,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            Spacer(Modifier.width(Spacing.md))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = benefit.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-                Text(
-                    text = benefit.description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.6f)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun PlanCard(
-    plan: SubscriptionPlan,
-    isSelected: Boolean,
-    savingsPercent: Int,
-    effectiveMonthly: String?,
-    onClick: () -> Unit
-) {
-    val borderColor = if (isSelected) premiumGold else LiquidGlassColors.Glass.border
-
-    GlassCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(
-                width = if (isSelected) 2.dp else 1.dp,
-                color = borderColor,
-                shape = RoundedCornerShape(16.dp)
-            )
-            .clickable(onClick = onClick)
-    ) {
-        Column(modifier = Modifier.padding(Spacing.lg)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.sm)
-                    ) {
-                        Text(
-                            text = plan.period.displayName,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                        if (plan.isYearly && savingsPercent > 0) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(50))
-                                    .background(premiumGold.copy(alpha = 0.2f))
-                                    .padding(horizontal = Spacing.sm, vertical = Spacing.xxs)
-                            ) {
-                                Text(
-                                    text = "Save $savingsPercent%",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    fontWeight = FontWeight.Bold,
-                                    color = premiumGold
-                                )
-                            }
-                        }
-                    }
-                    effectiveMonthly?.let {
-                        Text(
-                            text = "$it/month",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.White.copy(alpha = 0.5f)
-                        )
-                    }
-                }
-
-                Text(
-                    text = plan.formattedPrice,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = if (isSelected) premiumGold else Color.White
-                )
-            }
-
-            if (isSelected) {
-                Spacer(Modifier.height(Spacing.xs))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
-                ) {
-                    Icon(
-                        Icons.Default.CheckCircle,
-                        contentDescription = null,
-                        tint = premiumGold,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Text(
-                        text = "Selected",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = premiumGold
-                    )
-                }
-            }
-        }
     }
 }
 

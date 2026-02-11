@@ -2,19 +2,13 @@ package com.foodshare.features.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import javax.inject.Inject
 
 /**
@@ -25,7 +19,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AccountDeletionViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     data class UiState(
@@ -63,50 +57,33 @@ class AccountDeletionViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isDeleting = true, error = null) }
 
-            try {
-                // Re-authenticate with password to verify identity
-                val user = supabaseClient.auth.currentUserOrNull()
-                val email = user?.email
-                    ?: throw IllegalStateException("No email found for current user")
-
-                supabaseClient.auth.signInWith(Email) {
-                    this.email = email
-                    this.password = state.password
-                }
-
-                // Call the RPC function to request account deletion
-                supabaseClient.postgrest.rpc(
-                    function = "request_account_deletion",
-                    parameters = buildJsonObject {
-                        put("reason", "user_requested")
+            settingsRepository.requestAccountDeletion(
+                reason = "user_requested",
+                password = state.password
+            )
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(
+                            isDeleting = false,
+                            isDeleted = true
+                        )
                     }
-                )
-
-                // Sign out the user
-                supabaseClient.auth.signOut()
-
-                _uiState.update {
-                    it.copy(
-                        isDeleting = false,
-                        isDeleted = true
-                    )
+                    onDeleted()
                 }
-
-                onDeleted()
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isDeleting = false,
-                        error = when {
-                            e.message?.contains("Invalid login", ignoreCase = true) == true ->
-                                "Incorrect password. Please try again."
-                            e.message?.contains("invalid_grant", ignoreCase = true) == true ->
-                                "Incorrect password. Please try again."
-                            else -> "Failed to delete account: ${e.message}"
-                        }
-                    )
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isDeleting = false,
+                            error = when {
+                                e.message?.contains("Invalid login", ignoreCase = true) == true ->
+                                    "Incorrect password. Please try again."
+                                e.message?.contains("invalid_grant", ignoreCase = true) == true ->
+                                    "Incorrect password. Please try again."
+                                else -> "Failed to delete account: ${e.message}"
+                            }
+                        )
+                    }
                 }
-            }
         }
     }
 

@@ -394,6 +394,16 @@ class SupabaseListingRepository @Inject constructor(
             else -> "jpg"
         }
     }
+
+    override suspend fun getListingTimeline(listingId: Int): Result<List<com.foodshare.domain.repository.TimelineEvent>> = runCatching {
+        supabaseClient.postgrest["listing_activity_timeline"]
+            .select {
+                filter { eq("listing_id", listingId) }
+                order("timestamp", Order.DESCENDING)
+            }
+            .decodeList<TimelineEventDto>()
+            .map { it.toDomain() }
+    }
 }
 
 /**
@@ -423,3 +433,31 @@ private data class UpdatePostRequest(
     @SerialName("post_address") val postAddress: String? = null,
     @SerialName("is_active") val isActive: Boolean? = null
 )
+
+/**
+ * DTO for timeline events
+ */
+@Serializable
+private data class TimelineEventDto(
+    val id: String,
+    @SerialName("listing_id") val listingId: Int,
+    @SerialName("event_type") val eventType: String,
+    val description: String,
+    val timestamp: String,
+    val count: Int? = null
+) {
+    fun toDomain() = com.foodshare.domain.repository.TimelineEvent(
+        id = id,
+        type = when (eventType.lowercase()) {
+            "created" -> com.foodshare.domain.repository.TimelineEventType.CREATED
+            "viewed" -> com.foodshare.domain.repository.TimelineEventType.VIEWED
+            "messaged" -> com.foodshare.domain.repository.TimelineEventType.MESSAGED
+            "arranged" -> com.foodshare.domain.repository.TimelineEventType.ARRANGED
+            "completed" -> com.foodshare.domain.repository.TimelineEventType.COMPLETED
+            else -> com.foodshare.domain.repository.TimelineEventType.CREATED
+        },
+        description = description,
+        timestamp = timestamp,
+        count = count
+    )
+}

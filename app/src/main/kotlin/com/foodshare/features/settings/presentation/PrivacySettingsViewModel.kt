@@ -2,20 +2,14 @@ package com.foodshare.features.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foodshare.features.settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import javax.inject.Inject
 
 /**
@@ -23,7 +17,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PrivacySettingsViewModel @Inject constructor(
-    private val supabaseClient: SupabaseClient
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PrivacyUiState())
@@ -35,35 +29,25 @@ class PrivacySettingsViewModel @Inject constructor(
 
     private fun loadPrivacySettings() {
         viewModelScope.launch {
-            try {
-                val userId = supabaseClient.auth.currentUserOrNull()?.id ?: return@launch
-
-                val profile = supabaseClient.from("profiles")
-                    .select {
-                        filter {
-                            eq("id", userId)
-                        }
+            settingsRepository.getPrivacySettings()
+                .onSuccess { settings ->
+                    _uiState.update {
+                        it.copy(
+                            profileVisible = settings.profileVisible,
+                            showLocation = settings.showLocation,
+                            allowMessages = settings.allowMessages,
+                            isLoading = false
+                        )
                     }
-                    .decodeSingle<ProfilePrivacyResponse>()
-
-                val settings = profile.privacy_settings ?: PrivacySettings()
-
-                _uiState.update {
-                    it.copy(
-                        profileVisible = settings.profileVisible,
-                        showLocation = settings.showLocation,
-                        allowMessages = settings.allowMessages,
-                        isLoading = false
-                    )
                 }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = e.message
-                    )
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = e.message
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -84,28 +68,19 @@ class PrivacySettingsViewModel @Inject constructor(
 
     private fun savePrivacySettings() {
         viewModelScope.launch {
-            try {
-                val userId = supabaseClient.auth.currentUserOrNull()?.id ?: return@launch
+            val state = _uiState.value
+            val settings = PrivacySettings(
+                profileVisible = state.profileVisible,
+                showLocation = state.showLocation,
+                allowMessages = state.allowMessages
+            )
 
-                val privacySettings = buildJsonObject {
-                    put("profileVisible", _uiState.value.profileVisible)
-                    put("showLocation", _uiState.value.showLocation)
-                    put("allowMessages", _uiState.value.allowMessages)
-                }
-
-                supabaseClient.from("profiles")
-                    .update({
-                        set("privacy_settings", privacySettings)
-                    }) {
-                        filter {
-                            eq("id", userId)
-                        }
+            settingsRepository.updatePrivacySettings(settings)
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(error = e.message)
                     }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(error = e.message)
                 }
-            }
         }
     }
 }
@@ -129,13 +104,4 @@ data class PrivacySettings(
     val profileVisible: Boolean = true,
     val showLocation: Boolean = true,
     val allowMessages: Boolean = true
-)
-
-/**
- * Profile response with privacy settings
- */
-@Serializable
-data class ProfilePrivacyResponse(
-    val id: String,
-    val privacy_settings: PrivacySettings? = null
 )

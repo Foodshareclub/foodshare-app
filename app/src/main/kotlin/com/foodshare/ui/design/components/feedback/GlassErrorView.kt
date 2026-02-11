@@ -67,7 +67,7 @@ fun GlassErrorView(
         ) {
             Icon(
                 imageVector = Icons.Default.ErrorOutline,
-                contentDescription = null,
+                contentDescription = "Error",
                 tint = LiquidGlassColors.error,
                 modifier = Modifier.size(32.dp)
             )

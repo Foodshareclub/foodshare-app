@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -70,7 +71,7 @@ fun GlassDropdown(
                         color = LiquidGlassColors.Glass.border,
                         shape = RoundedCornerShape(CornerRadius.medium)
                     )
-                    .clickable(enabled = enabled) { expanded = !expanded }
+                    .clickable(enabled = enabled, role = Role.DropdownList) { expanded = !expanded }
                     .padding(horizontal = Spacing.md, vertical = Spacing.sm)
             ) {
                 Row(
