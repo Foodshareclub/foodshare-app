@@ -20,14 +20,14 @@
 ### 2. Keystore Backup
 - [x] Keystore location: `/Users/organic/dev/work/Creds/Google/foodshare-upload.keystore`
 - [x] Backup location: Google Drive
-- [x] Credentials saved securely
+- [x] Credentials saved securely (see local.properties)
 
 **Keystore Details:**
 ```
 File: foodshare-upload.keystore
-Store Password: EDCwsx12#45678
+Store Password: [See local.properties or secure password manager]
 Key Alias: upload
-Key Password: EDCwsx12#45678
+Key Password: [See local.properties or secure password manager]
 ```
 
 ### 3. Play Console Ready
