@@ -33,6 +33,11 @@
         android:theme="@style/Theme.FoodShare"
         android:networkSecurityConfig="@xml/network_security_config">
 
+        <!-- Support for 16KB page size (required by Google Play) -->
+        <property
+            android:name="android.app.16KbPageSize"
+            android:value="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
