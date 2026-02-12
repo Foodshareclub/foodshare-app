@@ -34,7 +34,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.foodshare.MainActivity
-import com.foodshare.R
+import com.flutterflow.foodshare.R
 
 /**
  * Challenge Widget - Shows the user's active challenge with progress.

@@ -40,7 +40,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.glance.color.ColorProvider
 import com.foodshare.MainActivity
-import com.foodshare.R
+import com.flutterflow.foodshare.R
 
 private const val MAX_LISTINGS = 5
 

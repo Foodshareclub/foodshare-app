@@ -6,6 +6,17 @@ Foodshare Android uses the **official Swift SDK for Android** to share domain lo
 
 ---
 
+## Documentation Structure
+
+- **[guides/](guides/)** - Getting started, demos, and tutorials
+- **[architecture/](architecture/)** - System design and code sharing strategy
+- **[technical-reference/](technical-reference/)** - Swift bridge, workgroup notes, community contributions
+- **[project-management/](project-management/)** - Project status, phases, and reviews
+- **[contributions/](contributions/)** - Community issue reports and forum posts
+- **[frameo/](frameo/)** - Frameo framework deep dives
+
+---
+
 ## Architecture
 
 ```

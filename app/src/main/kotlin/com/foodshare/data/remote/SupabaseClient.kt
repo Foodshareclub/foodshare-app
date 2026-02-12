@@ -1,6 +1,6 @@
 package com.foodshare.data.remote
 
-import com.foodshare.BuildConfig
+import com.flutterflow.foodshare.BuildConfig
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.FlowType

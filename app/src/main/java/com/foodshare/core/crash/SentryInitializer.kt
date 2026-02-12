@@ -1,7 +1,7 @@
 package com.foodshare.core.crash
 
 import android.content.Context
-import com.foodshare.BuildConfig
+import com.flutterflow.foodshare.BuildConfig
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid

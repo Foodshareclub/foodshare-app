@@ -24,7 +24,7 @@ val skipNativeBuild = project.hasProperty("skipNativeBuild") ||
     localProperties.getProperty("skipNativeBuild", "false") == "true"
 
 android {
-    namespace = "com.foodshare"
+    namespace = "com.flutterflow.foodshare"
     compileSdk = 35
 
     // Swift native libraries (compiled via Swift SDK for Android)
@@ -35,7 +35,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.foodshare"
+        applicationId = "com.flutterflow.foodshare"
         minSdk = 28  // Matches Swift SDK for Android requirement (API 28+)
         targetSdk = 35
         versionCode = 274
@@ -67,10 +67,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("foodshare-release.keystore")
-            storePassword = "foodshare2026"
-            keyAlias = "foodshare"
-            keyPassword = "foodshare2026"
+            storeFile = file("/Users/organic/dev/work/Creds/Google/foodshare-upload.keystore")
+            storePassword = localProperties.getProperty("KEYSTORE_PASSWORD", "")
+            keyAlias = localProperties.getProperty("KEY_ALIAS", "")
+            keyPassword = localProperties.getProperty("KEY_PASSWORD", "")
         }
     }
 

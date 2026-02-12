@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.foodshare.BuildConfig
+import com.flutterflow.foodshare.BuildConfig
 import com.foodshare.core.network.EdgeFunctionClient
 import com.foodshare.core.network.RateLimitedRPCClient
 import com.foodshare.core.push.PushTokenManager
