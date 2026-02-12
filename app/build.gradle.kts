@@ -349,11 +349,15 @@ tasks.register<Exec>("generateJniBindings") {
 // Sentry Configuration
 // ============================================================================
 sentry {
+    // Disable Sentry uploads in CI if auth token not available
+    val hasSentryAuth = System.getenv("SENTRY_AUTH_TOKEN")?.isNotEmpty() == true 
+        || localProperties.getProperty("SENTRY_AUTH_TOKEN", "").isNotEmpty()
+    
     // Enables or disables the automatic upload of mapping files
-    autoUploadProguardMapping.set(true)
+    autoUploadProguardMapping.set(hasSentryAuth)
     
     // Enables or disables source context
-    includeSourceContext.set(true)
+    includeSourceContext.set(hasSentryAuth)
     
     // Organization and project
     org.set("foodshare")
