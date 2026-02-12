@@ -29,6 +29,9 @@ jobs:
         echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
         echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
         echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> local.properties
+        echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+        echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+        echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
         echo "skipNativeBuild=true" >> local.properties
         echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m" >> gradle.properties
         echo "org.gradle.daemon=false" >> gradle.properties
@@ -40,10 +43,6 @@ jobs:
     - name: Build Release APK
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: ./gradlew assembleRelease --no-configuration-cache
-      env:
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     
     - name: Upload Debug APK
       if: github.event_name == 'pull_request'
@@ -79,23 +78,22 @@ jobs:
         echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
         echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
         echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> local.properties
+        echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+        echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+        echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
         echo "skipNativeBuild=true" >> local.properties
         echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m" >> gradle.properties
         echo "org.gradle.daemon=false" >> gradle.properties
     
     - name: Build Release Bundle
       run: ./gradlew bundleRelease --no-configuration-cache
-      env:
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     
     - name: Deploy to Play Store
       continue-on-error: true
       uses: r0adkll/upload-google-play@v1
       with:
         serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT }}
-        packageName: com.foodshare
+        packageName: com.flutterflow.foodshare
         releaseFiles: app/build/outputs/bundle/release/app-release.aab
         track: production
         status: completed
