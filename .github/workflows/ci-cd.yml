@@ -30,6 +30,8 @@ jobs:
         echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
         echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> local.properties
         echo "skipNativeBuild=true" >> local.properties
+        echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m" >> gradle.properties
+        echo "org.gradle.daemon=false" >> gradle.properties
     
     - name: Build Debug APK
       if: github.event_name == 'pull_request'
