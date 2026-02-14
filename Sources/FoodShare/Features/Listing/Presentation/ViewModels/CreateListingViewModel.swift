@@ -401,6 +401,7 @@ final class CreateListingViewModel {
     }
 
     private func optimizeImage(_ data: Data) async -> Data? {
+        #if !SKIP
         guard let image = UIImage(data: data) else { return data }
 
         // Resize if needed
@@ -418,6 +419,10 @@ final class CreateListingViewModel {
         }
 
         return resized.jpegData(compressionQuality: jpegQuality)
+        #else
+        // On Android, return data as-is (image optimization handled natively)
+        return data
+        #endif
     }
 
     // MARK: - Draft Management

@@ -200,6 +200,7 @@ final class EditProfileViewModel {
 
     /// Process selected image: resize and compress
     private func processSelectedImage(_ data: Data) async {
+        #if !SKIP
         guard let originalImage = UIImage(data: data) else {
             logger.error("Failed to create UIImage from data")
             return
@@ -218,8 +219,14 @@ final class EditProfileViewModel {
         previewImage = resizedImage
         HapticManager.success()
         logger.debug("Image processed: \(compressedData.count) bytes")
+        #else
+        // On Android, use data directly without UIImage processing
+        selectedImageData = data
+        HapticManager.success()
+        #endif
     }
 
+    #if !SKIP
     /// Resize image maintaining aspect ratio
     private func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
@@ -234,6 +241,7 @@ final class EditProfileViewModel {
             image.draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
+    #endif
 
     /// Clear selected photo
     func clearSelectedPhoto() {

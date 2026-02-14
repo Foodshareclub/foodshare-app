@@ -384,6 +384,7 @@ struct FoodItemDetailView: View {
             GlassSectionHeader.location(t.t("listing.pickup_location"))
 
             // Map preview with address and directions
+            #if !SKIP
             if let coordinate = viewModel.item.coordinate {
                 // TODO: Replace with standard MapKit view
                 // GlassMapPreview(
@@ -403,6 +404,7 @@ struct FoodItemDetailView: View {
                 .frame(height: 200)
                 .cornerRadius(CornerRadius.medium)
             }
+            #endif
         }
         .detailSection(index: 3, sectionsAppeared: $sectionsAppeared)
     }
@@ -603,12 +605,14 @@ struct FoodItemDetailView: View {
         }
     }
 
+    #if !SKIP
     private func openInMaps(coordinate: CLLocationCoordinate2D, name: String) {
         let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         if let url = URL(string: "maps://?q=\(encodedName)&ll=\(coordinate.latitude),\(coordinate.longitude)") {
             UIApplication.shared.open(url)
         }
     }
+    #endif
 }
 
 // MARK: - Contact Seller Sheet
@@ -956,6 +960,7 @@ private struct ReportDTO: Encodable {
 
 // MARK: - Share Sheet
 
+#if !SKIP
 struct ShareSheet: UIViewControllerRepresentable {
     let items: [Any]
 
@@ -965,6 +970,7 @@ struct ShareSheet: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
+#endif
 
 // MARK: - ViewModel
 

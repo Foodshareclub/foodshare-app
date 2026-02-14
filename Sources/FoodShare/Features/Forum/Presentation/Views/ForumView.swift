@@ -147,9 +147,11 @@ struct ForumView: View {
                 }
             }
         }
+        #if !SKIP
         .onReceive(NotificationCenter.default.publisher(for: .forumNotificationReceived)) { _ in
             Task { await loadNotificationCount() }
         }
+        #endif
     }
 
     // MARK: - Notification Count
@@ -1124,6 +1126,7 @@ struct GlassForumPostCard: View {
     // MARK: - Share Post
 
     private func sharePost() {
+        #if !SKIP
         // Create deep link URL for the post
         // Force unwrap is safe - URL format is validated at compile time
         let deepLinkURL = URL(string: "https://foodshare.club/forum/\(post.slug ?? String(post.id))")!
@@ -1148,6 +1151,7 @@ struct GlassForumPostCard: View {
             }
             rootVC.present(activityVC, animated: true)
         }
+        #endif
     }
 
     // MARK: - Glass Background

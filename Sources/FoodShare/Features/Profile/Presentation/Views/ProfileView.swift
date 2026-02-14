@@ -133,10 +133,12 @@ struct ProfileView: View {
                 Task { await refreshNotificationCount() }
             }
         }
+        #if !SKIP
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             // Refresh notification count when returning from background
             Task { await refreshNotificationCount() }
         }
+        #endif
     }
 
     // MARK: - Search Header (using unified TabSearchHeader)
@@ -1806,9 +1808,11 @@ struct ProfileQRCodeView: View {
         "foodshare://profile/\(profile.id.uuidString)"
     }
 
+    #if !SKIP
     private var qrCodeImage: UIImage {
         generateQRCode(from: profileURL)
     }
+    #endif
 
     var body: some View {
         NavigationStack {
@@ -1962,6 +1966,7 @@ struct ProfileQRCodeView: View {
         }
     }
 
+    #if !SKIP
     private func generateQRCode(from string: String) -> UIImage {
         let context = CIContext()
         let filter = CIFilter.qrCodeGenerator()
@@ -1979,4 +1984,5 @@ struct ProfileQRCodeView: View {
 
         return UIImage(systemName: "qrcode") ?? UIImage()
     }
+    #endif
 }

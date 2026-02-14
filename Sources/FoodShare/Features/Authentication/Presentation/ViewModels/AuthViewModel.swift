@@ -549,6 +549,7 @@ final class AuthViewModel {
 
 // MARK: - ASPresentationContextProviding
 
+#if !SKIP
 final class ASContextProvider: NSObject, ASAuthorizationControllerPresentationContextProviding,
     ASWebAuthenticationPresentationContextProviding
 {
@@ -588,3 +589,4 @@ final class ASContextProvider: NSObject, ASAuthorizationControllerPresentationCo
         return window
     }
 }
+#endif

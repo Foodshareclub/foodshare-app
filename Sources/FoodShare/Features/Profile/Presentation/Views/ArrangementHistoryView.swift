@@ -332,12 +332,14 @@ struct ArrangementHistoryView: View {
 
     private func exportHistory() {
         let summary = viewModel.generateSummary()
+        #if !SKIP
         let activityVC = UIActivityViewController(activityItems: [summary], applicationActivities: nil)
 
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootVC = windowScene.windows.first?.rootViewController {
             rootVC.present(activityVC, animated: true)
         }
+        #endif
         HapticManager.success()
     }
 }

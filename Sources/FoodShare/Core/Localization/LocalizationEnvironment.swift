@@ -335,9 +335,13 @@ extension View {
 // Shake gesture detection
 extension View {
     func onShake(perform action: @escaping () -> Void) -> some View {
+        #if !SKIP
         self.onReceive(NotificationCenter.default.publisher(for: .deviceDidShake)) { _ in
             action()
         }
+        #else
+        self
+        #endif
     }
 }
 

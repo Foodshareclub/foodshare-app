@@ -25,6 +25,51 @@ skip:
   - "**/MemoryPressureManager.swift"
   - "**/AppAttestService.swift"
   - "**/AttestationMiddleware.swift"
+  # CoreData / persistence (NSManagedObject, @objc, @NSManaged)
+  - "**/CoreDataStack.swift"
+  - "**/SyncManager.swift"
+  - "**/TombstoneSync.swift"
+  # UIKit-dependent views and services
+  - "**/ImageCache.swift"
+  - "**/LegalDocumentView.swift"
+  - "**/SettingsBackupView.swift"
+  - "**/MFAEnrollmentView.swift"
+  # Metal rendering (MTKView, CADisplayLink)
+  - "**/MetalEffectModifiers.swift"
+  - "**/MetalEffect.swift"
+  - "**/ProfileMetalEffects.swift"
+  - "**/ChatMetalEffects.swift"
+  - "**/FeedMetalEffects.swift"
+  # Combine + UIAccessibility
+  - "**/AccessibilityManager.swift"
+  # SQLite C interop
+  - "**/LogStorage.swift"
+  # Security (CryptoKit, Keychain)
+  - "**/PayloadEncryption.swift"
+  - "**/RequestSigner.swift"
+  - "**/SecureStorage.swift"
+  - "**/NonceGenerator.swift"
+  - "**/KeychainHelper.swift"
+  - "**/KeychainStorage.swift"
+  - "**/CertificatePinning.swift"
+  # UIKit-dependent utilities
+  - "**/GestureMomentum.swift"
+  - "**/PrivacyProtectionService.swift"
+  - "**/PerformanceMonitor.swift"
+  - "**/StartupProfiler.swift"
+  - "**/GlassNavigationBar.swift"
+  # Map/Location (deep CoreLocation/MapKit dependency)
+  - "**/LocationManager.swift"
+  - "**/MapView.swift"
+  - "**/MapViewModel.swift"
+  - "**/AddressPickerSheet.swift"
+  - "**/FoodItemMapAnnotation.swift"
+  - "**/GlassSearchRadius.swift"
+  # Combine-dependent state machines
+  - "**/SessionStateMachine.swift"
+  - "**/AppStateManager.swift"
+  # iOS-only app icon management
+  - "**/AppIconOption.swift"
   
 # Platform-specific implementations
 platform:
@@ -61,6 +106,10 @@ transpile:
     - CoreMotion
     - Security
     - QuartzCore
+    - SafariServices
+    - Metal
+    - MetalKit
+    - CoreImage
     # Local iOS SPM packages (all types are in single target for Skip)
     - FoodShareAnalytics
     - FoodShareArchitecture

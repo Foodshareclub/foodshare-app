@@ -68,6 +68,7 @@ extension Color {
     func interpolate(to color: Color, amount: Double) -> Color {
         let clampedAmount = min(max(0, amount), 1)
 
+        #if !SKIP
         guard let c1 = UIColor(self).cgColor.components,
               let c2 = UIColor(color).cgColor.components
         else {
@@ -91,5 +92,9 @@ extension Color {
         let a = a1 + (a2 - a1) * clampedAmount
 
         return Color(red: r, green: g, blue: b, opacity: a)
+        #else
+        // On Android, return a simple blend (no UIColor component extraction)
+        return clampedAmount < 0.5 ? self : color
+        #endif
     }
 }

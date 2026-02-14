@@ -263,6 +263,7 @@ struct UserReviewsView: View {
         🌱 Shared via Foodshare
         """
 
+        #if !SKIP
         let activityVC = UIActivityViewController(
             activityItems: [summary],
             applicationActivities: nil,
@@ -272,6 +273,7 @@ struct UserReviewsView: View {
            let rootVC = windowScene.windows.first?.rootViewController {
             rootVC.present(activityVC, animated: true)
         }
+        #endif
         HapticManager.success()
     }
 

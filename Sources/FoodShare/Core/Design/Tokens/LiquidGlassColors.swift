@@ -61,6 +61,7 @@ extension Color {
 
         // MARK: - Semantic Background Colors (Apple HIG dark mode palette)
 
+        #if !SKIP
         static let background = Color(UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor.secondarySystemBackground // #1C1C1E (Apple dark mode)
@@ -76,6 +77,11 @@ extension Color {
                 ? UIColor(red: 0x2C/255, green: 0x2C/255, blue: 0x2E/255, alpha: 1) // #2C2C2E (tertiarySystemBg)
                 : .tertiarySystemBackground
         })
+        #else
+        static let background = Color(red: 0x1C/255, green: 0x1C/255, blue: 0x1E/255)
+        static let surface = Color(red: 0x1C/255, green: 0x1C/255, blue: 0x1E/255)
+        static let surfaceElevated = Color(red: 0x2C/255, green: 0x2C/255, blue: 0x2E/255)
+        #endif
 
         // MARK: - Text Colors
 

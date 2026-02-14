@@ -221,6 +221,7 @@ struct CommunityFridgeDetailView: View {
             GlassSectionHeader.location(t.t("common.location"))
 
             // Map preview with address and directions
+            #if !SKIP
             if let coordinate = fridge.coordinate {
                 // TODO: Replace with standard MapKit view
                 Map {
@@ -230,6 +231,7 @@ struct CommunityFridgeDetailView: View {
                 .frame(height: 200)
                 .cornerRadius(CornerRadius.medium)
             }
+            #endif
 
             // Additional directions info
             if let directions = fridge.referenceDirections {
@@ -397,6 +399,7 @@ struct CommunityFridgeDetailView: View {
         }
     }
 
+    #if !SKIP
     private func openMaps(coordinate: CLLocationCoordinate2D) {
         let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
         mapItem.name = fridge.name
@@ -404,6 +407,7 @@ struct CommunityFridgeDetailView: View {
             MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking,
         ])
     }
+    #endif
 }
 
 // MARK: - Status Card

@@ -198,10 +198,12 @@ struct ExploreTabView: View {
                 mapViewModel = MapViewModel(feedRepository: appState.dependencies.feedRepository)
             }
         }
+        #if !SKIP
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             // Refresh notification count when returning from background
             Task { await refreshNotificationCount() }
         }
+        #endif
     }
 
     // MARK: - Search Header

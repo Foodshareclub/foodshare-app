@@ -93,9 +93,11 @@ struct MainTabView: View {
             .onChange(of: appState.deepLinkDestination) { _, destination in
                 handleDeepLinkNavigation(destination)
             }
+            #if !SKIP
             .onReceive(NotificationCenter.default.publisher(for: .didReceivePushNotification)) { notification in
                 handlePushNotificationTap(notification)
             }
+            #endif
             .task {
                 await setupNotificationCenter()
             }

@@ -194,6 +194,7 @@ struct CommunityFridgeCard: View {
             }
 
             // Inline map preview (collapsible)
+            #if !SKIP
             if showMapPreview, let coordinate = fridge.coordinate {
                 Map(initialPosition: .region(MKCoordinateRegion(
                     center: coordinate,
@@ -207,6 +208,7 @@ struct CommunityFridgeCard: View {
                 .allowsHitTesting(false)
                 .transition(.opacity.combined(with: .scale(scale: 0.95)))
             }
+            #endif
 
             // Condition indicator with multiple badges
             HStack(spacing: Spacing.sm) {

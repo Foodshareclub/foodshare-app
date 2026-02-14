@@ -582,9 +582,11 @@ import FoodShareDesignSystem
 
         func body(content: Content) -> some View {
             content
+                #if !SKIP
                 .onReceive(NotificationCenter.default.publisher(for: .deviceDidShake)) { _ in
                     action()
                 }
+                #endif
         }
     }
 

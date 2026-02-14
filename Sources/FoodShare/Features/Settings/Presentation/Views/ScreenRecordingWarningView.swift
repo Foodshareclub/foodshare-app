@@ -59,11 +59,13 @@ struct ScreenRecordingAlertModifier: ViewModifier {
             .onAppear {
                 showWarning = privacyService.isScreenRecording && privacyService.screenRecordingWarningEnabled
             }
+            #if !SKIP
             .onReceive(NotificationCenter.default.publisher(for: .screenRecordingDetected)) { _ in
                 withAnimation {
                     showWarning = true
                 }
             }
+            #endif
     }
 }
 

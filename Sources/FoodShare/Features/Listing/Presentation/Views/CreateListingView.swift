@@ -1000,6 +1000,7 @@ struct AddPhotoLabel: View {
 
 // MARK: - Camera Picker
 
+#if !SKIP
 private struct CameraImagePicker: UIViewControllerRepresentable {
     @Binding var capturedImage: UIImage?
     @Environment(\.dismiss) private var dismiss
@@ -1040,3 +1041,4 @@ private struct CameraImagePicker: UIViewControllerRepresentable {
         }
     }
 }
+#endif

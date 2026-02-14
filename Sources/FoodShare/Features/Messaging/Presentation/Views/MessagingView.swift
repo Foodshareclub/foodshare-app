@@ -81,10 +81,12 @@ struct MessagingView: View {
             }
             .onDisappear { viewModel.cleanup() }
             .refreshable { await viewModel.refresh() }
+            #if !SKIP
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 // Refresh notification count when returning from background
                 Task { await refreshNotificationCount() }
             }
+            #endif
             .sheet(isPresented: $showFilters) {
                 ChatsFilterSheet(viewModel: viewModel)
                     .presentationDetents([.medium])

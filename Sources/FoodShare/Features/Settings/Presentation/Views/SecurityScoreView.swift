@@ -86,9 +86,11 @@ struct SecurityScoreCard: View {
         .onAppear {
             refreshScore()
         }
+        #if !SKIP
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
             refreshScore()
         }
+        #endif
     }
 
     private func refreshScore() {

@@ -489,6 +489,7 @@ struct CreateForumPostView: View {
         }
     }
 
+    #if !SKIP
     private func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         let widthRatio = targetSize.width / size.width
@@ -504,6 +505,7 @@ struct CreateForumPostView: View {
             image.draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
+    #endif
 
     private func submitPost() async {
         logger.info("🚀 Starting forum post submission...")
