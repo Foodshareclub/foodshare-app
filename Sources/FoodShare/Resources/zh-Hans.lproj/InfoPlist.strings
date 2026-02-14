@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Chinese Simplified */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare需要访问您的相机来拍摄您想分享的食物照片。";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare使用面容ID安全解锁应用并保护您的账户。";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare需要您的位置信息来显示附近的食物并发送关于您附近食物的通知。";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare需要您的位置信息来显示附近可分享的食物。";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare可能会使用麦克风进行语音搜索，帮助您免提查找食物。";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare需要访问您的相册来选择您想分享的食物照片。";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare可能会使用语音识别来帮助您免提搜索食物。";

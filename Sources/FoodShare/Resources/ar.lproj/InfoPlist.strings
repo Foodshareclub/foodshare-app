@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Arabic */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "يحتاج Foodshare إلى الوصول إلى الكاميرا لالتقاط صور الطعام الذي تريد مشاركته.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "يستخدم Foodshare خاصية Face ID لفتح التطبيق بأمان وحماية حسابك.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "يحتاج Foodshare إلى موقعك لعرض الطعام القريب منك وإرسال إشعارات عن الطعام المتاح بالقرب منك.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "يحتاج Foodshare إلى موقعك لعرض الطعام المتاح للمشاركة بالقرب منك.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "قد يستخدم Foodshare الميكروفون للبحث الصوتي لمساعدتك في العثور على الطعام دون استخدام اليدين.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "يحتاج Foodshare إلى الوصول إلى مكتبة الصور لاختيار صور الطعام الذي تريد مشاركته.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "قد يستخدم Foodshare التعرف على الكلام لمساعدتك في البحث عن الطعام دون استخدام اليدين.";

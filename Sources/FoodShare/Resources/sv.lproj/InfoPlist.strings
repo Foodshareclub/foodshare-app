@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Swedish */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare behöver åtkomst till din kamera för att ta foton av mat du vill dela.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare använder Face ID för att säkert låsa upp appen och skydda ditt konto.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare behöver din plats för att visa mat i närheten och skicka aviseringar om mat nära dig.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare behöver din plats för att visa tillgänglig mat i närheten.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare kan använda mikrofonen för röstsökning för att hjälpa dig hitta mat handsfree.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare behöver åtkomst till ditt fotobibliotek för att välja foton av mat du vill dela.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare kan använda röstigenkänning för att hjälpa dig söka efter mat handsfree.";

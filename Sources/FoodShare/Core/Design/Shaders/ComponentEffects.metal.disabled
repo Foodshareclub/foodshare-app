@@ -1,0 +1,333 @@
+//
+//  ComponentEffects.metal
+//  FoodShare
+//
+//  Metal shaders for component-level effects
+//  Includes morphing transitions, button ripples, skeleton loading, and touch effects
+//
+
+#include <metal_stdlib>
+using namespace metal;
+
+// MARK: - Common Structures
+
+struct ComponentUniforms {
+    float time;
+    float2 resolution;
+    float intensity;
+    float4 tintColor;
+};
+
+struct VertexOut {
+    float4 position [[position]];
+    float2 texCoord;
+};
+
+// MARK: - Utility Functions
+
+// Smooth step with customizable edge
+float smoothEdge(float edge0, float edge1, float x) {
+    float t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+    return t * t * (3.0 - 2.0 * t);
+}
+
+// 2D noise function
+float hash(float2 p) {
+    return fract(sin(dot(p, float2(12.9898, 78.233))) * 43758.5453);
+}
+
+float noise2D(float2 p) {
+    float2 i = floor(p);
+    float2 f = fract(p);
+
+    float a = hash(i);
+    float b = hash(i + float2(1.0, 0.0));
+    float c = hash(i + float2(0.0, 1.0));
+    float d = hash(i + float2(1.0, 1.0));
+
+    float2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+}
+
+// MARK: - Component Morph Fragment Shader
+
+/// Morphing transition effect for state changes
+/// Creates a smooth liquid-like transition between states
+fragment float4 component_morph_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]]
+) {
+    float2 uv = in.texCoord;
+    float progress = uniforms.intensity;
+    float time = uniforms.time;
+
+    // Create wave distortion based on progress
+    float wave = sin(uv.y * 10.0 + time * 3.0) * 0.02;
+    float morph = smoothEdge(0.0, 1.0, progress + wave);
+
+    // Edge glow during transition
+    float edge = abs(morph - 0.5) * 2.0;
+    edge = pow(1.0 - edge, 4.0) * progress * (1.0 - progress) * 4.0;
+
+    // Color blend
+    float3 glowColor = uniforms.tintColor.rgb;
+    float3 color = glowColor * edge;
+
+    // Alpha based on edge intensity
+    float alpha = edge * 0.6;
+
+    return float4(color, alpha);
+}
+
+// MARK: - Button Press Ripple Fragment Shader
+
+/// Ripple effect emanating from touch point on button press
+fragment float4 button_press_ripple_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]],
+    constant float2 &touchCenter [[buffer(1)]]
+) {
+    float2 uv = in.texCoord;
+    float progress = uniforms.intensity;
+
+    // Distance from touch center
+    float dist = distance(uv, touchCenter);
+
+    // Ripple ring
+    float rippleRadius = progress * 1.5;
+    float rippleWidth = 0.1 * (1.0 - progress * 0.5);
+    float ripple = smoothEdge(rippleRadius - rippleWidth, rippleRadius, dist) -
+                   smoothEdge(rippleRadius, rippleRadius + rippleWidth, dist);
+
+    // Fade out with progress
+    ripple *= 1.0 - progress;
+
+    // Inner fill (subtle highlight)
+    float fill = smoothEdge(rippleRadius + 0.1, rippleRadius, dist);
+    fill *= (1.0 - progress) * 0.2;
+
+    // Combine effects
+    float intensity = ripple + fill;
+
+    // Color
+    float3 color = uniforms.tintColor.rgb;
+
+    return float4(color * intensity, intensity * 0.8);
+}
+
+// MARK: - Skeleton Wave Fragment Shader
+
+/// Animated shimmer wave for skeleton loading states
+fragment float4 skeleton_wave_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]]
+) {
+    float2 uv = in.texCoord;
+    float time = uniforms.time;
+    float intensity = uniforms.intensity;
+
+    // Wave position moving across the view
+    float wavePos = fract(time * 0.5);
+    float waveWidth = 0.3;
+
+    // Calculate wave intensity
+    float waveDist = abs(uv.x - wavePos);
+    float wave = smoothEdge(waveWidth, 0.0, waveDist);
+
+    // Add subtle vertical variation
+    wave *= 1.0 + sin(uv.y * 8.0 + time) * 0.1;
+
+    // Secondary subtle wave
+    float wave2Pos = fract(time * 0.3 + 0.5);
+    float wave2Dist = abs(uv.x - wave2Pos);
+    float wave2 = smoothEdge(waveWidth * 0.5, 0.0, wave2Dist) * 0.3;
+
+    // Combine waves
+    float finalWave = (wave + wave2) * intensity;
+
+    // Color gradient (white shimmer)
+    float3 color = float3(1.0, 1.0, 1.0);
+
+    return float4(color, finalWave * 0.4);
+}
+
+// MARK: - Touch Ripple Fragment Shader
+
+/// Interactive ripple effect following touch input
+fragment float4 touch_ripple_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]],
+    constant float2 &touchPoint [[buffer(1)]]
+) {
+    float2 uv = in.texCoord;
+    float time = uniforms.time;
+    float progress = uniforms.intensity;
+
+    // Distance from touch point
+    float dist = distance(uv, touchPoint);
+
+    // Multiple expanding ripples
+    float ripple = 0.0;
+    for (int i = 0; i < 3; i++) {
+        float offset = float(i) * 0.2;
+        float rippleTime = progress - offset;
+        if (rippleTime > 0.0) {
+            float radius = rippleTime * 1.2;
+            float ring = abs(dist - radius);
+            float width = 0.05 + rippleTime * 0.1;
+            ripple += smoothEdge(width, 0.0, ring) * (1.0 - rippleTime) * 0.5;
+        }
+    }
+
+    // Glow at center
+    float glow = exp(-dist * 8.0) * (1.0 - progress) * 0.5;
+
+    // Combine
+    float intensity = ripple + glow;
+
+    // Brand colors
+    float3 color = mix(
+        uniforms.tintColor.rgb,
+        float3(0.2, 0.6, 0.86), // Brand blue
+        dist * 2.0
+    );
+
+    return float4(color * intensity, intensity);
+}
+
+// MARK: - Glass Highlight Fragment Shader
+
+/// Subtle glass surface highlight effect
+fragment float4 glass_highlight_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]]
+) {
+    float2 uv = in.texCoord;
+    float time = uniforms.time;
+
+    // Moving highlight position
+    float2 highlightPos = float2(
+        0.3 + sin(time * 0.5) * 0.2,
+        0.3 + cos(time * 0.7) * 0.2
+    );
+
+    // Highlight intensity based on distance
+    float dist = distance(uv, highlightPos);
+    float highlight = exp(-dist * 3.0) * 0.3;
+
+    // Edge glow
+    float edge = min(uv.x, min(uv.y, min(1.0 - uv.x, 1.0 - uv.y)));
+    float edgeGlow = exp(-edge * 20.0) * 0.1;
+
+    // Combine
+    float intensity = (highlight + edgeGlow) * uniforms.intensity;
+
+    return float4(1.0, 1.0, 1.0, intensity);
+}
+
+// MARK: - Liquid Fill Fragment Shader
+
+/// Liquid fill animation for progress indicators
+fragment float4 liquid_fill_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]]
+) {
+    float2 uv = in.texCoord;
+    float time = uniforms.time;
+    float fillLevel = uniforms.intensity;
+
+    // Wave at the fill level
+    float waveFreq = 8.0;
+    float waveAmp = 0.02 * (1.0 - abs(fillLevel - 0.5) * 2.0);
+    float wave = sin(uv.x * waveFreq + time * 3.0) * waveAmp;
+    wave += sin(uv.x * waveFreq * 2.0 - time * 2.0) * waveAmp * 0.5;
+
+    // Fill mask
+    float fillY = 1.0 - fillLevel + wave;
+    float fill = smoothEdge(fillY + 0.02, fillY - 0.02, uv.y);
+
+    // Surface highlight
+    float surface = smoothEdge(fillY + 0.01, fillY, uv.y) -
+                    smoothEdge(fillY, fillY - 0.01, uv.y);
+    surface = max(0.0, surface) * 2.0;
+
+    // Color gradient
+    float3 deepColor = float3(0.18, 0.8, 0.44); // Brand green
+    float3 surfaceColor = float3(0.2, 0.9, 0.54);
+    float3 color = mix(deepColor, surfaceColor, uv.y * fill);
+    color += float3(1.0, 1.0, 1.0) * surface * 0.5;
+
+    // Alpha
+    float alpha = fill * 0.9 + surface * 0.3;
+
+    return float4(color * alpha, alpha);
+}
+
+// MARK: - Particle Sparkle Fragment Shader
+
+/// Animated sparkle particles for celebration effects
+fragment float4 particle_sparkle_fragment(
+    VertexOut in [[stage_in]],
+    constant ComponentUniforms &uniforms [[buffer(0)]]
+) {
+    float2 uv = in.texCoord;
+    float time = uniforms.time;
+    float intensity = uniforms.intensity;
+
+    float sparkle = 0.0;
+
+    // Generate multiple sparkle points
+    for (int i = 0; i < 8; i++) {
+        float fi = float(i);
+        float2 pos = float2(
+            hash(float2(fi, 0.0)),
+            hash(float2(0.0, fi))
+        );
+
+        // Animate position
+        pos.y = fract(pos.y - time * (0.1 + hash(float2(fi, fi)) * 0.2));
+        pos.x += sin(time * 2.0 + fi) * 0.05;
+
+        // Sparkle intensity
+        float dist = distance(uv, pos);
+        float twinkle = sin(time * 5.0 + fi * 2.0) * 0.5 + 0.5;
+        sparkle += exp(-dist * 50.0) * twinkle;
+    }
+
+    sparkle *= intensity;
+
+    // Golden sparkle color
+    float3 color = float3(1.0, 0.9, 0.5);
+
+    return float4(color * sparkle, sparkle);
+}
+
+// MARK: - Vertex Shader (Full Screen Quad)
+
+vertex VertexOut component_vertex(
+    uint vertexID [[vertex_id]],
+    constant float2 *vertices [[buffer(0)]]
+) {
+    VertexOut out;
+
+    // Full screen quad vertices
+    float2 positions[4] = {
+        float2(-1.0, -1.0),
+        float2( 1.0, -1.0),
+        float2(-1.0,  1.0),
+        float2( 1.0,  1.0)
+    };
+
+    float2 texCoords[4] = {
+        float2(0.0, 1.0),
+        float2(1.0, 1.0),
+        float2(0.0, 0.0),
+        float2(1.0, 0.0)
+    };
+
+    out.position = float4(positions[vertexID], 0.0, 1.0);
+    out.texCoord = texCoords[vertexID];
+
+    return out;
+}

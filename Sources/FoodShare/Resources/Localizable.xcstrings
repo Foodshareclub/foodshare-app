@@ -1,0 +1,463 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "·" : {
+
+    },
+    "\"%@\"" : {
+
+    },
+    "(%@)" : {
+
+    },
+    "@%@" : {
+
+    },
+    "#%@" : {
+
+    },
+    "%" : {
+
+    },
+    "%@" : {
+
+    },
+    "%@ / %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ / %2$@"
+          }
+        }
+      }
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ • %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ • %2$@"
+          }
+        }
+      }
+    },
+    "%@ Badges" : {
+
+    },
+    "%@ items nearby" : {
+
+    },
+    "%@ keys" : {
+
+    },
+    "%@ missing" : {
+
+    },
+    "%@ pending %@ to sync" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ pending %2$@ to sync"
+          }
+        }
+      }
+    },
+    "%@ pts" : {
+
+    },
+    "%@:" : {
+
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "%@: %@..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@..."
+          }
+        }
+      }
+    },
+    "%@/%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@/%2$@"
+          }
+        }
+      }
+    },
+    "%@/10" : {
+
+    },
+    "%@/100" : {
+
+    },
+    "%@/500" : {
+
+    },
+    "%@/2000" : {
+
+    },
+    "%@%%" : {
+
+    },
+    "%@%% progress" : {
+
+    },
+    "•" : {
+
+    },
+    "+%@" : {
+
+    },
+    "+%@ more" : {
+
+    },
+    "🌍 %@" : {
+
+    },
+    "🌐" : {
+
+    },
+    "🌐 %@" : {
+
+    },
+    "accessibility.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
+          }
+        }
+      }
+    },
+    "app.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foodshare"
+          }
+        }
+      }
+    },
+    "auth.sign_in" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
+          }
+        }
+      }
+    },
+    "auth.sign_out" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign Out"
+          }
+        }
+      }
+    },
+    "biometric.locked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked"
+          }
+        }
+      }
+    },
+    "biometric.unlock" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock"
+          }
+        }
+      }
+    },
+    "Body Large - Regular text for content" : {
+
+    },
+    "Call" : {
+
+    },
+    "Claim item" : {
+
+    },
+    "common.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "common.close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "common.done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "common.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        }
+      }
+    },
+    "common.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "common.ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "common.retry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
+    },
+    "Completed" : {
+
+    },
+    "Current Theme" : {
+
+    },
+    "Display Large" : {
+
+    },
+    "Earned %@" : {
+
+    },
+    "Floating Animation" : {
+
+    },
+    "Food item" : {
+
+    },
+    "Foodshare is Locked" : {
+
+    },
+    "foodshare.club/invite" : {
+
+    },
+    "FPS" : {
+
+    },
+    "G" : {
+
+    },
+    "Get directions" : {
+
+    },
+    "Glow Effect" : {
+
+    },
+    "Great job! 🎉" : {
+
+    },
+    "Headline Large" : {
+
+    },
+    "Label Medium - For buttons and labels" : {
+
+    },
+    "Last synced: %@" : {
+
+    },
+    "Liquid Glass v26" : {
+
+    },
+    "Loading nearby food..." : {
+
+    },
+    "Message %@" : {
+
+    },
+    "network.check_connection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please check your internet connection"
+          }
+        }
+      }
+    },
+    "network.offline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline"
+          }
+        }
+      }
+    },
+    "of %@" : {
+
+    },
+    "Offline Mode" : {
+
+    },
+    "Poll" : {
+
+    },
+    "PRO" : {
+
+    },
+    "Processing..." : {
+
+    },
+    "Pulse Animation" : {
+
+    },
+    "Reset" : {
+
+    },
+    "Save %@%%" : {
+
+    },
+    "Save for later" : {
+
+    },
+    "Search Radius" : {
+
+    },
+    "Session Restored" : {
+
+    },
+    "Share" : {
+
+    },
+    "Sharer" : {
+
+    },
+    "Shimmer Effect" : {
+
+    },
+    "Something went wrong" : {
+
+    },
+    "Status" : {
+
+    },
+    "Sync" : {
+
+    },
+    "Syncing..." : {
+
+    },
+    "Themes affect gradients, accents, and glow effects throughout the app. Background and text colors adapt to your appearance mode setting." : {
+
+    },
+    "Title Large" : {
+
+    },
+    "Try Again" : {
+
+    },
+    "Unlock with %@" : {
+
+    },
+    "Use this location" : {
+
+    },
+    "Vote" : {
+
+    },
+    "Welcome back! Your progress was saved." : {
+
+    },
+    "When you subscribe to posts or categories, notifications will appear here." : {
+
+    }
+  },
+  "version" : "1.0"
+}

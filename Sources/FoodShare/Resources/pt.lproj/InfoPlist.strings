@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Portuguese */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "O Foodshare precisa de acesso à sua câmera para tirar fotos dos alimentos que você deseja compartilhar.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "O Foodshare usa o Face ID para desbloquear o app com segurança e proteger sua conta.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "O Foodshare precisa da sua localização para mostrar alimentos próximos e enviar notificações sobre comida perto de você.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "O Foodshare precisa da sua localização para mostrar alimentos disponíveis perto de você.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "O Foodshare pode usar o microfone para pesquisa por voz e ajudá-lo a encontrar alimentos sem usar as mãos.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "O Foodshare precisa de acesso à sua biblioteca de fotos para selecionar fotos dos alimentos que você deseja compartilhar.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "O Foodshare pode usar o reconhecimento de voz para ajudá-lo a pesquisar alimentos sem usar as mãos.";

@@ -1,0 +1,79 @@
+name: FoodShare CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install Skip
+        run: brew install skiptools/skip/skip
+      
+      - name: Build iOS
+        run: |
+          cd foodshare-android
+          xcodebuild -workspace Project.xcworkspace \
+            -scheme FoodShare \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            build
+      
+      - name: Run Tests
+        run: |
+          cd foodshare-android
+          swift test
+  
+  build-android:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install Skip
+        run: brew install skiptools/skip/skip
+      
+      - name: Build Android
+        run: |
+          cd foodshare-android
+          swift build
+          cd Android
+          ./gradlew assembleDebug
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug
+          path: foodshare-android/Android/app/build/outputs/apk/debug/app-debug.apk
+  
+  deploy-testflight:
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build-ios
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build & Upload to TestFlight
+        env:
+          FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+        run: |
+          cd foodshare-android/Darwin
+          fastlane beta
+  
+  deploy-play-store:
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build-android
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build & Upload to Play Store
+        env:
+          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        run: |
+          cd foodshare-android/Android
+          fastlane internal

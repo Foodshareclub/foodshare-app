@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SupabaseURL</key>
+	<string>https://api.foodshare.club</string>
+	<key>SupabasePublishableKey</key>
+	<string>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzcwNjU3NDM0LCJleHAiOjIwMDAwMDAwMDB9.yLUCg-p2c9ZrtG93G2LSctFKgczZ2VRE5Nu7FdLpcBc</string>
+	<key>BuildEnvironment</key>
+	<string>LOCAL_DEV</string>
+</dict>
+</plist>

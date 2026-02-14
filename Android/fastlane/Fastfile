@@ -1,0 +1,37 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build and upload to Play Store internal track"
+  lane :internal do
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "."
+    )
+    upload_to_play_store(
+      track: "internal",
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+  
+  desc "Promote internal to beta"
+  lane :beta do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "beta",
+      skip_upload_changelogs: true
+    )
+  end
+  
+  desc "Deploy to production"
+  lane :production do
+    upload_to_play_store(
+      track: "beta",
+      track_promote_to: "production",
+      skip_upload_changelogs: true
+    )
+  end
+end

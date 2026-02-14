@@ -1,0 +1,95 @@
+# Skip Configuration for FoodShare
+# Transpiles Swift/SwiftUI to Kotlin/Jetpack Compose
+
+# Skip all iOS-specific files
+skip:
+  - "**/*+iOS.swift"
+  - "**/ci_scripts/**"
+  - "**/Preview Content/**"
+  - "**/*.storekit"
+  - "**/*.entitlements"
+  - "**/*.plist"
+  - "**/Info.plist"
+  - "**/AppDelegate.swift"
+  - "**/StoreKitService.swift"
+  - "**/WidgetDataProvider.swift"
+  - "**/ShareService.swift"
+  - "**/CameraImagePicker.swift"
+  - "**/DeviceCheckService.swift"
+  - "**/GlassBiometricPrompt.swift"
+  - "**/RenderQualityManager.swift"
+  - "**/MapPreferencesService.swift"
+  - "**/PushNotificationService.swift"
+  - "**/FrameRateMonitor.swift"
+  - "**/AdvancedHapticEngine.swift"
+  - "**/MemoryPressureManager.swift"
+  - "**/AppAttestService.swift"
+  - "**/AttestationMiddleware.swift"
+  
+# Platform-specific implementations
+platform:
+  ios:
+    - "Core/Extensions/FoodItem+iOS.swift"
+  android:
+    - "Core/Extensions/FoodItem+Android.swift"
+
+# Transpile settings
+transpile:
+  # Skip iOS-only frameworks
+  exclude_imports:
+    - UIKit
+    - AppKit
+    - StoreKit
+    - DeviceCheck
+    - LocalAuthentication
+    - CryptoKit
+    - CoreData
+    - CoreLocation
+    - MapKit
+    - UserNotifications
+    - Combine
+    - Inject
+    - Lottie
+    - SwiftUIIntrospect
+    - SwiftUIX
+    - Sentry
+    - KeychainAccess
+    - Network
+    - AuthenticationServices
+    - WidgetKit
+    - CoreHaptics
+    - CoreMotion
+    - Security
+    - QuartzCore
+    # Local iOS SPM packages (all types are in single target for Skip)
+    - FoodShareAnalytics
+    - FoodShareArchitecture
+    - FoodShareCache
+    - FoodShareDesignSystem
+    - FoodShareErrors
+    - FoodShareFeatureFlags
+    - FoodShareMacros
+    - FoodShareNetworking
+    - FoodSharePerformance
+    - FoodShareRepository
+    - FoodShareRouter
+    - FoodShareSecurity
+  
+  # Map to Android equivalents
+  import_mapping:
+    SwiftUI: "androidx.compose"
+    Foundation: "kotlin.stdlib"
+    Supabase: "io.github.jan.supabase"
+    Kingfisher: "coil"
+
+# Android-specific settings
+android:
+  minSdk: 26
+  targetSdk: 35
+  compileSdk: 35
+  namespace: "club.foodshare.android"
+  
+# Build optimization
+optimization:
+  level: "release"
+  strip_debug: true

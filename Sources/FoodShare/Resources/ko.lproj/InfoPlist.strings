@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Korean */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare는 공유하고 싶은 음식 사진을 찍기 위해 카메라 접근 권한이 필요합니다.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare는 앱을 안전하게 잠금 해제하고 계정을 보호하기 위해 Face ID를 사용합니다.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare는 근처 음식을 보여주고 주변 음식에 대한 알림을 보내기 위해 위치 정보가 필요합니다.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare는 근처에서 이용 가능한 음식을 보여주기 위해 위치 정보가 필요합니다.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare는 핸즈프리로 음식을 찾을 수 있도록 음성 검색을 위해 마이크를 사용할 수 있습니다.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare는 공유하고 싶은 음식 사진을 선택하기 위해 사진 보관함 접근 권한이 필요합니다.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare는 핸즈프리로 음식을 검색할 수 있도록 음성 인식을 사용할 수 있습니다.";

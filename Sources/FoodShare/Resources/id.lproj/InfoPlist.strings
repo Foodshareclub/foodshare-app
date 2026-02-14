@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Indonesian */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare memerlukan akses ke kamera untuk mengambil foto makanan yang ingin Anda bagikan.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare menggunakan Face ID untuk membuka kunci aplikasi dengan aman dan melindungi akun Anda.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare memerlukan lokasi Anda untuk menampilkan makanan terdekat dan mengirim notifikasi tentang makanan di sekitar Anda.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare memerlukan lokasi Anda untuk menampilkan makanan yang tersedia di dekat Anda.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare dapat menggunakan mikrofon untuk pencarian suara guna membantu Anda menemukan makanan secara hands-free.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare memerlukan akses ke perpustakaan foto untuk memilih foto makanan yang ingin Anda bagikan.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare dapat menggunakan pengenalan suara untuk membantu Anda mencari makanan secara hands-free.";

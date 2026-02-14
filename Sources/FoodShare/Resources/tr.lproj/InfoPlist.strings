@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Turkish */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare, paylaşmak istediğiniz yiyeceklerin fotoğraflarını çekmek için kameranıza erişim gerektirir.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare, uygulamayı güvenli bir şekilde açmak ve hesabınızı korumak için Face ID kullanır.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare, yakınlarınızdaki yiyecekleri göstermek ve çevrenizdeki yiyecekler hakkında bildirim göndermek için konumunuza ihtiyaç duyar.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare, yakınlarınızda paylaşıma uygun yiyecekleri göstermek için konumunuza ihtiyaç duyar.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare, eller serbest şekilde yiyecek bulmanıza yardımcı olmak için sesli arama için mikrofonu kullanabilir.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare, paylaşmak istediğiniz yiyeceklerin fotoğraflarını seçmek için fotoğraf kitaplığınıza erişim gerektirir.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare, eller serbest şekilde yiyecek aramanıza yardımcı olmak için konuşma tanıma kullanabilir.";

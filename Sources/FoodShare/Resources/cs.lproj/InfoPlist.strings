@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Czech */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare potřebuje přístup k fotoaparátu, aby mohl pořizovat fotografie jídla, které chcete sdílet.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare používá Face ID k bezpečnému odemknutí aplikace a ochraně vašeho účtu.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare potřebuje vaši polohu, aby vám mohl zobrazovat jídlo poblíž a zasílat upozornění na jídlo ve vašem okolí.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare potřebuje vaši polohu, aby vám mohl zobrazovat dostupné jídlo poblíž.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare může používat mikrofon pro hlasové vyhledávání, které vám pomůže najít jídlo bez použití rukou.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare potřebuje přístup k vaší knihovně fotografií, aby mohl vybrat fotografie jídla, které chcete sdílet.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare může používat rozpoznávání řeči, které vám pomůže vyhledávat jídlo bez použití rukou.";

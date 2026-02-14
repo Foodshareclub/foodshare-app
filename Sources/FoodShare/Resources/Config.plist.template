@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- LOCAL DEVELOPMENT CONFIGURATION TEMPLATE -->
+	<!-- Copy this file to Config.plist and fill in your actual values -->
+	<!-- Config.plist is automatically generated in Xcode Cloud from environment variables -->
+
+	<!-- Required: Self-hosted Supabase at https://api.foodshare.club -->
+	<key>SupabaseURL</key>
+	<string>https://api.foodshare.club</string>
+
+	<key>SupabasePublishableKey</key>
+	<string>your_anon_key_here</string>
+
+	<!-- These are auto-populated by CI/CD -->
+	<key>BuildEnvironment</key>
+	<string>LOCAL</string>
+
+	<key>BuildNumber</key>
+	<string>1</string>
+</dict>
+</plist>

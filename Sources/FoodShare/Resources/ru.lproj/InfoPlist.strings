@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Russian */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare нужен доступ к камере, чтобы делать фотографии продуктов, которыми вы хотите поделиться.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare использует Face ID для безопасной разблокировки приложения и защиты вашего аккаунта.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare нужно ваше местоположение, чтобы показывать ближайшую еду и отправлять уведомления о еде рядом с вами.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare нужно ваше местоположение, чтобы показывать ближайшую доступную еду.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare может использовать микрофон для голосового поиска продуктов без использования рук.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare нужен доступ к вашей фотогалерее для выбора фотографий продуктов, которыми вы хотите поделиться.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare может использовать распознавание речи для голосового поиска продуктов.";

@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Dutch */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare heeft toegang tot je camera nodig om foto's te maken van voedsel dat je wilt delen.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare gebruikt Face ID om de app veilig te ontgrendelen en je account te beschermen.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare heeft je locatie nodig om voedsel in de buurt te tonen en meldingen te sturen over voedsel bij jou in de buurt.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare heeft je locatie nodig om beschikbaar voedsel in de buurt te tonen.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare kan de microfoon gebruiken voor spraakzoeken om je te helpen handsfree voedsel te vinden.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare heeft toegang tot je fotobibliotheek nodig om foto's te selecteren van voedsel dat je wilt delen.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare kan spraakherkenning gebruiken om je te helpen handsfree naar voedsel te zoeken.";

@@ -1,0 +1,280 @@
+//
+//  LiquidGlassShaders.metal
+//  Foodshare
+//
+//  Metal shaders for premium Liquid Glass visual effects
+//  Includes: Liquid Distortion, Chromatic Aberration, Depth Blur
+//
+
+#include <metal_stdlib>
+using namespace metal;
+
+// MARK: - Shared Structures
+
+struct VertexIn {
+    float4 position [[attribute(0)]];
+    float2 texCoord [[attribute(1)]];
+};
+
+struct VertexOut {
+    float4 position [[position]];
+    float2 texCoord;
+};
+
+// MARK: - Utility Functions
+
+// Smooth noise function for organic distortion
+float noise(float2 uv) {
+    return fract(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
+}
+
+// Smooth step interpolation
+float smoothNoise(float2 uv) {
+    float2 i = floor(uv);
+    float2 f = fract(uv);
+
+    float a = noise(i);
+    float b = noise(i + float2(1.0, 0.0));
+    float c = noise(i + float2(0.0, 1.0));
+    float d = noise(i + float2(1.0, 1.0));
+
+    float2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+// MARK: - Standard Vertex Shader
+
+vertex VertexOut vertexShader(
+    VertexIn in [[stage_in]],
+    constant float4x4 &transform [[buffer(0)]]
+) {
+    VertexOut out;
+    out.position = transform * in.position;
+    out.texCoord = in.texCoord;
+    return out;
+}
+
+// MARK: - Liquid Distortion Shader
+
+struct LiquidDistortionParams {
+    float time;           // Animation time
+    float intensity;      // Distortion strength (0-1)
+    float2 center;        // Distortion center (normalized)
+    float waveCount;      // Number of ripple waves
+    float waveSpeed;      // Wave animation speed
+};
+
+fragment float4 liquidDistortionFragment(
+    VertexOut in [[stage_in]],
+    texture2d<float> inputTexture [[texture(0)]],
+    constant LiquidDistortionParams &params [[buffer(0)]]
+) {
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+
+    float2 uv = in.texCoord;
+    float2 center = params.center;
+
+    // Calculate distance from center
+    float2 delta = uv - center;
+    float dist = length(delta);
+
+    // Create ripple waves
+    float wave = sin(dist * params.waveCount * 3.14159 - params.time * params.waveSpeed);
+    wave *= exp(-dist * 3.0); // Fade with distance
+
+    // Apply distortion
+    float2 offset = normalize(delta + 0.001) * wave * params.intensity * 0.03;
+    float2 distortedUV = uv + offset;
+
+    // Clamp to valid texture coordinates
+    distortedUV = clamp(distortedUV, float2(0.0), float2(1.0));
+
+    return inputTexture.sample(textureSampler, distortedUV);
+}
+
+// MARK: - Chromatic Aberration Shader
+
+struct ChromaticAberrationParams {
+    float intensity;      // Aberration strength (0-1)
+    float2 center;        // Effect center (normalized)
+    float falloff;        // How quickly effect fades from edges
+};
+
+fragment float4 chromaticAberrationFragment(
+    VertexOut in [[stage_in]],
+    texture2d<float> inputTexture [[texture(0)]],
+    constant ChromaticAberrationParams &params [[buffer(0)]]
+) {
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+
+    float2 uv = in.texCoord;
+    float2 center = params.center;
+
+    // Calculate distance from center for edge-based intensity
+    float2 delta = uv - center;
+    float dist = length(delta);
+    float edgeFactor = pow(dist, params.falloff);
+
+    // Calculate offset direction (radial from center)
+    float2 direction = normalize(delta + 0.001);
+    float offset = params.intensity * edgeFactor * 0.01;
+
+    // Sample RGB channels with offset
+    float2 redUV = uv + direction * offset;
+    float2 greenUV = uv;
+    float2 blueUV = uv - direction * offset;
+
+    // Clamp coordinates
+    redUV = clamp(redUV, float2(0.0), float2(1.0));
+    blueUV = clamp(blueUV, float2(0.0), float2(1.0));
+
+    float r = inputTexture.sample(textureSampler, redUV).r;
+    float g = inputTexture.sample(textureSampler, greenUV).g;
+    float b = inputTexture.sample(textureSampler, blueUV).b;
+    float a = inputTexture.sample(textureSampler, uv).a;
+
+    return float4(r, g, b, a);
+}
+
+// MARK: - Depth Blur Shader (Tilt-Shift Style)
+
+struct DepthBlurParams {
+    float focusPoint;     // Y position of focus plane (0-1)
+    float focusRange;     // Range of sharp focus (0-1)
+    float blurStrength;   // Maximum blur amount
+    int sampleCount;      // Blur quality (samples)
+};
+
+fragment float4 depthBlurFragment(
+    VertexOut in [[stage_in]],
+    texture2d<float> inputTexture [[texture(0)]],
+    constant DepthBlurParams &params [[buffer(0)]]
+) {
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+
+    float2 uv = in.texCoord;
+
+    // Calculate blur amount based on distance from focus plane
+    float distFromFocus = abs(uv.y - params.focusPoint);
+    float blurAmount = smoothstep(0.0, params.focusRange, distFromFocus) * params.blurStrength;
+
+    // Early exit if no blur needed
+    if (blurAmount < 0.001) {
+        return inputTexture.sample(textureSampler, uv);
+    }
+
+    // Gaussian blur with variable radius
+    float4 color = float4(0.0);
+    float totalWeight = 0.0;
+
+    float2 texelSize = float2(1.0) / float2(inputTexture.get_width(), inputTexture.get_height());
+
+    // Box blur approximation for performance
+    int samples = clamp(params.sampleCount, 3, 15);
+    float radius = blurAmount * 10.0;
+
+    for (int x = -samples/2; x <= samples/2; x++) {
+        for (int y = -samples/2; y <= samples/2; y++) {
+            float2 offset = float2(x, y) * texelSize * radius;
+            float2 sampleUV = clamp(uv + offset, float2(0.0), float2(1.0));
+
+            // Gaussian weight
+            float weight = exp(-(x*x + y*y) / (2.0 * radius * radius));
+
+            color += inputTexture.sample(textureSampler, sampleUV) * weight;
+            totalWeight += weight;
+        }
+    }
+
+    return color / totalWeight;
+}
+
+// MARK: - Glass Frost Shader
+
+struct GlassFrostParams {
+    float frostIntensity;  // Frosted glass effect (0-1)
+    float noiseScale;      // Scale of frost noise
+    float time;            // Animation time for subtle movement
+};
+
+fragment float4 glassFrostFragment(
+    VertexOut in [[stage_in]],
+    texture2d<float> inputTexture [[texture(0)]],
+    constant GlassFrostParams &params [[buffer(0)]]
+) {
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+
+    float2 uv = in.texCoord;
+
+    // Generate frost noise
+    float2 noiseUV = uv * params.noiseScale + float2(params.time * 0.01);
+    float frostNoise = smoothNoise(noiseUV);
+    frostNoise += smoothNoise(noiseUV * 2.0) * 0.5;
+    frostNoise += smoothNoise(noiseUV * 4.0) * 0.25;
+    frostNoise /= 1.75;
+
+    // Apply frost distortion
+    float2 offset = (frostNoise - 0.5) * params.frostIntensity * 0.02;
+    float2 frostUV = clamp(uv + offset, float2(0.0), float2(1.0));
+
+    float4 color = inputTexture.sample(textureSampler, frostUV);
+
+    // Add slight white frost overlay
+    float frostOverlay = frostNoise * params.frostIntensity * 0.1;
+    color.rgb = mix(color.rgb, float3(1.0), frostOverlay);
+
+    return color;
+}
+
+// MARK: - Glow Shader
+
+struct GlowParams {
+    float4 glowColor;     // Color of glow
+    float intensity;      // Glow brightness
+    float radius;         // Glow spread
+    float threshold;      // Brightness threshold for glow
+};
+
+fragment float4 glowFragment(
+    VertexOut in [[stage_in]],
+    texture2d<float> inputTexture [[texture(0)]],
+    constant GlowParams &params [[buffer(0)]]
+) {
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+
+    float2 uv = in.texCoord;
+    float4 originalColor = inputTexture.sample(textureSampler, uv);
+
+    // Sample blur for glow
+    float4 blurColor = float4(0.0);
+    float totalWeight = 0.0;
+
+    float2 texelSize = float2(1.0) / float2(inputTexture.get_width(), inputTexture.get_height());
+    int samples = 9;
+
+    for (int x = -samples/2; x <= samples/2; x++) {
+        for (int y = -samples/2; y <= samples/2; y++) {
+            float2 offset = float2(x, y) * texelSize * params.radius;
+            float2 sampleUV = clamp(uv + offset, float2(0.0), float2(1.0));
+            float4 sample = inputTexture.sample(textureSampler, sampleUV);
+
+            // Only include bright pixels
+            float brightness = dot(sample.rgb, float3(0.299, 0.587, 0.114));
+            if (brightness > params.threshold) {
+                float weight = exp(-(x*x + y*y) / (2.0 * params.radius * params.radius));
+                blurColor += sample * weight;
+                totalWeight += weight;
+            }
+        }
+    }
+
+    if (totalWeight > 0.0) {
+        blurColor /= totalWeight;
+    }
+
+    // Apply glow
+    float4 glow = blurColor * params.glowColor * params.intensity;
+
+    return originalColor + glow;
+}

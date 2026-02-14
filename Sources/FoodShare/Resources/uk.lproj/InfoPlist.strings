@@ -1,0 +1,22 @@
+/* Localized Info.plist strings - Ukrainian */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Foodshare потребує доступ до камери, щоб робити фотографії продуктів, якими ви хочете поділитися.";
+
+/* Face ID permission */
+"NSFaceIDUsageDescription" = "Foodshare використовує Face ID для безпечного розблокування додатку та захисту вашого облікового запису.";
+
+/* Location always permission */
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Foodshare потребує ваше місцезнаходження, щоб показувати їжу поблизу та надсилати сповіщення про їжу неподалік.";
+
+/* Location when in use permission */
+"NSLocationWhenInUseUsageDescription" = "Foodshare потребує ваше місцезнаходження, щоб показувати доступну їжу поблизу.";
+
+/* Microphone permission */
+"NSMicrophoneUsageDescription" = "Foodshare може використовувати мікрофон для голосового пошуку продуктів без допомоги рук.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Foodshare потребує доступ до вашої фотогалереї для вибору фотографій продуктів, якими ви хочете поділитися.";
+
+/* Speech recognition permission */
+"NSSpeechRecognitionUsageDescription" = "Foodshare може використовувати розпізнавання мовлення для голосового пошуку продуктів.";
