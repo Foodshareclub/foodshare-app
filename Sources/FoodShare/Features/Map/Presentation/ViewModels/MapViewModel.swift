@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MapViewModel.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  ViewModel for the food map view, managing location-based food item discovery.
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -334,4 +335,5 @@ enum MapNetworkQuality: CustomStringConvertible {
         }
     }
 }
+
 #endif

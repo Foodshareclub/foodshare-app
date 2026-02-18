@@ -7,6 +7,8 @@
 //  Optimized for ProMotion 120Hz displays with interpolating spring animations
 //
 
+
+#if !SKIP
 import SwiftUI
 #if !SKIP
 import Kingfisher
@@ -165,10 +167,14 @@ struct GlassImageViewer: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .environment(\.colorScheme, .dark)
                     )
             }
@@ -186,7 +192,11 @@ struct GlassImageViewer: View {
                 .padding(.vertical, Spacing.xs)
                 .background(
                     Capsule()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .environment(\.colorScheme, .dark)
                 )
 
@@ -200,10 +210,14 @@ struct GlassImageViewer: View {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .environment(\.colorScheme, .dark)
                     )
             }
@@ -251,7 +265,7 @@ struct GlassImageViewer: View {
                 }
             }
         }
-        .frame(height: 60)
+        .frame(height: 60.0)
     }
 
     private func thumbnailButton(url: URL, index: Int) -> some View {
@@ -269,7 +283,7 @@ struct GlassImageViewer: View {
             KFImage(url)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 50, height: 50)
+                .frame(width: 50.0, height: 50)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.small))
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.small)
@@ -322,7 +336,11 @@ struct GlassPageIndicator: View {
         .padding(.vertical, Spacing.xs)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .environment(\.colorScheme, .dark)
         )
         .drawingGroup() // GPU rasterization for indicator animations
@@ -400,4 +418,6 @@ extension View {
         isPresented: $isPresented
     )
 }
+#endif
+
 #endif

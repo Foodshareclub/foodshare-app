@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 import OSLog
@@ -574,4 +575,5 @@ private struct SubscriptionUpdateDTO: Encodable {
 private struct NotificationCountResponse: Codable {
     let id: UUID
 }
+
 #endif

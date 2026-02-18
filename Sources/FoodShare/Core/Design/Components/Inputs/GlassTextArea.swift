@@ -6,6 +6,8 @@
 //  Matches GlassTextField styling for consistent form UX
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Text Area
@@ -195,3 +197,5 @@ struct GlassTextArea: View {
         .padding()
     }
 }
+
+#endif

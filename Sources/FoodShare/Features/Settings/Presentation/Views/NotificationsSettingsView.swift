@@ -5,6 +5,9 @@
 //  Notification settings view with Liquid Glass v26 design
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 struct NotificationsSettingsView: View {
@@ -71,7 +74,7 @@ struct NotificationsSettingsView: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 44, height: 44)
+                            .frame(width: 44.0, height: 44)
 
                         Image(systemName: "bell.fill")
                             .font(.DesignSystem.titleMedium)
@@ -237,3 +240,6 @@ struct NotificationsSettingsView: View {
         NotificationsSettingsView()
     }
 }
+
+
+#endif

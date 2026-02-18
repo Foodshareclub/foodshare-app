@@ -5,6 +5,8 @@
 //  Inline view shown in tabs when guests try to access restricted features
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Inline view shown in tabs when guests try to access restricted features
@@ -60,7 +62,7 @@ struct GuestRestrictedTabView: View {
                         endRadius: 100,
                     ),
                 )
-                .frame(width: 180, height: 180)
+                .frame(width: 180.0, height: 180)
                 .scaleEffect(isAnimating ? 1.1 : 0.9)
                 .animation(
                     .easeInOut(duration: 2.5).repeatForever(autoreverses: true),
@@ -69,8 +71,12 @@ struct GuestRestrictedTabView: View {
 
             // Icon container
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 100, height: 100)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 100.0, height: 100)
                 .overlay(
                     Circle()
                         .stroke(
@@ -152,3 +158,5 @@ struct GuestRestrictedTabView: View {
         .animation(.easeOut(duration: 0.6).delay(0.2), value: isAnimating)
     }
 }
+
+#endif

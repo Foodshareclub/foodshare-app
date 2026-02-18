@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A section displaying all notification category preferences with search and filter.
@@ -291,3 +294,6 @@ public struct CategoryPreferencesSection: View {
 
     return PreviewContainer()
 }
+
+
+#endif

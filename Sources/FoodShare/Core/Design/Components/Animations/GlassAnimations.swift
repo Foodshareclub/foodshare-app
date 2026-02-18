@@ -6,6 +6,8 @@
 //  Shimmer, pulse, glow, and breathing effects optimized for 120Hz ProMotion
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Shimmer Effect
@@ -27,11 +29,11 @@ struct GlassShimmerModifier: ViewModifier {
                     if isActive {
                         LinearGradient(
                             colors: [
-                                color.opacity(0),
+                                color.opacity(0.0),
                                 color.opacity(0.4),
                                 color.opacity(0.6),
                                 color.opacity(0.4),
-                                color.opacity(0),
+                                color.opacity(0.0),
                             ],
                             startPoint: startPoint,
                             endPoint: endPoint,
@@ -217,16 +219,16 @@ struct GlassHighlightSweepModifier: ViewModifier {
                 GeometryReader { geometry in
                     LinearGradient(
                         colors: [
-                            color.opacity(0),
+                            color.opacity(0.0),
                             color.opacity(0.3),
                             color.opacity(0.5),
                             color.opacity(0.3),
-                            color.opacity(0),
+                            color.opacity(0.0),
                         ],
                         startPoint: .leading,
                         endPoint: .trailing,
                     )
-                    .frame(width: 100)
+                    .frame(width: 100.0)
                     .offset(x: offset)
                     .blur(radius: 2)
                     .onAppear {
@@ -523,8 +525,12 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
                         .font(.DesignSystem.headlineMedium)
 
                     RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
-                        .frame(height: 100)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(height: 100.0)
                         .glassShimmer(isActive: true)
 
                     // Pulse Effect
@@ -533,7 +539,7 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
 
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .fill(Color.DesignSystem.brandGreen.opacity(0.3))
-                        .frame(height: 100)
+                        .frame(height: 100.0)
                         .glassPulse(isActive: true)
 
                     // Border Glow
@@ -541,8 +547,12 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
                         .font(.DesignSystem.headlineMedium)
 
                     RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
-                        .frame(height: 100)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(height: 100.0)
                         .glassBorderGlow(isActive: true)
 
                     // Float Effect
@@ -550,8 +560,12 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
                         .font(.DesignSystem.headlineMedium)
 
                     RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
-                        .frame(height: 100)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(height: 100.0)
                         .glassFloat(isActive: true)
 
                     // Highlight Sweep
@@ -562,8 +576,12 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
                         sweepTrigger = true
                     } label: {
                         RoundedRectangle(cornerRadius: CornerRadius.large)
-                            .fill(.ultraThinMaterial)
-                            .frame(height: 100)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
+                            .frame(height: 100.0)
                             .glassHighlightSweep(trigger: $sweepTrigger)
                     }
 
@@ -576,7 +594,7 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
                     } label: {
                         Circle()
                             .fill(Color.DesignSystem.brandGreen)
-                            .frame(width: 80, height: 80)
+                            .frame(width: 80.0, height: 80)
                             .glassRipple(trigger: $rippleTrigger)
                     }
 
@@ -585,7 +603,7 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
                         .font(.DesignSystem.headlineMedium)
 
                     Text("Content loaded!")
-                        .frame(height: 60)
+                        .frame(height: 60.0)
                         .frame(maxWidth: .infinity)
                         .glassSkeleton(isLoading: isLoading)
 
@@ -602,3 +620,5 @@ struct GlassInteractiveButtonStyle: ButtonStyle {
 
     return PreviewContainer()
 }
+
+#endif

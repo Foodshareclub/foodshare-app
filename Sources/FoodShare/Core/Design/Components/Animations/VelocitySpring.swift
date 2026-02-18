@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Velocity Spring
@@ -145,8 +147,8 @@ public struct VelocityAwareDragModifier: ViewModifier {
 
                         // Apply resistance
                         let resistedOffset = CGSize(
-                            width: axis.contains(.horizontal) ? value.translation.width * resistance : 0,
-                            height: axis.contains(.vertical) ? value.translation.height * resistance : 0,
+                            width: axis.contains(.horizontal) ? value.translation.width * resistance : 0.0,
+                            height: axis.contains(.vertical) ? value.translation.height * resistance : 0.0,
                         )
 
                         offset = resistedOffset
@@ -214,13 +216,13 @@ public struct SwipeToDismissModifier: ViewModifier {
 
                         // Only allow movement in dismiss direction
                         let allowedTranslation = direction.isPositive
-                            ? max(0, translation)
-                            : min(0, translation)
+                            ? max(0.0, translation)
+                            : min(0.0, translation)
 
                         if direction.axis == .vertical {
-                            offset = CGSize(width: 0, height: allowedTranslation)
+                            offset = CGSize(width: 0.0, height: allowedTranslation)
                         } else {
-                            offset = CGSize(width: allowedTranslation, height: 0)
+                            offset = CGSize(width: allowedTranslation, height: 0.0)
                         }
                     }
                     .onEnded { value in
@@ -259,13 +261,13 @@ public struct SwipeToDismissModifier: ViewModifier {
             let dismissOffset: CGFloat = UIScreen.main.bounds.height
             switch direction {
             case .down:
-                offset = CGSize(width: 0, height: dismissOffset)
+                offset = CGSize(width: 0.0, height: dismissOffset)
             case .up:
-                offset = CGSize(width: 0, height: -dismissOffset)
+                offset = CGSize(width: 0.0, height: -dismissOffset)
             case .right:
-                offset = CGSize(width: dismissOffset, height: 0)
+                offset = CGSize(width: dismissOffset, height: 0.0)
             case .left:
-                offset = CGSize(width: -dismissOffset, height: 0)
+                offset = CGSize(width: -dismissOffset, height: 0.0)
             }
         }
 
@@ -316,8 +318,8 @@ public struct RubberBandModifier: ViewModifier {
                 DragGesture()
                     .onChanged { value in
                         let rawOffset = CGSize(
-                            width: axis.contains(.horizontal) ? value.translation.width : 0,
-                            height: axis.contains(.vertical) ? value.translation.height : 0,
+                            width: axis.contains(.horizontal) ? value.translation.width : 0.0,
+                            height: axis.contains(.vertical) ? value.translation.height : 0.0,
                         )
 
                         // Apply rubber band effect past limit
@@ -339,7 +341,7 @@ public struct RubberBandModifier: ViewModifier {
 
     private func rubberBandOffset(_ rawOffset: CGSize) -> CGSize {
         func rubberBand(_ x: CGFloat) -> CGFloat {
-            let sign: CGFloat = x >= 0 ? 1 : -1
+            let sign: CGFloat = x >= 0 ? 1.0 : -1.0
             let absX = abs(x)
 
             if absX <= limit {
@@ -383,7 +385,7 @@ extension View {
 
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.DesignSystem.brandGreen)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
                     .velocityAwareDrag()
 
                 Text("Swipe left to dismiss")
@@ -400,8 +402,10 @@ extension View {
 #Preview("Rubber Band") {
     RoundedRectangle(cornerRadius: 20)
         .fill(Color.DesignSystem.brandGreen)
-        .frame(width: 100, height: 100)
+        .frame(width: 100.0, height: 100)
         .rubberBand()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.DesignSystem.background)
 }
+
+#endif

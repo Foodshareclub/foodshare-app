@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ErrorContext.swift
 //  Foodshare
@@ -14,6 +13,8 @@
 //  - Environment information
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -390,4 +391,5 @@ extension Error {
         return CapturedError(error: self, context: context, severity: severity)
     }
 }
+
 #endif

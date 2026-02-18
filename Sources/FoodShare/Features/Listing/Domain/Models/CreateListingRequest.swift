@@ -5,6 +5,8 @@
 //  Request models for creating and updating food listings.
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -245,3 +247,5 @@ extension UpdateListingRequest {
         )
     }
 }
+
+#endif

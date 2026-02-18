@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A card for configuring quiet hours settings.
@@ -68,7 +71,7 @@ public struct QuietHoursCard: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 44, height: 44)
+                        .frame(width: 44.0, height: 44)
 
                     Image(systemName: quietHours.enabled ? "moon.stars.fill" : "moon.stars")
                         .font(.system(size: 20, weight: .semibold))
@@ -350,3 +353,6 @@ public struct QuietHoursCard: View {
     .padding(Spacing.md)
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

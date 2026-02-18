@@ -6,6 +6,8 @@
 //  Animated bell with shake, pulsing ring, badge counter, and full accessibility
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Notification Bell Button
@@ -308,7 +310,7 @@ struct NotificationBellIcon: View {
             if unreadCount > 0 {
                 Circle()
                     .fill(Color.DesignSystem.brandPink)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 8.0, height: 8)
                     .offset(x: 2, y: -2)
             }
         }
@@ -472,3 +474,5 @@ struct NotificationBellIcon: View {
 
     return PreviewWrapper()
 }
+
+#endif

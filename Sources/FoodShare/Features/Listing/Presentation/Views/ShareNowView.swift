@@ -7,6 +7,8 @@
 //  Some content types require admin review before publishing
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -203,10 +205,14 @@ struct ShareNowView: View {
             Image(systemName: "xmark")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.DesignSystem.text)
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -265,7 +271,7 @@ struct ShareNowView: View {
                             ),
                             lineWidth: 2
                         )
-                        .frame(width: 100 + CGFloat(index) * 25, height: 100 + CGFloat(index) * 25)
+                        .frame(width: 100.0 + CGFloat(index) * 25, height: 100 + CGFloat(index) * 25)
                         .opacity(heroOpacity * (1 - Double(index) * 0.25))
                         .scaleEffect(heroScale + CGFloat(index) * 0.03)
                 }
@@ -283,7 +289,7 @@ struct ShareNowView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 80, height: 80)
+                        .frame(width: 80.0, height: 80)
                         .shadow(color: Color.DesignSystem.brandGreen.opacity(0.5), radius: 25, y: 8)
 
                     // Glass overlay
@@ -299,7 +305,7 @@ struct ShareNowView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 80, height: 80)
+                        .frame(width: 80.0, height: 80)
 
                     Image(systemName: "plus")
                         .font(.system(size: 36, weight: .medium))
@@ -486,12 +492,16 @@ struct ShareNowView: View {
                         endRadius: 100
                     )
                 )
-                .frame(width: 200, height: 200)
+                .frame(width: 200.0, height: 200)
 
             // Glass circle
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 120, height: 120)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 120.0, height: 120)
                 .overlay(
                     Circle()
                         .stroke(
@@ -534,7 +544,11 @@ struct ShareNowView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -597,7 +611,7 @@ struct ContentSection<Content: View>: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: icon)
                         .font(.system(size: 14, weight: .medium))
@@ -642,7 +656,11 @@ struct ContentSection<Content: View>: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -677,7 +695,7 @@ struct ContentTypeCard: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .frame(width: 52, height: 52)
+                            .frame(width: 52.0, height: 52)
 
                         Image(systemName: type.icon)
                             .font(.system(size: 24, weight: .medium))
@@ -759,7 +777,7 @@ struct ShareBenefitRow: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: 28)
+                .frame(width: 28.0)
 
             Text(text)
                 .font(.LiquidGlass.bodyMedium)
@@ -805,7 +823,7 @@ struct ShareNowBackground: View {
                                 endRadius: 200
                             )
                         )
-                        .frame(width: 400, height: 400)
+                        .frame(width: 400.0, height: 400)
                         .blur(radius: 60)
                         .offset(
                             x: -geometry.size.width * 0.3 + sin(phase) * 30,
@@ -826,7 +844,7 @@ struct ShareNowBackground: View {
                                 endRadius: 250
                             )
                         )
-                        .frame(width: 500, height: 500)
+                        .frame(width: 500.0, height: 500)
                         .blur(radius: 80)
                         .offset(
                             x: geometry.size.width * 0.3 + cos(phase * 0.7) * 25,
@@ -846,7 +864,7 @@ struct ShareNowBackground: View {
                                 endRadius: 150
                             )
                         )
-                        .frame(width: 300, height: 300)
+                        .frame(width: 300.0, height: 300)
                         .blur(radius: 50)
                         .offset(
                             x: sin(phase * 1.2) * 40,
@@ -889,7 +907,7 @@ struct CreateChallengeView: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .frame(width: 120, height: 120)
+                            .frame(width: 120.0, height: 120)
 
                         Image(systemName: "trophy.fill")
                             .font(.system(size: 52, weight: .medium))
@@ -949,10 +967,14 @@ struct CreateChallengeView: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.DesignSystem.text)
-                            .frame(width: 32, height: 32)
+                            .frame(width: 32.0, height: 32)
                             .background(
                                 Circle()
-                                    .fill(.ultraThinMaterial)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
                                     .overlay(
                                         Circle()
                                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -977,3 +999,5 @@ struct CreateChallengeView: View {
     ShareNowView()
         .environment(AppState())
 }
+
+#endif

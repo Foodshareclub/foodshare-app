@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AppLockService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Uses LocalAuthentication framework directly for biometric auth
 //
 
+
+#if !SKIP
 import Foundation
 import LocalAuthentication
 import OSLog
@@ -291,4 +292,5 @@ struct LockDelayOption: Identifiable, Hashable {
         LockDelayOption(seconds: 300, displayName: "5 minutes"),
     ]
 }
+
 #endif

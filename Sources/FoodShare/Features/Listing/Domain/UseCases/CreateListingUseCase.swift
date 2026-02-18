@@ -5,6 +5,8 @@
 //  Use case for creating a food listing
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case for creating a new food listing
@@ -32,3 +34,5 @@ final class CreateListingUseCase {
         return try await repository.createListing(fullRequest)
     }
 }
+
+#endif

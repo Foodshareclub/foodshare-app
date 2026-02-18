@@ -3,6 +3,8 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+#if !SKIP
 import SwiftUI
 
 /// A section containing master toggles for all notification channels.
@@ -357,3 +359,5 @@ public struct GlobalSettingsSection: View {
 
     return PreviewContainer()
 }
+
+#endif

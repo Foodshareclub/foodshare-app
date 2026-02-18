@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized with smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -267,7 +269,7 @@ private struct PreferenceToggleRow: View {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(iconColor)
-                .frame(width: 40, height: 40)
+                .frame(width: 40.0, height: 40)
                 .background(iconColor.opacity(0.15))
                 .clipShape(Circle())
 
@@ -311,7 +313,7 @@ private struct FrequencyOptionRow: View {
                 Image(systemName: frequency.icon)
                     .font(.system(size: 20))
                     .foregroundColor(isSelected ? .DesignSystem.brandTeal : .DesignSystem.textSecondary)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
                     .background(
                         (isSelected ? Color.DesignSystem.brandTeal : Color.white).opacity(0.15),
                     )
@@ -500,3 +502,5 @@ final class EmailPreferencesViewModel {
         EmailPreferencesView()
     }
 }
+
+#endif

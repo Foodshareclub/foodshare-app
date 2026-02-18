@@ -6,6 +6,8 @@
 //  CareEcho-inspired layered glass effects and blue/cyan gradients
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Scale Button Style
@@ -472,3 +474,5 @@ struct GlassButton: View {
     }
     .background(Color.black)
 }
+
+#endif

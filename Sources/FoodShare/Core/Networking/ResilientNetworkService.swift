@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ResilientNetworkService.swift
 //  Foodshare
@@ -10,6 +9,8 @@
 //  - GET request caching for improved performance
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -250,4 +251,5 @@ actor ResilientNetworkService: NetworkService {
 extension NetworkError {
     static let noConnection = NetworkError.noInternetConnection
 }
+
 #endif

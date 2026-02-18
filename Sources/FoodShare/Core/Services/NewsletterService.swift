@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  NewsletterService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Actor-based, thread-safe implementation
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -330,4 +331,5 @@ enum NewsletterError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

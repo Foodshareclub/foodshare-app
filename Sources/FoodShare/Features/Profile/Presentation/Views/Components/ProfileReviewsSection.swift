@@ -5,6 +5,8 @@
 //  Displays user reviews with star ratings and summary.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Reviews Section
@@ -178,7 +180,7 @@ struct ReviewCard: View {
                 } else {
                     Circle()
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .overlay(
                             Image(systemName: "person.fill")
                                 .font(.system(size: 14))
@@ -188,7 +190,7 @@ struct ReviewCard: View {
                 #else
                 Circle()
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 32, height: 32)
+                    .frame(width: 32.0, height: 32)
                     .overlay(
                         Image(systemName: "person.fill")
                             .font(.system(size: 14))
@@ -265,3 +267,5 @@ struct StarRatingView: View {
         }
     }
 }
+
+#endif

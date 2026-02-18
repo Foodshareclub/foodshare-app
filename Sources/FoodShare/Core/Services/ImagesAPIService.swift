@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  ImagesAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor ImagesAPIService {
@@ -38,4 +39,5 @@ struct ImageUploadResponse: Codable {
 struct ImageOptimizeResponse: Codable {
     let url: String
 }
+
 #endif

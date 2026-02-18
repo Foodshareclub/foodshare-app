@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 
@@ -199,4 +200,5 @@ final class APIRateLimiter: @unchecked Sendable {
         try await limiter.checkRateLimit()
     }
 }
+
 #endif

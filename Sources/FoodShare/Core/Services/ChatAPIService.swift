@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ChatAPIService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Supports both generic chat rooms and food sharing chat (mode=food).
 //
 
+
+#if !SKIP
 import Foundation
 
 actor ChatAPIService {
@@ -246,4 +247,5 @@ struct SuccessResponse: Codable, Sendable {
     let success: Bool
     let address: String?
 }
+
 #endif

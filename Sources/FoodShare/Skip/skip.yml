@@ -13,11 +13,11 @@ settings:
               contents:
                 - 'version("supabase-kt", "3.0.3")'
                 - 'library("supabase-bom", "io.github.jan-tennert.supabase", "bom").versionRef("supabase-kt")'
-                - 'library("supabase-gotrue", "io.github.jan-tennert.supabase", "gotrue-kt").withoutVersion()'
-                - 'library("supabase-postgrest", "io.github.jan-tennert.supabase", "postgrest-kt").withoutVersion()'
-                - 'library("supabase-realtime", "io.github.jan-tennert.supabase", "realtime-kt").withoutVersion()'
-                - 'library("supabase-storage", "io.github.jan-tennert.supabase", "storage-kt").withoutVersion()'
-                - 'library("supabase-functions", "io.github.jan-tennert.supabase", "functions-kt").withoutVersion()'
+                - 'library("supabase-gotrue", "io.github.jan-tennert.supabase", "auth-kt").versionRef("supabase-kt")'
+                - 'library("supabase-postgrest", "io.github.jan-tennert.supabase", "postgrest-kt").versionRef("supabase-kt")'
+                - 'library("supabase-realtime", "io.github.jan-tennert.supabase", "realtime-kt").versionRef("supabase-kt")'
+                - 'library("supabase-storage", "io.github.jan-tennert.supabase", "storage-kt").versionRef("supabase-kt")'
+                - 'library("supabase-functions", "io.github.jan-tennert.supabase", "functions-kt").versionRef("supabase-kt")'
                 - 'version("ktor", "3.0.2")'
                 - 'library("ktor-client-okhttp", "io.ktor", "ktor-client-okhttp").versionRef("ktor")'
 

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  HelpView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  iOS equivalent of web app's help/FAQ page with expandable sections
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct HelpView: View {
@@ -110,7 +111,11 @@ struct HelpView: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -293,4 +298,5 @@ struct HelpItemRow: View {
 #Preview {
     HelpView()
 }
+
 #endif

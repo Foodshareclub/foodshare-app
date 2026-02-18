@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized with smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Post Activity Timeline View
@@ -160,7 +162,7 @@ private struct ActivityItemView: View {
                 // Icon circle
                 Circle()
                     .fill(Color(hex: activity.activityType.colorHex).opacity(0.15))
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
                     .overlay(
                         Image(systemName: activity.activityType.icon)
                             .font(.system(size: 16, weight: .medium))
@@ -171,7 +173,7 @@ private struct ActivityItemView: View {
                 if !compact {
                     Rectangle()
                         .fill(Color.DesignSystem.textTertiary.opacity(0.3))
-                        .frame(width: 2)
+                        .frame(width: 2.0)
                         .frame(maxHeight: .infinity)
                 }
             }
@@ -255,7 +257,7 @@ struct PostActivityStatsView: View {
         Group {
             if isLoading {
                 ProgressView()
-                    .frame(height: 60)
+                    .frame(height: 60.0)
             } else if let stats {
                 statsContent(stats)
             }
@@ -324,3 +326,5 @@ struct PostActivityStatsView: View {
         .padding()
         .background(Color.black)
 }
+
+#endif

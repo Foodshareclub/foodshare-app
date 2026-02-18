@@ -9,6 +9,8 @@
 //  - Efficient LazyVGrid with proper identity
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -341,7 +343,11 @@ struct StatPill: View {
         .padding(.vertical, Spacing.xs)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(Capsule().stroke(color.opacity(0.3), lineWidth: 1))
         )
     }
@@ -379,7 +385,11 @@ private struct ListingsSearchBar: View {
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(Color.DesignSystem.glassBorder, lineWidth: 1))
         )
         .padding(.horizontal, Spacing.md)
@@ -402,7 +412,11 @@ private struct ListingsTabSelector: View {
         .padding(Spacing.xs)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(Color.DesignSystem.glassBorder, lineWidth: 1))
         )
         .padding(.horizontal, Spacing.md)
@@ -549,7 +563,11 @@ private struct SelectionToolbar: View {
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(Color.DesignSystem.glassBorder, lineWidth: 1))
         )
         .padding(.horizontal, Spacing.md)
@@ -572,7 +590,7 @@ struct SelectableListingCard: View {
 
                 Circle()
                     .fill(isSelected ? Color.DesignSystem.brandGreen : Color.white.opacity(0.8))
-                    .frame(width: 24, height: 24)
+                    .frame(width: 24.0, height: 24)
                     .overlay(Circle().stroke(isSelected ? Color.DesignSystem.brandGreen : Color.DesignSystem.glassBorder, lineWidth: 2))
                     .overlay {
                         if isSelected {
@@ -618,14 +636,18 @@ struct UserListingCard: View {
                     Spacer()
                 }
             }
-            .frame(height: 130)
+            .frame(height: 130.0)
             .clipShape(.rect(topLeadingRadius: CornerRadius.large, topTrailingRadius: CornerRadius.large))
 
             ListingDetailsView(listing: listing, onDelete: onDelete)
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(Color.DesignSystem.glassBorder, lineWidth: 1))
         )
         .shadow(color: .black.opacity(0.1), radius: 8, y: 4)
@@ -677,7 +699,7 @@ private struct ListingStatusBadge: View {
 
     var body: some View {
         HStack(spacing: Spacing.xxs) {
-            Circle().fill(statusInfo.color).frame(width: 6, height: 6)
+            Circle().fill(statusInfo.color).frame(width: 6.0, height: 6)
             Text(t.t(statusInfo.key))
                 .font(.DesignSystem.captionSmall)
                 .fontWeight(.semibold)
@@ -685,7 +707,7 @@ private struct ListingStatusBadge: View {
         .foregroundStyle(.white)
         .padding(.horizontal, Spacing.sm)
         .padding(.vertical, Spacing.xs)
-        .background(Capsule().fill(statusInfo.color.opacity(0.9)).background(Capsule().fill(.ultraThinMaterial)))
+        .background(Capsule().fill(statusInfo.color.opacity(0.9)).background(Capsule().fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)))
     }
 }
 
@@ -728,7 +750,7 @@ private struct ListingDetailsView: View {
                         Image(systemName: "ellipsis")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(Color.DesignSystem.textSecondary)
-                            .frame(width: 24, height: 24)
+                            .frame(width: 24.0, height: 24)
                     }
                 }
             }
@@ -782,7 +804,7 @@ private struct ListingsErrorView: View {
                 .multilineTextAlignment(.center)
 
             GlassButton(t.t("common.try_again"), icon: "arrow.clockwise", style: .primary, action: onRetry)
-                .frame(width: 160)
+                .frame(width: 160.0)
 
             Spacer()
         }
@@ -818,8 +840,12 @@ private struct ListingsEmptyView: View {
 
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 120, height: 120)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 120.0, height: 120)
                     .overlay(
                         Circle().stroke(
                             LinearGradient(colors: [.DesignSystem.brandGreen.opacity(0.5), .DesignSystem.brandBlue.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing),
@@ -856,23 +882,23 @@ struct SkeletonListingCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ShimmerPlaceholder()
-                .frame(height: 130)
+                .frame(height: 130.0)
                 .clipShape(.rect(topLeadingRadius: CornerRadius.large, topTrailingRadius: CornerRadius.large))
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 16)
+                    .frame(height: 16.0)
                     .frame(maxWidth: .infinity)
 
                 HStack {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 40, height: 12)
+                        .frame(width: 40.0, height: 12)
 
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 40, height: 12)
+                        .frame(width: 40.0, height: 12)
 
                     Spacer()
                 }
@@ -882,7 +908,11 @@ struct SkeletonListingCard: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(Color.DesignSystem.glassBorder, lineWidth: 1))
         )
     }
@@ -931,3 +961,5 @@ struct ImagePlaceholder: View {
             }
     }
 }
+
+#endif

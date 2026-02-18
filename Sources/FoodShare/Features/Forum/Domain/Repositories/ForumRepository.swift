@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Forum Repository Protocol
@@ -391,3 +394,6 @@ struct UpdateForumPostRequest: Sendable {
         self.imageUrl = imageUrl
     }
 }
+
+
+#endif

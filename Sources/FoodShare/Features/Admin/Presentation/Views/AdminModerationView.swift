@@ -1,3 +1,4 @@
+
 #if !SKIP
 import SwiftUI
 
@@ -133,7 +134,7 @@ struct ModerationQueueRow: View {
                     // Priority indicator
                     Circle()
                         .fill(priorityColor)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 8.0, height: 8)
 
                     Text(QueueTypeHelper.localizedName(for: item.queueType, using: t))
                         .font(.DesignSystem.caption)
@@ -370,7 +371,7 @@ struct AuditLogRow: View {
                 } placeholder: {
                     Circle().fill(Color.DesignSystem.glassSurface)
                 }
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
                 .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -424,4 +425,5 @@ struct AuditLogRow: View {
         )
     }
 }
+
 #endif

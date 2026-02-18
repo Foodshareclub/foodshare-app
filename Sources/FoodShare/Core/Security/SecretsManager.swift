@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SecretsManager.swift
 //  Foodshare
@@ -14,6 +13,8 @@
 //  5. Config.plist can be cleared after migration
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -270,4 +271,5 @@ extension AppEnvironment {
         await SecretsManager.shared.supabasePublishableKey
     }
 }
+
 #endif

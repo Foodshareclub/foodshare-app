@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  DonationView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  iOS equivalent of web app's donation page with Ko-fi integration
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct DonationView: View {
@@ -64,7 +65,7 @@ struct DonationView: View {
                         endRadius: 300,
                     ),
                 )
-                .frame(width: 600, height: 600)
+                .frame(width: 600.0, height: 600)
                 .offset(x: 150, y: -200)
                 .blur(radius: 80)
 
@@ -77,7 +78,7 @@ struct DonationView: View {
                         endRadius: 350,
                     ),
                 )
-                .frame(width: 700, height: 700)
+                .frame(width: 700.0, height: 700)
                 .offset(x: -200, y: 400)
                 .blur(radius: 100)
         }
@@ -92,7 +93,7 @@ struct DonationView: View {
             HStack(spacing: Spacing.xs) {
                 Circle()
                     .fill(Color.DesignSystem.accentPink)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 8.0, height: 8)
 
                 Text(t.t("donation.badge_text"))
                     .font(.DesignSystem.captionSmall)
@@ -102,7 +103,7 @@ struct DonationView: View {
 
                 Circle()
                     .fill(Color.DesignSystem.accentPink)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 8.0, height: 8)
             }
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.sm)
@@ -150,7 +151,7 @@ struct DonationView: View {
             ZStack {
                 Circle()
                     .fill(Color.white.opacity(0.2))
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "heart.fill")
                     .font(.system(size: 50))
@@ -272,7 +273,7 @@ struct DonationView: View {
                 ZStack {
                     Circle()
                         .fill(iconColor.opacity(0.15))
-                        .frame(width: 56, height: 56)
+                        .frame(width: 56.0, height: 56)
 
                     Image(systemName: icon)
                         .font(.system(size: 24))
@@ -411,4 +412,5 @@ struct DonationView: View {
 #Preview {
     DonationView()
 }
+
 #endif

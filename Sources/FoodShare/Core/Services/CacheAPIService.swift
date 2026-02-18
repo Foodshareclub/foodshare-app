@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CacheAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized API service for cache operations
 //
 
+
+#if !SKIP
 import Foundation
 
 actor CacheAPIService {
@@ -80,4 +81,5 @@ struct ExistsResponse: Codable {
 struct TTLResponse: Codable {
     let ttl: Int
 }
+
 #endif

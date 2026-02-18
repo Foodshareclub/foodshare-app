@@ -5,6 +5,9 @@
 //  Enterprise feature flag manager with remote configuration
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -507,3 +510,6 @@ extension View {
         modifier(FeatureFlagModifier(flag: flag))
     }
 }
+
+
+#endif

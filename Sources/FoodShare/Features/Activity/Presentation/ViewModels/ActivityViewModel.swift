@@ -5,6 +5,9 @@
 //  ViewModel for Activity Feed with real-time updates
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -335,3 +338,6 @@ final class ActivityViewModel {
         await channelManager.unregister(table: "forum", filter: forumChannelId)
     }
 }
+
+
+#endif

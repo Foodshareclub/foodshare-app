@@ -5,6 +5,8 @@
 //  Domain model for donation impact statistics
 //
 
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -44,3 +46,5 @@ struct ImpactStat: Identifiable, Sendable {
         ]
     }
 }
+
+#endif

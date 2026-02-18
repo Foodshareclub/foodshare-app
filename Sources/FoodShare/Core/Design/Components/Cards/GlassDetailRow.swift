@@ -6,6 +6,8 @@
 //  Consolidates DetailRow and FridgeInfoRow patterns
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassDetailRow: View {
@@ -48,7 +50,7 @@ struct GlassDetailRow: View {
                 ZStack {
                     Circle()
                         .fill(iconColor.opacity(0.15))
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: icon)
                         .font(.system(size: 14, weight: .medium))
@@ -180,7 +182,11 @@ struct GlassDetailRowData: Identifiable {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -196,3 +202,5 @@ struct GlassDetailRowData: Identifiable {
         )
     )
 }
+
+#endif

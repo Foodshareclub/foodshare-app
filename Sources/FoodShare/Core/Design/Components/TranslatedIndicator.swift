@@ -5,6 +5,8 @@
 //  Subtle indicator showing content was auto-translated from English
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Translated Indicator
@@ -55,3 +57,5 @@ struct TranslatedIndicator: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

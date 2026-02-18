@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AppAttestService.swift
 //  Foodshare
@@ -11,6 +10,8 @@
 //  - Not running in a jailbroken/modified environment
 //
 
+
+#if !SKIP
 import CryptoKit
 #if !SKIP
 import DeviceCheck
@@ -311,4 +312,5 @@ final class AppAttestService {
         }
     }
 #endif
+
 #endif

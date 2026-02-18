@@ -6,6 +6,8 @@
 //  Separated from profiles for better performance
 //
 
+
+#if !SKIP
 import Foundation
 
 /// User statistics and counters
@@ -329,5 +331,7 @@ struct ImpactMetricsData: Codable, Sendable, Equatable {
             )
         }
     }
+
+#endif
 
 #endif

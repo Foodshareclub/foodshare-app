@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AttestationMiddleware.swift
 //  Foodshare
@@ -9,6 +8,8 @@
 //  with automatic fallback to DeviceCheck on unsupported devices.
 //
 
+
+#if !SKIP
 import CryptoKit
 #if !SKIP
 import DeviceCheck
@@ -437,4 +438,5 @@ extension URLRequest {
         )
     }
 }
+
 #endif

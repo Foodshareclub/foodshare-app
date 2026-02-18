@@ -6,6 +6,8 @@
 //  Supports all listing types matching web app
 //
 
+
+#if !SKIP
 import PhotosUI
 import SwiftUI
 
@@ -89,10 +91,14 @@ struct CreateListingView: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.DesignSystem.textSecondary)
-                            .frame(width: 28, height: 28)
+                            .frame(width: 28.0, height: 28)
                             .background(
                                 Circle()
-                                    .fill(.ultraThinMaterial),
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
                             )
                     }
                 }
@@ -175,7 +181,7 @@ struct CreateListingView: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: "square.grid.2x2.fill")
                         .font(.system(size: 14, weight: .medium))
@@ -215,7 +221,11 @@ struct CreateListingView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -238,7 +248,7 @@ struct CreateListingView: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: "photo.stack.fill")
                         .font(.system(size: 14, weight: .medium))
@@ -296,10 +306,14 @@ struct CreateListingView: View {
                                 .font(.DesignSystem.captionSmall)
                                 .foregroundColor(.DesignSystem.textSecondary)
                         }
-                        .frame(width: 120, height: 120)
+                        .frame(width: 120.0, height: 120)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                .fill(.ultraThinMaterial),
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                         )
                     }
 
@@ -309,7 +323,7 @@ struct CreateListingView: View {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 120, height: 120)
+                                .frame(width: 120.0, height: 120)
                                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -345,7 +359,11 @@ struct CreateListingView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -396,7 +414,7 @@ struct CreateListingView: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: "doc.text.fill")
                         .font(.system(size: 14, weight: .medium))
@@ -427,7 +445,11 @@ struct CreateListingView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -472,7 +494,11 @@ struct GlassDescriptionEditor: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.white.opacity(isFocused ? 0.12 : 0.08))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -517,7 +543,7 @@ extension CreateListingView {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: "tag.fill")
                         .font(.system(size: 14, weight: .medium))
@@ -592,7 +618,11 @@ extension CreateListingView {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -615,7 +645,7 @@ extension CreateListingView {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: "mappin.circle.fill")
                         .font(.system(size: 14, weight: .medium))
@@ -705,7 +735,11 @@ extension CreateListingView {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -807,7 +841,7 @@ struct ListingTypeButton: View {
                 ZStack {
                     Circle()
                         .fill(isSelected ? category.color : Color.DesignSystem.glassBackground)
-                        .frame(width: 56, height: 56)
+                        .frame(width: 56.0, height: 56)
 
                     Image(systemName: category.icon)
                         .font(.system(size: 24, weight: .medium))
@@ -819,14 +853,18 @@ struct ListingTypeButton: View {
                     .fontWeight(isSelected ? .semibold : .regular)
                     .foregroundColor(isSelected ? category.color : .DesignSystem.textSecondary)
             }
-            .frame(width: 80)
+            .frame(width: 80.0)
             .padding(.vertical, Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(isSelected ? category.color.opacity(0.1) : Color.clear)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
-                            .fill(.ultraThinMaterial),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                     ),
             )
             .overlay(
@@ -861,14 +899,14 @@ struct CategoryButton: View {
                     if isSelected {
                         Circle()
                             .fill(color.opacity(0.3))
-                            .frame(width: 52, height: 52)
+                            .frame(width: 52.0, height: 52)
                             .blur(radius: 6)
                     }
 
                     if isSelected {
                         Circle()
                             .fill(color)
-                            .frame(width: 44, height: 44)
+                            .frame(width: 44.0, height: 44)
                             .shadow(color: color.opacity(0.4), radius: 8, y: 2)
                     } else {
                         Circle()
@@ -879,7 +917,7 @@ struct CategoryButton: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 44, height: 44)
+                            .frame(width: 44.0, height: 44)
                     }
 
                     Image(systemName: icon)
@@ -895,13 +933,17 @@ struct CategoryButton: View {
                     .fontWeight(isSelected ? .semibold : .regular)
                     .foregroundColor(isSelected ? color : .DesignSystem.textSecondary)
             }
-            .frame(width: 72, height: 80)
+            .frame(width: 72.0, height: 80)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                     .fill(isSelected ? color.opacity(0.12) : Color.clear)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
-                            .fill(.ultraThinMaterial),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                     ),
             )
             .overlay(
@@ -939,7 +981,7 @@ struct AddPhotoLabel: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 48, height: 48)
+                    .frame(width: 48.0, height: 48)
 
                 Image(systemName: "plus")
                     .font(.system(size: 22, weight: .semibold))
@@ -957,10 +999,14 @@ struct AddPhotoLabel: View {
                 .fontWeight(.medium)
                 .foregroundColor(.DesignSystem.textSecondary)
         }
-        .frame(width: 120, height: 120)
+        .frame(width: 120.0, height: 120)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(
@@ -980,3 +1026,278 @@ struct AddPhotoLabel: View {
     }
 }
 
+
+#else
+// MARK: - Android CreateListingView (Skip)
+
+import SwiftUI
+
+struct CreateListingView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(AppState.self) private var appState
+
+    @State private var title = ""
+    @State private var description = ""
+    @State private var pickupAddress = ""
+    @State private var pickupTime = ""
+    @State private var selectedCategoryId: Int = 1
+    @State private var selectedType = "food"
+    @State private var isLoading = false
+    @State private var showError = false
+    @State private var errorMessage = ""
+    @State private var isCreated = false
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 20.0) {
+                    // Listing Type
+                    VStack(alignment: .leading, spacing: 10.0) {
+                        Text("What are you sharing?")
+                            .font(.system(size: 18.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10.0) {
+                                ListingTypeChip(label: "Food", icon: "leaf.fill", type: "food", selected: $selectedType)
+                                ListingTypeChip(label: "Item", icon: "cube.fill", type: "thing", selected: $selectedType)
+                                ListingTypeChip(label: "Lend", icon: "arrow.triangle.2.circlepath", type: "borrow", selected: $selectedType)
+                                ListingTypeChip(label: "Wanted", icon: "hand.raised.fill", type: "wanted", selected: $selectedType)
+                            }
+                        }
+                    }
+                    .padding(16.0)
+                    .background(Color.white.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+
+                    // Basic Info
+                    VStack(alignment: .leading, spacing: 12.0) {
+                        Text("Basic Info")
+                            .font(.system(size: 18.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+
+                        TextField("Title", text: $title)
+                            .textFieldStyle(.roundedBorder)
+
+                        ZStack(alignment: .topLeading) {
+                            if description.isEmpty {
+                                Text("Describe what you're sharing...")
+                                    .foregroundStyle(Color.gray)
+                                    .padding(.horizontal, 8.0)
+                                    .padding(.vertical, 12.0)
+                            }
+                            TextEditor(text: $description)
+                                .frame(minHeight: 100.0)
+                                .scrollContentBackground(.hidden)
+                                .foregroundStyle(Color.white)
+                        }
+                        .background(Color.white.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 8.0))
+                    }
+                    .padding(16.0)
+                    .background(Color.white.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+
+                    // Category
+                    VStack(alignment: .leading, spacing: 12.0) {
+                        Text("Category")
+                            .font(.system(size: 18.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8.0) {
+                                CreateCategoryChip(label: "Produce", id: 1, selectedId: $selectedCategoryId)
+                                CreateCategoryChip(label: "Dairy", id: 2, selectedId: $selectedCategoryId)
+                                CreateCategoryChip(label: "Baked", id: 3, selectedId: $selectedCategoryId)
+                                CreateCategoryChip(label: "Meals", id: 4, selectedId: $selectedCategoryId)
+                                CreateCategoryChip(label: "Snacks", id: 5, selectedId: $selectedCategoryId)
+                                CreateCategoryChip(label: "Drinks", id: 6, selectedId: $selectedCategoryId)
+                            }
+                        }
+                    }
+                    .padding(16.0)
+                    .background(Color.white.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+
+                    // Location & Pickup
+                    VStack(alignment: .leading, spacing: 12.0) {
+                        Text("Pickup Details")
+                            .font(.system(size: 18.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+
+                        TextField("Pickup address", text: $pickupAddress)
+                            .textFieldStyle(.roundedBorder)
+
+                        TextField("Pickup time (e.g. Today 5-7pm)", text: $pickupTime)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                    .padding(16.0)
+                    .background(Color.white.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+
+                    // Submit Button
+                    Button(action: { Task { await createListing() } }) {
+                        HStack {
+                            if isLoading {
+                                ProgressView()
+                                    .tint(.white)
+                            } else {
+                                Image(systemName: "paperplane.fill")
+                            }
+                            Text("Share with Community")
+                                .font(.system(size: 16.0, weight: .semibold))
+                        }
+                        .foregroundStyle(Color.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14.0)
+                    }
+                    .background(
+                        canSubmit
+                            ? Color(red: 0.2, green: 0.7, blue: 0.4)
+                            : Color.gray.opacity(0.3)
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                    .disabled(!canSubmit || isLoading)
+                }
+                .padding(16.0)
+            }
+            .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+            .navigationTitle("Create Listing")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+            .alert("Error", isPresented: $showError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(errorMessage)
+            }
+        }
+    }
+
+    private var canSubmit: Bool {
+        return !title.isEmpty && !pickupAddress.isEmpty
+    }
+
+    private func createListing() async {
+        guard canSubmit else { return }
+        isLoading = true
+
+        let baseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        let apiKey = AppEnvironment.supabasePublishableKey ?? ""
+
+        guard let url = URL(string: "\(baseURL)/functions/v1/api-v1-products") else {
+            isLoading = false
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "apikey")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = AuthenticationService.shared.accessToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        let body: [String: String] = [
+            "name": title,
+            "description": description,
+            "post_type": selectedType,
+            "category_id": "\(selectedCategoryId)",
+            "pickup_address": pickupAddress,
+            "pickup_time": pickupTime,
+        ]
+        request.httpBody = try? JSONEncoder().encode(body)
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 300 {
+                isCreated = true
+                dismiss()
+            } else {
+                errorMessage = "Failed to create listing. Please try again."
+                showError = true
+            }
+        } catch {
+            errorMessage = "Network error. Please check your connection."
+            showError = true
+        }
+
+        isLoading = false
+    }
+}
+
+private struct ListingTypeChip: View {
+    let label: String
+    let icon: String
+    let type: String
+    @Binding var selected: String
+
+    var body: some View {
+        Button(action: { selected = type }) {
+            VStack(spacing: 6.0) {
+                Image(systemName: icon)
+                    .font(.system(size: 20.0))
+                Text(label)
+                    .font(.system(size: 12.0, weight: .medium))
+            }
+            .frame(width: 72.0, height: 64.0)
+            .foregroundStyle(selected == type ? Color.white : Color.white.opacity(0.6))
+            .background(selected == type ? Color(red: 0.2, green: 0.7, blue: 0.4) : Color.white.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 10.0))
+            .border(selected == type ? Color(red: 0.2, green: 0.7, blue: 0.4) : Color.clear, width: selected == type ? 2.0 : 0.0)
+        }
+    }
+}
+
+private struct CreateCategoryChip: View {
+    let label: String
+    let id: Int
+    @Binding var selectedId: Int
+
+    var body: some View {
+        Button(action: { selectedId = id }) {
+            Text(label)
+                .font(.system(size: 13.0, weight: .medium))
+                .foregroundStyle(selectedId == id ? Color.white : Color.white.opacity(0.6))
+                .padding(.horizontal, 14.0)
+                .padding(.vertical, 8.0)
+                .background(selectedId == id ? Color(red: 0.2, green: 0.7, blue: 0.4) : Color.white.opacity(0.08))
+                .clipShape(Capsule())
+        }
+    }
+}
+
+// Stub for CreateListingViewModel parameter compatibility
+@MainActor @Observable
+final class CreateListingViewModel {
+    var title = ""
+    var description = ""
+    var pickupAddress = ""
+    var pickupTime = ""
+    var postType = "food"
+    var selectedCategoryId: Int = 1
+    var isLoading = false
+    var isEditMode = false
+    var showError = false
+    var error: String?
+    var createdListing: FoodItem?
+    var selectedImages: [Data] = []
+    var canSubmit: Bool { return !title.isEmpty }
+    var imageCountText: String { return "\(selectedImages.count)/3" }
+
+    init() {}
+
+    func addImage(_ data: Data) { selectedImages.append(data) }
+    func removeImage(at index: Int) {
+        guard index < selectedImages.count else { return }
+        selectedImages.remove(at: index)
+    }
+    func dismissError() { showError = false; error = nil }
+    func updateListing() async {}
+    func createListing(userId: UUID, latitude: Double, longitude: Double) async {}
+}
+
+#endif

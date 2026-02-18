@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Stepper Component with ProMotion-optimized animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Stepper
@@ -38,126 +40,18 @@ struct GlassStepper: View {
 
     var body: some View {
         HStack(spacing: Spacing.sm) {
-            // Label section
-            if icon != nil || label != nil {
-                HStack(spacing: Spacing.xs) {
-                    if let icon {
-                        Image(systemName: icon)
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundStyle(Color.DesignSystem.brandGreen)
-                    }
-
-                    if let label {
-                        Text(label)
-                            .font(.DesignSystem.labelLarge)
-                            .foregroundStyle(Color.DesignSystem.text)
-                    }
-                }
-
-                Spacer()
-            }
-
-            // Stepper controls
-            HStack(spacing: 0) {
-                // Minus button
-                Button {
-                    decrement()
-                } label: {
-                    Image(systemName: "minus")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(
-                            canDecrement
-                                ? Color.DesignSystem.text
-                                : Color.DesignSystem.textTertiary,
-                        )
-                        .frame(width: 44, height: 44)
-                        .background(
-                            RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                .fill(Color.white.opacity(isMinusPressed ? 0.15 : 0.08)),
-                        )
-                        .scaleEffect(isMinusPressed ? 0.92 : 1.0)
-                }
-                .buttonStyle(.plain)
-                .disabled(!canDecrement)
-                #if !SKIP
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { _ in
-                            withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                                isMinusPressed = true
-                            }
-                        }
-                        .onEnded { _ in
-                            withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                                isMinusPressed = false
-                            }
-                        },
-                )
-                #endif
-
-                // Value display
-                Text(valueFormatter(value))
-                    .font(.DesignSystem.headlineSmall)
-                    .foregroundStyle(Color.DesignSystem.text)
-                    .frame(minWidth: 60)
-                    #if !SKIP
-                    .contentTransition(.numericText())
-                    #endif
-                    .animation(.spring(response: 0.25, dampingFraction: 0.8), value: value)
-
-                // Plus button
-                Button {
-                    increment()
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(
-                            canIncrement
-                                ? Color.DesignSystem.text
-                                : Color.DesignSystem.textTertiary,
-                        )
-                        .frame(width: 44, height: 44)
-                        .background(
-                            RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                .fill(Color.white.opacity(isPlusPressed ? 0.15 : 0.08)),
-                        )
-                        .scaleEffect(isPlusPressed ? 0.92 : 1.0)
-                }
-                .buttonStyle(.plain)
-                .disabled(!canIncrement)
-                #if !SKIP
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { _ in
-                            withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                                isPlusPressed = true
-                            }
-                        }
-                        .onEnded { _ in
-                            withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                                isPlusPressed = false
-                            }
-                        },
-                )
-                #endif
-            }
-            .padding(Spacing.xxxs)
-            .background(
-                RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(Color.white.opacity(0.06))
-                    .background(.ultraThinMaterial),
-            )
-            .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
-            .overlay(
-                RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .stroke(Color.white.opacity(0.1), lineWidth: 1),
-            )
+            labelSection
+            stepperControls
         }
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.white.opacity(0.04))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -171,6 +65,133 @@ struct GlassStepper: View {
                     lineWidth: 1,
                 ),
         )
+    }
+
+    @ViewBuilder
+    private var labelSection: some View {
+        if icon != nil || label != nil {
+            HStack(spacing: Spacing.xs) {
+                if let icon {
+                    Image(systemName: icon)
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(Color.DesignSystem.brandGreen)
+                }
+                if let label {
+                    Text(label)
+                        .font(.DesignSystem.labelLarge)
+                        .foregroundStyle(Color.DesignSystem.text)
+                }
+            }
+            Spacer()
+        }
+    }
+
+    private var stepperControls: some View {
+        HStack(spacing: 0) {
+            minusButton
+            valueDisplay
+            plusButton
+        }
+        .padding(Spacing.xxxs)
+        .background(
+            RoundedRectangle(cornerRadius: CornerRadius.large)
+                .fill(Color.white.opacity(0.06))
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+        )
+        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
+        .overlay(
+            RoundedRectangle(cornerRadius: CornerRadius.large)
+                .stroke(Color.white.opacity(0.1), lineWidth: 1),
+        )
+    }
+
+    private var minusButton: some View {
+        Button {
+            decrement()
+        } label: {
+            Image(systemName: "minus")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(
+                    canDecrement
+                        ? Color.DesignSystem.text
+                        : Color.DesignSystem.textTertiary,
+                )
+                .frame(width: 44.0, height: 44)
+                .background(
+                    RoundedRectangle(cornerRadius: CornerRadius.medium)
+                        .fill(Color.white.opacity(isMinusPressed ? 0.15 : 0.08)),
+                )
+                .scaleEffect(isMinusPressed ? 0.92 : 1.0)
+        }
+        .buttonStyle(.plain)
+        .disabled(!canDecrement)
+        #if !SKIP
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
+                        isMinusPressed = true
+                    }
+                }
+                .onEnded { _ in
+                    withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
+                        isMinusPressed = false
+                    }
+                },
+        )
+        #endif
+    }
+
+    private var valueDisplay: some View {
+        Text(valueFormatter(value))
+            .font(.DesignSystem.headlineSmall)
+            .foregroundStyle(Color.DesignSystem.text)
+            .frame(minWidth: 60)
+            #if !SKIP
+            .contentTransition(.numericText())
+            #endif
+            .animation(.spring(response: 0.25, dampingFraction: 0.8), value: value)
+    }
+
+    private var plusButton: some View {
+        Button {
+            increment()
+        } label: {
+            Image(systemName: "plus")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(
+                    canIncrement
+                        ? Color.DesignSystem.text
+                        : Color.DesignSystem.textTertiary,
+                )
+                .frame(width: 44.0, height: 44)
+                .background(
+                    RoundedRectangle(cornerRadius: CornerRadius.medium)
+                        .fill(Color.white.opacity(isPlusPressed ? 0.15 : 0.08)),
+                )
+                .scaleEffect(isPlusPressed ? 0.92 : 1.0)
+        }
+        .buttonStyle(.plain)
+        .disabled(!canIncrement)
+        #if !SKIP
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
+                        isPlusPressed = true
+                    }
+                }
+                .onEnded { _ in
+                    withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
+                        isPlusPressed = false
+                    }
+                },
+        )
+        #endif
     }
 
     // MARK: - Computed Properties
@@ -234,7 +255,7 @@ struct GlassCompactStepper: View {
                 Image(systemName: "minus")
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(canDecrement ? Color.DesignSystem.text : Color.DesignSystem.textTertiary)
-                    .frame(width: 32, height: 32)
+                    .frame(width: 32.0, height: 32)
                     .background(
                         Circle()
                             .fill(Color.white.opacity(isMinusPressed ? 0.15 : 0.08)),
@@ -276,7 +297,7 @@ struct GlassCompactStepper: View {
                 Image(systemName: "plus")
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(canIncrement ? Color.DesignSystem.text : Color.DesignSystem.textTertiary)
-                    .frame(width: 32, height: 32)
+                    .frame(width: 32.0, height: 32)
                     .background(
                         Circle()
                             .fill(Color.white.opacity(isPlusPressed ? 0.15 : 0.08)),
@@ -305,7 +326,11 @@ struct GlassCompactStepper: View {
         .background(
             Capsule()
                 .fill(Color.white.opacity(0.06))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(Capsule())
         .overlay(
@@ -382,10 +407,16 @@ struct GlassCompactStepper: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(0.04))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         }
         .padding()
     }
 }
+
+#endif

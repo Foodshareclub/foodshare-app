@@ -5,6 +5,8 @@
 //  Smooth transitions and animations for Liquid Glass design
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -337,4 +339,6 @@ extension View {
         modifier(BounceEffect(trigger: trigger))
     }
 }
+#endif
+
 #endif

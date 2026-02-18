@@ -6,6 +6,8 @@
 //  Matches web app profile design
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassProfileCard: View {
@@ -70,7 +72,7 @@ struct GlassProfileCard: View {
                 )
 
                 Divider()
-                    .frame(height: 40)
+                    .frame(height: 40.0)
 
                 StatItem(
                     value: "\(stats.itemsReceived)",
@@ -80,14 +82,18 @@ struct GlassProfileCard: View {
                 )
 
                 Divider()
-                    .frame(height: 40)
+                    .frame(height: 40.0)
 
                 StatItem(value: "\(stats.totalLikes)", label: "Likes", icon: "heart.fill", color: .red)
             }
             .padding(.vertical, Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -108,7 +114,11 @@ struct GlassProfileCard: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -154,7 +164,7 @@ struct GlassProfileCard: View {
                     ),
                     lineWidth: 3,
                 )
-                .frame(width: 104, height: 104)
+                .frame(width: 104.0, height: 104)
 
             // Avatar image
             if let avatarUrl, let url = URL(string: avatarUrl) {
@@ -165,7 +175,7 @@ struct GlassProfileCard: View {
                 } placeholder: {
                     avatarPlaceholder
                 }
-                .frame(width: 96, height: 96)
+                .frame(width: 96.0, height: 96)
                 .clipShape(Circle())
             } else {
                 avatarPlaceholder
@@ -182,7 +192,7 @@ struct GlassProfileCard: View {
                     endPoint: .bottomTrailing,
                 ),
             )
-            .frame(width: 96, height: 96)
+            .frame(width: 96.0, height: 96)
             .overlay(
                 Text(name.prefix(1).uppercased())
                     .font(.system(size: 40, weight: .bold))
@@ -285,7 +295,7 @@ struct GlassProfileRow: View {
                         Circle()
                             .fill(Color.DesignSystem.glassBackground)
                     }
-                    .frame(width: 48, height: 48)
+                    .frame(width: 48.0, height: 48)
                     .clipShape(Circle())
                 } else {
                     Circle()
@@ -296,7 +306,7 @@ struct GlassProfileRow: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 48, height: 48)
+                        .frame(width: 48.0, height: 48)
                         .overlay(
                             Text(name.prefix(1).uppercased())
                                 .font(.DesignSystem.headlineSmall)
@@ -341,7 +351,11 @@ struct GlassProfileRow: View {
             .padding(Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -372,3 +386,5 @@ struct GlassProfileRow: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

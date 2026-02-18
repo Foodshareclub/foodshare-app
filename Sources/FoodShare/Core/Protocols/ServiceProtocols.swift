@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ServiceProtocols.swift
 //  FoodShare
@@ -7,6 +6,8 @@
 //  Enables deterministic testing of ViewModels and services.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Date Provider
@@ -263,4 +264,5 @@ enum TestingUtilities {
     }
 }
 #endif
+
 #endif

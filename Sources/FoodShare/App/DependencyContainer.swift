@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  DependencyContainer.swift
 //  Foodshare
@@ -13,6 +12,8 @@
 //  - SwiftUI environment integration
 //
 
+
+#if !SKIP
 import Foundation
 import Supabase
 import SwiftUI
@@ -288,4 +289,27 @@ extension DependencyContainer {
         DependencyContainer.create(from: .shared)
     }
 }
+
+#else
+// MARK: - Android DependencyContainer (Skip)
+
+import Foundation
+import Observation
+import SwiftUI
+
+@Observable
+@MainActor
+final class DependencyContainer {
+    // Stub container for Android — repositories will be added in Phase 2+
+    init() {}
+
+    static func create(from authService: AuthenticationService) -> DependencyContainer {
+        return DependencyContainer()
+    }
+
+    static var preview: DependencyContainer {
+        return DependencyContainer()
+    }
+}
+
 #endif

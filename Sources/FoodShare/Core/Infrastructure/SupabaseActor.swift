@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SupabaseActor.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Provides thread-safe access to Supabase client with proper isolation
 //
 
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -169,4 +170,5 @@ extension SupabaseActor {
             .value
     }
 }
+
 #endif

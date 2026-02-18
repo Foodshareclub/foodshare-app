@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PayloadEncryption.swift
 //  FoodShare
@@ -24,9 +23,9 @@
 //  ```
 //
 
+
 #if !SKIP
 import CryptoKit
-#endif
 import Foundation
 
 // MARK: - Encryption Types
@@ -287,7 +286,7 @@ actor PayloadEncryption {
                 publicKey: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=", // 32-byte placeholder
                 keyId: "embedded-v1",
                 expiresAt: Date().addingTimeInterval(365 * 24 * 60 * 60), // 1 year
-                minAppVersion: "3.0.0"
+                minAppVersion: "3.0"
             )
         }
     }
@@ -360,7 +359,7 @@ extension PayloadEncryption {
                 publicKey: serverPublicKey.rawRepresentation.base64EncodedString(),
                 keyId: "test-key",
                 expiresAt: Date().addingTimeInterval(3600),
-                minAppVersion: "1.0.0",
+                minAppVersion: "1.0",
             )
             lastKeyFetch = Date()
 
@@ -392,4 +391,5 @@ extension PayloadEncryption {
         }
     }
 #endif
+
 #endif

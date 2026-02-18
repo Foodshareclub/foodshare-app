@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A complete row for managing a single notification preference.
@@ -157,7 +160,7 @@ public struct NotificationPreferenceRow: View {
                 Image(systemName: freq.icon)
                     .font(.DesignSystem.bodySmall)
                     .foregroundColor(frequency == freq ? .DesignSystem.brandGreen : .DesignSystem.textSecondary)
-                    .frame(width: 20)
+                    .frame(width: 20.0)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(freq.displayName)
@@ -390,3 +393,6 @@ public struct SimpleNotificationPreferenceRow: View {
     }
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

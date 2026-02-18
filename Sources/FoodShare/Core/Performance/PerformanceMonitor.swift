@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PerformanceMonitor.swift
 //  FoodShare
@@ -13,6 +12,8 @@
 //  - Memory: < 150MB average
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 #if !SKIP
@@ -445,4 +446,5 @@ extension PerformanceMonitor {
         MeasurementToken(operation: operation, type: type, metadata: metadata)
     }
 }
+
 #endif

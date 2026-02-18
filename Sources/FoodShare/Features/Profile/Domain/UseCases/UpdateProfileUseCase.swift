@@ -5,6 +5,8 @@
 //  Use case for updating user profile
 //
 
+
+#if !SKIP
 import Foundation
 
 @MainActor
@@ -64,3 +66,5 @@ enum ProfileError: LocalizedError, Sendable {
         }
     }
 }
+
+#endif

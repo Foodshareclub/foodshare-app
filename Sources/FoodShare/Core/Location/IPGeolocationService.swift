@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  IPGeolocationService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  retry logic, metrics, and user override support.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -744,4 +745,5 @@ extension IPGeolocationService {
         IPGeolocationService(configuration: configuration)
     }
 }
+
 #endif

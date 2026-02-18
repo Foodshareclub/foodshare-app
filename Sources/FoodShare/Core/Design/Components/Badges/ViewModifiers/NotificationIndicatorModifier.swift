@@ -19,6 +19,8 @@
 //  - Respects Dynamic Type and Reduce Motion
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Notification Indicator Style
@@ -266,8 +268,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
                         HStack(spacing: Spacing.xxl) {
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 1,
                                         style: .dot,
@@ -279,8 +285,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 1,
                                         style: .dot,
@@ -292,8 +302,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 0,
                                         style: .dot,
@@ -317,8 +331,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
                         HStack(spacing: Spacing.xxl) {
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 3,
                                         style: .badge,
@@ -330,8 +348,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 12,
                                         style: .badgeCompact,
@@ -343,8 +365,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 150,
                                         style: .badge,
@@ -368,8 +394,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
                         HStack(spacing: Spacing.xxl) {
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 5,
                                         style: .badge,
@@ -381,8 +411,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 5,
                                         style: .badge,
@@ -394,8 +428,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 5,
                                         style: .badge,
@@ -419,8 +457,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
                         HStack(spacing: Spacing.xxl) {
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 3,
                                         style: .badge,
@@ -432,8 +474,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 3,
                                         style: .badge,
@@ -445,8 +491,12 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
                             VStack(spacing: Spacing.md) {
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 56, height: 56)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 56.0, height: 56)
                                     .notificationIndicator(
                                         count: 3,
                                         style: .badge,
@@ -468,13 +518,17 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
                             .foregroundStyle(Color.DesignSystem.textPrimary)
 
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 Image(systemName: "bell.fill")
                                     .font(.system(size: 24))
                                     .foregroundStyle(Color.DesignSystem.brandGreen),
                             )
-                            .frame(width: 56, height: 56)
+                            .frame(width: 56.0, height: 56)
                             .notificationIndicator(
                                 count: count,
                                 style: .badge,
@@ -518,3 +572,5 @@ private struct NotificationIndicatorButtonStyle: ButtonStyle {
 
     return PreviewWrapper()
 }
+
+#endif

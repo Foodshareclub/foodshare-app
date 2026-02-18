@@ -5,6 +5,8 @@
 //  Flow layout for wrapping chips and tags
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Flow Layout
@@ -53,4 +55,6 @@ struct FlowLayout: Layout {
         return (offsets, CGSize(width: maxWidth, height: currentY + lineHeight))
     }
 }
+#endif
+
 #endif

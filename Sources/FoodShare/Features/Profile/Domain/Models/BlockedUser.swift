@@ -5,6 +5,8 @@
 //  Model for blocked users
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Represents a blocked user
@@ -72,3 +74,5 @@ public struct BlockedUserProfileDTO: Codable, Sendable {
         case avatarUrl = "avatar_url"
     }
 }
+
+#endif

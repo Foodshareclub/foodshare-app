@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MockSearchRepository.swift
 //  Foodshare
@@ -6,9 +5,9 @@
 //  Mock search repository for testing and previews
 //
 
+
 #if !SKIP
 import CoreLocation
-#endif
 import Foundation
 
 #if DEBUG
@@ -172,4 +171,5 @@ import Foundation
         }
     }
 #endif
+
 #endif

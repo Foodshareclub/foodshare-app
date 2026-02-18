@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Toggle Component with ProMotion-optimized animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Toggle
@@ -43,7 +45,7 @@ struct GlassToggle: View {
                     Image(systemName: icon)
                         .font(.system(size: 20, weight: .medium))
                         .foregroundStyle(isOn ? accentColor : Color.DesignSystem.textSecondary)
-                        .frame(width: 32)
+                        .frame(width: 32.0)
                         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isOn)
                 }
 
@@ -74,7 +76,11 @@ struct GlassToggle: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(isOn ? 0.08 : 0.05))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -142,7 +148,11 @@ struct GlassToggleSwitch: View {
 
             // Thumb
             Circle()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Circle()
                         .fill(
@@ -220,7 +230,7 @@ struct GlassToggleRow: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(iconColor.opacity(0.15))
-                        .frame(width: 36, height: 36)
+                        .frame(width: 36.0, height: 36)
 
                     Image(systemName: icon)
                         .font(.system(size: 16, weight: .medium))
@@ -313,7 +323,11 @@ struct GlassToggleRow: View {
                 .background(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .fill(Color.white.opacity(0.04))
-                        .background(.ultraThinMaterial),
+                        #if !SKIP
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                 )
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
                 .overlay(
@@ -325,3 +339,5 @@ struct GlassToggleRow: View {
         }
     }
 }
+
+#endif

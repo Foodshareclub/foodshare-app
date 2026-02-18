@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  StructuredLogger.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Enterprise-grade structured logging with persistence
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -359,4 +360,5 @@ extension StructuredLogger {
         )
     }
 }
+
 #endif

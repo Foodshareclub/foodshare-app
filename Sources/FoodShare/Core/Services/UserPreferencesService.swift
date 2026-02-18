@@ -7,6 +7,9 @@
 //  Phase 4: Ultra-Thin Client Architecture
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -256,3 +259,6 @@ enum PreferencesError: LocalizedError, Sendable {
         }
     }
 }
+
+
+#endif

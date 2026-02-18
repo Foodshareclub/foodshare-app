@@ -10,6 +10,9 @@
 //  - Enhanced error recovery
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -195,7 +198,7 @@ actor RetryableOperationExecutor {
         let jitterRange = cappedDelay * configuration.jitterFactor
         let jitter = Double.random(in: -jitterRange ... jitterRange)
 
-        return max(0, cappedDelay + jitter)
+        return max(0.0, cappedDelay + jitter)
     }
 
     private func isRetryable(_ error: Error) -> Bool {
@@ -785,3 +788,6 @@ enum SupabaseResponseDecoder {
         }
     }
 }
+
+
+#endif

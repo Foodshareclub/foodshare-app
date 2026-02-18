@@ -6,6 +6,8 @@
 //  CareEcho-inspired blue/cyan gradient effects and layered glass styling
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassTextField: View {
@@ -38,7 +40,7 @@ struct GlassTextField: View {
                 Image(systemName: icon)
                     .font(.system(size: 19, weight: .medium))
                     .foregroundStyle(iconGradient)
-                    .frame(width: 26)
+                    .frame(width: 26.0)
                     .animation(.interpolatingSpring(stiffness: 300, damping: 24), value: isFocused)
             }
 
@@ -177,3 +179,5 @@ struct GlassSecureField: View {
         .padding()
     }
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  Optimized for 120Hz ProMotion displays
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -132,7 +134,11 @@ struct GlassImageCarousel: View {
         .padding(.vertical, Spacing.sm)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .padding(.bottom, Spacing.md)
     }
@@ -145,7 +151,7 @@ struct GlassImageCarousel: View {
             startPoint: .center,
             endPoint: .bottom
         )
-        .frame(height: 80)
+        .frame(height: 80.0)
         .allowsHitTesting(false)
     }
 }
@@ -178,7 +184,7 @@ private struct CarouselShimmerView: View {
                     startPoint: .leading,
                     endPoint: .trailing
                 )
-                .frame(width: 150)
+                .frame(width: 150.0)
                 .offset(x: shimmerPhase)
                 .onAppear {
                     withAnimation(
@@ -251,4 +257,6 @@ extension GlassImageCarousel {
     )
     .background(Color.DesignSystem.background)
 }
+#endif
+
 #endif

@@ -5,6 +5,8 @@
 //  Extracted challenges list view with cards
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct ChallengesListSection: View {
@@ -56,7 +58,7 @@ struct ChallengeCard: View {
                     } placeholder: {
                         difficultyIcon
                     }
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
                 } else {
                     difficultyIcon
@@ -134,7 +136,7 @@ struct ChallengeCard: View {
         ZStack {
             Circle()
                 .fill(difficultyGradient)
-                .frame(width: 50, height: 50)
+                .frame(width: 50.0, height: 50)
 
             Image(systemName: challenge.challengeDifficulty.icon)
                 .font(.title2)
@@ -248,4 +250,6 @@ struct ChallengeCard: View {
         onChallengeSelected: { _ in }
     )
 }
+#endif
+
 #endif

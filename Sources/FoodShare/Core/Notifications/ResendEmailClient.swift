@@ -6,6 +6,8 @@
 //  Enterprise-grade email notifications via Resend API
 //
 
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -453,3 +455,5 @@ actor MockResendEmailClient {
         sentEmails.removeAll()
     }
 }
+
+#endif

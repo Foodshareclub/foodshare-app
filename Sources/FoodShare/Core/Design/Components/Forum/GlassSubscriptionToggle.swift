@@ -6,6 +6,8 @@
 //  Follows Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Subscription Toggle
@@ -37,7 +39,7 @@ struct GlassSubscriptionToggle: View {
             ZStack(alignment: .topTrailing) {
                 // Bell icon with animated state
                 bellIcon
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
                     .background(backgroundColor)
                     .clipShape(Circle())
                     .overlay(
@@ -194,7 +196,7 @@ struct GlassSubscriptionCard: View {
                                 .font(.DesignSystem.labelMedium)
                                 .foregroundStyle(Color.DesignSystem.error)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 44)
+                                .frame(height: 44.0)
                                 .background(Color.DesignSystem.error.opacity(0.1))
                                 .clipShape(RoundedRectangle(cornerRadius: Spacing.radiusSM))
                         }
@@ -211,7 +213,7 @@ struct GlassSubscriptionCard: View {
                             .font(.DesignSystem.labelMedium)
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 44)
+                            .frame(height: 44.0)
                             .background(Color.DesignSystem.primary)
                             .clipShape(RoundedRectangle(cornerRadius: Spacing.radiusSM))
                     }
@@ -242,7 +244,7 @@ struct GlassSubscriptionCard: View {
             Image(systemName: icon)
                 .font(.system(size: 16))
                 .foregroundStyle(Color.DesignSystem.primary)
-                .frame(width: 24)
+                .frame(width: 24.0)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -313,7 +315,7 @@ struct GlassNotificationRow: View {
             HStack(alignment: .top, spacing: Spacing.sm) {
                 // Type icon
                 notificationIcon
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
 
                 // Content
                 VStack(alignment: .leading, spacing: 4) {
@@ -346,7 +348,7 @@ struct GlassNotificationRow: View {
                 if !notification.isRead {
                     Circle()
                         .fill(Color.DesignSystem.primary)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 8.0, height: 8)
                 }
             }
             .padding(Spacing.sm)
@@ -540,4 +542,6 @@ struct GlassEmptyNotificationsView: View {
     GlassEmptyNotificationsView()
         .background(Color.DesignSystem.background)
 }
+#endif
+
 #endif

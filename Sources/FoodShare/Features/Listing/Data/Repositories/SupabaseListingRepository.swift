@@ -6,6 +6,9 @@
 //  Maps to `posts` table in Supabase
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -298,3 +301,6 @@ struct ArrangementResult: Decodable, TransactionalResult {
     let post: FoodItem?
     let error: RPCTransactionalError?
 }
+
+
+#endif

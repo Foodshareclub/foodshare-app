@@ -5,6 +5,8 @@
 //  View for selecting alternate app icons
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct AppIconPickerView: View {
@@ -85,7 +87,11 @@ struct AppIconPickerView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -233,3 +239,5 @@ struct AppIconPickerView: View {
     AppIconPickerView()
         .environment(AppState.preview)
 }
+
+#endif

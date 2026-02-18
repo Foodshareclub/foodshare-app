@@ -6,6 +6,8 @@
 //  Deep sea vibes with cool, calming colors
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Ocean theme with blue and cyan colors
@@ -92,3 +94,5 @@ struct OceanTheme: Theme {
         )
     }
 }
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AnyCodable.swift
 //  Foodshare
@@ -7,8 +6,9 @@
 //  Provides backward compatibility for logging and analytics.
 //
 
-#if !SKIP
 import Foundation
+
+#if !SKIP
 
 /// A type-erasing wrapper that can encode any value for JSON serialization.
 /// Used for logging context and analytics where the value types are heterogeneous.
@@ -159,5 +159,53 @@ public struct AnyCodable: Codable, Sendable, CustomStringConvertible, Hashable {
         value as? [String: AnyCodable]
     }
 }
-#endif
+
+#else
+
+/// Simplified AnyCodable for Android/Skip.
+/// Stores string representation for cross-platform compatibility.
+public struct AnyCodable: Codable, Hashable {
+    private let stringRepresentation: String
+
+    public init(_ value: String) { self.stringRepresentation = value }
+    public init(_ value: Int) { self.stringRepresentation = String(value) }
+    public init(_ value: Double) { self.stringRepresentation = String(value) }
+    public init(_ value: Bool) { self.stringRepresentation = String(value) }
+    public init(_ value: some Codable) { self.stringRepresentation = String(describing: value) }
+    public init(_ value: [AnyCodable]) {
+        var parts: [String] = []
+        for item in value { parts.append(item.stringRepresentation) }
+        self.stringRepresentation = "[\(parts.joined(separator: ","))]"
+    }
+    public init(_ value: [String: AnyCodable]) { self.stringRepresentation = String(describing: value) }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let string = try? container.decode(String.self) {
+            self.stringRepresentation = string
+        } else if let int = try? container.decode(Int.self) {
+            self.stringRepresentation = String(int)
+        } else if let double = try? container.decode(Double.self) {
+            self.stringRepresentation = String(double)
+        } else if let bool = try? container.decode(Bool.self) {
+            self.stringRepresentation = String(bool)
+        } else {
+            self.stringRepresentation = "null"
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(stringRepresentation)
+    }
+
+    public var stringValue: String? { stringRepresentation }
+    public var intValue: Int? { Int(stringRepresentation) }
+    public var doubleValue: Double? { Double(stringRepresentation) }
+    public var boolValue: Bool? { stringRepresentation == "true" ? true : (stringRepresentation == "false" ? false : nil) }
+    public var arrayValue: [AnyCodable]? { nil }
+    public var stringArrayValue: [String]? { nil }
+    public var dictionaryValue: [String: AnyCodable]? { nil }
+}
+
 #endif

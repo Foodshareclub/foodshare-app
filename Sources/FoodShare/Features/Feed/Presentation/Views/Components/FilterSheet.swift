@@ -6,6 +6,8 @@
 //  Extracted from FeedView for better organization
 //
 
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -39,7 +41,7 @@ struct FilterSheet: View {
             .navigationTitle(t.t("search.filters_settings"))
             .navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
             #endif
             .toolbar {
                 toolbarLeading
@@ -129,7 +131,7 @@ struct FilterSheet: View {
                                 )
                                 .background(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                        .fill(.ultraThinMaterial),
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */),
                                 ),
                         )
                         .overlay(
@@ -181,7 +183,7 @@ struct FilterSheet: View {
                                         ? .DesignSystem.brandGreen
                                         : .DesignSystem.textSecondary,
                                 )
-                                .frame(width: 24)
+                                .frame(width: 24.0)
                                 #if !SKIP
                                 .symbolEffect(
                                     .pulse, options: .repeating, value: viewModel.sortOption == option,
@@ -274,7 +276,7 @@ struct FilterSheet: View {
                 // Divider
                 Rectangle()
                     .fill(Color.DesignSystem.glassBorder)
-                    .frame(width: 1, height: 40)
+                    .frame(width: 1.0, height: 40)
 
                 // Available
                 VStack(spacing: Spacing.xs) {
@@ -303,7 +305,7 @@ struct FilterSheet: View {
                 // Divider
                 Rectangle()
                     .fill(Color.DesignSystem.glassBorder)
-                    .frame(width: 1, height: 40)
+                    .frame(width: 1.0, height: 40)
 
                 // Last Updated with animated clock icon
                 VStack(spacing: Spacing.xs) {
@@ -485,7 +487,7 @@ struct FilterSheet: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: icon)
                         .font(.system(size: 16, weight: .medium))
@@ -514,7 +516,7 @@ struct FilterSheet: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -530,3 +532,5 @@ struct FilterSheet: View {
         .animation(ProMotionAnimation.smooth, value: sectionAppearStates[id])
     }
 }
+
+#endif

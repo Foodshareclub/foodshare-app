@@ -7,6 +7,8 @@
 //  and GPU-accelerated rendering for silky smooth 120fps performance
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - ProMotion Animation Presets
@@ -192,7 +194,7 @@ struct ProMotionGlowRing: View {
                 .stroke(
                     AngularGradient(
                         colors: [
-                            color.opacity(0),
+                            color.opacity(0.0),
                             color.opacity(0.5),
                             color,
                         ],
@@ -241,11 +243,11 @@ struct ProMotionShimmer: ViewModifier {
 
                             LinearGradient(
                                 colors: [
-                                    color.opacity(0),
+                                    color.opacity(0.0),
                                     color.opacity(0.3),
                                     color.opacity(0.5),
                                     color.opacity(0.3),
-                                    color.opacity(0),
+                                    color.opacity(0.0),
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing,
@@ -553,7 +555,7 @@ extension View {
 extension Color {
     /// Interpolate between two colors
     func interpolate(to other: Color, fraction: Double) -> Color {
-        let clampedFraction = max(0, min(1, fraction))
+        let clampedFraction = max(0.0, min(1.0, fraction))
 
         // Use UIColor for component extraction
         var r1: CGFloat = 0, g1: CGFloat = 0, b1: CGFloat = 0, a1: CGFloat = 0
@@ -729,3 +731,5 @@ public final class AnimationContext {
 // Preview disabled due to Swift 6.2 compilation issues
 // #Preview("ProMotion Animations") { ... }
 #endif // !SKIP
+
+#endif

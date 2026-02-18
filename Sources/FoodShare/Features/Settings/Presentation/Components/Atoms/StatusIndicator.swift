@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A status indicator showing connection and sync state.
@@ -496,3 +499,6 @@ public struct StatusIndicator: View {
 
     return InteractivePreview()
 }
+
+
+#endif

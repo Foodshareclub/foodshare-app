@@ -5,6 +5,9 @@
 //  ViewModel for feedback submission
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 
@@ -103,3 +106,6 @@ final class FeedbackViewModel {
         isSuccess = false
     }
 }
+
+
+#endif

@@ -1,6 +1,7 @@
+
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 import Supabase
@@ -337,3 +338,6 @@ final class SupabaseForumRepository: ForumRepository {
         try await reputation.deleteReadNotifications(profileId: profileId)
     }
 }
+
+
+#endif

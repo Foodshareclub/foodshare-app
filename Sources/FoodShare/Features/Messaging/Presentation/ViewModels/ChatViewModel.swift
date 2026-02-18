@@ -6,6 +6,9 @@
 //  Enhanced with typing indicators and read receipts
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import Supabase
@@ -355,3 +358,6 @@ extension ChatViewModel {
         )
     }
 }
+
+
+#endif

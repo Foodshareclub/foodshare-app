@@ -5,6 +5,8 @@
 //  Form for submitting a review
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -105,3 +107,5 @@ struct ReviewFormView: View {
     }
 }
 
+
+#endif

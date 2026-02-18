@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  EmailAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized API service for email operations
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Request Bodies
@@ -92,4 +93,5 @@ actor EmailAPIService {
         ])
     }
 }
+
 #endif

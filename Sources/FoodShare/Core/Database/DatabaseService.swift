@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -248,3 +251,6 @@ func withRetry<T>(
     }
     throw error
 }
+
+
+#endif

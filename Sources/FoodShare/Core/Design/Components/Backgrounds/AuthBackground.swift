@@ -7,6 +7,7 @@
 //  Requires iOS 18+ for MeshGradient support
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -178,7 +179,7 @@ struct AuthBackground: View {
                             endRadius: 200,
                         ),
                     )
-                    .frame(width: 400, height: 400)
+                    .frame(width: 400.0, height: 400)
                     .blur(radius: 80)
                     .offset(
                         x: animateOrbs ? -50 : -100,
@@ -199,7 +200,7 @@ struct AuthBackground: View {
                             endRadius: 180,
                         ),
                     )
-                    .frame(width: 350, height: 350)
+                    .frame(width: 350.0, height: 350)
                     .blur(radius: 70)
                     .offset(
                         x: geometry.size.width - (animateOrbs ? 150 : 100),
@@ -219,7 +220,7 @@ struct AuthBackground: View {
                             endRadius: 150,
                         ),
                     )
-                    .frame(width: 300, height: 300)
+                    .frame(width: 300.0, height: 300)
                     .blur(radius: 60)
                     .offset(
                         x: geometry.size.width * 0.3,
@@ -259,4 +260,5 @@ struct AuthBackground: View {
 #Preview("Orbs - Brand (Pink/Teal)") {
     AuthBackground(useMeshGradient: false, style: .brand)
 }
+
 #endif

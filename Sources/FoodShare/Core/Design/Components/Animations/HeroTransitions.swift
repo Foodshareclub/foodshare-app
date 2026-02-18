@@ -12,6 +12,8 @@
 //  - Cross-fade with geometry matching
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Hero Animation Namespace
@@ -442,7 +444,7 @@ enum HeroTransitionPreset {
                                 VStack(alignment: .leading, spacing: Spacing.sm) {
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(Color.DesignSystem.primary.opacity(0.3))
-                                        .frame(height: 100)
+                                        .frame(height: 100.0)
                                         .hero(id: id, element: .image, in: namespace)
 
                                     Text("Card \(index + 1)")
@@ -450,7 +452,11 @@ enum HeroTransitionPreset {
                                         .hero(id: id, element: .title, in: namespace)
                                 }
                                 .padding(Spacing.sm)
-                                .background(.ultraThinMaterial)
+                                #if !SKIP
+                                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                                 .hero(id: id, element: .container, in: namespace)
                                 .onTapGesture {
@@ -466,7 +472,7 @@ enum HeroTransitionPreset {
                         VStack(spacing: 0) {
                             RoundedRectangle(cornerRadius: 0)
                                 .fill(Color.DesignSystem.primary.opacity(0.3))
-                                .frame(height: 300)
+                                .frame(height: 300.0)
                                 .hero(id: id, element: .image, in: namespace)
 
                             VStack(alignment: .leading, spacing: Spacing.md) {
@@ -498,4 +504,6 @@ enum HeroTransitionPreset {
 
         return HeroPreview()
     }
+#endif
+
 #endif

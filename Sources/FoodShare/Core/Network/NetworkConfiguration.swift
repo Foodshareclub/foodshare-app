@@ -6,6 +6,9 @@
 //  Enterprise-grade defaults optimized for reliability and performance
 //
 
+
+
+#if !SKIP
 import Foundation
 
 /// Centralized network configuration factory
@@ -127,6 +130,9 @@ enum NetworkConfiguration {
 
 extension Bundle {
     fileprivate var appVersion: String {
-        (infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0.0"
+        (infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0"
     }
 }
+
+
+#endif

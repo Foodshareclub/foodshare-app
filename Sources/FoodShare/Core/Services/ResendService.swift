@@ -5,6 +5,9 @@
 //  Resend email service wrapper via EmailAPIService
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -162,3 +165,6 @@ final class ResendService: Sendable {
         return emailPredicate.evaluate(with: email)
     }
 }
+
+
+#endif

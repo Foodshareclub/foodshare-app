@@ -5,6 +5,8 @@
 //  Utilities for locale handling and display
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Utilities for working with locales
@@ -46,3 +48,5 @@ enum LocaleUtilities {
             ?? locale.uppercased()
     }
 }
+
+#endif

@@ -5,6 +5,9 @@
 //  ViewModel for community fridges list and map
 //
 
+
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -162,3 +165,6 @@ final class CommunityFridgesViewModel {
         }
     }
 }
+
+
+#endif

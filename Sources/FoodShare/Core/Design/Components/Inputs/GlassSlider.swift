@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Slider Component with ProMotion-optimized animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Slider
@@ -78,7 +80,11 @@ struct GlassSlider: View {
                     // Background track
                     Capsule()
                         .fill(Color.white.opacity(0.08))
-                        .background(.ultraThinMaterial)
+                        #if !SKIP
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .clipShape(Capsule())
                         .overlay(
                             Capsule()
@@ -97,12 +103,16 @@ struct GlassSlider: View {
                                 endPoint: .trailing,
                             ),
                         )
-                        .frame(width: max(0, fillWidth(for: geometry.size.width)))
+                        .frame(width: max(0.0, fillWidth(for: geometry.size.width)))
                         .shadow(color: accentColor.opacity(isDragging ? 0.5 : 0.3), radius: isDragging ? 8 : 4, y: 0)
 
                     // Thumb
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .fill(
@@ -152,7 +162,11 @@ struct GlassSlider: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.white.opacity(0.06))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -194,7 +208,7 @@ struct GlassSlider: View {
     }
 
     private func updateValue(at locationX: CGFloat, width: CGFloat) {
-        let clampedX = min(max(0, locationX), width)
+        let clampedX = min(max(0.0, locationX), width)
         let progress = clampedX / width
         var newValue = range.lowerBound + (range.upperBound - range.lowerBound) * progress
 
@@ -271,3 +285,5 @@ struct GlassRadiusSlider: View {
         .padding()
     }
 }
+
+#endif

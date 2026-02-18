@@ -6,6 +6,8 @@
 //  Shows all badges organized by type with progress tracking
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -189,7 +191,7 @@ struct BadgesDetailView: View {
                         .fill(badge.rarity.color)
                         .blur(radius: 40)
                         .opacity(0.6)
-                        .frame(width: 150, height: 150)
+                        .frame(width: 150.0, height: 150)
                         .scaleEffect(showUnlockCelebration ? 1.2 : 0.8)
                         .animation(
                             .easeInOut(duration: 1.5).repeatForever(autoreverses: true),
@@ -217,7 +219,7 @@ struct BadgesDetailView: View {
                             .font(.system(size: 56, weight: .semibold))
                             .foregroundColor(badge.swiftUIColor)
                     }
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
                     .scaleEffect(showUnlockCelebration ? 1.0 : 0.5)
                     .animation(.spring(response: 0.5, dampingFraction: 0.6), value: showUnlockCelebration)
                 }
@@ -311,7 +313,7 @@ struct BadgesDetailView: View {
             }
 
             Divider()
-                .frame(height: 60)
+                .frame(height: 60.0)
 
             // Total points
             VStack(spacing: Spacing.xs) {
@@ -330,7 +332,7 @@ struct BadgesDetailView: View {
             }
 
             Divider()
-                .frame(height: 60)
+                .frame(height: 60.0)
 
             // Completion percentage
             VStack(spacing: Spacing.xs) {
@@ -381,7 +383,7 @@ struct BadgesDetailView: View {
                                 showBadgeDetail = true
                             },
                         )
-                        .frame(width: 80)
+                        .frame(width: 80.0)
                     }
                 }
             }
@@ -515,7 +517,7 @@ struct BadgeDetailSheet: View {
             }
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(height: 52.0)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(
@@ -544,7 +546,7 @@ struct BadgeDetailSheet: View {
                     .fill(badge.rarity.color)
                     .blur(radius: 30)
                     .opacity(badge.rarity.glowIntensity)
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
             }
 
             // Icon circle
@@ -571,13 +573,13 @@ struct BadgeDetailSheet: View {
                     .font(.system(size: 48, weight: .semibold))
                     .foregroundColor(isEarned ? badge.swiftUIColor : badge.swiftUIColor.opacity(0.3))
             }
-            .frame(width: 100, height: 100)
+            .frame(width: 100.0, height: 100)
 
             // Lock overlay
             if !isEarned {
                 Circle()
                     .fill(Color.black.opacity(0.4))
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "lock.fill")
                     .font(.system(size: 28, weight: .medium))
@@ -757,7 +759,7 @@ struct ShareBadgeSheet: View {
                             .font(.DesignSystem.titleMedium)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 52)
+                            .frame(height: 52.0)
                             .background(
                                 RoundedRectangle(cornerRadius: CornerRadius.large)
                                     .fill(
@@ -778,7 +780,7 @@ struct ShareBadgeSheet: View {
                             .font(.DesignSystem.titleMedium)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 52)
+                            .frame(height: 52.0)
                             .background(
                                 RoundedRectangle(cornerRadius: CornerRadius.large)
                                     .fill(
@@ -804,7 +806,7 @@ struct ShareBadgeSheet: View {
                             .font(.DesignSystem.bodyLarge)
                             .foregroundColor(.DesignSystem.textSecondary)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 48)
+                            .frame(height: 48.0)
                             .background(
                                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                                     .fill(Color.DesignSystem.glassBackground)
@@ -841,7 +843,7 @@ struct ShareBadgeSheet: View {
                     .fill(badge.rarity.color)
                     .blur(radius: 25)
                     .opacity(badge.rarity.glowIntensity)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 ZStack {
                     Circle()
@@ -863,7 +865,7 @@ struct ShareBadgeSheet: View {
                         .font(.system(size: 36, weight: .semibold))
                         .foregroundColor(badge.swiftUIColor)
                 }
-                .frame(width: 80, height: 80)
+                .frame(width: 80.0, height: 80)
             }
 
             Text(badge.name)
@@ -921,4 +923,6 @@ struct ShareBadgeSheet: View {
             earnedDate: Date(),
         )
     }
+#endif
+
 #endif

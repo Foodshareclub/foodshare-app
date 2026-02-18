@@ -5,6 +5,8 @@
 //  Explore tab with integrated search, map toggle, and feed
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Explore Tab View
@@ -354,7 +356,11 @@ struct ExploreTabView: View {
                                     .padding(.vertical, Spacing.xs)
                                     .background(
                                         Capsule()
-                                            .fill(.ultraThinMaterial)
+                                            #if !SKIP
+                                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                            #else
+                                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                            #endif
                                             .overlay(
                                                 Capsule()
                                                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -381,7 +387,11 @@ struct ExploreTabView: View {
                                     .padding(.vertical, Spacing.xs)
                                     .background(
                                         Capsule()
-                                            .fill(.ultraThinMaterial)
+                                            #if !SKIP
+                                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                            #else
+                                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                            #endif
                                             .overlay(
                                                 Capsule()
                                                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -421,7 +431,11 @@ struct ExploreTabView: View {
                                 .padding(Spacing.md)
                                 .background(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                        .fill(.ultraThinMaterial)
+                                        #if !SKIP
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                        #else
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                        #endif
                                         .overlay(
                                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -562,10 +576,14 @@ struct ExploreTabView: View {
             Image(systemName: "clock.arrow.circlepath")
                 .font(.system(size: 16))
                 .foregroundColor(.DesignSystem.text)
-                .frame(width: 36, height: 36)
+                .frame(width: 36.0, height: 36)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -585,10 +603,14 @@ struct ExploreTabView: View {
                 Image(systemName: "bell.fill")
                     .font(.system(size: 18))
                     .foregroundColor(.DesignSystem.text)
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 Circle()
                                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -606,7 +628,7 @@ struct ExploreTabView: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 18, height: 18)
+                            .frame(width: 18.0, height: 18)
 
                         Text(unreadNotificationCount > 99 ? "99+" : "\(unreadNotificationCount)")
                             .font(.system(size: 10, weight: .bold))
@@ -656,8 +678,12 @@ struct ExploreTabView: View {
             // Animated loading icon with glass effect
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 80, height: 80)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 80.0, height: 80)
                     .overlay(
                         Circle()
                             .stroke(
@@ -727,3 +753,5 @@ struct ExploreTabView: View {
         }
     }
 }
+
+#endif

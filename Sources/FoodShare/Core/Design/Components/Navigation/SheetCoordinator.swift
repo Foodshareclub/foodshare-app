@@ -18,6 +18,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Sheet Presentable Protocol
@@ -181,3 +183,5 @@ final class MultiSheetCoordinator {
         _activeSheet as? S
     }
 }
+
+#endif

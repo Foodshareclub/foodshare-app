@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MockForumRepository.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Mock implementation of ForumRepository for testing
 //
 
+
+#if !SKIP
 import Foundation
 
 #if DEBUG
@@ -595,4 +596,5 @@ final class MockForumRepository: ForumRepository, @unchecked Sendable {
     }
 }
 #endif
+
 #endif

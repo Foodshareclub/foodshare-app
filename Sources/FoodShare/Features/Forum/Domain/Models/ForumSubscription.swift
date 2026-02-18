@@ -6,6 +6,8 @@
 //  Maps to `forum_subscriptions` and `forum_notifications` tables
 //
 
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -546,4 +548,6 @@ struct CreateSubscriptionRequest: Encodable, Sendable {
             )
         ]
     }
+#endif
+
 #endif

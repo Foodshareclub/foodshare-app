@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Pull To Refresh
@@ -47,7 +49,7 @@ public struct GlassPullToRefresh<Content: View>: View {
                 VStack(spacing: 0) {
                     // Pull indicator
                     pullIndicator
-                        .frame(height: max(0, pullProgress))
+                        .frame(height: max(0.0, pullProgress))
                         .opacity(pullProgress > 0 ? 1 : 0)
 
                     // Content
@@ -89,7 +91,7 @@ public struct GlassPullToRefresh<Content: View>: View {
                                 Color.DesignSystem.brandGreen.opacity(0.2 - Double(index) * 0.05),
                                 lineWidth: 2,
                             )
-                            .frame(width: 50 + CGFloat(index) * 15, height: 50 + CGFloat(index) * 15)
+                            .frame(width: 50.0 + CGFloat(index) * 15, height: 50 + CGFloat(index) * 15)
                             .scaleEffect(isRefreshing ? 1.1 : 1.0)
                             .opacity(pullProgress / threshold)
                             .animation(
@@ -130,8 +132,12 @@ public struct GlassPullToRefresh<Content: View>: View {
         ZStack {
             // Glass background
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 44, height: 44)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 44.0, height: 44)
 
             // Gradient overlay
             Circle()
@@ -145,7 +151,7 @@ public struct GlassPullToRefresh<Content: View>: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
 
             // Progress arc
             Circle()
@@ -154,7 +160,7 @@ public struct GlassPullToRefresh<Content: View>: View {
                     Color.DesignSystem.brandGreen,
                     style: StrokeStyle(lineWidth: 3, lineCap: .round),
                 )
-                .frame(width: 38, height: 38)
+                .frame(width: 38.0, height: 38)
                 .rotationEffect(Angle.degrees(isRefreshing ? orbRotation : -90))
                 .animation(
                     isRefreshing
@@ -183,7 +189,7 @@ public struct GlassPullToRefresh<Content: View>: View {
     // MARK: - Computed Properties
 
     private var progressOpacity: Double {
-        min(1, pullProgress / threshold)
+        min(1.0, pullProgress / threshold)
     }
 
     private var statusText: String {
@@ -376,3 +382,5 @@ extension View {
 
     return PreviewContainer()
 }
+
+#endif

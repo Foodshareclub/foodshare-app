@@ -14,6 +14,9 @@
 //  ```
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -260,3 +263,6 @@ enum InvitationError: LocalizedError, Sendable {
         }
     }
 }
+
+
+#endif

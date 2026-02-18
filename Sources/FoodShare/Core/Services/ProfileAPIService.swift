@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ProfileAPIService.swift
 //  Foodshare
@@ -17,6 +16,8 @@
 //  - DELETE /api-v1-profile?action=account  → deleteAccount()
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - DTOs
@@ -248,4 +249,5 @@ actor ProfileAPIService {
         try await client.delete("api-v1-profile", params: ["action": "account"])
     }
 }
+
 #endif

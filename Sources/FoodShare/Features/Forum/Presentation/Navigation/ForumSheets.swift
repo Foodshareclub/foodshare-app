@@ -6,6 +6,7 @@
 //  Centralizes all forum-related sheet state.
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -167,4 +168,5 @@ enum ForumSimpleSheet: SheetPresentable {
         }
     }
 }
+
 #endif

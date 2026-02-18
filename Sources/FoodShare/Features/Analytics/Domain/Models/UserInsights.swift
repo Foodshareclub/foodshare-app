@@ -5,6 +5,8 @@
 //  User analytics and insights models
 //
 
+
+#if !SKIP
 import Foundation
 
 /// User activity insights and statistics
@@ -259,5 +261,7 @@ struct ImpactMetrics: Sendable {
             )
         }
     }
+
+#endif
 
 #endif

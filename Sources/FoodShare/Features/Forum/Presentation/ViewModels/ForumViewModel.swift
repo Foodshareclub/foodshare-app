@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import SwiftUI
@@ -495,3 +498,6 @@ final class ForumViewModel {
         }
     }
 }
+
+
+#endif

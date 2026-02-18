@@ -5,6 +5,8 @@
 //  Structured logging level enumeration
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -60,3 +62,5 @@ enum LogLevel: String, Codable, Sendable, CaseIterable, Comparable {
         lhs.priority < rhs.priority
     }
 }
+
+#endif

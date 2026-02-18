@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MetricsReporter.swift
 //  FoodShare
@@ -33,6 +32,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -509,4 +510,5 @@ final class RequestTimer: @unchecked Sendable {
         )
     }
 }
+
 #endif

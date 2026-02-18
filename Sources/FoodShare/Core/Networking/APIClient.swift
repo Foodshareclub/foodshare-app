@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  APIClient.swift
 //  Foodshare
@@ -8,6 +7,8 @@
 //  and the standard Edge Function response envelope.
 //
 
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -282,4 +283,5 @@ enum APIError: LocalizedError {
         }
     }
 }
+
 #endif

@@ -6,6 +6,8 @@
 //  CareEcho-inspired layered glass effects and smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Dismissible error banner with Liquid Glass styling
@@ -316,3 +318,5 @@ extension View {
     .padding()
     .background(Color.black)
 }
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  UpstashRedisClient.swift
 //  Foodshare
@@ -14,6 +13,8 @@
 //  - Error handling and logging
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -489,4 +490,5 @@ actor UpstashRedisClientImpl: UpstashRedisClient {
         }
     }
 #endif
+
 #endif

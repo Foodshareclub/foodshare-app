@@ -5,6 +5,8 @@
 //  Use case for geospatial search operations
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -147,3 +149,5 @@ enum DistanceCalculator {
         }
     }
 }
+
+#endif

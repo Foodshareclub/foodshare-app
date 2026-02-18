@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  MetricsAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Request Bodies
@@ -102,4 +103,5 @@ struct Metric: Codable {
     let timestamp: Date
     let tags: [String: String]
 }
+
 #endif

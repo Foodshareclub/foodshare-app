@@ -2,6 +2,9 @@
 // Enterprise Notification Settings UI
 // FoodShare iOS - Liquid Glass Design System
 
+
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Main View
@@ -319,7 +322,7 @@ public struct EnterpriseNotificationSettingsView: View {
                         Image(systemName: "moon.stars.fill")
                             .font(.system(size: 20))
                             .foregroundStyle(Color.DesignSystem.brandBlue)
-                            .frame(width: 32)
+                            .frame(width: 32.0)
 
                         VStack(alignment: .leading, spacing: Spacing.xxxs) {
                             Text(t.t("settings.notifications.quiet_hours", fallback: "Quiet Hours"))
@@ -367,7 +370,7 @@ public struct EnterpriseNotificationSettingsView: View {
                         Image(systemName: "moon.fill")
                             .font(.system(size: 20))
                             .foregroundStyle(Color.DesignSystem.warning)
-                            .frame(width: 32)
+                            .frame(width: 32.0)
 
                         VStack(alignment: .leading, spacing: Spacing.xxxs) {
                             Text(t.t("settings.notifications.dnd", fallback: "Do Not Disturb"))
@@ -412,7 +415,7 @@ public struct EnterpriseNotificationSettingsView: View {
             Image(systemName: category.icon)
                 .font(.system(size: 18))
                 .foregroundStyle(channelColor(channel))
-                .frame(width: 32)
+                .frame(width: 32.0)
 
             VStack(alignment: .leading, spacing: Spacing.xxxs) {
                 Text(category.displayName)
@@ -459,7 +462,7 @@ public struct EnterpriseNotificationSettingsView: View {
                 Image(systemName: category.icon)
                     .font(.system(size: 18))
                     .foregroundStyle(Color.DesignSystem.brandBlue)
-                    .frame(width: 32)
+                    .frame(width: 32.0)
 
                 VStack(alignment: .leading, spacing: Spacing.xxxs) {
                     Text(category.displayName)
@@ -493,7 +496,7 @@ public struct EnterpriseNotificationSettingsView: View {
             if preference.enabled {
                 HStack(spacing: Spacing.sm) {
                     Spacer()
-                        .frame(width: 32)
+                        .frame(width: 32.0)
 
                     Text("Frequency:")
                         .font(.DesignSystem.captionSmall)
@@ -529,7 +532,7 @@ public struct EnterpriseNotificationSettingsView: View {
                 Image(systemName: "phone.badge.checkmark")
                     .font(.system(size: 20))
                     .foregroundStyle(Color.DesignSystem.primary)
-                    .frame(width: 32)
+                    .frame(width: 32.0)
 
                 VStack(alignment: .leading, spacing: Spacing.xxxs) {
                     Text(t.t("settings.notifications.verify_phone", fallback: "Verify Phone Number"))
@@ -867,4 +870,7 @@ struct PhoneVerificationSheet: View {
             EnterpriseNotificationSettingsView(viewModel: .errorPreview)
         }
     }
+#endif
+
+
 #endif

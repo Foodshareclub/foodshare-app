@@ -7,6 +7,8 @@
 //  Liquid Glass v27 design system with GPU-accelerated rendering
 //
 
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -67,7 +69,7 @@ struct FeedView: View {
                 // Subtle divider below categories
                 Rectangle()
                     .fill(Color.DesignSystem.glassBorder.opacity(0.15))
-                    .frame(height: 1)
+                    .frame(height: 1.0)
 
                 // Content area
                 if viewModel.isLoading, !viewModel.hasListings {
@@ -329,7 +331,11 @@ struct FeedView: View {
         .padding(Spacing.md)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -379,7 +385,7 @@ struct FeedView: View {
                             endRadius: 50,
                         ),
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
                     .blur(radius: 10)
 
                 // Animated gradient ring
@@ -397,7 +403,7 @@ struct FeedView: View {
                         ),
                         style: StrokeStyle(lineWidth: 3, lineCap: .round),
                     )
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .rotationEffect(.degrees(-90))
                     .modifier(RotatingModifier())
                 #else
@@ -414,7 +420,7 @@ struct FeedView: View {
                         ),
                         style: StrokeStyle(lineWidth: 3, lineCap: .round)
                     )
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .rotationEffect(Angle.degrees(-90))
                 #endif
 
@@ -446,7 +452,11 @@ struct FeedView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -486,7 +496,7 @@ struct FeedView: View {
                             ),
                             lineWidth: 1.5,
                         )
-                        .frame(width: 56 + CGFloat(index) * 16, height: 56 + CGFloat(index) * 16)
+                        .frame(width: 56.0 + CGFloat(index) * 16, height: 56 + CGFloat(index) * 16)
                 }
 
                 // Main icon container
@@ -502,7 +512,7 @@ struct FeedView: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 48, height: 48)
+                        .frame(width: 48.0, height: 48)
                         .shadow(color: Color.DesignSystem.brandGreen.opacity(0.3), radius: 12, y: 4)
 
                     Image(systemName: "gift.fill")
@@ -555,7 +565,11 @@ struct FeedView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.lg)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.lg)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -582,7 +596,7 @@ struct FeedView: View {
                             endRadius: 50,
                         ),
                     )
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
                     .blur(radius: 10)
 
                 Image(systemName: "heart.circle.fill")
@@ -621,7 +635,11 @@ struct FeedView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -639,8 +657,12 @@ struct FeedView: View {
             // Subtle glass container with cloud/offline icon
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -693,7 +715,11 @@ struct FeedView: View {
                 .padding(.vertical, Spacing.sm)
                 .background(
                     Capsule()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Capsule()
                                 .stroke(Color.DesignSystem.brandGreen.opacity(0.3), lineWidth: 1),
@@ -762,3 +788,5 @@ struct FeedView: View {
 // Note: FilterSheet, FeedSkeletonCard, TrendingItemCard, CompactListingRow, FeedStatPill,
 // FullSearchSheet, SearchTab, RecentSearchRow, and RotatingModifier have been extracted
 // to separate files in the Components/ subdirectory for better organization and maintainability.
+
+#endif

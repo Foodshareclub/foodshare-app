@@ -5,6 +5,8 @@
 //  Use case for updating a food listing
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case for updating an existing food listing
@@ -27,3 +29,5 @@ final class UpdateListingUseCase {
         return try await repository.updateListing(request)
     }
 }
+
+#endif

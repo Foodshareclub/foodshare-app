@@ -6,6 +6,8 @@
 //  The canonical types are defined in Features/Feed/Domain/Models/
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Type alias for backward compatibility - use FoodItem instead
@@ -15,3 +17,5 @@ typealias FoodListing = FoodItem
 /// Type alias for backward compatibility - use Category instead
 /// Category is defined in Features/Feed/Domain/Models/Category.swift
 typealias FoodCategory = Category
+
+#endif

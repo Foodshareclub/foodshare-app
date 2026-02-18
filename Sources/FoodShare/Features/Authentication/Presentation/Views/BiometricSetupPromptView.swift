@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  BiometricSetupPromptView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Enterprise-grade onboarding with Liquid Glass design
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -43,12 +44,16 @@ struct BiometricSetupPromptView: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 140, height: 140)
+                    .frame(width: 140.0, height: 140)
                     .scaleEffect(animateIcon ? 1.1 : 1.0)
 
                 Circle()
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -102,7 +107,11 @@ struct BiometricSetupPromptView: View {
             .padding(Spacing.lg)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -150,7 +159,7 @@ struct BiometricSetupPromptView: View {
             Image(systemName: icon)
                 .font(.system(size: 16))
                 .foregroundStyle(Color.DesignSystem.brandGreen)
-                .frame(width: 24)
+                .frame(width: 24.0)
 
             Text(text)
                 .font(.DesignSystem.bodyMedium)
@@ -194,4 +203,5 @@ struct BiometricSetupPromptView: View {
         onSkip: {},
     )
 }
+
 #endif

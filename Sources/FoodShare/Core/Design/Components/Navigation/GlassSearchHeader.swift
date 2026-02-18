@@ -5,6 +5,8 @@
 //  Created by Claude Code on 2025-12-29.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// DEPRECATED: Use GlassSearchBar directly with AppLogoView and filter button pattern instead.
@@ -222,7 +224,7 @@ extension GlassSearchHeader where TrailingContent == EmptyView {
                 Image(systemName: "gear")
                     .font(.system(size: 20))
                     .foregroundColor(Color.DesignSystem.themed.primary)
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
             }
         }
 
@@ -273,7 +275,7 @@ extension GlassSearchHeader where TrailingContent == EmptyView {
                 Image(systemName: "line.3.horizontal.decrease.circle")
                     .font(.system(size: 20))
                     .foregroundColor(Color.DesignSystem.themed.primary)
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
             }
         }
 
@@ -281,3 +283,5 @@ extension GlassSearchHeader where TrailingContent == EmptyView {
     }
     .background(Color.DesignSystem.background)
 }
+
+#endif

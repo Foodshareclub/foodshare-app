@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ForumAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  REST API client for forum operations via api-v1-forum edge function
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -193,4 +194,5 @@ actor ForumAPIService {
         let _: EmptyResponse = try await client.delete("api-v1-forum", params: ["action": "comment", "id": "\(id)"])
     }
 }
+
 #endif

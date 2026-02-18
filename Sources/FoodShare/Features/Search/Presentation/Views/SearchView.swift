@@ -6,6 +6,8 @@
 //  Enhanced with Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -75,7 +77,7 @@ struct SearchView: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.glassBackground)
-                                .frame(width: 36, height: 36)
+                                .frame(width: 36.0, height: 36)
 
                             Image(systemName: "slider.horizontal.3")
                                 .font(.system(size: 16))
@@ -86,7 +88,7 @@ struct SearchView: View {
                             if viewModel.activeFiltersCount > 0 {
                                 Circle()
                                     .fill(Color.DesignSystem.primary)
-                                    .frame(width: 8, height: 8)
+                                    .frame(width: 8.0, height: 8)
                                     .offset(x: 10, y: -10)
                             }
                         }
@@ -173,13 +175,13 @@ struct SearchView: View {
                     .fill(viewModel.isVoiceSearchActive
                         ? Color.DesignSystem.error
                         : Color.DesignSystem.glassBackground)
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
 
                 if viewModel.isVoiceSearchActive {
                     // Pulsing animation when recording
                     Circle()
                         .stroke(Color.DesignSystem.error.opacity(0.5), lineWidth: 2)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 36.0, height: 36)
                         .scaleEffect(viewModel.isVoiceSearchActive ? 1.3 : 1.0)
                         .opacity(viewModel.isVoiceSearchActive ? 0 : 1)
                         .animation(
@@ -239,7 +241,7 @@ struct SearchView: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 ProgressView()
                     .scaleEffect(1.3)
@@ -413,7 +415,7 @@ struct SearchView: View {
                 micSize: 70,
                 showMic: true
             )
-            .frame(height: 220)
+            .frame(height: 220.0)
 
             VStack(spacing: Spacing.sm) {
                 Text(t.t("search.listening"))
@@ -615,7 +617,7 @@ struct SearchView: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 40, weight: .medium))
@@ -656,7 +658,7 @@ struct SearchView: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "tray")
                     .font(.system(size: 40, weight: .medium))
@@ -760,7 +762,7 @@ struct SearchResultCard: View {
                     }
                 }
             }
-            .frame(width: 80, height: 80)
+            .frame(width: 80.0, height: 80)
             .background(Color.DesignSystem.glassBackground)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             .overlay(
@@ -969,7 +971,7 @@ struct SearchFilterView: View {
                     Image(systemName: icon)
                         .font(.system(size: 16))
                         .foregroundColor(isSelected ? .DesignSystem.primary : .DesignSystem.textSecondary)
-                        .frame(width: 24)
+                        .frame(width: 24.0)
                 }
 
                 Text(title)
@@ -985,7 +987,7 @@ struct SearchFilterView: View {
                 } else {
                     Circle()
                         .strokeBorder(Color.DesignSystem.textTertiary, lineWidth: 1.5)
-                        .frame(width: 20, height: 20)
+                        .frame(width: 20.0, height: 20)
                 }
             }
             .padding(Spacing.sm)
@@ -1059,7 +1061,7 @@ struct SavedSearchRow: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.DesignSystem.textTertiary)
-                        .frame(width: 24, height: 24)
+                        .frame(width: 24.0, height: 24)
                         .background(
                             Circle()
                                 .fill(Color.DesignSystem.glassBackground),
@@ -1119,7 +1121,7 @@ struct SearchFoodItemCard: View {
                     }
                 }
             }
-            .frame(width: 100, height: 100)
+            .frame(width: 100.0, height: 100)
             .background(Color.DesignSystem.glassBackground)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             .overlay(
@@ -1160,3 +1162,294 @@ struct SearchFoodItemCard: View {
         .glassEffect(cornerRadius: CornerRadius.large)
     }
 }
+
+#else
+// MARK: - Android SearchView (Skip)
+
+import SwiftUI
+
+struct SearchView: View {
+    @State private var searchQuery = ""
+    @State private var results: [FoodItem] = []
+    @State private var isSearching = false
+    @State private var recentSearches: [String] = []
+    @State private var hasSearched = false
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0.0) {
+                // Search bar
+                HStack(spacing: 10.0) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Color.white.opacity(0.5))
+                    TextField("Search for food nearby...", text: $searchQuery)
+                        .foregroundStyle(Color.white)
+                        .submitLabel(.search)
+                        .onSubmit {
+                            Task { await performSearch() }
+                        }
+
+                    if !searchQuery.isEmpty {
+                        Button(action: {
+                            searchQuery = ""
+                            results = []
+                            hasSearched = false
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(Color.white.opacity(0.5))
+                        }
+                    }
+                }
+                .padding(12.0)
+                .background(Color.white.opacity(0.08))
+                .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                .padding(.horizontal, 16.0)
+                .padding(.top, 8.0)
+
+                // Content
+                if isSearching {
+                    Spacer()
+                    ProgressView()
+                        .tint(.white)
+                    Text("Searching...")
+                        .font(.system(size: 14.0))
+                        .foregroundStyle(Color.gray)
+                        .padding(.top, 8.0)
+                    Spacer()
+                } else if hasSearched && results.isEmpty {
+                    Spacer()
+                    VStack(spacing: 12.0) {
+                        Image(systemName: "tray")
+                            .font(.system(size: 48.0))
+                            .foregroundStyle(Color.white.opacity(0.2))
+                        Text("No results found")
+                            .font(.system(size: 18.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+                        Text("Try different search terms")
+                            .font(.system(size: 14.0))
+                            .foregroundStyle(Color.white.opacity(0.5))
+                    }
+                    Spacer()
+                } else if !results.isEmpty {
+                    ScrollView {
+                        LazyVStack(spacing: 8.0) {
+                            Text("\(results.count) results")
+                                .font(.system(size: 13.0))
+                                .foregroundStyle(Color.white.opacity(0.5))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 16.0)
+                                .padding(.top, 8.0)
+
+                            ForEach(results) { item in
+                                NavigationLink(destination: FoodItemDetailView(item: item)) {
+                                    SearchResultRow(item: item)
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.horizontal, 16.0)
+                            }
+                        }
+                    }
+                } else {
+                    // Empty state with popular suggestions
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20.0) {
+                            if !recentSearches.isEmpty {
+                                VStack(alignment: .leading, spacing: 10.0) {
+                                    HStack {
+                                        Text("Recent Searches")
+                                            .font(.system(size: 15.0, weight: .medium))
+                                            .foregroundStyle(Color.white.opacity(0.6))
+                                        Spacer()
+                                        Button("Clear") {
+                                            recentSearches = []
+                                        }
+                                        .font(.system(size: 13.0))
+                                        .foregroundStyle(Color(red: 0.2, green: 0.7, blue: 0.4))
+                                    }
+
+                                    ForEach(recentSearches, id: \.self) { search in
+                                        Button(action: {
+                                            searchQuery = search
+                                            Task { await performSearch() }
+                                        }) {
+                                            HStack(spacing: 10.0) {
+                                                Image(systemName: "clock")
+                                                    .foregroundStyle(Color.white.opacity(0.4))
+                                                Text(search)
+                                                    .foregroundStyle(Color.white.opacity(0.7))
+                                                Spacer()
+                                            }
+                                            .padding(12.0)
+                                            .background(Color.white.opacity(0.05))
+                                            .clipShape(RoundedRectangle(cornerRadius: 8.0))
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Popular searches
+                            VStack(alignment: .leading, spacing: 10.0) {
+                                Text("Popular Searches")
+                                    .font(.system(size: 15.0, weight: .medium))
+                                    .foregroundStyle(Color.white.opacity(0.6))
+
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 8.0) {
+                                        ForEach(["Fresh bread", "Vegetables", "Fruit", "Meals", "Dairy", "Snacks"], id: \.self) { term in
+                                            Button(action: {
+                                                searchQuery = term
+                                                Task { await performSearch() }
+                                            }) {
+                                                Text(term)
+                                                    .font(.system(size: 13.0))
+                                                    .foregroundStyle(Color.white.opacity(0.7))
+                                                    .padding(.horizontal, 14.0)
+                                                    .padding(.vertical, 8.0)
+                                                    .background(Color.white.opacity(0.08))
+                                                    .clipShape(Capsule())
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .padding(16.0)
+                        .padding(.top, 8.0)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+            .navigationTitle("Search")
+        }
+    }
+
+    private func performSearch() async {
+        let query = searchQuery
+        guard !query.isEmpty else { return }
+        isSearching = true
+        hasSearched = true
+
+        // Save to recent searches
+        if !recentSearches.contains(query) {
+            recentSearches.insert(query, at: 0)
+            if recentSearches.count > 5 {
+                recentSearches = Array(recentSearches.prefix(5))
+            }
+        }
+
+        let baseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        let apiKey = AppEnvironment.supabasePublishableKey ?? ""
+
+        let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+        guard let url = URL(string: "\(baseURL)/functions/v1/api-v1-search?q=\(encodedQuery)&limit=30") else {
+            isSearching = false
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "apikey")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        if let token = AuthenticationService.shared.accessToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            decoder.dateDecodingStrategy = .iso8601
+
+            // Try envelope format first
+            if let envelope = try? decoder.decode(SearchEnvelope.self, from: data), let items = envelope.data {
+                results = items
+            } else if let items = try? decoder.decode([FoodItem].self, from: data) {
+                results = items
+            } else {
+                results = []
+            }
+        } catch {
+            results = []
+        }
+
+        isSearching = false
+    }
+}
+
+private struct SearchEnvelope: Codable {
+    let success: Bool
+    let data: [FoodItem]?
+}
+
+private struct SearchResultRow: View {
+    let item: FoodItem
+
+    var body: some View {
+        HStack(spacing: 12.0) {
+            if let imageUrl = item.displayImageUrl, let url = URL(string: imageUrl) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: ContentMode.fill)
+                            .frame(width: 72.0, height: 72.0)
+                            .clipShape(RoundedRectangle(cornerRadius: 8.0))
+                    default:
+                        searchImagePlaceholder
+                    }
+                }
+            } else {
+                searchImagePlaceholder
+            }
+
+            VStack(alignment: .leading, spacing: 4.0) {
+                Text(item.title)
+                    .font(.system(size: 15.0, weight: .semibold))
+                    .foregroundStyle(Color.white)
+                    .lineLimit(1)
+
+                if let desc = item.description {
+                    Text(desc)
+                        .font(.system(size: 13.0))
+                        .foregroundStyle(Color.white.opacity(0.5))
+                        .lineLimit(2)
+                }
+
+                if let address = item.displayAddress {
+                    HStack(spacing: 4.0) {
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 10.0))
+                        Text(address)
+                            .font(.system(size: 12.0))
+                            .lineLimit(1)
+                    }
+                    .foregroundStyle(Color.white.opacity(0.4))
+                }
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.system(size: 12.0))
+                .foregroundStyle(Color.white.opacity(0.3))
+        }
+        .padding(12.0)
+        .background(Color.white.opacity(0.06))
+        .clipShape(RoundedRectangle(cornerRadius: 10.0))
+    }
+
+    private var searchImagePlaceholder: some View {
+        ZStack {
+            Color.white.opacity(0.05)
+            Image(systemName: "leaf.fill")
+                .font(.system(size: 24.0))
+                .foregroundStyle(Color.white.opacity(0.15))
+        }
+        .frame(width: 72.0, height: 72.0)
+        .clipShape(RoundedRectangle(cornerRadius: 8.0))
+    }
+}
+
+#endif

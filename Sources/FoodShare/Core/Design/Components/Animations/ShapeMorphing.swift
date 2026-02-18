@@ -13,6 +13,8 @@
 //  - Interactive shape feedback
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Morph Shape Type
@@ -475,7 +477,7 @@ extension MorphShapeType {
                                 .font(.LiquidGlass.headlineSmall)
 
                             Color.DesignSystem.brandGreen
-                                .frame(width: 150, height: 150)
+                                .frame(width: 150.0, height: 150)
                                 .morphClip(shapeType)
                                 .onTapGesture {
                                     withAnimation(ProMotionAnimation.smooth) {
@@ -498,7 +500,7 @@ extension MorphShapeType {
                                 .font(.LiquidGlass.headlineSmall)
 
                             Color.DesignSystem.brandPink
-                                .frame(width: 150, height: 100)
+                                .frame(width: 150.0, height: 100)
                                 .overlay(
                                     Text("Interactive")
                                         .foregroundStyle(.white),
@@ -518,7 +520,7 @@ extension MorphShapeType {
                                 baseColor: .DesignSystem.brandTeal,
                                 size: 120,
                             )
-                            .frame(height: 150)
+                            .frame(height: 150.0)
                         }
                     }
                     .padding()
@@ -530,4 +532,6 @@ extension MorphShapeType {
         return PreviewContent()
             .preferredColorScheme(.dark)
     }
+#endif
+
 #endif

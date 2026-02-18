@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  GlassSearchRadius.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Animated circular overlay for visualizing search radius on maps
 //
 
+
+#if !SKIP
 import SwiftUI
 #if !SKIP
 import MapKit
@@ -161,7 +162,7 @@ struct GlassSearchRadius: View {
                         colors: [
                             color.opacity(fillOpacity),
                             color.opacity(fillOpacity * 0.3),
-                            color.opacity(0)
+                            color.opacity(0.0)
                         ],
                         center: .center,
                         startRadius: 0,
@@ -202,14 +203,18 @@ struct GlassSearchRadius: View {
             ForEach(0..<4) { index in
                 Circle()
                     .fill(index < confidenceLevel.dots ? color : Color.DesignSystem.glassBorder)
-                    .frame(width: 6, height: 6)
+                    .frame(width: 6.0, height: 6)
             }
         }
         .padding(.horizontal, Spacing.sm)
         .padding(.vertical, Spacing.xxs)
         .background(
             Capsule()
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -231,7 +236,11 @@ struct GlassSearchRadius: View {
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(color.opacity(0.3), lineWidth: 1)
@@ -400,7 +409,7 @@ struct GlassMapCircleOverlay: MapContent {
                         color: .DesignSystem.brandGreen,
                         confidenceLevel: .high
                     )
-                    .frame(width: 200, height: 200)
+                    .frame(width: 200.0, height: 200)
 
                     // Interactive radius
                     VStack {
@@ -415,7 +424,7 @@ struct GlassMapCircleOverlay: MapContent {
                             isInteractive: true,
                             confidenceLevel: .medium
                         )
-                        .frame(width: 250, height: 250)
+                        .frame(width: 250.0, height: 250)
                     }
 
                     // Different confidence levels
@@ -433,7 +442,7 @@ struct GlassMapCircleOverlay: MapContent {
                                 showPulse: false,
                                 confidenceLevel: level
                             )
-                            .frame(width: 80, height: 80)
+                            .frame(width: 80.0, height: 80)
                         }
                     }
                 }
@@ -453,4 +462,5 @@ struct GlassMapCircleOverlay: MapContent {
 
     return PreviewWrapper()
 }
+
 #endif

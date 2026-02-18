@@ -8,18 +8,18 @@
 //  Mirrors iOS FoodshareApp.swift initialization, skipping platform-specific code
 //
 
+import SwiftUI
+
+#if !SKIP
 import OSLog
 import Supabase
-import SwiftUI
 
 // Entry point when building through SPM directly (not through Xcode target)
 @main
 struct FoodShareApp: App {
     // MARK: - AppDelegate for Push Notifications (iOS only)
 
-    #if !SKIP
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    #endif
 
     // MARK: - Dependencies (Modern @State + @Observable pattern)
 
@@ -39,9 +39,7 @@ struct FoodShareApp: App {
     // App lock
     @State private var appLockService = AppLockService.shared
 
-    #if !SKIP
     @Environment(\.scenePhase) private var scenePhase
-    #endif
 
     @State private var authViewModel = AuthViewModel(
         supabase: AuthenticationService.shared.supabase,
@@ -69,11 +67,9 @@ struct FoodShareApp: App {
         )
         _feedViewModel = State(initialValue: initialFeedViewModel)
 
-        #if !SKIP
         configureAppearance()
-        #endif
 
-        logger.info("✅ [APP] FoodShare app initialized")
+        logger.info("FoodShare app initialized")
     }
 
     /// Performs async initialization tasks on app launch
@@ -94,9 +90,9 @@ struct FoodShareApp: App {
         // Load feature flags from Supabase
         do {
             try await FeatureFlagManager.shared.refresh()
-            logger.info("✅ [APP] Feature flags loaded successfully")
+            logger.info("Feature flags loaded successfully")
         } catch {
-            logger.error("❌ [APP] Failed to load feature flags: \(error.localizedDescription)")
+            logger.error("Failed to load feature flags: \(error.localizedDescription)")
         }
 
         // Check for session restoration
@@ -116,17 +112,16 @@ struct FoodShareApp: App {
             }
 
             await stateRestoration.markSessionRestored()
-            logger.info("📱 [APP] Session restoration available with \(operations.count) pending operations")
+            logger.info("Session restoration available with \(operations.count) pending operations")
         }
 
         // Load user preferences if authenticated (syncs theme across devices)
         if AuthenticationService.shared.isAuthenticated {
             await UserPreferencesService.shared.loadPreferences()
-            logger.info("📱 [APP] User preferences loaded on app startup")
+            logger.info("User preferences loaded on app startup")
         }
     }
 
-    #if !SKIP
     var body: some Scene {
         WindowGroup {
             // Modern @Observable pattern: Uses .environment() for @Observable objects
@@ -146,7 +141,7 @@ struct FoodShareApp: App {
                     isVisible: $showRecoveryBanner,
                     pendingOperationsCount: pendingOperationsCount,
                     onDismiss: {
-                        logger.info("📱 [APP] Recovery banner dismissed")
+                        logger.info("Recovery banner dismissed")
                     },
                     onRetryOperations: {
                         Task {
@@ -181,26 +176,6 @@ struct FoodShareApp: App {
             }
         }
     }
-    #else
-    var body: some View {
-        RootView()
-            .environment(appState)
-            .environment(authViewModel)
-            .environment(guestManager)
-            .environment(feedViewModel)
-            .withTheme()
-            .task {
-                await performInitialization()
-                reinitializeFeedViewModel()
-            }
-            .onChange(of: appState.isAuthenticated) { _, _ in
-                reinitializeFeedViewModel()
-            }
-            .onChange(of: guestManager.isGuestMode) { _, _ in
-                reinitializeFeedViewModel()
-            }
-    }
-    #endif
 
     // MARK: - FeedViewModel Reinitialization
 
@@ -221,11 +196,10 @@ struct FoodShareApp: App {
         )
         logger
             .info(
-                "📱 [APP] FeedViewModel reinitialized (guest: \(guestManager.isGuestMode), authenticated: \(appState.isAuthenticated))",
+                "FeedViewModel reinitialized (guest: \(guestManager.isGuestMode), authenticated: \(appState.isAuthenticated))",
             )
     }
 
-    #if !SKIP
     // MARK: - App Lock Overlay
 
     /// Overlay shown when the app is locked
@@ -243,7 +217,7 @@ struct FoodShareApp: App {
                     // App icon
                     Image("AppIcon")
                         .resizable()
-                        .frame(width: 80, height: 80)
+                        .frame(width: 80.0, height: 80)
                         .clipShape(RoundedRectangle(cornerRadius: 18))
                         .shadow(color: .black.opacity(0.2), radius: 10, y: 5)
 
@@ -299,11 +273,7 @@ struct FoodShareApp: App {
             .onAppear {
                 // Auto-trigger unlock on appear
                 Task {
-                    #if SKIP
-                    try? await Task.sleep(nanoseconds: UInt64(500 * 1_000_000))
-                    #else
                     try? await Task.sleep(for: .milliseconds(500))
-                    #endif
                     await unlockApp()
                 }
             }
@@ -318,7 +288,6 @@ struct FoodShareApp: App {
             }
         }
     }
-    #endif
 
     /// Processes pending operations from state restoration
     private func processPendingOperations() async {
@@ -328,13 +297,13 @@ struct FoodShareApp: App {
             // Process each pending operation based on type
             switch operation.type {
             case .createListing, .updateListing:
-                logger.info("📱 [APP] Processing pending listing operation: \(operation.id)")
+                logger.info("Processing pending listing operation: \(operation.id)")
                 return true
             case .sendMessage:
-                logger.info("📱 [APP] Processing pending message: \(operation.id)")
+                logger.info("Processing pending message: \(operation.id)")
                 return true
             default:
-                logger.info("📱 [APP] Processing pending operation: \(operation.type.rawValue)")
+                logger.info("Processing pending operation: \(operation.type.rawValue)")
                 return true
             }
         }
@@ -343,7 +312,7 @@ struct FoodShareApp: App {
     // MARK: - Deep Link Handling
 
     private func handleDeepLink(url: URL) {
-        logger.info("🔗 [APP] Received deep link: \(url.absoluteString)")
+        logger.info("Received deep link: \(url.absoluteString)")
 
         // Check if this is an OAuth callback first
         let isOAuthCallback = url.scheme == "foodshare" && (
@@ -354,7 +323,7 @@ struct FoodShareApp: App {
         )
 
         if isOAuthCallback {
-            logger.info("🔐 [APP] Processing OAuth callback")
+            logger.info("Processing OAuth callback")
             Task {
                 await appState.handleOAuthCallback(url: url)
             }
@@ -363,11 +332,11 @@ struct FoodShareApp: App {
 
         // Handle content deep links (Universal Links from foodshare.club)
         guard let destination = parseDeepLink(url: url) else {
-            logger.warning("⚠️ [APP] Unknown deep link format: \(url.absoluteString)")
+            logger.warning("Unknown deep link format: \(url.absoluteString)")
             return
         }
 
-        logger.info("🔗 [APP] Navigating to: \(String(describing: destination))")
+        logger.info("Navigating to: \(String(describing: destination))")
         appState.deepLinkDestination = destination
     }
 
@@ -466,7 +435,6 @@ struct FoodShareApp: App {
         return nil
     }
 
-    #if !SKIP
     // MARK: - Appearance Configuration (iOS UIKit only)
 
     private func configureAppearance() {
@@ -504,5 +472,27 @@ struct FoodShareApp: App {
         UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
         UINavigationBar.appearance().compactAppearance = navBarAppearance
     }
-    #endif
 }
+
+#else
+// MARK: - Android Entry Point (Skip)
+// Skip generates the Android Activity; FoodShareApp provides the root View content.
+// App protocol is not yet supported in Skip Fuse — use View conformance instead.
+
+public struct FoodShareApp: View {
+    @State private var appState: AppState = AppState()
+    @State private var authViewModel: AuthViewModel = AuthViewModel()
+    @State private var guestManager: GuestManager = GuestManager()
+    @State private var feedViewModel: FeedViewModel = FeedViewModel()
+
+    public init() {}
+
+    public var body: some View {
+        RootView()
+            .environment(appState)
+            .environment(authViewModel)
+            .environment(guestManager)
+            .environment(feedViewModel)
+    }
+}
+#endif

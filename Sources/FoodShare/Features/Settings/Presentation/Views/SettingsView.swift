@@ -13,6 +13,8 @@
 //  - Lazy loading
 //  - New features: App Lock, Data Export, Backup, Accessibility, App Icons
 
+
+#if !SKIP
 import SwiftUI
 
 struct SettingsView: View {
@@ -190,7 +192,8 @@ struct SettingsView: View {
                             .foregroundStyle(.white)
                     }
                     .padding(Spacing.xl)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
             }
         }
@@ -304,7 +307,7 @@ struct SettingsView: View {
                 Image(systemName: "crown.fill")
                     .font(.system(size: 18))
                     .foregroundColor(.DesignSystem.brandPink)
-                    .frame(width: 28)
+                    .frame(width: 28.0)
 
                 Text(t.t("premium"))
                     .font(.DesignSystem.bodyMedium)
@@ -456,7 +459,11 @@ struct SettingsView: View {
                     .fill(Color.DesignSystem.glassBackground.opacity(0.5))
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
-                            .fill(.ultraThinMaterial),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                     ),
             )
             .overlay(
@@ -494,7 +501,7 @@ struct SettingsView: View {
                 Image(systemName: themeManager.colorSchemePreference.icon)
                     .font(.system(size: 18))
                     .foregroundColor(.DesignSystem.brandBlue)
-                    .frame(width: 28)
+                    .frame(width: 28.0)
 
                 Text(t.t("appearance_mode"))
                     .font(.DesignSystem.bodyMedium)
@@ -511,7 +518,7 @@ struct SettingsView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 180)
+                .frame(width: 180.0)
             }
             .padding(Spacing.md)
 
@@ -523,7 +530,7 @@ struct SettingsView: View {
                     Image(systemName: "app.fill")
                         .font(.system(size: 18))
                         .foregroundColor(.DesignSystem.brandGreen)
-                        .frame(width: 28)
+                        .frame(width: 28.0)
 
                     Text(t.t("app_icon"))
                         .font(.DesignSystem.bodyMedium)
@@ -830,7 +837,11 @@ struct CollapsibleSettingsSection<Content: View>: View {
                 }
                 .background(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             RoundedRectangle(cornerRadius: CornerRadius.large)
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -882,7 +893,11 @@ struct GlassSettingsSection<Content: View>: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -901,11 +916,11 @@ struct SettingsSectionSkeleton: View {
                 HStack(spacing: Spacing.md) {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.textTertiary.opacity(0.3))
-                        .frame(width: 28, height: 28)
+                        .frame(width: 28.0, height: 28)
 
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.textTertiary.opacity(0.3))
-                        .frame(height: 16)
+                        .frame(height: 16.0)
                         .frame(maxWidth: 150)
 
                     Spacer()
@@ -915,7 +930,11 @@ struct SettingsSectionSkeleton: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -945,7 +964,7 @@ struct ThemeSettingsRow: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 28, height: 28)
+                .frame(width: 28.0, height: 28)
 
             Text(t.t("settings.theme"))
                 .font(.DesignSystem.bodyMedium)
@@ -984,7 +1003,7 @@ struct GlassSettingsRow: View {
             Image(systemName: icon)
                 .font(.system(size: 18))
                 .foregroundColor(iconColor)
-                .frame(width: 28)
+                .frame(width: 28.0)
 
             VStack(alignment: .leading, spacing: Spacing.xxxs) {
                 Text(title)
@@ -1048,7 +1067,7 @@ struct GlassSettingsToggle: View {
             Image(systemName: icon)
                 .font(.system(size: 18))
                 .foregroundColor(iconColor)
-                .frame(width: 28)
+                .frame(width: 28.0)
 
             VStack(alignment: .leading, spacing: Spacing.xxxs) {
                 Text(title)
@@ -1087,6 +1106,9 @@ struct GlassSettingsToggle: View {
     }
 }
 
+// MARK: - Android Settings Stubs (iOS-only views, stubbed for #else compilation)
+// These are only needed if Android code references them. For now, they're kept iOS-only.
+
 // MARK: - Language Settings Row
 
 struct LanguageSettingsRow: View {
@@ -1106,7 +1128,7 @@ struct LanguageSettingsRow: View {
         HStack(spacing: Spacing.md) {
             Text(flagEmoji)
                 .font(.system(size: 22))
-                .frame(width: 28)
+                .frame(width: 28.0)
 
             Text(translationService.t("language"))
                 .font(.DesignSystem.bodyMedium)
@@ -1128,3 +1150,144 @@ struct LanguageSettingsRow: View {
         #endif
     }
 }
+
+#else
+// MARK: - Android SettingsView (Skip)
+
+import SwiftUI
+
+struct SettingsView: View {
+    @Environment(AppState.self) private var appState
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var showSignOutConfirmation = false
+
+    init(viewModel: AnyObject? = nil, appState: AnyObject? = nil) {}
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16.0) {
+                // Account Section
+                SettingsSectionCard(title: "Account", icon: "person.fill") {
+                    if let user = appState.currentUser {
+                        SettingsInfoRow(icon: "envelope.fill", title: "Email", value: user.email ?? "Not set")
+                        SettingsInfoRow(icon: "person.fill", title: "Name", value: user.displayName ?? "User")
+                    }
+                }
+
+                // Appearance Section
+                SettingsSectionCard(title: "Appearance", icon: "paintbrush.fill") {
+                    SettingsInfoRow(icon: "moon.fill", title: "Theme", value: "System")
+                }
+
+                // About Section
+                SettingsSectionCard(title: "About", icon: "info.circle.fill") {
+                    SettingsInfoRow(icon: "app.badge.fill", title: "Version", value: "3.0.2")
+                }
+
+                // Support Section
+                SettingsSectionCard(title: "Support", icon: "questionmark.circle.fill") {
+                    SettingsInfoRow(icon: "bubble.left.and.bubble.right.fill", title: "Send Feedback", value: "")
+                    SettingsInfoRow(icon: "questionmark.circle.fill", title: "Help Center", value: "")
+                }
+
+                // Danger Zone
+                VStack(spacing: 1.0) {
+                    Button(action: { showSignOutConfirmation = true }) {
+                        HStack(spacing: 12.0) {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                                .font(.system(size: 18.0))
+                                .foregroundStyle(Color.orange)
+                                .frame(width: 28.0)
+                            Text("Sign Out")
+                                .font(.system(size: 15.0))
+                                .foregroundStyle(Color.orange)
+                            Spacer()
+                        }
+                        .padding(14.0)
+                    }
+                }
+                .background(Color.white.opacity(0.06))
+                .clipShape(RoundedRectangle(cornerRadius: 12.0))
+            }
+            .padding(16.0)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("Sign Out", isPresented: $showSignOutConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Sign Out", role: .destructive) {
+                Task {
+                    await appState.signOut()
+                    dismiss()
+                }
+            }
+        } message: {
+            Text("Are you sure you want to sign out?")
+        }
+    }
+}
+
+private struct SettingsSectionCard<Content: View>: View {
+    let title: String
+    let icon: String
+    let content: Content
+
+    init(title: String, icon: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.icon = icon
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8.0) {
+            HStack(spacing: 8.0) {
+                Image(systemName: icon)
+                    .font(.system(size: 14.0, weight: .semibold))
+                    .foregroundStyle(Color.white.opacity(0.6))
+                Text(title)
+                    .font(.system(size: 16.0, weight: .semibold))
+                    .foregroundStyle(Color.white.opacity(0.6))
+            }
+            .padding(.horizontal, 4.0)
+
+            VStack(spacing: 1.0) {
+                content
+            }
+            .background(Color.white.opacity(0.06))
+            .clipShape(RoundedRectangle(cornerRadius: 12.0))
+        }
+    }
+}
+
+private struct SettingsInfoRow: View {
+    let icon: String
+    let title: String
+    let value: String
+
+    var body: some View {
+        HStack(spacing: 12.0) {
+            Image(systemName: icon)
+                .font(.system(size: 18.0))
+                .foregroundStyle(Color(red: 0.2, green: 0.7, blue: 0.4))
+                .frame(width: 28.0)
+
+            Text(title)
+                .font(.system(size: 15.0))
+                .foregroundStyle(Color.white)
+
+            Spacer()
+
+            if !value.isEmpty {
+                Text(value)
+                    .font(.system(size: 14.0))
+                    .foregroundStyle(Color.white.opacity(0.5))
+            }
+        }
+        .padding(14.0)
+    }
+}
+
+#endif

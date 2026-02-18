@@ -5,6 +5,8 @@
 //  Wrapper view for deep-linking to a specific listing
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Wrapper view for deep-linking to a specific listing
@@ -46,3 +48,5 @@ struct DeepLinkListingView: View {
         }
     }
 }
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  RateLimitedRPCClient.swift
 //  Foodshare
@@ -13,6 +12,8 @@
 //  - Automatic audit logging of sensitive operations
 //  - Circuit breaker pattern for failing services
 //
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -511,4 +512,5 @@ extension RateLimitedRPCClient {
         }
     }
 #endif
+
 #endif

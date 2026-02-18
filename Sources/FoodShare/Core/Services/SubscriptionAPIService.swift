@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SubscriptionAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized API service for subscription/payment operations
 //
 
+
+#if !SKIP
 import Foundation
 
 actor SubscriptionAPIService {
@@ -45,4 +46,5 @@ struct ReceiptVerificationResponse: Codable {
     let valid: Bool
     let subscription: SubscriptionResponse?
 }
+
 #endif

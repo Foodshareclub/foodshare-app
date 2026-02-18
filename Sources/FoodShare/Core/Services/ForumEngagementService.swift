@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ForumEngagementService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Uses unified `likes` table via RPC calls for optimal performance
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -316,4 +317,5 @@ enum ForumEngagementError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

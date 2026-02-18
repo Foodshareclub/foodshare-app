@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  AIAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor AIAPIService {
@@ -31,4 +32,5 @@ struct ModerationResponse: Codable {
     let safe: Bool
     let categories: [String]
 }
+
 #endif

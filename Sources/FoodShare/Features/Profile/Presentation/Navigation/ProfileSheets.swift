@@ -6,6 +6,7 @@
 //  Centralizes all profile-related sheet state.
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -78,4 +79,5 @@ extension SheetCoordinator where Sheet == ProfileSheet {
         present(.appInfo)
     }
 }
+
 #endif

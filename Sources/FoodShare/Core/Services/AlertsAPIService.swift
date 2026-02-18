@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  AlertsAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor AlertsAPIService {
@@ -38,4 +39,5 @@ struct Alert: Codable, Identifiable {
     let message: String
     let createdAt: Date
 }
+
 #endif

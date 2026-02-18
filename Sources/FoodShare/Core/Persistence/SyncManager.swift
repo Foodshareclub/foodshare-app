@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SyncManager.swift
 //  Foodshare
@@ -13,9 +12,9 @@
 //  - Sync statistics and audit logging
 //
 
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 #if !SKIP
 import Network
@@ -1266,4 +1265,5 @@ extension View {
         modifier(OfflineIndicator(syncManager: syncManager))
     }
 }
+
 #endif

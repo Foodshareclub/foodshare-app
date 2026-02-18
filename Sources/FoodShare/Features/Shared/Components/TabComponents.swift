@@ -6,6 +6,8 @@
 //  Extracted from MainTabView for better organization
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Search Bar
@@ -38,7 +40,11 @@ struct SearchBar: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(
@@ -78,7 +84,11 @@ struct WelcomeCard: View {
         .background(
             ZStack {
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
 
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .strokeBorder(
@@ -207,7 +217,11 @@ struct ChallengeProgressCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -234,7 +248,7 @@ struct LeaderboardEntryRow: View {
             Text("#\(rank)")
                 .font(.DesignSystem.headlineSmall)
                 .foregroundColor(.DesignSystem.textSecondary)
-                .frame(width: 40, alignment: .leading)
+                .frame(width: 40.0, alignment: .leading)
 
             Text(name)
                 .font(.DesignSystem.bodyMedium)
@@ -250,7 +264,11 @@ struct LeaderboardEntryRow: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -298,7 +316,7 @@ struct ProfileActionButton: View {
             HStack {
                 Image(systemName: icon)
                     .foregroundColor(color)
-                    .frame(width: 24)
+                    .frame(width: 24.0)
 
                 Text(title)
                     .font(.DesignSystem.bodyLarge)
@@ -313,7 +331,11 @@ struct ProfileActionButton: View {
             .padding(Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .strokeBorder(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -369,3 +391,5 @@ struct SettingsSheet: View {
         }
     }
 }
+
+#endif

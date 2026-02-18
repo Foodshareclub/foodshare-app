@@ -6,6 +6,8 @@
 //  Simple flow: Onboarding → Guest → Auth → EmailVerification → Authenticated
 //
 
+
+#if !SKIP
 import Supabase
 import SwiftUI
 
@@ -78,4 +80,43 @@ public struct RootView: View {
         .environment(GuestManager())
         .environment(FeedViewModel.preview)
 }
+#endif
+
+#else
+// MARK: - Android RootView (Skip)
+
+import SwiftUI
+
+public struct RootView: View {
+    @Environment(AppState.self) var appState
+    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(GuestManager.self) var guestManager
+
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
+    public init() {}
+
+    public var body: some View {
+        Group {
+            if !hasCompletedOnboarding {
+                OnboardingView()
+            } else if guestManager.isGuestMode {
+                MainTabView()
+            } else if !appState.isAuthenticated {
+                AuthView()
+            } else if !appState.isEmailVerified {
+                EmailVerificationView()
+            } else {
+                MainTabView()
+            }
+        }
+        .animation(Animation.spring(), value: appState.isAuthenticated)
+        .animation(Animation.spring(), value: guestManager.isGuestMode)
+        .animation(Animation.spring(), value: hasCompletedOnboarding)
+        .task {
+            await AuthenticationService.shared.checkCurrentSession()
+        }
+    }
+}
+
 #endif

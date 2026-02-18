@@ -5,6 +5,9 @@
 //  Warning banner shown when screen recording is detected
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 struct ScreenRecordingWarningBanner: View {
@@ -81,3 +84,6 @@ extension View {
         modifier(ScreenRecordingAlertModifier())
     }
 }
+
+
+#endif

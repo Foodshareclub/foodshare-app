@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MFAEnrollmentView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Uses Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 
@@ -114,7 +115,7 @@ struct MFAEnrollmentView: View {
                         endRadius: 250,
                     ),
                 )
-                .frame(width: 500, height: 500)
+                .frame(width: 500.0, height: 500)
                 .blur(radius: 80)
                 .offset(y: -150)
                 .animation(.interpolatingSpring(stiffness: 200, damping: 20), value: currentStep)
@@ -149,7 +150,7 @@ struct MFAEnrollmentView: View {
                                 ? Color.DesignSystem.brandGreen
                                 : Color.white.opacity(0.1),
                         )
-                        .frame(height: 2)
+                        .frame(height: 2.0)
                         .frame(maxWidth: 40)
                 }
             }
@@ -172,7 +173,7 @@ struct MFAEnrollmentView: View {
                                 ? stepColor.opacity(0.2)
                                 : Color.white.opacity(0.08),
                     )
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
                     .overlay(
                         Circle()
                             .stroke(
@@ -250,13 +251,17 @@ struct MFAEnrollmentView: View {
                 // Outer glow
                 Circle()
                     .fill(Color.DesignSystem.brandBlue.opacity(0.1))
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
                     .blur(radius: 20)
 
                 // Glass circle
                 Circle()
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -302,12 +307,16 @@ struct MFAEnrollmentView: View {
                     // Outer glow
                     Circle()
                         .fill(Color.DesignSystem.brandGreen.opacity(0.1))
-                        .frame(width: 100, height: 100)
+                        .frame(width: 100.0, height: 100)
                         .blur(radius: 15)
 
                     Circle()
+                        #if !SKIP
                         .fill(.ultraThinMaterial)
-                        .frame(width: 80, height: 80)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(width: 80.0, height: 80)
                         .overlay(
                             Circle()
                                 .stroke(
@@ -354,7 +363,7 @@ struct MFAEnrollmentView: View {
                     // Glass container for QR
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .fill(Color.white)
-                        .frame(width: 240, height: 240)
+                        .frame(width: 240.0, height: 240)
                         .overlay(
                             RoundedRectangle(cornerRadius: CornerRadius.xl)
                                 .stroke(
@@ -375,7 +384,7 @@ struct MFAEnrollmentView: View {
                         .interpolation(.none)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 200)
+                        .frame(width: 200.0, height: 200)
                 }
 
                 // Manual entry option
@@ -434,7 +443,7 @@ struct MFAEnrollmentView: View {
                             Image(systemName: "doc.on.doc")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color.DesignSystem.brandGreen)
-                                .frame(width: 36, height: 36)
+                                .frame(width: 36.0, height: 36)
                                 .background(
                                     Circle()
                                         .fill(Color.DesignSystem.brandGreen.opacity(0.1)),
@@ -446,7 +455,11 @@ struct MFAEnrollmentView: View {
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .fill(Color.white.opacity(0.05))
-                            .background(.ultraThinMaterial),
+                            #if !SKIP
+                            .background(.ultraThinMaterial)
+                            #else
+                            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                     )
                     .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
                     .overlay(
@@ -483,12 +496,16 @@ struct MFAEnrollmentView: View {
                     // Outer glow
                     Circle()
                         .fill(Color.DesignSystem.brandOrange.opacity(0.1))
-                        .frame(width: 100, height: 100)
+                        .frame(width: 100.0, height: 100)
                         .blur(radius: 15)
 
                     Circle()
+                        #if !SKIP
                         .fill(.ultraThinMaterial)
-                        .frame(width: 80, height: 80)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(width: 80.0, height: 80)
                         .overlay(
                             Circle()
                                 .stroke(
@@ -547,7 +564,7 @@ struct MFAEnrollmentView: View {
                 TextField("", text: $verificationCode)
                     .keyboardType(.numberPad)
                     .textContentType(.oneTimeCode)
-                    .frame(width: 1, height: 1)
+                    .frame(width: 1.0, height: 1)
                     .opacity(0.01)
                     .focused($isCodeFocused)
                     .onChange(of: verificationCode) { _, newValue in
@@ -623,7 +640,11 @@ struct MFAEnrollmentView: View {
                         ? Color.DesignSystem.brandOrange.opacity(0.08)
                         : Color.white.opacity(0.05),
                 )
+                #if !SKIP
                 .background(.ultraThinMaterial)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
             // Border
@@ -647,13 +668,13 @@ struct MFAEnrollmentView: View {
             if isFocused, digit.isEmpty {
                 Rectangle()
                     .fill(Color.DesignSystem.brandOrange)
-                    .frame(width: 2, height: 28)
+                    .frame(width: 2.0, height: 28)
                     .opacity(cursorOpacity)
                     .animation(.easeInOut(duration: 0.5).repeatForever(), value: cursorOpacity)
                     .onAppear { cursorOpacity = 0.3 }
             }
         }
-        .frame(width: 48, height: 60)
+        .frame(width: 48.0, height: 60)
         .shadow(
             color: isFocused ? Color.DesignSystem.brandOrange.opacity(0.2) : Color.clear,
             radius: 8,
@@ -674,13 +695,17 @@ struct MFAEnrollmentView: View {
                 // Outer glow
                 Circle()
                     .fill(Color.DesignSystem.success.opacity(0.15))
-                    .frame(width: 140, height: 140)
+                    .frame(width: 140.0, height: 140)
                     .blur(radius: 25)
 
                 // Glass circle
                 Circle()
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
-                    .frame(width: 120, height: 120)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 120.0, height: 120)
                     .overlay(
                         Circle()
                             .stroke(
@@ -758,7 +783,7 @@ struct MFAEnrollmentView: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(Color.DesignSystem.error)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 24.0, height: 24)
                     .background(
                         Circle()
                             .fill(Color.DesignSystem.error.opacity(0.15)),
@@ -769,7 +794,11 @@ struct MFAEnrollmentView: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.DesignSystem.error.opacity(0.1))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(.ultraThinMaterial)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -866,4 +895,5 @@ private struct BounceSymbolEffectModifier: ViewModifier {
 #Preview {
     MFAEnrollmentView()
 }
+
 #endif

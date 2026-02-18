@@ -6,6 +6,8 @@
 //  Use this view to preview all design components
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct DesignSystemShowcase: View {
@@ -139,7 +141,7 @@ struct DesignSystemShowcase: View {
                         }
 
                         Spacer()
-                            .frame(height: 100)
+                            .frame(height: 100.0)
                     }
                     .padding(.horizontal, Spacing.md)
                 }
@@ -178,7 +180,7 @@ struct ColorRow: View {
         HStack {
             Circle()
                 .fill(color)
-                .frame(width: 40, height: 40)
+                .frame(width: 40.0, height: 40)
                 .shadow(color: color.opacity(0.4), radius: 8, y: 4)
 
             Text(title)
@@ -197,3 +199,5 @@ struct ColorRow: View {
 #Preview {
     DesignSystemShowcase()
 }
+
+#endif

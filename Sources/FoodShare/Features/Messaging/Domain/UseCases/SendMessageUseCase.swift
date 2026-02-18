@@ -6,6 +6,8 @@
 //  Updated to match actual database schema (December 2025)
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case for sending messages in a room
@@ -86,3 +88,5 @@ enum MessagingError: LocalizedError, Sendable {
         }
     }
 }
+
+#endif

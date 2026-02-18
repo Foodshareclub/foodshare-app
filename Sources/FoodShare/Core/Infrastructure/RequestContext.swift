@@ -6,6 +6,8 @@
 //  through async call stacks without explicit parameter passing
 //
 
+
+#if !SKIP
 import Foundation
 #if canImport(UIKit)
 import UIKit
@@ -169,3 +171,5 @@ extension RequestContext {
  }
  
  */
+
+#endif

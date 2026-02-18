@@ -6,6 +6,8 @@
 //  Original Foodshare brand colors from the website
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Original Foodshare brand theme with pink and teal
@@ -92,3 +94,5 @@ struct BrandTheme: Theme {
         )
     }
 }
+
+#endif

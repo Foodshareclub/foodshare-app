@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ProductsAPIService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Handles CRUD, nearby search, and feed operations.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Response DTOs
@@ -202,4 +203,5 @@ actor ProductsAPIService {
         try await client.deleteVoid("api-v1-products", params: ["id": "\(id)"])
     }
 }
+
 #endif

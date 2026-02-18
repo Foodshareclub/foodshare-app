@@ -6,6 +6,8 @@
 //  Uses Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -92,7 +94,7 @@ struct MFAVerificationView: View {
                         endRadius: 200,
                     ),
                 )
-                .frame(width: 400, height: 400)
+                .frame(width: 400.0, height: 400)
                 .blur(radius: 60)
                 .offset(y: -100)
         }
@@ -107,13 +109,17 @@ struct MFAVerificationView: View {
                 // Outer glow
                 Circle()
                     .fill(Color.DesignSystem.brandGreen.opacity(0.1))
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
                     .blur(radius: 20)
 
                 // Glass circle background
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -176,7 +182,7 @@ struct MFAVerificationView: View {
             TextField("", text: $verificationCode)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
-                .frame(width: 1, height: 1)
+                .frame(width: 1.0, height: 1)
                 .opacity(0.01)
                 .focused($isInputFocused)
                 .onChange(of: verificationCode) { _, newValue in
@@ -228,7 +234,11 @@ struct MFAVerificationView: View {
                         ? Color.DesignSystem.brandGreen.opacity(0.08)
                         : Color.white.opacity(0.05),
                 )
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
             // Border
@@ -254,13 +264,13 @@ struct MFAVerificationView: View {
             if isFocused, digit.isEmpty {
                 Rectangle()
                     .fill(Color.DesignSystem.brandGreen)
-                    .frame(width: 2, height: 28)
+                    .frame(width: 2.0, height: 28)
                     .opacity(cursorOpacity)
                     .animation(.easeInOut(duration: 0.5).repeatForever(), value: cursorOpacity)
                     .onAppear { cursorOpacity = 0.3 }
             }
         }
-        .frame(width: 48, height: 60)
+        .frame(width: 48.0, height: 60)
         .shadow(
             color: isFocused ? Color.DesignSystem.brandGreen.opacity(0.2) : Color.clear,
             radius: 8,
@@ -287,7 +297,11 @@ struct MFAVerificationView: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
                 .fill(Color.DesignSystem.error.opacity(0.1))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
         .overlay(
@@ -334,7 +348,7 @@ struct MFAVerificationView: View {
                 ZStack {
                     Circle()
                         .fill(Color.DesignSystem.success.opacity(0.15))
-                        .frame(width: 120, height: 120)
+                        .frame(width: 120.0, height: 120)
 
                     Image(systemName: "checkmark.shield.fill")
                         .font(.system(size: 56))
@@ -383,3 +397,5 @@ struct MFAVerificationView: View {
         onCancel: { print("Cancel") },
     )
 }
+
+#endif

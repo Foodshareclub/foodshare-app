@@ -6,6 +6,9 @@
 //  Coordinates PreferencesService, UserPreferencesService, PrivacyProtectionService, and ThemeManager
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import SwiftUI
@@ -363,3 +366,6 @@ final class SettingsCoordinator {
         logger.info("Settings reset to defaults")
     }
 }
+
+
+#endif

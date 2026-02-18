@@ -6,6 +6,8 @@
 //  Part of Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Reaction Bar
@@ -277,7 +279,7 @@ private struct AddReactionButton: View {
             Image(systemName: "face.smiling")
                 .font(.system(size: 16, weight: .medium))
                 .foregroundStyle(Color.DesignSystem.textTertiary)
-                .frame(width: 32, height: 28)
+                .frame(width: 32.0, height: 28)
                 .background(Color.DesignSystem.glassBackground)
                 .clipShape(Capsule())
                 .overlay(
@@ -342,7 +344,7 @@ private struct ReactionPickerItem: View {
                 )
         }
         .buttonStyle(.plain)
-        .frame(width: 36, height: 36)
+        .frame(width: 36.0, height: 36)
         .background(
             Circle()
                 .fill(isSelected ? Color.DesignSystem.primary.opacity(0.2) : Color.clear),
@@ -567,4 +569,6 @@ private struct MicroParticleView: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+#endif
+
 #endif

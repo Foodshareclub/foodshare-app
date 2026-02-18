@@ -1,8 +1,9 @@
-#if !SKIP
 // MARK: - SupabaseNotificationPreferencesRepository.swift
 // Enterprise Notification Preferences Repository Implementation
 // FoodShare iOS - Clean Architecture Data Layer
 
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -470,4 +471,5 @@ private struct AnyEncodable: Encodable {
         try encode(encoder)
     }
 }
+
 #endif

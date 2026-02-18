@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Badge Component
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassBadge: View {
@@ -91,3 +93,5 @@ struct GlassBadge: View {
     .padding()
     .background(LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
 }
+
+#endif

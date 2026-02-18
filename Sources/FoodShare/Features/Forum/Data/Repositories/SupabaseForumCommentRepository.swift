@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 import OSLog
@@ -58,4 +59,5 @@ final class SupabaseForumCommentRepository: BaseSupabaseRepository, @unchecked S
             .value
     }
 }
+
 #endif

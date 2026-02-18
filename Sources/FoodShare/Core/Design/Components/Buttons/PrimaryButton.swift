@@ -5,6 +5,8 @@
 //  Primary action button component with Foodshare brand Pink gradient
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Primary button with Foodshare brand gradient and optional loading state
@@ -54,7 +56,7 @@ struct PrimaryButton: View {
             }
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
-            .frame(height: 50)
+            .frame(height: 50.0)
             .background(backgroundView)
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .shadow(
@@ -156,8 +158,12 @@ struct SecondaryButton: View {
                 )
             )
             .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            .background(.ultraThinMaterial)
+            .frame(height: 50.0)
+            #if !SKIP
+            .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .overlay(
                 RoundedRectangle(cornerRadius: 14)
@@ -247,3 +253,5 @@ private struct PrimaryScaleButtonStyle: ButtonStyle {
     .padding()
     .background(Color(uiColor: .systemGroupedBackground))
 }
+
+#endif

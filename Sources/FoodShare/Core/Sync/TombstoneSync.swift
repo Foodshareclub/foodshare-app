@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  TombstoneSync.swift
 //  FoodShare
@@ -22,9 +21,9 @@
 //  ```
 //
 
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 import Supabase
@@ -999,4 +998,5 @@ public final class TombstoneSyncService {
         await tombstoneSync.getPendingConflicts()
     }
 }
+
 #endif

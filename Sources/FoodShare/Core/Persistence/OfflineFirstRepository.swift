@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  OfflineFirstRepository.swift
 //  Foodshare
@@ -504,5 +503,4 @@ actor SyncQueue {
         queue.removeAll()
     }
 }
-#endif
 #endif

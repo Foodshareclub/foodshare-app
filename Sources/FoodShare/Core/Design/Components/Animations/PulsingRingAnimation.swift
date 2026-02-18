@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized ring animation for notification indicators
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Pulsing Ring Animation
@@ -66,7 +68,7 @@ struct PulsingRingAnimation: View {
     private func pulsingRing(index: Int) -> some View {
         let delay = Double(index) * 0.4
         let scale = 1.0 + (animationPhase * 0.5)
-        let opacity = max(0, 1.0 - animationPhase)
+        let opacity = max(0.0, 1.0 - animationPhase)
 
         return Circle()
             .stroke(
@@ -191,7 +193,7 @@ struct GlowPulseEffect: View {
                 RadialGradient(
                     colors: [
                         color.opacity(isActive ? glowOpacity : 0),
-                        color.opacity(0),
+                        color.opacity(0.0),
                     ],
                     center: .center,
                     startRadius: size * 0.2,
@@ -320,3 +322,5 @@ struct GlowPulseEffect: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

@@ -1,3 +1,5 @@
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -326,3 +328,5 @@ struct AdminDashboardStats: Sendable {
         newPostsToday: 0,
     )
 }
+
+#endif

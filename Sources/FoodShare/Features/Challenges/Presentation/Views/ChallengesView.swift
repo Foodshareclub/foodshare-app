@@ -6,6 +6,8 @@
 //  Refactored into smaller components
 //
 
+
+#if !SKIP
 import Supabase
 import SwiftUI
 
@@ -162,7 +164,7 @@ struct ChallengesView: View {
         .fixedSize(horizontal: false, vertical: true)
         #endif
         .padding(Spacing.xs)
-        .background(.ultraThinMaterial)
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
         .clipShape(Capsule())
         .overlay(
             Capsule()
@@ -297,7 +299,7 @@ struct ChallengesView: View {
                 ZStack {
                     ForEach(0 ..< 3, id: \.self) { index in
                         RoundedRectangle(cornerRadius: CornerRadius.xl)
-                            .fill(.ultraThinMaterial)
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                             .frame(width: skeletonCardSize.width, height: skeletonCardSize.height)
                             .overlay(
                                 RoundedRectangle(cornerRadius: CornerRadius.xl)
@@ -344,7 +346,7 @@ struct ChallengesView: View {
 
                 // Skeleton shuffle button
                 SkeletonView()
-                    .frame(width: 140, height: 48)
+                    .frame(width: 140.0, height: 48)
                     .clipShape(Capsule())
 
                 Spacer()
@@ -357,7 +359,7 @@ struct ChallengesView: View {
     /// Calculate skeleton card size matching the deck's adaptive algorithm
     private func calculateSkeletonCardSize(from size: CGSize) -> CGSize {
         guard size.width > 0, size.height > 0 else {
-            return CGSize(width: 350, height: 540)
+            return CGSize(width: 350.0, height: 540.0)
         }
 
         let aspectRatio: CGFloat = 350.0 / 540.0
@@ -439,4 +441,6 @@ struct ChallengesView: View {
         ChallengesView(viewModel: ChallengesViewModel(repository: MockChallengeRepository()))
             .environment(AppState())
     }
+#endif
+
 #endif

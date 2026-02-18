@@ -13,6 +13,8 @@
 //  - Haptic feedback on interaction
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Tilt Configuration
@@ -296,7 +298,11 @@ struct GlassTiltableCard<Content: View>: View {
         TiltableCard(configuration: configuration) {
             content()
                 .padding(Spacing.md)
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
@@ -343,7 +349,7 @@ struct GlassTiltableCard<Content: View>: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(height: 160)
+                .frame(height: 160.0)
                 .padding(.horizontal, Spacing.lg)
 
                 // Subtle tilt
@@ -362,7 +368,7 @@ struct GlassTiltableCard<Content: View>: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(height: 160)
+                .frame(height: 160.0)
                 .padding(.horizontal, Spacing.lg)
 
                 // Dramatic tilt
@@ -381,7 +387,7 @@ struct GlassTiltableCard<Content: View>: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(height: 160)
+                .frame(height: 160.0)
                 .padding(.horizontal, Spacing.lg)
 
                 Spacer(minLength: Spacing.xl)
@@ -389,4 +395,6 @@ struct GlassTiltableCard<Content: View>: View {
         }
         .background(Color.DesignSystem.background)
     }
+#endif
+
 #endif

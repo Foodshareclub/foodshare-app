@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A card for quickly enabling/disabling Do Not Disturb mode.
@@ -78,7 +81,7 @@ public struct DNDStatusCard: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 44, height: 44)
+                        .frame(width: 44.0, height: 44)
 
                     Image(systemName: dnd.isActive ? "moon.fill" : "moon")
                         .font(.system(size: 20, weight: .semibold))
@@ -366,3 +369,6 @@ public struct DNDStatusCard: View {
     .padding(Spacing.md)
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

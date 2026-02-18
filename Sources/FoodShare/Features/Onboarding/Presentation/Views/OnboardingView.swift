@@ -6,6 +6,8 @@
 //  Uses @AppStorage for persistence like CareEcho's MainView
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -53,7 +55,7 @@ struct OnboardingView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 40) {
-                    Spacer().frame(height: 80)
+                    Spacer().frame(height: 80.0)
 
                     heroSection
                     welcomeSection
@@ -61,7 +63,7 @@ struct OnboardingView: View {
                     confirmationSection
                     getStartedButton
 
-                    Spacer().frame(height: 60)
+                    Spacer().frame(height: 60.0)
                 }
                 .padding(.horizontal, 28)
             }
@@ -98,7 +100,7 @@ struct OnboardingView: View {
                         endRadius: 95,
                     ),
                 )
-                .frame(width: 150, height: 150)
+                .frame(width: 150.0, height: 150)
                 .blur(radius: 25)
 
             // App logo (circular)
@@ -535,7 +537,7 @@ private struct OnboardingCheckboxRow: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(isChecked ? Color.DesignSystem.brandGreen.opacity(0.2) : Color.clear)
-                        .frame(width: 26, height: 26)
+                        .frame(width: 26.0, height: 26)
 
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .stroke(
@@ -552,7 +554,7 @@ private struct OnboardingCheckboxRow: View {
                                 ),
                             lineWidth: 2,
                         )
-                        .frame(width: 26, height: 26)
+                        .frame(width: 26.0, height: 26)
 
                     if isChecked {
                         Image(systemName: "checkmark")
@@ -775,3 +777,77 @@ For privacy-related questions or to exercise your rights, contact us at:
 #Preview {
     OnboardingView()
 }
+
+#else
+// MARK: - Android OnboardingView Stub (Skip)
+
+import SwiftUI
+
+struct OnboardingView: View {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
+    @State private var currentPage = 0
+
+    private let pages: [(String, String)] = [
+        ("Share Food", "Share your surplus food with neighbors and reduce waste in your community."),
+        ("Discover Nearby", "Find free food shared by people near you. Fresh produce, meals, and more."),
+        ("Make an Impact", "Join thousands reducing food waste. Every share counts toward a greener planet.")
+    ]
+
+    var body: some View {
+        VStack(spacing: 24.0) {
+            Spacer()
+
+            Text(pages[currentPage].0)
+                .font(.system(size: 28.0, weight: .bold))
+                .foregroundStyle(Color.white)
+
+            Text(pages[currentPage].1)
+                .font(.system(size: 16.0))
+                .foregroundStyle(Color.white.opacity(0.7))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32.0)
+
+            HStack(spacing: 8.0) {
+                ForEach(0..<3, id: \.self) { index in
+                    Circle()
+                        .fill(index == currentPage ? Color.white : Color.white.opacity(0.3))
+                        .frame(width: 8.0, height: 8.0)
+                }
+            }
+
+            Spacer()
+
+            Button(action: {
+                if currentPage < 2 {
+                    currentPage = currentPage + 1
+                } else {
+                    hasCompletedOnboarding = true
+                }
+            }) {
+                Text(currentPage < 2 ? "Next" : "Get Started")
+                    .font(.system(size: 16.0, weight: .semibold))
+                    .foregroundStyle(Color.white)
+                    .padding(.vertical, 12.0)
+                    .frame(maxWidth: .infinity)
+            }
+            .background(Color(red: 0.2, green: 0.7, blue: 0.4))
+            .clipShape(RoundedRectangle(cornerRadius: 12.0))
+            .padding(.horizontal, 32.0)
+
+            if currentPage < 2 {
+                Button(action: { hasCompletedOnboarding = true }) {
+                    Text("Skip")
+                        .font(.system(size: 14.0))
+                        .foregroundStyle(Color.white.opacity(0.5))
+                }
+            }
+
+            Spacer().frame(height: 32.0)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+    }
+}
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SupabaseFeedbackRepository.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Supabase implementation of FeedbackRepository
 //
 
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -46,4 +47,5 @@ final class SupabaseFeedbackRepository: FeedbackRepository, @unchecked Sendable 
         return response
     }
 }
+
 #endif

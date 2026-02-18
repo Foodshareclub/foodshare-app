@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CircuitBreaker.swift
 //  Foodshare
@@ -11,6 +10,8 @@
 //  - Gradually testing if services have recovered
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -300,7 +301,7 @@ actor CircuitBreaker {
     private func timeUntilReset() -> TimeInterval {
         guard state == .open else { return 0 }
         let elapsed = Date().timeIntervalSince(stateChangedAt)
-        return max(0, config.resetTimeout - elapsed)
+        return max(0.0, config.resetTimeout - elapsed)
     }
 
     private func cleanupOldFailures() {
@@ -487,4 +488,5 @@ extension CircuitBreaker {
     /// Pre-configured circuit breaker for real-time connections
     static let realtime = CircuitBreaker(name: "realtime", config: .aggressive)
 }
+
 #endif

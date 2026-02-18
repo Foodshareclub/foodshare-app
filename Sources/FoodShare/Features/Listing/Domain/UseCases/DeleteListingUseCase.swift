@@ -5,6 +5,8 @@
 //  Use case for deleting a food listing
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case for deleting a food listing
@@ -22,3 +24,5 @@ final class DeleteListingUseCase {
         try await repository.deleteListing(listingId)
     }
 }
+
+#endif

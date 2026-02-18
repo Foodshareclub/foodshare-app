@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  UnifiedNotificationService.swift
 //  Foodshare
@@ -15,6 +14,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -565,4 +566,5 @@ actor UnifiedNotificationService: UnifiedNotificationServiceProtocol {
         }
     }
 #endif
+
 #endif

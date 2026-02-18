@@ -5,6 +5,9 @@
 //  Enterprise crash reporting with Sentry integration
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -239,9 +242,12 @@ final class CrashReporter {
 
 extension Bundle {
     var releaseVersionNumber: String {
-        infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
     var buildVersionNumber: String {
         infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
 }
+
+
+#endif

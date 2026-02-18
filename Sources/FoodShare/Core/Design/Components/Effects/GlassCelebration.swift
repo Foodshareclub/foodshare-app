@@ -7,6 +7,8 @@
 //  badge unlocks, and gamification celebrations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -558,7 +560,11 @@ extension View {
                     .foregroundStyle(Color.DesignSystem.textPrimary)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(.ultraThinMaterial)
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             }
         }
@@ -566,4 +572,6 @@ extension View {
 
     return PreviewWrapper()
 }
+#endif
+
 #endif

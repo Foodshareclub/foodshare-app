@@ -6,6 +6,8 @@
 //  Updated to match actual database schema (December 2025)
 //
 
+
+
 #if !SKIP
 import CoreLocation
 #endif
@@ -13,7 +15,7 @@ import Foundation
 
 /// Represents a food listing in the system
 /// Maps to `posts` table in Supabase (cross-platform with web app)
-struct FoodItem: Codable, Identifiable, Sendable, Hashable {
+struct FoodItem: Codable, Identifiable, Hashable {
     // MARK: - Identity
 
     let id: Int // bigint in database
@@ -138,11 +140,13 @@ struct FoodItem: Codable, Identifiable, Sendable, Hashable {
         postDescription
     }
 
+    #if !SKIP
     /// Location as coordinate
     var coordinate: CLLocationCoordinate2D? {
         guard let latitude, let longitude else { return nil }
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
+    #endif
 
     /// Location as Location struct
     var location: Location? {
@@ -173,11 +177,11 @@ struct FoodItem: Codable, Identifiable, Sendable, Hashable {
     /// Status for display
     var status: FoodItemStatus {
         if !isActive {
-            .inactive
+            return FoodItemStatus.inactive
         } else if isArranged {
-            .arranged
+            return FoodItemStatus.arranged
         } else {
-            .available
+            return FoodItemStatus.available
         }
     }
 
@@ -401,7 +405,7 @@ struct FoodItem: Codable, Identifiable, Sendable, Hashable {
 
 /// Represents the current state of a food listing
 /// Derived from `is_active` and `is_arranged` fields
-enum FoodItemStatus: String, Codable, Sendable, CaseIterable {
+enum FoodItemStatus: String, Codable, CaseIterable {
     case available // is_active=true, is_arranged=false
     case arranged // is_active=true, is_arranged=true
     case inactive // is_active=false
@@ -409,12 +413,13 @@ enum FoodItemStatus: String, Codable, Sendable, CaseIterable {
     /// User-friendly display name
     var displayName: String {
         switch self {
-        case .available: "Available"
-        case .arranged: "Arranged"
-        case .inactive: "Inactive"
+        case .available: return "Available"
+        case .arranged: return "Arranged"
+        case .inactive: return "Inactive"
         }
     }
 
+    #if !SKIP
     @MainActor
     func localizedDisplayName(using t: EnhancedTranslationService) -> String {
         switch self {
@@ -423,18 +428,19 @@ enum FoodItemStatus: String, Codable, Sendable, CaseIterable {
         case .inactive: t.t("listing.status.inactive")
         }
     }
+    #endif
 
     /// Indicates if listing can be claimed
     var isClaimable: Bool {
-        self == .available
+        return self == FoodItemStatus.available
     }
 
     /// Color for status badge
     var color: String {
         switch self {
-        case .available: "#2ECC71" // Green
-        case .arranged: "#F39C12" // Orange
-        case .inactive: "#95A5A6" // Gray
+        case .available: return "#2ECC71" // Green
+        case .arranged: return "#F39C12" // Orange
+        case .inactive: return "#95A5A6" // Gray
         }
     }
 }
@@ -442,7 +448,7 @@ enum FoodItemStatus: String, Codable, Sendable, CaseIterable {
 // MARK: - Post Type
 
 /// Types of posts in the system (matches web app listing types)
-enum PostType: String, Codable, Sendable, CaseIterable {
+enum PostType: String, Codable, CaseIterable {
     case food
     case thing
     case borrow
@@ -458,21 +464,22 @@ enum PostType: String, Codable, Sendable, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .food: "Food"
-        case .thing: "Non-Food Item"
-        case .borrow: "Borrow"
-        case .wanted: "Wanted"
-        case .fridge: "Community Fridge"
-        case .foodbank: "Food Bank"
-        case .business: "Business"
-        case .volunteer: "Volunteer"
-        case .challenge: "Challenge"
-        case .zerowaste: "Zero Waste"
-        case .vegan: "Vegan"
-        case .community: "Community Event"
+        case .food: return "Food"
+        case .thing: return "Non-Food Item"
+        case .borrow: return "Borrow"
+        case .wanted: return "Wanted"
+        case .fridge: return "Community Fridge"
+        case .foodbank: return "Food Bank"
+        case .business: return "Business"
+        case .volunteer: return "Volunteer"
+        case .challenge: return "Challenge"
+        case .zerowaste: return "Zero Waste"
+        case .vegan: return "Vegan"
+        case .community: return "Community Event"
         }
     }
 
+    #if !SKIP
     @MainActor
     func localizedDisplayName(using t: EnhancedTranslationService) -> String {
         switch self {
@@ -490,21 +497,22 @@ enum PostType: String, Codable, Sendable, CaseIterable {
         case .community: t.t("post_type.community")
         }
     }
+    #endif
 
     var icon: String {
         switch self {
-        case .food: "leaf.fill"
-        case .thing: "shippingbox.fill"
-        case .borrow: "arrow.triangle.2.circlepath"
-        case .wanted: "magnifyingglass"
-        case .fridge: "refrigerator.fill"
-        case .foodbank: "building.2.fill"
-        case .business: "storefront.fill"
-        case .volunteer: "person.2.fill"
-        case .challenge: "trophy.fill"
-        case .zerowaste: "arrow.3.trianglepath"
-        case .vegan: "carrot.fill"
-        case .community: "person.3.fill"
+        case .food: return "leaf.fill"
+        case .thing: return "shippingbox.fill"
+        case .borrow: return "arrow.triangle.2.circlepath"
+        case .wanted: return "magnifyingglass"
+        case .fridge: return "refrigerator.fill"
+        case .foodbank: return "building.2.fill"
+        case .business: return "storefront.fill"
+        case .volunteer: return "person.2.fill"
+        case .challenge: return "trophy.fill"
+        case .zerowaste: return "arrow.3.trianglepath"
+        case .vegan: return "carrot.fill"
+        case .community: return "person.3.fill"
         }
     }
 }
@@ -512,16 +520,17 @@ enum PostType: String, Codable, Sendable, CaseIterable {
 // MARK: - Food Status (for Fridges)
 
 /// Food level status for community fridges
-enum FridgeFoodStatus: String, Codable, Sendable, CaseIterable {
+enum FridgeFoodStatus: String, Codable, CaseIterable {
     case nearlyEmpty = "nearly empty"
     case roomForMore = "room for more"
     case prettyFull = "pretty full"
     case overflowing
 
     var displayName: String {
-        rawValue.capitalized
+        return rawValue.capitalized
     }
 
+    #if !SKIP
     @MainActor
     func localizedDisplayName(using t: EnhancedTranslationService) -> String {
         switch self {
@@ -531,22 +540,23 @@ enum FridgeFoodStatus: String, Codable, Sendable, CaseIterable {
         case .overflowing: t.t("fridge_status.overflowing")
         }
     }
+    #endif
 
     var icon: String {
         switch self {
-        case .nearlyEmpty: "battery.0percent"
-        case .roomForMore: "battery.50percent"
-        case .prettyFull: "battery.75percent"
-        case .overflowing: "battery.100percent"
+        case .nearlyEmpty: return "battery.0percent"
+        case .roomForMore: return "battery.50percent"
+        case .prettyFull: return "battery.75percent"
+        case .overflowing: return "battery.100percent"
         }
     }
 
     var color: String {
         switch self {
-        case .nearlyEmpty: "#E74C3C" // Red
-        case .roomForMore: "#F39C12" // Orange
-        case .prettyFull: "#2ECC71" // Green
-        case .overflowing: "#3498DB" // Blue
+        case .nearlyEmpty: return "#E74C3C" // Red
+        case .roomForMore: return "#F39C12" // Orange
+        case .prettyFull: return "#2ECC71" // Green
+        case .overflowing: return "#3498DB" // Blue
         }
     }
 }
@@ -630,6 +640,7 @@ enum FridgeFoodStatus: String, Codable, Sendable, CaseIterable {
 
     #endif
 
+#if !SKIP
 // MARK: - Description Cleaning
 
 extension FoodItem {
@@ -662,3 +673,4 @@ extension FoodItem {
         return cleaned
     }
 }
+#endif

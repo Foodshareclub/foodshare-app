@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  GDPRExportService.swift
 //  FoodShare
@@ -18,6 +17,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -190,7 +191,7 @@ public actor GDPRExportService {
 
     private let supabase: SupabaseClient
     private let logger = Logger(subsystem: "com.flutterflow.foodshare", category: "GDPRExport")
-    private let exportVersion = "1.0.0"
+    private let exportVersion = "1.0"
 
     // Progress tracking
     private var progressContinuation: AsyncStream<GDPRExportProgress>.Continuation?
@@ -655,5 +656,6 @@ public enum GDPRExportError: LocalizedError, Sendable {
         }
     }
 }
+
 
 #endif

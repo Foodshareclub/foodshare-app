@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A compact badge displaying notification frequency with contextual styling.
@@ -295,3 +298,6 @@ public struct FrequencyBadge: View {
     }
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

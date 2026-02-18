@@ -6,6 +6,8 @@
 //  Combines Metal shader effects with glass card styling.
 //
 
+
+#if !SKIP
 #if !SKIP
 import SwiftUI
 
@@ -187,7 +189,11 @@ struct GlassCardModifier: ViewModifier {
                 .fill(Color(uiColor: .systemBackground).opacity(0.95))
         } else {
             RoundedRectangle(cornerRadius: style.cornerRadius)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         }
     }
 
@@ -389,3 +395,5 @@ struct InteractiveMetalCard<Content: View>: View {
 }
 #endif
 #endif // !SKIP
+
+#endif

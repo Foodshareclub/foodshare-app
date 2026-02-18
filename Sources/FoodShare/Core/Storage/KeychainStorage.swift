@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  KeychainStorage.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Secure keychain storage for auth tokens
 //
 
+
+#if !SKIP
 import Foundation
 #if !SKIP
 import Security
@@ -104,4 +105,5 @@ final class KeychainStorage: @unchecked Sendable {
 
 // MARK: - Supabase Auth Storage Extension
 // KeychainStorage implements the required methods for auth storage
+
 #endif

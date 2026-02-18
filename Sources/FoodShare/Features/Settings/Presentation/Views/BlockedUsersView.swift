@@ -5,6 +5,8 @@
 //  Manage blocked users - Apple App Review requirement
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct BlockedUsersView: View {
@@ -215,12 +217,12 @@ struct BlockedUserRow: View {
                                 .foregroundStyle(Color.DesignSystem.textTertiary),
                         )
                 }
-                .frame(width: 48, height: 48)
+                .frame(width: 48.0, height: 48)
                 .clipShape(Circle())
             } else {
                 Circle()
                     .fill(Color.DesignSystem.textTertiary.opacity(0.3))
-                    .frame(width: 48, height: 48)
+                    .frame(width: 48.0, height: 48)
                     .overlay(
                         Image(systemName: "person.fill")
                             .foregroundStyle(Color.DesignSystem.textTertiary),
@@ -264,7 +266,11 @@ struct BlockedUserRow: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -279,3 +285,5 @@ struct BlockedUserRow: View {
             .environment(AppState.preview)
     }
 }
+
+#endif

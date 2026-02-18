@@ -6,6 +6,9 @@
 //  Maps to `forum_badges` and `forum_user_badges` tables
 //
 
+
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -552,4 +555,7 @@ struct BadgeCollection: Sendable {
             featuredBadges: [],
         )
     }
+#endif
+
+
 #endif

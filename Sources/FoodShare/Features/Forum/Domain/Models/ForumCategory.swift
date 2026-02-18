@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -295,3 +298,6 @@ extension ForumCategory: CategoryDisplayable {
     var categoryIcon: String { systemIconName }
     // displayColor is already implemented above
 }
+
+
+#endif

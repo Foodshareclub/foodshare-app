@@ -6,6 +6,8 @@
 //  Following CareEcho pattern exactly
 //
 
+
+#if !SKIP
 import Supabase
 import SwiftUI
 
@@ -84,12 +86,12 @@ struct EmailVerificationView: View {
                         endRadius: 95,
                     ),
                 )
-                .frame(width: 150, height: 150)
+                .frame(width: 150.0, height: 150)
                 .blur(radius: Spacing.lg)
 
             Circle()
                 .fill(Color.DesignSystem.brandGreen.opacity(0.15))
-                .frame(width: 100, height: 100)
+                .frame(width: 100.0, height: 100)
                 .overlay(
                     Circle()
                         .stroke(Color.DesignSystem.brandGreen, lineWidth: 4),
@@ -183,3 +185,49 @@ struct EmailVerificationView: View {
             supabaseKey: "example-key",
         )))
 }
+
+#else
+// MARK: - Android EmailVerificationView Stub (Skip)
+
+import SwiftUI
+
+struct EmailVerificationView: View {
+    @Environment(AppState.self) var appState
+
+    var body: some View {
+        VStack(spacing: 24.0) {
+            Spacer()
+
+            Text("Check Your Email")
+                .font(.system(size: 28.0, weight: .bold))
+                .foregroundStyle(Color.white)
+
+            Text("We sent a verification link to your email. Please check your inbox and click the link to verify your account.")
+                .font(.system(size: 16.0))
+                .foregroundStyle(Color.white.opacity(0.7))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32.0)
+
+            Button(action: {
+                Task {
+                    await AuthenticationService.shared.checkCurrentSession()
+                }
+            }) {
+                Text("I've Verified My Email")
+                    .font(.system(size: 16.0, weight: .semibold))
+                    .foregroundStyle(Color.white)
+                    .padding(.vertical, 12.0)
+                    .frame(maxWidth: .infinity)
+            }
+            .background(Color(red: 0.2, green: 0.7, blue: 0.4))
+            .clipShape(RoundedRectangle(cornerRadius: 12.0))
+            .padding(.horizontal, 32.0)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+    }
+}
+
+#endif

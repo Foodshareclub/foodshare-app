@@ -6,6 +6,8 @@
 //  Supports any type conforming to CategoryDisplayable
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Generic Glass Category Bar
@@ -122,14 +124,14 @@ struct GlassCategoryChip: View {
                     if isSelected, !reduceMotion {
                         Circle()
                             .fill(color.opacity(0.3))
-                            .frame(width: 52, height: 52)
+                            .frame(width: 52.0, height: 52)
                             .blur(radius: 8)
                     }
 
                     // Icon container
                     Circle()
                         .fill(isSelected ? color : Color.DesignSystem.surface)
-                        .frame(width: 48, height: 48)
+                        .frame(width: 48.0, height: 48)
                         .overlay(
                             Circle()
                                 .stroke(
@@ -156,10 +158,12 @@ struct GlassCategoryChip: View {
                     .foregroundStyle(isSelected ? color : Color.DesignSystem.textSecondary)
                     .lineLimit(1)
             }
-            .frame(width: 64)
+            .frame(width: 64.0)
         }
         .buttonStyle(GlassCategoryChipButtonStyle())
         .accessibilityLabel("\(title) category")
         .accessibilityAddTraits(isSelected ? [.isSelected, .isButton] : .isButton)
     }
 }
+
+#endif

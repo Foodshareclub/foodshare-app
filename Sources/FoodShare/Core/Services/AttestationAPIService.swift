@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  AttestationAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor AttestationAPIService {
@@ -31,4 +32,5 @@ struct AttestationResponse: Codable {
 struct VerificationResponse: Codable {
     let valid: Bool
 }
+
 #endif

@@ -6,6 +6,9 @@
 //  and minimize API calls during user navigation.
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -115,3 +118,6 @@ final class CacheWarmingService {
         }
     }
 }
+
+
+#endif

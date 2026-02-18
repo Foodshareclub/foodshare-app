@@ -5,6 +5,8 @@
 //  Extracted challenge detail view
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct ChallengeDetailView: View {
@@ -38,7 +40,7 @@ struct ChallengeDetailView: View {
                     leaderboardSection
 
                     // Bottom padding for sticky button
-                    Color.clear.frame(height: 100)
+                    Color.clear.frame(height: 100.0)
                 }
                 .padding()
             }
@@ -69,8 +71,8 @@ struct ChallengeDetailView: View {
             // Gradient fade effect
             Rectangle()
                 .fill(Color.clear)
-                .frame(height: 20)
-                .frame(height: 40)
+                .frame(height: 20.0)
+                .frame(height: 40.0)
 
             // Action buttons container
             VStack(spacing: Spacing.sm) {
@@ -79,7 +81,7 @@ struct ChallengeDetailView: View {
             .padding(.horizontal, Spacing.lg)
             .padding(.vertical, Spacing.md)
             .background(
-                .ultraThinMaterial,
+                Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */,
                 in: RoundedRectangle(cornerRadius: CornerRadius.xl, style: .continuous),
             )
             .overlay(
@@ -108,7 +110,7 @@ struct ChallengeDetailView: View {
                 }
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 56.0)
                 .background(
                     LinearGradient(
                         colors: [.DesignSystem.brandGreen, .DesignSystem.brandBlue],
@@ -149,11 +151,15 @@ struct ChallengeDetailView: View {
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 56.0)
                 .padding(.horizontal, Spacing.md)
                 .background(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             RoundedRectangle(cornerRadius: CornerRadius.large)
                                 .stroke(
@@ -191,7 +197,7 @@ struct ChallengeDetailView: View {
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 56)
+                    .frame(height: 56.0)
                     .background(
                         LinearGradient(
                             colors: [.DesignSystem.brandGreen, .DesignSystem.brandGreen.opacity(0.8)],
@@ -227,7 +233,7 @@ struct ChallengeDetailView: View {
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 56)
+                    .frame(height: 56.0)
                     .background(
                         LinearGradient(
                             colors: [.DesignSystem.brandGreen, .DesignSystem.brandBlue],
@@ -341,7 +347,7 @@ struct ChallengeDetailView: View {
                 .frame(width: geometry.size.width, height: 320)
                 .clipped()
             }
-            .frame(height: 320)
+            .frame(height: 320.0)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.xl))
             .overlay(
                 RoundedRectangle(cornerRadius: CornerRadius.xl)
@@ -407,7 +413,7 @@ struct ChallengeDetailView: View {
                          difficulty: challenge.challengeDifficulty,
                          gradient: difficultyGradient
                      )
-                     .frame(height: 140)
+                     .frame(height: 140.0)
                      .opacity(animateHeader ? 1 : 0)
                      .scaleEffect(animateHeader ? 1 : 0.8)
                      .animation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.25), value: animateHeader)
@@ -423,7 +429,7 @@ struct ChallengeDetailView: View {
                      }
                      .padding(.horizontal, Spacing.md)
                  }
-                 .frame(height: 140)
+                 .frame(height: 140.0)
                  */
             }
             .padding(.top, Spacing.lg)
@@ -431,7 +437,11 @@ struct ChallengeDetailView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -580,7 +590,7 @@ struct ChallengeDetailView: View {
                                 endRadius: 25,
                             ),
                         )
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40.0, height: 40)
 
                     Image(systemName: "trophy.fill")
                         .font(.system(size: 24, weight: .bold))
@@ -634,7 +644,7 @@ struct ChallengeDetailView: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 80, height: 80)
+                            .frame(width: 80.0, height: 80)
 
                         Image(systemName: "person.3.fill")
                             .font(.system(size: 36))
@@ -911,15 +921,19 @@ private struct EnhancedLeaderboardRow: View {
                 if rank <= 3 {
                     Circle()
                         .fill(rankGradient)
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40.0, height: 40)
                         .shadow(color: rankColor.opacity(0.5), radius: 6, y: 3)
 
                     Text(rankEmoji)
                         .font(.system(size: 20))
                 } else {
                     Circle()
-                        .fill(.ultraThinMaterial)
-                        .frame(width: 40, height: 40)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(width: 40.0, height: 40)
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -940,7 +954,7 @@ private struct EnhancedLeaderboardRow: View {
                 } placeholder: {
                     Circle().fill(Color.DesignSystem.glassBackground)
                 }
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
                 .clipShape(Circle())
                 .overlay(
                     Circle()
@@ -965,7 +979,7 @@ private struct EnhancedLeaderboardRow: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
                     .overlay {
                         Text(entry.nickname.prefix(1).uppercased())
                             .font(.system(size: 18, weight: .bold))
@@ -1015,7 +1029,11 @@ private struct EnhancedLeaderboardRow: View {
         .background {
             if rank <= 3 {
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .stroke(rankColor.opacity(0.3), lineWidth: 1),
@@ -1070,3 +1088,5 @@ private struct EnhancedLeaderboardRow: View {
 
 // MARK: - Leaderboard Row
 
+
+#endif

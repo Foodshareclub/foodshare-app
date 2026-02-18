@@ -11,6 +11,8 @@
 //  - Recovery suggestions
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -598,7 +600,8 @@ struct ErrorToastView: View {
             .foregroundStyle(Color.DesignSystem.textSecondary)
         }
         .padding(Spacing.md)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding(.horizontal, Spacing.md)
         .padding(.bottom, Spacing.lg)
         .task {
@@ -709,3 +712,5 @@ extension View {
         modifier(ErrorPresenterModifier(viewModel: viewModel))
     }
 }
+
+#endif

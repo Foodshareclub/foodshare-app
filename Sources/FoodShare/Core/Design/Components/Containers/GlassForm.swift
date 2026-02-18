@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Form Container Component with grouped sections
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Form
@@ -52,7 +54,11 @@ struct GlassForm<Content: View>: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(0.05))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -143,7 +149,7 @@ struct GlassFormRow<Content: View>: View {
                 Image(systemName: icon)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(Color.DesignSystem.textSecondary)
-                    .frame(width: 24)
+                    .frame(width: 24.0)
             }
 
             Text(label)
@@ -178,7 +184,7 @@ struct GlassFormDivider: View {
         case .solid:
             Rectangle()
                 .fill(Color.white.opacity(0.1))
-                .frame(height: 1)
+                .frame(height: 1.0)
 
         case .gradient:
             Rectangle()
@@ -194,7 +200,7 @@ struct GlassFormDivider: View {
                         endPoint: .trailing,
                     ),
                 )
-                .frame(height: 1)
+                .frame(height: 1.0)
 
         case .dotted:
             GeometryReader { geometry in
@@ -210,7 +216,7 @@ struct GlassFormDivider: View {
                 }
                 .stroke(Color.white.opacity(0.15), lineWidth: 1)
             }
-            .frame(height: 1)
+            .frame(height: 1.0)
         }
     }
 }
@@ -241,7 +247,7 @@ struct GlassInfoRow: View {
                 Image(systemName: icon)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(Color.DesignSystem.textSecondary)
-                    .frame(width: 24)
+                    .frame(width: 24.0)
             }
 
             Text(label)
@@ -292,7 +298,7 @@ struct GlassActionRow: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.small)
                             .fill(iconColor.opacity(0.15))
-                            .frame(width: 36, height: 36)
+                            .frame(width: 36.0, height: 36)
 
                         Image(systemName: icon)
                             .font(.system(size: 16, weight: .medium))
@@ -395,3 +401,5 @@ struct GlassActionRow: View {
         }
     }
 }
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  BiometricLockView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Features: Failed attempt tracking, lockout display, Liquid Glass design
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -38,7 +39,7 @@ struct BiometricLockView: View {
                 Image("AppIcon")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 18))
                     .shadow(color: .DesignSystem.brandGreen.opacity(0.3), radius: 20)
 
@@ -58,7 +59,7 @@ struct BiometricLockView: View {
                                 .fill(index < biometricService.failedAttempts
                                       ? Color.DesignSystem.error
                                       : Color.DesignSystem.textTertiary.opacity(0.3))
-                                .frame(width: 8, height: 8)
+                                .frame(width: 8.0, height: 8)
                         }
                     }
                     .padding(.top, Spacing.sm)
@@ -114,7 +115,7 @@ struct BiometricLockView: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.error.opacity(0.1))
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "lock.fill")
                     .font(.system(size: 32, weight: .light))
@@ -142,14 +143,18 @@ struct BiometricLockView: View {
                     // Pulse animation
                     Circle()
                         .fill(Color.DesignSystem.brandGreen.opacity(0.2))
-                        .frame(width: 100, height: 100)
+                        .frame(width: 100.0, height: 100)
                         .scaleEffect(pulseAnimation ? 1.2 : 1.0)
                         .opacity(pulseAnimation ? 0 : 0.5)
 
                     // Main circle
                     Circle()
+                        #if !SKIP
                         .fill(.ultraThinMaterial)
-                        .frame(width: 80, height: 80)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
+                        .frame(width: 80.0, height: 80)
                         .overlay(
                             Circle()
                                 .stroke(
@@ -281,4 +286,5 @@ struct BiometricLockView: View {
         onUsePassword: {}
     )
 }
+
 #endif

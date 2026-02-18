@@ -17,6 +17,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Loading State Container
@@ -126,7 +128,11 @@ public struct LoadingStateContainer<T: Sendable, Content: View>: View {
                     .scaleEffect(0.8)
                     .tint(.DesignSystem.primary)
                     .padding(Spacing.sm)
-                    .background(.ultraThinMaterial, in: Capsule())
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, in: Capsule())
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                 Spacer()
             }
             .padding(.top, Spacing.md)
@@ -279,7 +285,7 @@ public struct PaginatedLoadingStateContainer<T: Identifiable & Sendable, Content
     @ViewBuilder
     private var loadMoreTrigger: some View {
         Color.clear
-            .frame(height: 1)
+            .frame(height: 1.0)
             .onAppear {
                 if let onLoadMore {
                     Task { await onLoadMore() }
@@ -303,7 +309,8 @@ extension View {
                         .scaleEffect(1.2)
                         .tint(.white)
                         .padding(Spacing.lg)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
             }
         }
@@ -389,3 +396,5 @@ extension View {
 
     return PreviewWrapper()
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  Liquid Glass v26 design system
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -117,7 +119,11 @@ struct AllReviewsView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -136,7 +142,7 @@ struct AllReviewsView: View {
             Text("\(star)")
                 .font(.DesignSystem.captionSmall)
                 .foregroundColor(.DesignSystem.textSecondary)
-                .frame(width: 12)
+                .frame(width: 12.0)
 
             Image(systemName: "star.fill")
                 .font(.system(size: 10))
@@ -146,7 +152,7 @@ struct AllReviewsView: View {
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 2)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 6)
+                        .frame(height: 6.0)
 
                     RoundedRectangle(cornerRadius: 2)
                         .fill(
@@ -159,12 +165,12 @@ struct AllReviewsView: View {
                         .frame(width: geometry.size.width * percentage, height: 6)
                 }
             }
-            .frame(height: 6)
+            .frame(height: 6.0)
 
             Text("\(count)")
                 .font(.DesignSystem.captionSmall)
                 .foregroundColor(.DesignSystem.textTertiary)
-                .frame(width: 24, alignment: .trailing)
+                .frame(width: 24.0, alignment: .trailing)
         }
     }
 
@@ -206,7 +212,11 @@ struct AllReviewsView: View {
                 .padding(.vertical, Spacing.xs)
                 .background(
                     Capsule()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Capsule()
                                 .stroke(Color.DesignSystem.brandGreen.opacity(0.3), lineWidth: 1)
@@ -256,3 +266,5 @@ struct AllReviewsView: View {
         )
     }
 }
+
+#endif

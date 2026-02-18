@@ -6,6 +6,9 @@
 //  Provides local filtering and sorting of food items.
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Feed Search Service Protocol
@@ -194,3 +197,6 @@ extension FeedSearchService {
         return ranges
     }
 }
+
+
+#endif

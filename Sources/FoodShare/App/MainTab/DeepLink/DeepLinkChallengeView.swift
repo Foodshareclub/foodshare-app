@@ -5,6 +5,8 @@
 //  Wrapper view for deep-linking to a specific challenge
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Wrapper view for deep-linking to a specific challenge
@@ -67,3 +69,5 @@ struct DeepLinkChallengeView: View {
         }
     }
 }
+
+#endif

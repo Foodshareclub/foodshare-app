@@ -6,6 +6,7 @@
 //  Provides automatic retry logic, auth recovery, and toast notifications
 //
 
+
 #if !SKIP
 import Foundation
 import OSLog
@@ -625,4 +626,5 @@ private struct PendingOperation: Sendable {
 
 // MARK: - HapticManager
 // HapticManager is defined in Core/Design/Utilities/HapticFeedback.swift
+
 #endif

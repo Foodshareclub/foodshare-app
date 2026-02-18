@@ -6,6 +6,8 @@
 //  Enables conflict resolution between local cache and remote server.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Syncable Listing
@@ -310,3 +312,5 @@ public enum SyncResult<T: Sendable>: Sendable {
         }
     }
 }
+
+#endif

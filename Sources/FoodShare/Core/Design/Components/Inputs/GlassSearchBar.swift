@@ -6,6 +6,8 @@
 //  Matches web app search functionality
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassSearchBar: View {
@@ -126,7 +128,11 @@ struct GlassSearchBar: View {
 
     private var searchBackground: some View {
         Capsule()
-            .fill(.ultraThinMaterial)
+            #if !SKIP
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
     }
 }
 
@@ -198,10 +204,14 @@ struct ExpandableSearchBar: View {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 18, weight: .medium))
                         .foregroundColor(.DesignSystem.text)
-                        .frame(width: 44, height: 44)
+                        .frame(width: 44.0, height: 44)
                         .background(
                             Circle()
-                                .fill(.ultraThinMaterial)
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                                 .overlay(
                                     Circle()
                                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -259,7 +269,11 @@ struct GlassSearchSuggestions: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -311,7 +325,11 @@ struct RecentSearchesView: View {
                             .padding(.vertical, Spacing.xs)
                             .background(
                                 Capsule()
-                                    .fill(.ultraThinMaterial)
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
                                     .overlay(
                                         Capsule()
                                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -347,3 +365,5 @@ struct RecentSearchesView: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

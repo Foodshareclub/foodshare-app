@@ -6,6 +6,7 @@
 //  Named AppAuthError to avoid conflicts with Supabase's AuthError.
 //
 
+
 import Foundation
 
 // MARK: - App Auth Error
@@ -14,16 +15,6 @@ import Foundation
 ///
 /// Named `AppAuthError` to avoid conflicts with Supabase's `AuthError`.
 /// Provides user-friendly error messages and recovery suggestions.
-///
-/// Usage:
-/// ```swift
-/// func signIn() async throws {
-///     guard isValidEmail(email) else {
-///         throw AppAuthError.invalidEmail
-///     }
-///     // ... authentication logic
-/// }
-/// ```
 public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
     // Input validation
     case invalidEmail
@@ -52,7 +43,7 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
 
     // Network/Server
     case networkError(reason: String)
-    case serverError(statusCode: Int, message: String?)
+    case serverError(statusCode: Int, errorMessage: String?)
     case rateLimited(retryAfter: TimeInterval)
     case serviceUnavailable
 
@@ -92,7 +83,11 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
             "This account has been disabled. Contact support for assistance"
         case let .accountLocked(until):
             if let until {
+                #if !SKIP
                 "Account locked until \(until.formatted(date: Date.FormatStyle.DateStyle.abbreviated, time: Date.FormatStyle.TimeStyle.shortened))"
+                #else
+                "Account has been temporarily locked. Please try again later"
+                #endif
             } else {
                 "Account has been temporarily locked. Please try again later"
             }
@@ -106,8 +101,8 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
             "Sign in was cancelled"
         case let .networkError(reason):
             "Connection issue: \(reason)"
-        case let .serverError(code, message):
-            if let message { "Server error (\(code)): \(message)" }
+        case let .serverError(code, errorMessage):
+            if let errorMessage { "Server error (\(code)): \(errorMessage)" }
             else { "Server error (\(code)). Please try again later" }
         case let .rateLimited(retryAfter):
             "Too many attempts. Please wait \(Int(retryAfter)) seconds"
@@ -160,6 +155,7 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
         }
     }
 
+    #if !SKIP
     /// Localized user-friendly message for UI display
     @MainActor
     public func localizedUserFriendlyMessage(using t: EnhancedTranslationService) -> String {
@@ -196,6 +192,7 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
             t.t("errors.auth.unknown")
         }
     }
+    #endif
 
     /// Icon to display in UI for this error
     public var iconName: String {
@@ -253,6 +250,7 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
         }
     }
 
+    #if !SKIP
     /// Localized recovery suggestion for the user
     @MainActor
     public func localizedRecoverySuggestion(using t: EnhancedTranslationService) -> String? {
@@ -275,6 +273,7 @@ public enum AppAuthError: Error, LocalizedError, Equatable, Sendable {
             nil
         }
     }
+    #endif
 
     /// Whether this error is recoverable through retry
     public var isRetryable: Bool {
@@ -307,13 +306,13 @@ extension AppAuthError {
         if errorString.contains("code verifier") || debugString.contains("code_verifier") {
             return .oauthFailed(
                 provider: "OAuth",
-                reason: "Authentication flow interrupted. Please try again.",
+                reason: "Authentication flow interrupted. Please try again."
             )
         }
         if errorString.contains("pkce") || debugString.contains("code_challenge") {
             return .oauthFailed(
                 provider: "OAuth",
-                reason: "Security verification failed. Please try again.",
+                reason: "Security verification failed. Please try again."
             )
         }
 

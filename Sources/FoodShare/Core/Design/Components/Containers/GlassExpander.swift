@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Expander/Accordion Component with smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Expander
@@ -50,7 +52,7 @@ struct GlassExpander<Content: View>: View {
                         ZStack {
                             Circle()
                                 .fill(iconColor.opacity(0.15))
-                                .frame(width: 36, height: 36)
+                                .frame(width: 36.0, height: 36)
 
                             Image(systemName: icon)
                                 .font(.system(size: 16, weight: .medium))
@@ -100,7 +102,7 @@ struct GlassExpander<Content: View>: View {
                                 endPoint: .trailing,
                             ),
                         )
-                        .frame(height: 1)
+                        .frame(height: 1.0)
 
                     // Content
                     content()
@@ -117,7 +119,11 @@ struct GlassExpander<Content: View>: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.white.opacity(isExpanded ? 0.08 : 0.05))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -261,7 +267,7 @@ struct GlassCollapsibleSection<Header: View, Content: View>: View {
                         .font(.system(size: 12, weight: .bold))
                         .foregroundStyle(Color.DesignSystem.textSecondary)
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                        .frame(width: 24, height: 24)
+                        .frame(width: 24.0, height: 24)
                         .background(
                             Circle()
                                 .fill(Color.white.opacity(0.08)),
@@ -276,7 +282,7 @@ struct GlassCollapsibleSection<Header: View, Content: View>: View {
                 VStack(spacing: 0) {
                     Rectangle()
                         .fill(Color.white.opacity(0.1))
-                        .frame(height: 1)
+                        .frame(height: 1.0)
 
                     content()
                         .padding(Spacing.md)
@@ -287,7 +293,11 @@ struct GlassCollapsibleSection<Header: View, Content: View>: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.white.opacity(0.05))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -384,3 +394,5 @@ private struct FAQItem: Identifiable {
         }
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Recovery Banner
@@ -79,7 +81,7 @@ public struct GlassRecoveryBanner: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.brandGreen.opacity(0.2))
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
 
                 Image(systemName: "arrow.clockwise.circle.fill")
                     .font(.system(size: 24))
@@ -136,7 +138,7 @@ public struct GlassRecoveryBanner: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(Color.DesignSystem.textSecondary)
-                        .frame(width: 28, height: 28)
+                        .frame(width: 28.0, height: 28)
                         .background(
                             Circle()
                                 .fill(Color.DesignSystem.textSecondary.opacity(0.1)),
@@ -150,7 +152,11 @@ public struct GlassRecoveryBanner: View {
         ZStack {
             // Base glass
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Gradient overlay
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -274,3 +280,5 @@ public struct GlassRecoveryBanner: View {
         )
     }
 }
+
+#endif

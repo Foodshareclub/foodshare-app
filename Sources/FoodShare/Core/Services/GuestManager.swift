@@ -6,6 +6,7 @@
 //  MIGRATED: From ObservableObject to @Observable for improved performance
 //
 
+
 import Foundation
 import Observation
 import SwiftUI
@@ -24,28 +25,29 @@ enum GuestRestrictedFeature {
 
     var title: String {
         switch self {
-        case .messaging: "Messaging"
-        case .createListing: "Create Listing"
-        case .profile: "Profile"
-        case .challenges: "Challenges"
-        case .reviews: "Reviews"
-        case .favorites: "Favorites"
-        case .notifications: "Notifications"
+        case .messaging: return "Messaging"
+        case .createListing: return "Create Listing"
+        case .profile: return "Profile"
+        case .challenges: return "Challenges"
+        case .reviews: return "Reviews"
+        case .favorites: return "Favorites"
+        case .notifications: return "Notifications"
         }
     }
 
     var description: String {
         switch self {
-        case .messaging: "Send and receive messages with other Foodshare members"
-        case .createListing: "Share your surplus food with the community"
-        case .profile: "Customize your profile and track your impact"
-        case .challenges: "Participate in community challenges and earn badges"
-        case .reviews: "Leave reviews for other community members"
-        case .favorites: "Save your favorite listings for later"
-        case .notifications: "Get notified about nearby food and messages"
+        case .messaging: return "Send and receive messages with other Foodshare members"
+        case .createListing: return "Share your surplus food with the community"
+        case .profile: return "Customize your profile and track your impact"
+        case .challenges: return "Participate in community challenges and earn badges"
+        case .reviews: return "Leave reviews for other community members"
+        case .favorites: return "Save your favorite listings for later"
+        case .notifications: return "Get notified about nearby food and messages"
         }
     }
 
+    #if !SKIP
     /// Localized title using translation service
     @MainActor
     func localizedTitle(using t: EnhancedTranslationService) -> String {
@@ -73,16 +75,17 @@ enum GuestRestrictedFeature {
         case .notifications: t.t("guest.feature.notifications.desc")
         }
     }
+    #endif
 
     var icon: String {
         switch self {
-        case .messaging: "message.fill"
-        case .createListing: "plus.circle.fill"
-        case .profile: "person.fill"
-        case .challenges: "trophy.fill"
-        case .reviews: "star.fill"
-        case .favorites: "heart.fill"
-        case .notifications: "bell.fill"
+        case .messaging: return "message.fill"
+        case .createListing: return "plus.circle.fill"
+        case .profile: return "person.fill"
+        case .challenges: return "trophy.fill"
+        case .reviews: return "star.fill"
+        case .favorites: return "heart.fill"
+        case .notifications: return "bell.fill"
         }
     }
 }
@@ -113,9 +116,13 @@ final class GuestManager {
 
     /// Enable guest mode
     func enableGuestMode() {
+        #if !SKIP
         withAnimation(.easeInOut(duration: 0.3)) {
             isGuestMode = true
         }
+        #else
+        isGuestMode = true
+        #endif
         showSignUpPrompt = false
         restrictedFeature = nil
         HapticManager.light()
@@ -123,9 +130,13 @@ final class GuestManager {
 
     /// Disable guest mode and clear guest data
     func disableGuestMode() {
+        #if !SKIP
         withAnimation(.easeInOut(duration: 0.3)) {
             isGuestMode = false
         }
+        #else
+        isGuestMode = false
+        #endif
         showSignUpPrompt = false
         restrictedFeature = nil
         HapticManager.light()
@@ -146,7 +157,7 @@ final class GuestManager {
 
     /// Check if a feature is restricted for guests
     func isRestricted(_ feature: GuestRestrictedFeature) -> Bool {
-        isGuestMode
+        return isGuestMode
     }
 
     /// Reset guest session (useful for testing)

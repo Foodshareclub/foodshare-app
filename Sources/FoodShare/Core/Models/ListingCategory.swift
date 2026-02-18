@@ -6,6 +6,8 @@
 //  Supports all 12 category types from the web platform
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// All listing categories matching the web app
@@ -197,3 +199,5 @@ struct CategoryFilter: Identifiable, Hashable {
         [CategoryFilter.all] + ListingCategory.feedCategories.map { CategoryFilter.from($0) }
     }
 }
+
+#endif

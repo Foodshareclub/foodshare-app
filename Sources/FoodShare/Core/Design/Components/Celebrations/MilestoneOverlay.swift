@@ -13,6 +13,8 @@
 //  - XP counter animation
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -150,7 +152,7 @@ struct MilestoneOverlay: View {
                             ),
                             style: StrokeStyle(lineWidth: 6, lineCap: .round),
                         )
-                        .frame(width: 140, height: 140)
+                        .frame(width: 140.0, height: 140)
                         .rotationEffect(.degrees(-90))
                         .opacity(0.3)
 
@@ -168,7 +170,7 @@ struct MilestoneOverlay: View {
                             ),
                             style: StrokeStyle(lineWidth: 6, lineCap: .round),
                         )
-                        .frame(width: 140, height: 140)
+                        .frame(width: 140.0, height: 140)
                         .rotationEffect(.degrees(-90))
 
                     // Icon
@@ -342,7 +344,11 @@ struct LevelUpOverlay: View {
                     }
                     .padding(.horizontal, Spacing.lg)
                     .padding(.vertical, Spacing.sm)
-                    .background(.ultraThinMaterial)
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .clipShape(Capsule())
 
                     Spacer()
@@ -408,7 +414,7 @@ struct BadgeUnlockOverlay: View {
                                 endRadius: 120,
                             ),
                         )
-                        .frame(width: 240, height: 240)
+                        .frame(width: 240.0, height: 240)
 
                     // Badge container
                     ZStack {
@@ -423,7 +429,7 @@ struct BadgeUnlockOverlay: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 120, height: 120)
+                            .frame(width: 120.0, height: 120)
                             .shadow(color: .orange.opacity(0.5), radius: 20)
 
                         Image(systemName: badgeIcon)
@@ -540,4 +546,6 @@ struct BadgeUnlockOverlay: View {
         return MilestonePreview()
     }
 #endif
+#endif
+
 #endif

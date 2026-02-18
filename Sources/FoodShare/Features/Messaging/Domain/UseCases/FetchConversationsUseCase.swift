@@ -6,6 +6,8 @@
 //  Updated to match actual database schema (December 2025)
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case for fetching user's chat rooms
@@ -62,3 +64,5 @@ final class GetOrCreateRoomUseCase {
 
 /// Legacy type alias for backward compatibility
 typealias FetchConversationsUseCase = FetchRoomsUseCase
+
+#endif

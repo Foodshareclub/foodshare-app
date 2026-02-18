@@ -5,6 +5,8 @@
 //  Create a new forum post with Liquid Glass design system
 //
 
+
+#if !SKIP
 import OSLog
 import PhotosUI
 import Supabase
@@ -265,7 +267,7 @@ struct CreateForumPostView: View {
                         Image(systemName: category.systemIconName)
                             .font(.DesignSystem.titleMedium)
                             .foregroundStyle(category.displayColor)
-                            .frame(width: 32)
+                            .frame(width: 32.0)
 
                         VStack(alignment: .leading, spacing: Spacing.xxxs) {
                             Text(category.name)
@@ -401,7 +403,7 @@ struct CreateForumPostView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 200)
+                        .frame(height: 200.0)
                         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
                     Button {
@@ -427,7 +429,7 @@ struct CreateForumPostView: View {
                     }
                     .foregroundColor(Color.DesignSystem.textSecondary)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 100)
+                    .frame(height: 100.0)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .fill(Color.DesignSystem.glassBackground)
@@ -479,7 +481,7 @@ struct CreateForumPostView: View {
         do {
             if let data = try await item.loadTransferable(type: Data.self) {
                 if let uiImage = UIImage(data: data) {
-                    let resized = resizeImage(uiImage, targetSize: CGSize(width: 1024, height: 1024))
+                    let resized = resizeImage(uiImage, targetSize: CGSize(width: 1024.0, height: 1024.0))
                     selectedImageData = resized.jpegData(compressionQuality: 0.8)
                 } else {
                     selectedImageData = data
@@ -602,3 +604,5 @@ struct CreateForumPostView: View {
         return publicURL.absoluteString
     }
 }
+
+#endif

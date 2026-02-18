@@ -2,6 +2,7 @@
 // Dependency Injection for Notification Preferences
 // FoodShare iOS - Clean Architecture
 
+
 #if !SKIP
 import Foundation
 import SwiftUI
@@ -41,4 +42,5 @@ public enum NotificationPreferencesFactory {
         return EnterpriseNotificationSettingsView(viewModel: viewModel)
     }
 }
+
 #endif

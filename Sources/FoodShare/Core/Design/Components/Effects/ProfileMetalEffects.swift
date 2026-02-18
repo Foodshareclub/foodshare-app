@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ProfileMetalEffects.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Optimized for ProMotion 120Hz displays
 //
 
+
+#if !SKIP
 import MetalKit
 import SwiftUI
 
@@ -444,7 +445,7 @@ struct MetalBadgeGlow: View {
 
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(.clear)
-                .frame(height: 100)
+                .frame(height: 100.0)
                 .statsBackgroundEffect()
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
 
@@ -453,7 +454,7 @@ struct MetalBadgeGlow: View {
 
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(.clear)
-                .frame(height: 100)
+                .frame(height: 100.0)
                 .impactVisualization()
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         }
@@ -462,4 +463,5 @@ struct MetalBadgeGlow: View {
     .background(Color.DesignSystem.background)
     .preferredColorScheme(.dark)
 }
+
 #endif

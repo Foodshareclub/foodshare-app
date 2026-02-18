@@ -6,6 +6,8 @@
 //  Provides FoodShareRootView and FoodShareAppDelegate expected by Skip Fuse's Main.swift.
 //
 
+
+#if !SKIP
 import OSLog
 import Supabase
 import SwiftUI
@@ -92,3 +94,5 @@ public final class FoodShareAppDelegate: @unchecked Sendable {
     public func onDestroy() {}
     public func onLowMemory() {}
 }
+
+#endif

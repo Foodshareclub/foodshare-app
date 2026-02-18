@@ -11,6 +11,8 @@
 //  - Tab coordination
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -299,3 +301,5 @@ struct AppNavigationLink<Label: View>: View {
         }
     }
 }
+
+#endif

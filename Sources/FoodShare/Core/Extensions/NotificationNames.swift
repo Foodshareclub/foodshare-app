@@ -5,6 +5,8 @@
 //  Shared notification names for cross-component communication
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Push Notification Names
@@ -51,3 +53,5 @@ extension Notification.Name {
     /// Posted when user subscribes/unsubscribes from a forum post
     static let forumSubscriptionChanged = Notification.Name("forumSubscriptionChanged")
 }
+
+#endif

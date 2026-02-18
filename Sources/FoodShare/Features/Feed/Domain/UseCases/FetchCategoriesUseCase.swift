@@ -5,6 +5,8 @@
 //  Use case for fetching food categories
 //
 
+
+#if !SKIP
 import Foundation
 
 protocol FetchCategoriesUseCase: Sendable {
@@ -23,3 +25,5 @@ final class DefaultFetchCategoriesUseCase: FetchCategoriesUseCase {
         try await repository.fetchCategories()
     }
 }
+
+#endif

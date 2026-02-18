@@ -6,6 +6,8 @@
 //  Part of the Forum Feature - Phase 3.3 Reputation System
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Reputation Card
@@ -117,11 +119,11 @@ struct GlassReputationCard: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 56, height: 56)
+                .frame(width: 56.0, height: 56)
 
             Circle()
                 .stroke(currentTrustLevel.swiftUIColor, lineWidth: 2)
-                .frame(width: 56, height: 56)
+                .frame(width: 56.0, height: 56)
 
             Image(systemName: currentTrustLevel.icon)
                 .font(.system(size: 24, weight: .semibold))
@@ -172,7 +174,7 @@ struct GlassReputationCard: View {
                     // Background track
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 8)
+                        .frame(height: 8.0)
 
                     // Progress fill
                     RoundedRectangle(cornerRadius: 4)
@@ -190,7 +192,7 @@ struct GlassReputationCard: View {
                         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: progress.overallProgress)
                 }
             }
-            .frame(height: 8)
+            .frame(height: 8.0)
 
             // Incomplete requirements preview
             if !progress.incompleteRequirements.isEmpty {
@@ -211,7 +213,11 @@ struct GlassReputationCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder.opacity(0.5), lineWidth: 1),
@@ -282,7 +288,7 @@ struct GlassReputationCard: View {
             )
 
             Divider()
-                .frame(height: 32)
+                .frame(height: 32.0)
 
             ReputationStatItem(
                 value: "\(stats.commentsCount)",
@@ -292,7 +298,7 @@ struct GlassReputationCard: View {
             )
 
             Divider()
-                .frame(height: 32)
+                .frame(height: 32.0)
 
             ReputationStatItem(
                 value: "\(stats.likesReceived)",
@@ -302,7 +308,7 @@ struct GlassReputationCard: View {
             )
 
             Divider()
-                .frame(height: 32)
+                .frame(height: 32.0)
 
             ReputationStatItem(
                 value: stats.formattedTimeSpent,
@@ -323,11 +329,19 @@ struct GlassReputationCard: View {
                 .opacity(0.95)
         } else {
             Color.clear
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         }
         #else
         Color.clear
-            .background(.ultraThinMaterial)
+            #if !SKIP
+            .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
         #endif
     }
 
@@ -520,4 +534,6 @@ struct GlassReputationRing: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+#endif
+
 #endif

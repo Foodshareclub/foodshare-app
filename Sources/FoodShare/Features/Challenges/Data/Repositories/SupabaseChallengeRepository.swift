@@ -8,6 +8,9 @@
 // TODO: Migrate to api-v1-challenges when backend endpoint is created.
 // No corresponding Edge Function exists. Direct Supabase access is acceptable.
 
+
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -463,3 +466,6 @@ private struct ChallengeActivityDTO: Decodable {
         )
     }
 }
+
+
+#endif

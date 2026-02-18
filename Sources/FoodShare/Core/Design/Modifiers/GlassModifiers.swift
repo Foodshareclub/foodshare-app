@@ -5,6 +5,8 @@
 //  Liquid Glass v26 View Modifiers
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Effect Modifier
@@ -19,7 +21,11 @@ struct GlassEffectModifier: ViewModifier {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .strokeBorder(
@@ -257,7 +263,7 @@ extension View {
     /// Simple glass background with material and rounded corners
     /// Use glassEffect() for more advanced styling with gradients
     func glassBackground(cornerRadius: CGFloat = Spacing.radiusMD) -> some View {
-        background(.ultraThinMaterial)
+        background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             .overlay(
                 RoundedRectangle(cornerRadius: cornerRadius)
@@ -276,7 +282,9 @@ struct GlassNavigationBarTintModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            #if !SKIP
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
+            #endif
             .toolbarBackground(.visible, for: .navigationBar)
             #endif
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -285,7 +293,7 @@ struct GlassNavigationBarTintModifier: ViewModifier {
                 if showDivider {
                     VStack {
                         Spacer()
-                            .frame(height: 44) // Approximate nav bar height
+                            .frame(height: 44.0) // Approximate nav bar height
                         Rectangle()
                             .fill(
                                 LinearGradient(
@@ -334,7 +342,11 @@ struct GlassToolbarButtonStyle: ButtonStyle {
             .frame(width: size, height: size)
             .background(
                 Circle()
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         Circle()
                             .stroke(
@@ -370,7 +382,7 @@ struct GlassSheetModifier: ViewModifier {
             #if !SKIP
             .presentationCornerRadius(CornerRadius.xl)
             .presentationDragIndicator(.visible)
-            .presentationBackground(.ultraThinMaterial)
+            .presentationBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
             #endif
     }
 }
@@ -397,7 +409,11 @@ struct GlassCardAccentModifier: ViewModifier {
                 ZStack {
                     // Base material
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     // Accent gradient (if provided)
                     if let accent = accentColor {
@@ -608,7 +624,11 @@ struct HighPerformanceGlassModifier: ViewModifier {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .strokeBorder(
@@ -946,7 +966,11 @@ struct DetailSectionModifier: ViewModifier {
             .padding(Spacing.lg)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -978,8 +1002,12 @@ extension View {
     func detailNavigationBar() -> some View {
         self.navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            #if !SKIP
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
+            #endif
             .toolbarBackground(.visible, for: .navigationBar)
             #endif
     }
 }
+
+#endif

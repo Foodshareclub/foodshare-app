@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  GlassNavigationBar.swift
 //  Foodshare
@@ -8,6 +7,8 @@
 //  Optimized for ProMotion 120Hz
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Navigation Bar
@@ -54,7 +55,7 @@ struct GlassNavigationBar<Leading: View, Center: View, Trailing: View>: View {
                     .frame(minWidth: 44)
             }
             .padding(.horizontal, Spacing.md)
-            .frame(height: 56)
+            .frame(height: 56.0)
             .background(navBarBackground)
 
             // Divider
@@ -203,7 +204,7 @@ struct FoodshareNavigationBar: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
 
                 Image(systemName: "leaf.fill")
                     .font(.system(size: 16, weight: .semibold))
@@ -276,7 +277,7 @@ struct GlassSimpleTabBar: View {
                     if selectedTab == tab.id {
                         Capsule()
                             .fill(Color.DesignSystem.brandGreen.opacity(0.15))
-                            .frame(width: 56, height: 32)
+                            .frame(width: 56.0, height: 32)
                             #if !SKIP
                             .matchedGeometryEffect(id: "tabSelection", in: tabAnimation)
                             #endif
@@ -290,7 +291,7 @@ struct GlassSimpleTabBar: View {
                                 ? Color.DesignSystem.brandGreen
                                 : Color.DesignSystem.textSecondary
                         )
-                        .frame(width: 56, height: 32)
+                        .frame(width: 56.0, height: 32)
 
                     // Badge
                     if let badge = tab.badge, badge > 0 {
@@ -345,7 +346,9 @@ struct GlassNavigationBarModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             #if !SKIP
+            #if !SKIP
             .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            #endif
             .toolbarBackground(.visible, for: .navigationBar)
             #endif
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -435,4 +438,5 @@ extension View {
         .preferredColorScheme(.dark)
 }
 #endif // DEBUG
+
 #endif

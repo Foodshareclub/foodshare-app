@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized with smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -68,7 +70,7 @@ struct NewsletterSubscriptionView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "envelope.badge.fill")
                     .font(.system(size: 44))
@@ -186,7 +188,7 @@ struct NewsletterSubscriptionView: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.brandGreen.opacity(0.2))
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 40))
@@ -270,7 +272,7 @@ private struct NewsletterBenefitRow: View {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(iconColor)
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
                 .background(iconColor.opacity(0.15))
                 .clipShape(Circle())
 
@@ -376,3 +378,5 @@ final class NewsletterViewModel {
         NewsletterSubscriptionView()
     }
 }
+
+#endif

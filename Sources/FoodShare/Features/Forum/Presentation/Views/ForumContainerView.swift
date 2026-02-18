@@ -6,6 +6,8 @@
 //  Liquid Glass v26 premium loading experience
 //
 
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -90,13 +92,13 @@ struct ForumContainerView: View {
                 // Title placeholder
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.DesignSystem.textTertiary.opacity(0.2))
-                    .frame(width: 180, height: 28)
+                    .frame(width: 180.0, height: 28)
                     .shimmer()
 
                 // Subtitle placeholder
                 RoundedRectangle(cornerRadius: 6)
                     .fill(Color.DesignSystem.textTertiary.opacity(0.15))
-                    .frame(width: 120, height: 16)
+                    .frame(width: 120.0, height: 16)
                     .shimmer()
             }
 
@@ -105,13 +107,17 @@ struct ForumContainerView: View {
             // Create button placeholder
             Circle()
                 .fill(Color.DesignSystem.brandGreen.opacity(0.3))
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
                 .shimmer()
         }
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder.opacity(0.5), lineWidth: 1),
@@ -140,7 +146,7 @@ struct ForumContainerView: View {
             ZStack {
                 Circle()
                     .stroke(Color.DesignSystem.brandGreen.opacity(0.2), lineWidth: 3)
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
 
                 Circle()
                     .trim(from: 0, to: 0.7)
@@ -155,7 +161,7 @@ struct ForumContainerView: View {
                         ),
                         style: StrokeStyle(lineWidth: 3, lineCap: .round),
                     )
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .rotationEffect(.degrees(rotationDegrees))
             }
             .shadow(color: Color.DesignSystem.brandGreen.opacity(0.4), radius: 10, y: 4)
@@ -179,7 +185,11 @@ struct ForumContainerView: View {
         .padding(Spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.extraLarge)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.extraLarge)
                         .stroke(
@@ -230,16 +240,16 @@ private struct ForumPostSkeletonCard: View {
             HStack(spacing: Spacing.sm) {
                 Circle()
                     .fill(skeletonGradient)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 100, height: 14)
+                        .frame(width: 100.0, height: 14)
 
                     RoundedRectangle(cornerRadius: 3)
                         .fill(skeletonGradient.opacity(0.7))
-                        .frame(width: 70, height: 12)
+                        .frame(width: 70.0, height: 12)
                 }
 
                 Spacer()
@@ -247,26 +257,26 @@ private struct ForumPostSkeletonCard: View {
                 // Category badge
                 Capsule()
                     .fill(skeletonGradient)
-                    .frame(width: 60, height: 22)
+                    .frame(width: 60.0, height: 22)
             }
 
             // Title
             RoundedRectangle(cornerRadius: 6)
                 .fill(skeletonGradient)
-                .frame(height: 20)
+                .frame(height: 20.0)
 
             // Content preview
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient.opacity(0.8))
-                    .frame(height: 14)
+                    .frame(height: 14.0)
 
                 GeometryReader { geometry in
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient.opacity(0.6))
                         .frame(width: geometry.size.width * 0.6, height: 14)
                 }
-                .frame(height: 14)
+                .frame(height: 14.0)
             }
 
             // Stats row
@@ -275,11 +285,11 @@ private struct ForumPostSkeletonCard: View {
                     HStack(spacing: Spacing.xxs) {
                         Circle()
                             .fill(skeletonGradient.opacity(0.5))
-                            .frame(width: 16, height: 16)
+                            .frame(width: 16.0, height: 16)
 
                         RoundedRectangle(cornerRadius: 3)
                             .fill(skeletonGradient.opacity(0.5))
-                            .frame(width: 24, height: 12)
+                            .frame(width: 24.0, height: 12)
                     }
                 }
 
@@ -289,7 +299,11 @@ private struct ForumPostSkeletonCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder.opacity(0.5), lineWidth: 1),
@@ -320,7 +334,7 @@ private struct ForumPostSkeletonCard: View {
                 startPoint: .leading,
                 endPoint: .trailing,
             )
-            .frame(width: 120)
+            .frame(width: 120.0)
             .offset(x: shimmerPhase)
             .onAppear {
                 shimmerPhase = -120
@@ -340,3 +354,5 @@ private struct ForumPostSkeletonCard: View {
     ForumContainerView()
         .environment(AppState())
 }
+
+#endif

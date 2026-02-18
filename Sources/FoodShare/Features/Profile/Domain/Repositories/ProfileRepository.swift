@@ -1,3 +1,5 @@
+
+#if !SKIP
 import Foundation
 
 protocol ProfileRepository: Sendable {
@@ -34,3 +36,5 @@ protocol ProfileRepository: Sendable {
     /// Check if a specific user is blocked
     func isUserBlocked(userId: UUID, targetUserId: UUID) async throws -> Bool
 }
+
+#endif

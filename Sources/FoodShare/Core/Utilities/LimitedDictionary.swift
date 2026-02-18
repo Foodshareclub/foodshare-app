@@ -6,6 +6,8 @@
 //  Used for managing animation states and other ephemeral view data.
 //
 
+
+#if !SKIP
 import Foundation
 #if !SKIP
 import UIKit
@@ -152,3 +154,5 @@ extension LimitedDictionary: @preconcurrency ExpressibleByDictionaryLiteral {
         }
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+
+#if !SKIP
 import Foundation
 
 /// HTTP request methods
@@ -10,3 +12,5 @@ enum HTTPMethod: String, Sendable {
     case head = "HEAD"
     case options = "OPTIONS"
 }
+
+#endif

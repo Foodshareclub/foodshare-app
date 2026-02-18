@@ -10,6 +10,8 @@
 //  - "Tap to change photo" hint
 //
 
+
+#if !SKIP
 import Kingfisher
 import PhotosUI
 import SwiftUI
@@ -139,7 +141,11 @@ struct EditProfileAvatarSection: View {
 
     private var uploadProgressOverlay: some View {
         Circle()
-            .fill(.ultraThinMaterial)
+            #if !SKIP
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
             .frame(width: avatarSize, height: avatarSize)
             .overlay(
                 VStack(spacing: Spacing.xs) {
@@ -175,7 +181,7 @@ struct EditProfileAvatarSection: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 36, height: 36)
+                            .frame(width: 36.0, height: 36)
 
                         Image(systemName: "camera.fill")
                             .font(.system(size: 16, weight: .semibold))
@@ -207,4 +213,6 @@ struct EditProfileAvatarSection: View {
             .padding()
         }
     }
+#endif
+
 #endif

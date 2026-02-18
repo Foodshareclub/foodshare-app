@@ -7,6 +7,7 @@
 //  that will likely be scrolled into view soon.
 //
 
+
 #if !SKIP
 import Foundation
 import Kingfisher
@@ -172,4 +173,5 @@ extension ImagePrefetchService {
         prefetchForItems(itemsToPrefetch)
     }
 }
+
 #endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  KeychainHelper.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Thread-safe actor with typed access
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 #if !SKIP
@@ -222,4 +223,5 @@ actor KeychainHelper {
         return query
     }
 }
+
 #endif

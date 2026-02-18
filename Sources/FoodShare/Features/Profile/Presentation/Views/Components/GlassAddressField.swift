@@ -6,6 +6,8 @@
 //  Shows current address with tap action to open address picker
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Address Field
@@ -28,7 +30,7 @@ struct GlassAddressField: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(Color.DesignSystem.brandBlue.opacity(0.15))
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40.0, height: 40)
 
                     Image(systemName: "location.fill")
                         .font(.system(size: 18, weight: .medium))
@@ -159,3 +161,5 @@ struct GlassAddressField: View {
         .padding()
     }
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  Generated from en.json structure.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Type-Safe Translation Keys
@@ -395,3 +397,5 @@ public protocol TranslationKeyWithArgs {
     static var key: String { get }
     static var args: [String] { get }
 }
+
+#endif

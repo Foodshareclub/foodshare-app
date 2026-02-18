@@ -5,6 +5,8 @@
 //  Domain model for authenticated user
 //
 
+
+#if !SKIP
 import Foundation
 
 struct AuthUser: Identifiable, Codable, Sendable {
@@ -207,3 +209,5 @@ extension SignUpCredentials {
         )
     }
 }
+
+#endif

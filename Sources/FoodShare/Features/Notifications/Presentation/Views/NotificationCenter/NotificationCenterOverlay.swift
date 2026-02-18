@@ -6,6 +6,9 @@
 //  Manages dropdown visibility, backdrop, and notification navigation
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Notification Center Overlay Modifier
@@ -187,4 +190,7 @@ enum NotificationNavigation {
 
         return PreviewWrapper()
     }
+#endif
+
+
 #endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ChatPresenceService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Supports typing indicators and online/offline status
 //
 
+
+#if !SKIP
 import Foundation
 @preconcurrency import Realtime
 import Supabase
@@ -347,4 +348,5 @@ actor SupabaseChatPresenceService: ChatPresenceService {
         }
     }
 #endif
+
 #endif

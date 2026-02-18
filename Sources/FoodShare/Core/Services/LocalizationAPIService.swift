@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  LocalizationAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized API service for localization/translation
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Request Bodies
@@ -57,4 +58,5 @@ struct TranslationResponse: Codable {
     let sourceLanguage: String
     let targetLanguage: String
 }
+
 #endif

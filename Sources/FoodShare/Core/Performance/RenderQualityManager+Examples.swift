@@ -6,6 +6,8 @@
 //  This file demonstrates how to use adaptive rendering in your views.
 //
 
+
+#if !SKIP
 #if DEBUG
 
     import SwiftUI
@@ -71,7 +73,11 @@
                 if quality.enableGlassMaterial {
                     // Full glass effect on high-quality devices
                     RoundedRectangle(cornerRadius: quality.cornerRadius)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay {
                             if quality.enableComplexGradients {
                                 LinearGradient(
@@ -176,7 +182,11 @@
                         .font(.DesignSystem.displayMedium)
                 }
                 .padding()
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .adaptiveBlur(radius: 20) // Automatically reduces on low-quality devices
             }
         }
@@ -328,5 +338,7 @@
     #Preview("Quality Metrics Dashboard") {
         QualityMetricsDashboardExample()
     }
+
+#endif
 
 #endif

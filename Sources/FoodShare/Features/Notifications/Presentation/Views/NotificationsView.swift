@@ -5,6 +5,9 @@
 //  Notification center view with Liquid Glass v26 design
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 
@@ -134,7 +137,7 @@ struct NotificationsView: View {
                             endRadius: 80,
                         ),
                     )
-                    .frame(width: 160, height: 160)
+                    .frame(width: 160.0, height: 160)
 
                 Image(systemName: "bell.slash.fill")
                     .font(.system(size: 50))
@@ -202,7 +205,7 @@ struct NotificationRow: View {
             ZStack {
                 Circle()
                     .fill(iconColor.opacity(0.15))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
 
                 Image(systemName: notification.type.icon)
                     .font(.system(size: 18))
@@ -236,7 +239,7 @@ struct NotificationRow: View {
                     HStack(spacing: Spacing.xs) {
                         Circle()
                             .fill(Color.DesignSystem.primary.opacity(0.2))
-                            .frame(width: 20, height: 20)
+                            .frame(width: 20.0, height: 20)
                             .overlay(
                                 Image(systemName: "person.fill")
                                     .font(.system(size: 10))
@@ -260,7 +263,7 @@ struct NotificationRow: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 10, height: 10)
+                    .frame(width: 10.0, height: 10)
                     .shadow(color: .DesignSystem.brandGreen.opacity(0.5), radius: 4)
             }
         }
@@ -291,32 +294,32 @@ private struct NotificationSkeletonRow: View {
             // Icon skeleton
             Circle()
                 .fill(skeletonGradient)
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 HStack {
                     // Title skeleton
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 120, height: 16)
+                        .frame(width: 120.0, height: 16)
 
                     Spacer()
 
                     // Time skeleton
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 50, height: 12)
+                        .frame(width: 50.0, height: 12)
                 }
 
                 // Body skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 200, height: 14)
+                    .frame(width: 200.0, height: 14)
 
                 // Extra line skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 150, height: 12)
+                    .frame(width: 150.0, height: 12)
             }
         }
         .padding(Spacing.md)
@@ -353,7 +356,7 @@ private struct NotificationSkeletonRow: View {
                 startPoint: .leading,
                 endPoint: .trailing
             )
-            .frame(width: 150)
+            .frame(width: 150.0)
             .offset(x: shimmerPhase)
             .onAppear {
                 withAnimation(
@@ -367,3 +370,6 @@ private struct NotificationSkeletonRow: View {
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
     }
 }
+
+
+#endif

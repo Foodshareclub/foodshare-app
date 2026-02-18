@@ -6,6 +6,9 @@
 //  Enhanced with voice search, suggestions, saved searches, and search analytics
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -560,3 +563,6 @@ struct SearchStats: Sendable {
         averageDistance: nil,
     )
 }
+
+
+#endif

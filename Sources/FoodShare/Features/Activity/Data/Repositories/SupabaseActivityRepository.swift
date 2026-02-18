@@ -6,6 +6,9 @@
 //  Features retry logic with exponential backoff for transient failures
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -102,3 +105,6 @@ private struct MixedActivityDTO: Decodable {
         )
     }
 }
+
+
+#endif

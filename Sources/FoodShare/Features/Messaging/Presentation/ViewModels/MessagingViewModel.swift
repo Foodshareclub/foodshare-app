@@ -6,6 +6,9 @@
 //  Enhanced with typing indicators, read receipts, search, and archiving
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -479,3 +482,6 @@ extension MessagingViewModel {
         rooms
     }
 }
+
+
+#endif

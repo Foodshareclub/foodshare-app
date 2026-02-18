@@ -6,6 +6,8 @@
 //  Note: Uses HapticManager from Core/Utilities/HapticManager.swift
 //
 
+
+#if !SKIP
 import SwiftUI
 #if !SKIP
 import UIKit
@@ -107,3 +109,5 @@ extension View {
         modifier(HapticOnChangeModifier(value: value, style: style))
     }
 }
+
+#endif

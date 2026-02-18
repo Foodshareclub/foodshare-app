@@ -6,6 +6,8 @@
 //  with 3-layer caching (Memory -> Database -> LLM)
 //
 
+
+#if !SKIP
 import OSLog
 import Supabase
 import SwiftUI
@@ -172,3 +174,5 @@ extension View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

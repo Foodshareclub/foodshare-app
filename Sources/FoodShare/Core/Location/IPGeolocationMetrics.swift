@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  IPGeolocationMetrics.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Observability and metrics collection for IP geolocation service.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -348,4 +349,5 @@ extension IPGeolocationMetrics {
         return true
     }
 }
+
 #endif

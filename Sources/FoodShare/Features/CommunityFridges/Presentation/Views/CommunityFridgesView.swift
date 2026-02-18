@@ -5,6 +5,8 @@
 //  Main view for browsing community fridges
 //
 
+
+#if !SKIP
 #if !SKIP
 import MapKit
 #endif
@@ -202,7 +204,7 @@ struct CommunityFridgeCard: View {
                     Marker(fridge.name, coordinate: coordinate)
                         .tint(Color.DesignSystem.primary)
                 }
-                .frame(height: 100)
+                .frame(height: 100.0)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
                 .allowsHitTesting(false)
                 .transition(.opacity.combined(with: .scale(scale: 0.95)))
@@ -369,3 +371,5 @@ struct FridgeStatusBadge: View {
         }
     }
 }
+
+#endif

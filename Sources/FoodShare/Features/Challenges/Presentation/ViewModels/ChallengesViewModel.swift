@@ -5,6 +5,9 @@
 //  ViewModel for challenges feature
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 
@@ -337,3 +340,6 @@ final class ChallengesViewModel {
         return publishedChallenges.first(where: { $0.id == challengeId })?.challengeLikesCounter ?? 0
     }
 }
+
+
+#endif

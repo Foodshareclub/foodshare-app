@@ -6,6 +6,8 @@
 //  Features shimmer effect and respects accessibility settings.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Skeleton Card
@@ -90,14 +92,14 @@ struct GlassSkeletonCard: View {
                 // Title placeholder
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 20)
+                    .frame(height: 20.0)
                     .frame(maxWidth: .infinity)
                     .padding(.trailing, 40)
 
                 // Subtitle placeholder
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 16)
+                    .frame(height: 16.0)
                     .frame(maxWidth: .infinity)
                     .padding(.trailing, 80)
 
@@ -106,7 +108,7 @@ struct GlassSkeletonCard: View {
                     ForEach(0..<3, id: \.self) { _ in
                         RoundedRectangle(cornerRadius: CornerRadius.small)
                             .fill(Color.DesignSystem.glassBackground)
-                            .frame(width: 60, height: 14)
+                            .frame(width: 60.0, height: 14)
                     }
                     Spacer()
                 }
@@ -115,7 +117,11 @@ struct GlassSkeletonCard: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -131,16 +137,16 @@ struct GlassSkeletonCard: View {
             HStack(spacing: Spacing.sm) {
                 Circle()
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 100, height: 14)
+                        .frame(width: 100.0, height: 14)
 
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 60, height: 12)
+                        .frame(width: 60.0, height: 12)
                 }
 
                 Spacer()
@@ -149,7 +155,7 @@ struct GlassSkeletonCard: View {
             // Title placeholder
             RoundedRectangle(cornerRadius: CornerRadius.small)
                 .fill(Color.DesignSystem.glassBackground)
-                .frame(height: 18)
+                .frame(height: 18.0)
                 .frame(maxWidth: .infinity)
                 .padding(.trailing, 20)
 
@@ -158,7 +164,7 @@ struct GlassSkeletonCard: View {
                 ForEach(0..<lineCount, id: \.self) { index in
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 14)
+                        .frame(height: 14.0)
                         .frame(maxWidth: .infinity)
                         .padding(.trailing, index == lineCount - 1 ? 100 : 0)
                 }
@@ -169,7 +175,7 @@ struct GlassSkeletonCard: View {
                 ForEach(0..<3, id: \.self) { _ in
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 50, height: 14)
+                        .frame(width: 50.0, height: 14)
                 }
                 Spacer()
             }
@@ -177,7 +183,11 @@ struct GlassSkeletonCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -191,21 +201,21 @@ struct GlassSkeletonCard: View {
         HStack(alignment: .top, spacing: Spacing.sm) {
             Circle()
                 .fill(Color.DesignSystem.glassBackground)
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 80, height: 14)
+                    .frame(width: 80.0, height: 14)
 
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 14)
+                    .frame(height: 14.0)
                     .frame(maxWidth: .infinity)
 
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 14)
+                    .frame(height: 14.0)
                     .frame(maxWidth: .infinity)
                     .padding(.trailing, 60)
             }
@@ -228,17 +238,17 @@ struct GlassSkeletonCard: View {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 120, height: 18)
+                    .frame(width: 120.0, height: 18)
 
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 80, height: 14)
+                    .frame(width: 80.0, height: 14)
 
                 HStack(spacing: Spacing.sm) {
                     ForEach(0..<2, id: \.self) { _ in
                         RoundedRectangle(cornerRadius: CornerRadius.small)
                             .fill(Color.DesignSystem.glassBackground)
-                            .frame(width: 60, height: 14)
+                            .frame(width: 60.0, height: 14)
                     }
                 }
             }
@@ -248,7 +258,11 @@ struct GlassSkeletonCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -267,13 +281,13 @@ struct GlassSkeletonCard: View {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 14)
+                    .frame(height: 14.0)
                     .frame(maxWidth: .infinity)
                     .padding(.trailing, 40)
 
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 80, height: 12)
+                    .frame(width: 80.0, height: 12)
             }
 
             Spacer()
@@ -343,4 +357,6 @@ struct GlassSkeletonList: View {
     }
     .background(Color.backgroundGradient)
 }
+#endif
+
 #endif

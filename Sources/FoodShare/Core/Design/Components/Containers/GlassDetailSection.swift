@@ -6,6 +6,8 @@
 //  Consolidates detail section patterns across the app
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - GlassDetailSection
@@ -70,7 +72,11 @@ struct GlassDetailSection<Header: View, Content: View>: View {
         .background(
             RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(Color.white.opacity(0.05))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .overlay(
@@ -302,3 +308,5 @@ extension GlassDetailSection {
         }
     }
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized audio visualization with Canvas rendering
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -122,7 +124,7 @@ struct GlassVoiceWaveform: View {
                         RadialGradient(
                             colors: [
                                 secondaryColor.opacity(0.4),
-                                secondaryColor.opacity(0)
+                                secondaryColor.opacity(0.0)
                             ],
                             center: .center,
                             startRadius: micSize / 2,
@@ -135,7 +137,11 @@ struct GlassVoiceWaveform: View {
 
             // Glass background
             Circle()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .frame(width: micSize, height: micSize)
                 .overlay(
                     Circle()
@@ -393,11 +399,11 @@ struct GlassVoiceWaveformCompact: View {
 
                     RoundedRectangle(cornerRadius: 1.5)
                         .fill(color)
-                        .frame(width: 3, height: max(4, height * 16))
+                        .frame(width: 3.0, height: max(4, height * 16))
                 }
             }
         }
-        .frame(height: 20)
+        .frame(height: 20.0)
     }
 }
 
@@ -435,7 +441,7 @@ struct GlassVoiceWaveformCompact: View {
                             amplitude: amplitude,
                             style: .circular
                         )
-                        .frame(height: 200)
+                        .frame(height: 200.0)
                     }
 
                     // Linear style
@@ -451,7 +457,7 @@ struct GlassVoiceWaveformCompact: View {
                             style: .linear,
                             showMic: false
                         )
-                        .frame(height: 80)
+                        .frame(height: 80.0)
                     }
 
                     // Mirrored style
@@ -467,7 +473,7 @@ struct GlassVoiceWaveformCompact: View {
                             style: .mirrored,
                             showMic: false
                         )
-                        .frame(height: 100)
+                        .frame(height: 100.0)
                     }
 
                     // Wave style
@@ -483,7 +489,7 @@ struct GlassVoiceWaveformCompact: View {
                             style: .wave,
                             showMic: false
                         )
-                        .frame(height: 80)
+                        .frame(height: 80.0)
                     }
 
                     // Compact
@@ -503,7 +509,11 @@ struct GlassVoiceWaveformCompact: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                .fill(.ultraThinMaterial)
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                         )
                         .padding(.horizontal)
                     }
@@ -516,4 +526,6 @@ struct GlassVoiceWaveformCompact: View {
 
     return PreviewWrapper()
 }
+#endif
+
 #endif

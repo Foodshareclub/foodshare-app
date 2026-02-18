@@ -5,6 +5,8 @@
 //  Routes for deep-link navigation within the app
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Routes for deep-link navigation
@@ -14,3 +16,5 @@ enum DeepLinkRoute: Hashable {
     case challenge(Int)
     case profile(UUID)
 }
+
+#endif

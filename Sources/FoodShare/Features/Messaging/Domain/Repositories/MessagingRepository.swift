@@ -6,6 +6,9 @@
 //  Updated to match actual database schema (December 2025)
 //
 
+
+
+#if !SKIP
 import Foundation
 
 /// Repository protocol for messaging operations
@@ -110,3 +113,6 @@ struct RoomsFilteredResult: Sendable {
     let unreadCount: Int
     let hasMore: Bool
 }
+
+
+#endif

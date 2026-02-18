@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  LayerErrors.swift
 //  Foodshare
@@ -857,5 +856,4 @@ extension RepositoryError: RetryableError {}
 extension UseCaseError: RetryableError {}
 extension ViewModelError: RetryableError {}
 extension PersistenceError: RetryableError {}
-#endif
 #endif

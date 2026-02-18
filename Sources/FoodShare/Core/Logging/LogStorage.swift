@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  LogStorage.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  SQLite-based persistent log storage with automatic rotation
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import SQLite3
@@ -405,4 +406,5 @@ enum LogStorageError: Error, LocalizedError {
         }
     }
 }
+
 #endif

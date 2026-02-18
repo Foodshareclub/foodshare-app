@@ -5,6 +5,8 @@
 //  Domain model for Activity Feed items
 //
 
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -192,5 +194,7 @@ extension Date {
             )
         ]
     }
+
+#endif
 
 #endif

@@ -6,6 +6,9 @@
 //  translation, preferences, search filtering, and search radius management.
 //
 
+
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -563,3 +566,203 @@ extension FeedViewModel {
         )
     }
 }
+
+
+#else
+// MARK: - Android FeedViewModel (Skip)
+
+import Foundation
+import Observation
+import SwiftUI
+
+// MARK: - Feed Stats (Android)
+
+struct FeedStats {
+    let totalItems: Int
+    let availableItems: Int
+    let expiringSoonItems: Int
+    let categoryBreakdown: [String: Int]
+    let lastUpdated: Date
+
+    static let empty: FeedStats = FeedStats(
+        totalItems: 0,
+        availableItems: 0,
+        expiringSoonItems: 0,
+        categoryBreakdown: [:],
+        lastUpdated: Date()
+    )
+}
+
+// MARK: - Feed API Response DTOs
+
+private struct FeedEnvelopeResponse: Decodable {
+    let success: Bool
+    let data: FeedDataResponse?
+}
+
+private struct FeedDataResponse: Decodable {
+    let listings: [FoodItem]?
+    let counts: FeedCountsResponse?
+}
+
+private struct FeedCountsResponse: Decodable {
+    let total: Int?
+    let food: Int?
+    let fridge: Int?
+    let urgent: Int?
+}
+
+private struct CategoriesEnvelopeResponse: Decodable {
+    let success: Bool
+    let data: [Category]?
+}
+
+// MARK: - FeedViewModel
+
+@MainActor
+@Observable
+final class FeedViewModel {
+    // MARK: - State
+
+    var items: [FoodItem] = []
+    var categories: [Category] = []
+    var selectedCategory: Category?
+    var isLoading = false
+    var isLoadingMore = false
+    var hasMore = true
+    var errorMessage: String?
+
+    private let log = AppLog(category: "FeedViewModel")
+    private let baseURL: String
+    private let apiKey: String
+    private var currentOffset = 0
+    private let pageSize = 20
+
+    // Default location (Sacramento, CA — fallback)
+    private var lat: Double = 38.5816
+    private var lng: Double = -121.4944
+    private var radiusKm: Double = 25.0
+
+    // MARK: - Initialization
+
+    init() {
+        self.baseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        self.apiKey = AppEnvironment.supabasePublishableKey ?? ""
+    }
+
+    // MARK: - Public API
+
+    func loadFeed() async {
+        guard !isLoading else { return }
+        isLoading = true
+        errorMessage = nil
+        currentOffset = 0
+
+        do {
+            let feedItems = try await fetchFeedFromAPI(limit: pageSize, offset: 0)
+            items = feedItems
+            hasMore = feedItems.count >= pageSize
+            log.info("Loaded \(feedItems.count) feed items")
+        } catch {
+            errorMessage = "Failed to load feed: \(error.localizedDescription)"
+            log.error("Feed load failed: \(error.localizedDescription)")
+        }
+
+        isLoading = false
+    }
+
+    func loadMore() async {
+        guard !isLoadingMore, hasMore else { return }
+        isLoadingMore = true
+
+        let nextOffset = currentOffset + pageSize
+        do {
+            let newItems = try await fetchFeedFromAPI(limit: pageSize, offset: nextOffset)
+            items.append(contentsOf: newItems)
+            currentOffset = nextOffset
+            hasMore = newItems.count >= pageSize
+        } catch {
+            log.error("Load more failed: \(error.localizedDescription)")
+        }
+
+        isLoadingMore = false
+    }
+
+    func refresh() async {
+        currentOffset = 0
+        hasMore = true
+        await loadFeed()
+    }
+
+    func selectCategory(_ category: Category?) {
+        selectedCategory = category
+        Task { await refresh() }
+    }
+
+    func loadCategories() async {
+        // Use static categories as fallback
+        if categories.isEmpty {
+            categories = Self.defaultCategories
+        }
+    }
+
+    // MARK: - API Calls
+
+    private func fetchFeedFromAPI(limit: Int, offset: Int) async throws -> [FoodItem] {
+        var urlString = "\(baseURL)/functions/v1/api-v1-products?mode=feed&lat=\(lat)&lng=\(lng)&limit=\(limit)&radiusKm=\(radiusKm)"
+        if let cat = selectedCategory {
+            urlString = urlString + "&categoryId=\(cat.id)"
+        }
+
+        guard let url = URL(string: urlString) else {
+            throw AppError.configurationError("Invalid feed URL")
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "apikey")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+        // Add auth token if available
+        if AuthenticationService.shared.isAuthenticated {
+            if let token = AuthenticationService.shared.accessToken {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+        }
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw AppError.networkError("Feed request failed")
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+
+        let envelope = try decoder.decode(FeedEnvelopeResponse.self, from: data)
+        return envelope.data?.listings ?? []
+    }
+
+    // MARK: - Default Categories
+
+    private static let defaultCategories: [Category] = [
+        Category(id: 1, name: "Produce", description: "Fresh fruits and vegetables", iconUrl: nil, color: "#2ECC71", sortOrder: 0, isActive: true, createdAt: Date()),
+        Category(id: 2, name: "Dairy", description: "Milk, cheese, yogurt", iconUrl: nil, color: "#3498DB", sortOrder: 1, isActive: true, createdAt: Date()),
+        Category(id: 3, name: "Baked Goods", description: "Bread, pastries", iconUrl: nil, color: "#E67E22", sortOrder: 2, isActive: true, createdAt: Date()),
+        Category(id: 4, name: "Meat & Fish", description: "Meat and seafood", iconUrl: nil, color: "#E74C3C", sortOrder: 3, isActive: true, createdAt: Date()),
+        Category(id: 5, name: "Pantry", description: "Canned and dry goods", iconUrl: nil, color: "#9B59B6", sortOrder: 4, isActive: true, createdAt: Date()),
+        Category(id: 6, name: "Prepared Food", description: "Ready-to-eat meals", iconUrl: nil, color: "#F39C12", sortOrder: 5, isActive: true, createdAt: Date()),
+        Category(id: 7, name: "Beverages", description: "Drinks", iconUrl: nil, color: "#1ABC9C", sortOrder: 6, isActive: true, createdAt: Date()),
+        Category(id: 8, name: "Other", description: "Other items", iconUrl: nil, color: "#95A5A6", sortOrder: 7, isActive: true, createdAt: Date())
+    ]
+
+    // MARK: - Preview
+
+    static var preview: FeedViewModel {
+        return FeedViewModel()
+    }
+}
+
+#endif

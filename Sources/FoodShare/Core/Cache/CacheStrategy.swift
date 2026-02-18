@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CacheStrategy.swift
 //  Foodshare
@@ -30,6 +29,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 #if !SKIP
 import UIKit
@@ -574,4 +575,5 @@ public enum LocationCacheKey {
  }
  ```
  */
+
 #endif

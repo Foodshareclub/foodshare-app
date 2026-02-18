@@ -6,9 +6,10 @@
 //  Delegates authentication to AuthenticationService singleton
 //
 
+
+
 #if !SKIP
 import CoreLocation
-#endif
 import Foundation
 import Observation
 import Supabase
@@ -286,4 +287,84 @@ extension AppState {
 
 #if !SKIP
 import AuthenticationServices
+
+#endif
+
+#else
+// MARK: - Android AppState (Skip)
+
+import Foundation
+import Observation
+
+@Observable
+@MainActor
+final class AppState {
+    // MARK: - State
+
+    var showError = false
+    var error: AppError?
+    var showAuthentication = false
+
+    // MARK: - Services
+
+    let authService: AuthenticationService
+
+    // MARK: - Computed Properties (Delegate to AuthService)
+
+    var isAuthenticated: Bool {
+        return authService.isAuthenticated
+    }
+
+    var currentUser: AuthUserProfile? {
+        return authService.currentUser
+    }
+
+    var isLoading: Bool {
+        return authService.isLoading
+    }
+
+    var isEmailVerified: Bool {
+        return authService.isEmailVerified
+    }
+
+    var currentUserEmail: String? {
+        return authService.currentUserEmail ?? authService.currentUser?.email
+    }
+
+    // MARK: - Initialization
+
+    init(authService: AuthenticationService = AuthenticationService.shared) {
+        self.authService = authService
+    }
+
+    // MARK: - Auth Actions (Delegate to AuthService)
+
+    func signIn(email: String, password: String) async throws {
+        try await authService.signIn(email: email, password: password)
+    }
+
+    func signUp(email: String, password: String, nickname: String?) async throws {
+        try await authService.signUp(email: email, password: password, name: nickname)
+    }
+
+    func signOut() async {
+        await authService.signOut()
+    }
+
+    func resetPassword(email: String) async throws {
+        try await authService.resetPassword(email: email)
+    }
+
+    func dismissError() {
+        error = nil
+        showError = false
+    }
+
+    // MARK: - Preview Support
+
+    static var preview: AppState {
+        return AppState()
+    }
+}
+
 #endif

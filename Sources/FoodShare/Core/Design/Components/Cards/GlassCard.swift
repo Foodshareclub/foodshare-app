@@ -5,6 +5,8 @@
 //  Glassmorphism card component - Core of Liquid Glass v26 design system
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Reusable glass card component with frosted glass effect
@@ -60,7 +62,11 @@ struct GlassCard<Content: View>: View {
         } else {
             // Glass effect using native material
             Color.clear
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         }
     }
 }
@@ -145,3 +151,5 @@ extension View {
         ),
     )
 }
+
+#endif

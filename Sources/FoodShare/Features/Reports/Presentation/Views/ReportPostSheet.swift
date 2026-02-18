@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ReportPostSheet.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Sheet for reporting a post with reason selection
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct ReportPostSheet: View {
@@ -173,7 +174,11 @@ struct ReportPostSheet: View {
                         .padding(Spacing.sm)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.medium)
+                                #if !SKIP
                                 .fill(.ultraThinMaterial)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                                 .overlay(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                                         .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -262,7 +267,11 @@ private struct ReasonButton: View {
             )
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                    .fill(.ultraThinMaterial),
+                    #if !SKIP
+                    .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
         }
         .buttonStyle(.plain)
@@ -283,4 +292,5 @@ private struct ReasonButton: View {
     )
 }
 #endif
+
 #endif

@@ -6,6 +6,9 @@
 //  Uses ReviewAPIService (Edge Function) as primary path with direct Supabase fallback
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -343,3 +346,6 @@ extension ReviewDTO {
         )
     }
 }
+
+
+#endif

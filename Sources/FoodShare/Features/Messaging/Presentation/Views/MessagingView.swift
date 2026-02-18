@@ -6,6 +6,9 @@
 //  Enhanced with search, filters, and conversation management
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -359,7 +362,11 @@ struct MessagingView: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -385,7 +392,7 @@ struct MessagingView: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 120, height: 120)
+                        .frame(width: 120.0, height: 120)
 
                     Image(systemName: "bubble.left.and.bubble.right.fill")
                         .font(.system(size: 50))
@@ -546,7 +553,7 @@ struct RoomRow: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 54, height: 54)
+                    .frame(width: 54.0, height: 54)
 
                 Image(systemName: "person.fill")
                     .font(.system(size: 22, weight: .medium))
@@ -564,12 +571,12 @@ struct RoomRow: View {
                         // Pulse glow
                         Circle()
                             .fill(Color.DesignSystem.success.opacity(0.4))
-                            .frame(width: 16, height: 16)
+                            .frame(width: 16.0, height: 16)
                             .blur(radius: 4)
 
                         Circle()
                             .fill(Color.DesignSystem.success)
-                            .frame(width: 12, height: 12)
+                            .frame(width: 12.0, height: 12)
                             .overlay(
                                 Circle()
                                     .stroke(Color.DesignSystem.background, lineWidth: 2),
@@ -583,7 +590,7 @@ struct RoomRow: View {
                 if hasUnread {
                     Circle()
                         .fill(Color.DesignSystem.brandGreen)
-                        .frame(width: 14, height: 14)
+                        .frame(width: 14.0, height: 14)
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.background, lineWidth: 2),
@@ -659,7 +666,11 @@ struct RoomRow: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(
@@ -772,7 +783,9 @@ struct ChatRoomView: View {
         .navigationTitle(t.t("navigation.chat"))
         .navigationBarTitleDisplayMode(.inline)
         #if !SKIP
+        #if !SKIP
         .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+        #endif
         #endif
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -807,7 +820,7 @@ struct ChatRoomView: View {
                 // Online status indicator
                 Circle()
                     .fill(onlineStatusColor)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 8.0, height: 8)
 
                 Text(onlineStatusText)
                     .font(.DesignSystem.captionSmall)
@@ -863,7 +876,11 @@ struct ChatRoomView: View {
             .padding(.vertical, Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -884,7 +901,7 @@ struct ChatRoomView: View {
                             .font(.system(size: 16, weight: .bold))
                     }
                 }
-                .frame(width: 40, height: 40)
+                .frame(width: 40.0, height: 40)
                 .background(
                     Circle()
                         .fill(
@@ -916,7 +933,11 @@ struct ChatRoomView: View {
         .padding(Spacing.md)
         .background(
             Rectangle()
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .ignoresSafeArea(edges: .bottom),
         )
     }
@@ -934,7 +955,7 @@ struct TypingDotsView: View {
                 ForEach(0 ..< 3, id: \.self) { index in
                     Circle()
                         .fill(Color.DesignSystem.brandGreen)
-                        .frame(width: 4, height: 4)
+                        .frame(width: 4.0, height: 4)
                         .scaleEffect(phase == index ? 1.3 : 0.8)
                         .opacity(phase == index ? 1.0 : 0.5)
                         .animation(.interpolatingSpring(stiffness: 300, damping: 24), value: phase)
@@ -946,7 +967,7 @@ struct TypingDotsView: View {
             ForEach(0 ..< 3, id: \.self) { index in
                 Circle()
                     .fill(Color.DesignSystem.brandGreen)
-                    .frame(width: 4, height: 4)
+                    .frame(width: 4.0, height: 4)
                     .opacity(0.6)
             }
         }
@@ -967,7 +988,7 @@ struct TypingIndicatorView: View {
                     ForEach(0 ..< 3, id: \.self) { index in
                         Circle()
                             .fill(Color.DesignSystem.textSecondary)
-                            .frame(width: 8, height: 8)
+                            .frame(width: 8.0, height: 8)
                             .scaleEffect(phase == index ? 1.2 : 0.8)
                             .opacity(phase == index ? 1.0 : 0.5)
                             .animation(.interpolatingSpring(stiffness: 300, damping: 24), value: phase)
@@ -978,7 +999,11 @@ struct TypingIndicatorView: View {
             .padding(.vertical, Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -989,7 +1014,7 @@ struct TypingIndicatorView: View {
                 ForEach(0 ..< 3, id: \.self) { index in
                     Circle()
                         .fill(Color.DesignSystem.textSecondary)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 8.0, height: 8)
                         .opacity(0.6)
                 }
             }
@@ -997,7 +1022,11 @@ struct TypingIndicatorView: View {
             .padding(Edge.Set.vertical, Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -1040,7 +1069,7 @@ struct MessageBubbleView: View {
                         case .empty, .failure:
                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                 .fill(Color.DesignSystem.glassBackground)
-                                .frame(width: 150, height: 150)
+                                .frame(width: 150.0, height: 150)
                                 .overlay(
                                     ProgressView(),
                                 )
@@ -1222,18 +1251,18 @@ private struct MessageSkeletonRow: View {
             // Avatar skeleton
             Circle()
                 .fill(skeletonGradient)
-                .frame(width: 48, height: 48)
+                .frame(width: 48.0, height: 48)
 
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 // Name skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 100, height: 16)
+                    .frame(width: 100.0, height: 16)
 
                 // Message skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 180, height: 14)
+                    .frame(width: 180.0, height: 14)
             }
 
             Spacer()
@@ -1241,12 +1270,16 @@ private struct MessageSkeletonRow: View {
             // Time skeleton
             RoundedRectangle(cornerRadius: 4)
                 .fill(skeletonGradient)
-                .frame(width: 40, height: 12)
+                .frame(width: 40.0, height: 12)
         }
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder.opacity(0.5), lineWidth: 1),
@@ -1277,7 +1310,7 @@ private struct MessageSkeletonRow: View {
                 startPoint: .leading,
                 endPoint: .trailing,
             )
-            .frame(width: 150)
+            .frame(width: 150.0)
             .offset(x: shimmerPhase)
             .onAppear {
                 withAnimation(
@@ -1320,7 +1353,7 @@ struct ChatsFilterSheet: View {
                                     .foregroundColor(viewModel.showArchived
                                         ? .DesignSystem.brandGreen
                                         : .DesignSystem.text)
-                                        .frame(width: 40, height: 40)
+                                        .frame(width: 40.0, height: 40)
                                         .background(
                                             Circle()
                                                 .fill(viewModel.showArchived
@@ -1357,7 +1390,11 @@ struct ChatsFilterSheet: View {
                             .padding(Spacing.md)
                             .background(
                                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                                    #if !SKIP
                                     .fill(.ultraThinMaterial)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
                                     .overlay(
                                         RoundedRectangle(cornerRadius: CornerRadius.large)
                                             .stroke(
@@ -1427,7 +1464,7 @@ private struct FilterOptionRow: View {
                 Image(systemName: filter.icon)
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(isSelected ? .DesignSystem.brandGreen : .DesignSystem.text)
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
                     .background(
                         Circle()
                             .fill(isSelected
@@ -1462,7 +1499,11 @@ private struct FilterOptionRow: View {
             .padding(Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(
@@ -1477,3 +1518,6 @@ private struct FilterOptionRow: View {
         .buttonStyle(.plain)
     }
 }
+
+
+#endif

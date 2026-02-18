@@ -6,9 +6,10 @@
 //  Maps to `posts` table in Supabase with CoreData caching
 //
 
+
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 import Supabase
@@ -602,3 +603,6 @@ final class SupabaseFeedRepository: BaseSupabaseRepository, FeedRepository {
         }
     }
 }
+
+
+#endif

@@ -6,6 +6,8 @@
 //  Tracks whether user has completed initial legal disclaimers
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -126,3 +128,5 @@ final class OnboardingManager {
         logger.warning("⚠️ [ONBOARDING] State reset for testing")
     }
 }
+
+#endif

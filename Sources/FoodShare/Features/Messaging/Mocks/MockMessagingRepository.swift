@@ -5,6 +5,8 @@
 //  Mock implementation of MessagingRepository for testing
 //
 
+
+#if !SKIP
 import Foundation
 
 #if DEBUG
@@ -243,4 +245,6 @@ final class MockMessagingRepository: MessagingRepository {
         onRoomUpdated?(room)
     }
 }
+#endif
+
 #endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  RequestSigner.swift
 //  Foodshare
@@ -13,7 +12,6 @@
 
 #if !SKIP
 import CryptoKit
-#endif
 import Foundation
 import OSLog
 
@@ -372,4 +370,5 @@ final class SignedRequestBuilder {
         }
     }
 #endif
+
 #endif

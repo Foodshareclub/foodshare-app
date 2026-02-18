@@ -6,6 +6,7 @@
 //  Provides type-safe access to Metal shaders in SwiftUI
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -171,7 +172,7 @@ struct ShaderShimmerView: View {
                                 .float(elapsed),
                                 .float(Float(intensity))
                             ),
-                            maxSampleOffset: CGSize(width: 100, height: 0)
+                            maxSampleOffset: CGSize(width: 100.0, height: 0.0)
                         )
                 }
         }
@@ -236,7 +237,7 @@ struct TouchRippleShaderView: View {
                                 .float2(Float(normalizedTouch.x), Float(normalizedTouch.y)),
                                 .float(Float(rippleProgress))
                             ),
-                            maxSampleOffset: CGSize(width: 50, height: 50)
+                            maxSampleOffset: CGSize(width: 50.0, height: 50.0)
                         )
                 }
         }
@@ -263,7 +264,7 @@ struct TouchRippleShaderView: View {
                 // Shimmer effect
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 100)
+                    .frame(height: 100.0)
                     .overlay(
                         ShaderShimmerView()
                             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
@@ -272,7 +273,7 @@ struct TouchRippleShaderView: View {
                 // Glow effect
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 100)
+                    .frame(height: 100.0)
                     .overlay(
                         ShaderGlowView(color: .DesignSystem.brandGreen)
                             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
@@ -285,4 +286,5 @@ struct TouchRippleShaderView: View {
         Text("Requires iOS 17+")
     }
 }
+
 #endif

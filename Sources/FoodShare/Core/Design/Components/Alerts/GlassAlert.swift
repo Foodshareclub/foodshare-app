@@ -6,6 +6,8 @@
 //  Premium alerts with GPU-accelerated glass effects and ProMotion 120Hz animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassAlert: View {
@@ -69,7 +71,7 @@ struct GlassAlert: View {
             ZStack {
                 Circle()
                     .fill(type.color.opacity(0.2))
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
                     .blur(radius: 20)
                     .scaleEffect(isGlowing ? 1.2 : 1.0)
 
@@ -84,7 +86,7 @@ struct GlassAlert: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 64, height: 64)
+                    .frame(width: 64.0, height: 64)
 
                 Image(systemName: type.icon)
                     .font(.system(size: 32, weight: .semibold))
@@ -161,7 +163,11 @@ struct GlassAlert: View {
         .background(
             ZStack {
                 RoundedRectangle(cornerRadius: Spacing.radiusXL)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
 
                 RoundedRectangle(cornerRadius: Spacing.radiusXL)
                     .strokeBorder(
@@ -218,3 +224,5 @@ struct GlassAlert: View {
         }
     }
 }
+
+#endif

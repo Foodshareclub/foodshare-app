@@ -6,6 +6,8 @@
 //  Part of the Forum Feature - Phase 3.4 Badges System
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Badge Grid
@@ -175,7 +177,7 @@ struct GlassBadgeItem: View {
                         .foregroundColor(.white.opacity(0.6))
                 }
             }
-            .frame(width: 48, height: 48)
+            .frame(width: 48.0, height: 48)
 
             // Badge name
             Text(badge.name)
@@ -184,14 +186,18 @@ struct GlassBadgeItem: View {
                 .foregroundColor(isEarned ? .DesignSystem.text : .DesignSystem.textTertiary)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
-                .frame(height: 32)
+                .frame(height: 32.0)
         }
         .padding(.vertical, Spacing.sm)
         .padding(.horizontal, Spacing.xs)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .opacity(isEarned ? 1 : 0.5),
         )
         .overlay(
@@ -222,7 +228,7 @@ struct GlassBadgeItem: View {
                 ZStack {
                     Circle()
                         .fill(Color.DesignSystem.accentYellow)
-                        .frame(width: 18, height: 18)
+                        .frame(width: 18.0, height: 18)
 
                     Image(systemName: "star.fill")
                         .font(.system(size: 10, weight: .bold))
@@ -357,7 +363,7 @@ struct GlassBadgeCard: View {
                     .fill(badge.rarity.color)
                     .blur(radius: 20)
                     .opacity(badge.rarity.glowIntensity)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
             }
 
             // Icon circle
@@ -384,13 +390,13 @@ struct GlassBadgeCard: View {
                     .font(.system(size: 36, weight: .semibold))
                     .foregroundColor(isEarned ? badge.swiftUIColor : badge.swiftUIColor.opacity(0.3))
             }
-            .frame(width: 80, height: 80)
+            .frame(width: 80.0, height: 80)
 
             // Lock for unearned
             if !isEarned {
                 Circle()
                     .fill(Color.black.opacity(0.4))
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "lock.fill")
                     .font(.system(size: 24, weight: .medium))
@@ -506,14 +512,14 @@ struct GlassBadgeCard: View {
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 8)
+                        .frame(height: 8.0)
 
                     RoundedRectangle(cornerRadius: 4)
                         .fill(badge.swiftUIColor)
                         .frame(width: geometry.size.width * progress, height: 8)
                 }
             }
-            .frame(height: 8)
+            .frame(height: 8.0)
 
             HStack {
                 Text("\(Int(progress * 100))% progress")
@@ -541,7 +547,11 @@ struct GlassBadgeCard: View {
                 .opacity(0.95)
         } else {
             Color.clear
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         }
     }
 }
@@ -599,7 +609,7 @@ struct GlassBadgeCollectionView: View {
             }
 
             Divider()
-                .frame(height: 60)
+                .frame(height: 60.0)
 
             // Total points
             VStack(spacing: Spacing.xs) {
@@ -618,7 +628,7 @@ struct GlassBadgeCollectionView: View {
             }
 
             Divider()
-                .frame(height: 60)
+                .frame(height: 60.0)
 
             // Completion percentage
             VStack(spacing: Spacing.xs) {
@@ -643,7 +653,11 @@ struct GlassBadgeCollectionView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -673,7 +687,7 @@ struct GlassBadgeCollectionView: View {
                             progress: nil,
                             onTap: { onBadgeTap?(userBadge.badge) },
                         )
-                        .frame(width: 80)
+                        .frame(width: 80.0)
                     }
                 }
             }
@@ -734,7 +748,7 @@ struct GlassBadgeCollectionView: View {
                 progress: nil,
                 onTap: {},
             )
-            .frame(width: 80)
+            .frame(width: 80.0)
 
             // Earned
             GlassBadgeItem(
@@ -744,7 +758,7 @@ struct GlassBadgeCollectionView: View {
                 progress: nil,
                 onTap: {},
             )
-            .frame(width: 80)
+            .frame(width: 80.0)
 
             // Locked with progress
             GlassBadgeItem(
@@ -754,7 +768,7 @@ struct GlassBadgeCollectionView: View {
                 progress: 0.65,
                 onTap: {},
             )
-            .frame(width: 80)
+            .frame(width: 80.0)
 
             // Locked
             GlassBadgeItem(
@@ -764,7 +778,7 @@ struct GlassBadgeCollectionView: View {
                 progress: nil,
                 onTap: {},
             )
-            .frame(width: 80)
+            .frame(width: 80.0)
         }
         .padding()
         .background(Color.DesignSystem.background)
@@ -801,4 +815,6 @@ struct GlassBadgeCollectionView: View {
         )
         .background(Color.DesignSystem.background)
     }
+#endif
+
 #endif

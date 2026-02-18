@@ -15,38 +15,8 @@
 import Foundation
 
 // MARK: - UIApplication
-
-public class UIApplication: @unchecked Sendable {
-    public nonisolated static let shared = UIApplication()
-
-    // Notification names (used by .onReceive / NotificationCenter observers)
-    public static let willEnterForegroundNotification = Notification.Name("UIApplicationWillEnterForegroundNotification")
-    public static let didBecomeActiveNotification = Notification.Name("UIApplicationDidBecomeActiveNotification")
-    public static let willResignActiveNotification = Notification.Name("UIApplicationWillResignActiveNotification")
-    public static let didEnterBackgroundNotification = Notification.Name("UIApplicationDidEnterBackgroundNotification")
-    public static let didReceiveMemoryWarningNotification = Notification.Name("UIApplicationDidReceiveMemoryWarningNotification")
-
-    /// Settings URL — on Android, maps to system Settings intent
-    public static let openSettingsURLString = "app-settings:"
-
-    /// Open a URL — on Android, should map to an Intent
-    public func open(_ url: URL) {
-        // TODO: Implement via Android Intent
-    }
-
-    /// Check if a URL can be opened
-    public func canOpenURL(_ url: URL) -> Bool {
-        false // TODO: Implement via Android PackageManager
-    }
-
-    /// Connected scenes — no equivalent on Android
-    public var connectedScenes: [AnyObject] { [] }
-
-    /// Alternate icon support (iOS-only)
-    public var alternateIconName: String? { nil }
-    public var supportsAlternateIcons: Bool { false }
-    public func setAlternateIconName(_ iconName: String?) async throws {}
-}
+// NOTE: UIApplication is provided by Skip UI framework (includes launch() method).
+// Do NOT redefine it here — it would shadow Skip's implementation.
 
 // MARK: - UIWindowScene (stub for type casting)
 
@@ -80,7 +50,7 @@ public class UIDevice: @unchecked Sendable {
     public var name: String { "Android Device" }
     public var identifierForVendor: UUID? { nil }
     public var isBatteryMonitoringEnabled = false
-    public var batteryLevel: Float { 1.0 }
+    public var batteryLevel: Double { 1.0 }
     public var userInterfaceIdiom: UIUserInterfaceIdiom { .phone }
     public static let batteryLevelDidChangeNotification = Notification.Name("UIDeviceBatteryLevelDidChangeNotification")
 }
@@ -131,7 +101,7 @@ public class UIImage: @unchecked Sendable {
         imageData
     }
 
-    public var size: CGSize { CGSize(width: 0, height: 0) }
+    public var size: CGSize { CGSize(width: 0.0, height: 0.0) }
 }
 
 // MARK: - CGImage (minimal stub)
@@ -173,7 +143,7 @@ public class UIColor: @unchecked Sendable {
 // MARK: - CGColor (minimal stub)
 
 public class CGColor {
-    public var components: [CGFloat]? { [0, 0, 0, 1] }
+    public var components: [CGFloat]? { [0.0, 0.0, 0.0, 1.0] }
 }
 
 // MARK: - UITabBar / UINavigationBarAppearance (stubs for appearance setup)

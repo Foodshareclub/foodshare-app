@@ -5,6 +5,8 @@
 //  Repository protocol for reports
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Repository protocol for report operations
@@ -15,3 +17,5 @@ protocol ReportRepository: Sendable {
     /// Check if user has already reported a post
     func hasUserReportedPost(postId: Int, userId: UUID) async throws -> Bool
 }
+
+#endif

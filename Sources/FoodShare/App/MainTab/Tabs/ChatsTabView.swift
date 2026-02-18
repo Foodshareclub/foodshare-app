@@ -5,6 +5,8 @@
 //  Messaging tab for user conversations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Chats Tab View
@@ -26,7 +28,7 @@ struct ChatsTabView: View {
                     GuestRestrictedTabView(feature: GuestRestrictedFeature.messaging)
                         .navigationTitle(t.t("tabs.chats"))
                         #if !SKIP
-                        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+                        .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
                         #endif
                 }
             } else if appState.currentUser?.id != nil {
@@ -38,7 +40,7 @@ struct ChatsTabView: View {
                         loadingView
                             .navigationTitle(t.t("tabs.chats"))
                             #if !SKIP
-                            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+                            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
                             #endif
                     }
                 }
@@ -47,7 +49,7 @@ struct ChatsTabView: View {
                     SignInPromptView.messaging()
                         .navigationTitle(t.t("tabs.chats"))
                         #if !SKIP
-                        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+                        .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
                         #endif
                 }
             }
@@ -69,8 +71,8 @@ struct ChatsTabView: View {
             // Animated loading icon with glass effect
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 80, height: 80)
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    .frame(width: 80.0, height: 80)
                     .overlay(
                         Circle()
                             .stroke(
@@ -117,3 +119,5 @@ struct ChatsTabView: View {
         )
     }
 }
+
+#endif

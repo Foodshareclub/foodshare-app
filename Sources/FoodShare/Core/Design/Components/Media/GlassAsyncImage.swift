@@ -15,9 +15,10 @@
 //  ```
 //
 
+
+
 #if !SKIP
 import Kingfisher
-#endif
 import SwiftUI
 
 // MARK: - Glass Async Image
@@ -446,4 +447,7 @@ struct GlassAvatarFallback: View {
     }
     .background(Color.backgroundGradient)
 }
+
+#endif
+
 #endif

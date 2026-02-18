@@ -9,6 +9,9 @@
 //  - Proper @Observable patterns
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -629,3 +632,6 @@ struct ImpactStats: Sendable {
             )
     }
 }
+
+
+#endif

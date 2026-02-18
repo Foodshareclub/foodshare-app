@@ -1,3 +1,4 @@
+
 #if !SKIP
 import CoreLocation
 #endif
@@ -52,12 +53,13 @@ struct Location: Codable, Hashable, Sendable {
     let latitude: Double
     let longitude: Double
 
-    /// Initialize from CLLocationCoordinate2D
+    /// Initialize with latitude and longitude
     init(latitude: Double, longitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
     }
 
+    #if !SKIP
     /// Initialize from CLLocationCoordinate2D
     init(coordinate: CLLocationCoordinate2D) {
         latitude = coordinate.latitude
@@ -68,12 +70,26 @@ struct Location: Codable, Hashable, Sendable {
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
+    #endif
 
     /// Calculate distance to another location in meters
     func distance(to other: Location) -> Double {
+        #if !SKIP
         let location1 = CLLocation(latitude: latitude, longitude: longitude)
         let location2 = CLLocation(latitude: other.latitude, longitude: other.longitude)
         return location1.distance(from: location2)
+        #else
+        // Haversine formula for Android
+        let earthRadius = 6371000.0 // meters
+        let dLat = (other.latitude - latitude) * .pi / 180.0
+        let dLon = (other.longitude - longitude) * .pi / 180.0
+        let lat1Rad = latitude * .pi / 180.0
+        let lat2Rad = other.latitude * .pi / 180.0
+        let a = sin(dLat / 2) * sin(dLat / 2) +
+            cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2) * sin(dLon / 2)
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        return earthRadius * c
+        #endif
     }
 
     /// Calculate distance to another location in kilometers
@@ -176,7 +192,7 @@ struct EditableAddress: Codable, Equatable, Sendable {
         postalCode: "",
         country: "",
         latitude: nil,
-        longitude: nil,
+        longitude: nil
     )
 
     /// Initialize from existing Address
@@ -200,7 +216,7 @@ struct EditableAddress: Codable, Equatable, Sendable {
         postalCode: String,
         country: String,
         latitude: Double?,
-        longitude: Double?,
+        longitude: Double?
     ) {
         self.addressLine1 = addressLine1
         self.addressLine2 = addressLine2
@@ -229,11 +245,13 @@ struct EditableAddress: Codable, Equatable, Sendable {
             .joined(separator: ", ")
     }
 
+    #if !SKIP
     /// Coordinate from latitude/longitude
     var coordinate: CLLocationCoordinate2D? {
         guard let lat = latitude, let lon = longitude else { return nil }
         return CLLocationCoordinate2D(latitude: lat, longitude: lon)
     }
+    #endif
 }
 
 // MARK: - Test Fixtures
@@ -242,7 +260,7 @@ extension Location {
     /// Create a fixture for testing
     static func fixture(
         latitude: Double = 51.5074,
-        longitude: Double = -0.1278,
+        longitude: Double = -0.1278
     ) -> Location {
         Location(latitude: latitude, longitude: longitude)
     }
@@ -274,7 +292,7 @@ extension Address {
         latitude: Double? = 51.5074,
         longitude: Double? = -0.1278,
         createdAt: Date = Date(),
-        updatedAt: Date = Date(),
+        updatedAt: Date = Date()
     ) -> Address {
         Address(
             id: id,
@@ -288,7 +306,7 @@ extension Address {
             latitude: latitude,
             longitude: longitude,
             createdAt: createdAt,
-            updatedAt: updatedAt,
+            updatedAt: updatedAt
         )
     }
 }
@@ -303,7 +321,7 @@ extension EditableAddress {
         postalCode: String = "95814",
         country: String = "USA",
         latitude: Double? = 38.5816,
-        longitude: Double? = -121.4944,
+        longitude: Double? = -121.4944
     ) -> EditableAddress {
         EditableAddress(
             addressLine1: addressLine1,
@@ -313,7 +331,7 @@ extension EditableAddress {
             postalCode: postalCode,
             country: country,
             latitude: latitude,
-            longitude: longitude,
+            longitude: longitude
         )
     }
 }

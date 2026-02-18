@@ -5,6 +5,8 @@
 //  View for managing login and security settings
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -82,7 +84,7 @@ struct LoginSecurityView: View {
                     Image(systemName: "envelope")
                         .font(.DesignSystem.bodyMedium)
                         .foregroundColor(.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.small)
                                 .fill(Color.DesignSystem.brandBlue.gradient),
@@ -112,7 +114,7 @@ struct LoginSecurityView: View {
                     Image(systemName: "calendar")
                         .font(.DesignSystem.bodyMedium)
                         .foregroundColor(.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.small)
                                 .fill(Color.DesignSystem.accentPurple.gradient),
@@ -139,7 +141,11 @@ struct LoginSecurityView: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -162,7 +168,7 @@ struct LoginSecurityView: View {
                     Image(systemName: "key")
                         .font(.DesignSystem.bodyMedium)
                         .foregroundColor(.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.small)
                                 .fill(Color.DesignSystem.accentOrange.gradient),
@@ -188,7 +194,11 @@ struct LoginSecurityView: View {
             .buttonStyle(.plain)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -211,7 +221,7 @@ struct LoginSecurityView: View {
                     Image(systemName: mfaService.status.icon)
                         .font(.DesignSystem.bodyMedium)
                         .foregroundColor(.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.small)
                                 .fill(twoFactorIconColor.gradient),
@@ -263,7 +273,11 @@ struct LoginSecurityView: View {
             .buttonStyle(.plain)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(
@@ -300,7 +314,7 @@ struct LoginSecurityView: View {
                     Image(systemName: "rectangle.portrait.and.arrow.right")
                         .font(.DesignSystem.bodyMedium)
                         .foregroundColor(.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.small)
                                 .fill(Color.DesignSystem.error.gradient),
@@ -322,7 +336,11 @@ struct LoginSecurityView: View {
             .disabled(isSigningOut)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.error.opacity(0.3), lineWidth: 1),
@@ -426,7 +444,11 @@ struct ChangePasswordView: View {
                                 .padding(Spacing.md)
                                 .background(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                        .fill(.ultraThinMaterial)
+                                        #if !SKIP
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                        #else
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                        #endif
                                         .overlay(
                                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                                 .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -443,7 +465,11 @@ struct ChangePasswordView: View {
                                 .padding(Spacing.md)
                                 .background(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                        .fill(.ultraThinMaterial)
+                                        #if !SKIP
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                        #else
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                        #endif
                                         .overlay(
                                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                                 .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -463,7 +489,11 @@ struct ChangePasswordView: View {
                                 .padding(Spacing.md)
                                 .background(
                                     RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                        .fill(.ultraThinMaterial)
+                                        #if !SKIP
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                        #else
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                        #endif
                                         .overlay(
                                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                                 .stroke(
@@ -484,7 +514,11 @@ struct ChangePasswordView: View {
                     .padding(Spacing.lg)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 RoundedRectangle(cornerRadius: CornerRadius.large)
                                     .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -551,3 +585,5 @@ struct ChangePasswordView: View {
     LoginSecurityView()
         .environment(AppState.preview)
 }
+
+#endif

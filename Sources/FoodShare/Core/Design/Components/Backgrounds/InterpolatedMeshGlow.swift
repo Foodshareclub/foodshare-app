@@ -7,6 +7,7 @@
 //  Requires iOS 18+ for MeshGradient support
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -255,4 +256,5 @@ struct SimpleGlow: View {
         SimpleGlow(color: .cyan, size: 200, blur: 50)
     }
 }
+
 #endif

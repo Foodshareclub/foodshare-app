@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  EngagementAPIService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Handles likes, bookmarks, favorites, shares, and batch operations.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Response DTOs
@@ -190,4 +191,5 @@ actor EngagementAPIService {
         )
     }
 }
+
 #endif

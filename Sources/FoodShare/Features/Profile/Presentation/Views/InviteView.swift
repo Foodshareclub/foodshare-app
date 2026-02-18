@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized with smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -63,7 +65,7 @@ struct InviteView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "person.badge.plus.fill")
                     .font(.system(size: 44))
@@ -453,3 +455,5 @@ final class InviteViewModel {
         InviteView()
     }
 }
+
+#endif

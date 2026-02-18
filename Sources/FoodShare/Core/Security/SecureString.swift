@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SecureString.swift
 //  FoodShare
@@ -19,6 +18,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Secure String
@@ -339,4 +340,5 @@ extension Data {
         }
     }
 }
+
 #endif

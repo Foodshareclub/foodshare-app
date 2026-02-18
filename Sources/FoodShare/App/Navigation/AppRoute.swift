@@ -10,6 +10,8 @@
 //  - Consistent navigation patterns across features
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - App Route
@@ -303,3 +305,5 @@ extension AppRoute {
         }
     }
 }
+
+#endif

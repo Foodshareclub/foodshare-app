@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Scroll Offset Reader
@@ -89,7 +91,7 @@ public struct ScrollCollapseModifier<CollapsedContent: View>: ViewModifier {
 
     public func body(content: Content) -> some View {
         GeometryReader { geometry in
-            let progress = min(1, max(0, scrollOffset / threshold))
+            let progress = min(1.0, max(0.0, scrollOffset / threshold))
             let height = geometry.size.height - (geometry.size.height - collapsedHeight) * progress
 
             ZStack {
@@ -166,7 +168,7 @@ public struct ScrollProgressModifier<Indicator: View>: ViewModifier {
     private var progress: CGFloat {
         let normalizedOffset = scrollOffset - range.lowerBound
         let totalRange = range.upperBound - range.lowerBound
-        return min(1, max(0, normalizedOffset / totalRange))
+        return min(1.0, max(0.0, normalizedOffset / totalRange))
     }
 }
 
@@ -207,7 +209,7 @@ public struct ScrollBlurModifier: ViewModifier {
     }
 
     private var blurRadius: CGFloat {
-        let progress = min(1, max(0, scrollOffset / threshold))
+        let progress = min(1.0, max(0.0, scrollOffset / threshold))
         return progress * maxBlur
     }
 }
@@ -308,7 +310,7 @@ public struct ScrollFadeModifier: ViewModifier {
 
     private var opacity: Double {
         let progress = (scrollOffset - fadeRange.lowerBound) / (fadeRange.upperBound - fadeRange.lowerBound)
-        let clampedProgress = min(1, max(0, progress))
+        let clampedProgress = min(1.0, max(0.0, progress))
         return fadeIn ? clampedProgress : 1 - clampedProgress
     }
 }
@@ -365,7 +367,7 @@ public struct ScrollOffsetReader<Content: View>: View {
         VStack(spacing: 0) {
             Rectangle()
                 .fill(Color.DesignSystem.brandGreen)
-                .frame(height: 200)
+                .frame(height: 200.0)
                 .scrollParallax(intensity: 0.3)
 
             LazyVStack {
@@ -388,7 +390,7 @@ public struct ScrollOffsetReader<Content: View>: View {
             Image(systemName: "leaf.fill")
                 .font(.system(size: 60))
                 .foregroundStyle(Color.DesignSystem.brandGreen)
-                .frame(height: 200)
+                .frame(height: 200.0)
                 .frame(maxWidth: .infinity)
                 .background(Color.DesignSystem.glassBackground)
                 .scrollScale()
@@ -406,3 +408,5 @@ public struct ScrollOffsetReader<Content: View>: View {
     }
     .coordinateSpace(name: "scrollScale")
 }
+
+#endif

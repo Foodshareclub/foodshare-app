@@ -1,3 +1,4 @@
+
 #if !SKIP
 #if !SKIP
 import MapKit
@@ -15,7 +16,7 @@ struct FoodItemMapAnnotation: View {
             // Food item image/icon
             Circle()
                 .fill(.orange.gradient)
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
                 .overlay {
                     Image(systemName: "fork.knife")
                         .foregroundColor(.white)
@@ -38,8 +39,13 @@ struct FoodItemMapAnnotation: View {
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
+            #if !SKIP
             .background(.ultraThinMaterial, in: Capsule())
+            #else
+            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
         }
     }
 }
+
 #endif

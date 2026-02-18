@@ -1,3 +1,5 @@
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -192,7 +194,7 @@ struct ForumView: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 60, height: 60)
+                    .frame(width: 60.0, height: 60)
                     .shadow(
                         color: Color.DesignSystem.brandPink.opacity(0.4),
                         radius: Spacing.md,
@@ -220,7 +222,7 @@ struct ForumView: View {
             // Subtle divider below categories
             Rectangle()
                 .fill(Color.DesignSystem.glassBorder.opacity(0.15))
-                .frame(height: 1)
+                .frame(height: 1.0)
 
             // Content area - fills remaining space
             Group {
@@ -245,8 +247,12 @@ struct ForumView: View {
 
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(Color.DesignSystem.error.opacity(0.3), lineWidth: 1),
@@ -349,7 +355,7 @@ struct ForumView: View {
             if viewModel.categories.isEmpty {
                 // Placeholder to reserve space while loading
                 Color.clear
-                    .frame(height: 76) // Match GlassCategoryChip height (48 icon + 20 label + 8 spacing)
+                    .frame(height: 76.0) // Match GlassCategoryChip height (48 icon + 20 label + 8 spacing)
             } else {
                 GlassCategoryBar(
                     selectedCategory: Binding(
@@ -393,7 +399,11 @@ struct ForumView: View {
                     .padding(.vertical, Spacing.xxs)
                     .background(
                         Capsule()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 Capsule()
                                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -475,8 +485,12 @@ struct ForumView: View {
             // Glass empty state with animated icon
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -533,8 +547,12 @@ struct ForumView: View {
             // Subtle glass container with cloud/offline icon
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -587,7 +605,11 @@ struct ForumView: View {
                 .padding(.vertical, Spacing.sm)
                 .background(
                     Capsule()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Capsule()
                                 .stroke(Color.DesignSystem.brandGreen.opacity(0.3), lineWidth: 1),
@@ -645,7 +667,7 @@ struct ForumPostCard: View {
                             Circle().fill(Color.DesignSystem.glassBackground)
                         }
                     }
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
                     .clipShape(Circle())
 
                     VStack(alignment: .leading, spacing: 2) {
@@ -717,7 +739,7 @@ struct ForumPostCard: View {
                             Rectangle().fill(Color.DesignSystem.glassBackground)
                         }
                     }
-                    .frame(height: 150)
+                    .frame(height: 150.0)
                     .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
                 }
 
@@ -761,7 +783,11 @@ struct ForumPostCard: View {
             .padding(Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(
@@ -965,7 +991,7 @@ struct GlassForumPostCard: View {
                 Circle().fill(Color.DesignSystem.glassBackground)
             }
         }
-        .frame(width: 42, height: 42)
+        .frame(width: 42.0, height: 42)
         .clipShape(Circle())
         .overlay(
             Circle()
@@ -1015,7 +1041,11 @@ struct GlassForumPostCard: View {
         .padding(.vertical, Spacing.xs)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(
@@ -1059,7 +1089,7 @@ struct GlassForumPostCard: View {
                 Rectangle().fill(Color.DesignSystem.glassBackground)
             }
         }
-        .frame(height: 160)
+        .frame(height: 160.0)
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -1179,7 +1209,11 @@ struct GlassForumPostCard: View {
         ZStack {
             // Base material
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Category-tinted gradient at bottom
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -1346,7 +1380,7 @@ struct GlassLoadingIndicator: View {
             ZStack {
                 Circle()
                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 3)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 24.0, height: 24)
 
                 Circle()
                     .trim(from: 0, to: 0.7)
@@ -1358,7 +1392,7 @@ struct GlassLoadingIndicator: View {
                         ),
                         style: StrokeStyle(lineWidth: 3, lineCap: .round),
                     )
-                    .frame(width: 24, height: 24)
+                    .frame(width: 24.0, height: 24)
                     .rotationEffect(.degrees(isAnimating ? 360 : 0))
             }
 
@@ -1370,7 +1404,11 @@ struct GlassLoadingIndicator: View {
         .padding(.vertical, Spacing.md)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -1385,3 +1423,5 @@ struct GlassLoadingIndicator: View {
 }
 
 // MARK: - Forum Filters Sheet (defined in Sheets/ForumFiltersSheet.swift)
+
+#endif

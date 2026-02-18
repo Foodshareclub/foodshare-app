@@ -6,6 +6,8 @@
 //  Uses existing GDPRExportService
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct DataExportView: View {
@@ -73,7 +75,7 @@ struct DataExportView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "square.and.arrow.up.fill")
                     .font(.system(size: 36, weight: .medium))
@@ -93,7 +95,11 @@ struct DataExportView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -317,3 +323,5 @@ struct DataExportView: View {
         DataExportView()
     }
 }
+
+#endif

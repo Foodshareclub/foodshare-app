@@ -7,6 +7,7 @@
 //  Requires iOS 18+ for MeshGradient support
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -318,4 +319,5 @@ struct AnimatedNatureMeshBackground: View {
 #Preview("Nature Mesh Gradient") {
     AnimatedNatureMeshBackground()
 }
+
 #endif

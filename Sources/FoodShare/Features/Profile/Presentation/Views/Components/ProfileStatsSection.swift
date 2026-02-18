@@ -5,6 +5,8 @@
 //  Displays user statistics (shared, received, rating) with animated count-up effects.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Profile Stats Section
@@ -27,7 +29,7 @@ struct ProfileStatsSection: View {
             .offset(y: hasAppeared ? 0 : 20)
             .animation(.interpolatingSpring(stiffness: 300, damping: 22).delay(0.0), value: hasAppeared)
 
-            Divider().frame(height: 50)
+            Divider().frame(height: 50.0)
 
             ProfileStatItem(
                 value: viewModel.receivedCount,
@@ -39,7 +41,7 @@ struct ProfileStatsSection: View {
             .offset(y: hasAppeared ? 0 : 20)
             .animation(.interpolatingSpring(stiffness: 300, damping: 22).delay(0.08), value: hasAppeared)
 
-            Divider().frame(height: 50)
+            Divider().frame(height: 50.0)
 
             ProfileStatItem(
                 value: viewModel.ratingText,
@@ -95,7 +97,7 @@ struct ProfileStatItem: View {
             ZStack {
                 Circle()
                     .fill(color.opacity(0.2))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
                     .scaleEffect(isPulsing ? 1.3 : 1.0)
                     .opacity(isPulsing ? 0 : 0.3)
 
@@ -188,3 +190,5 @@ struct ProfileStatItem: View {
         }
     }
 }
+
+#endif

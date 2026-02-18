@@ -6,9 +6,10 @@
 //  Liquid Glass v26 design system
 //
 
+
+
 #if !SKIP
 import MapKit
-#endif
 import Supabase
 import SwiftUI
 
@@ -250,13 +251,13 @@ struct FoodItemDetailView: View {
                             }
                     }
                 }
-                .frame(height: 320)
+                .frame(height: 320.0)
                 .clipped()
                 .tag(index)
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .automatic))
-        .frame(height: 320)
+        .frame(height: 320.0)
         #endif
     }
 
@@ -431,7 +432,7 @@ struct FoodItemDetailView: View {
                     Marker(viewModel.item.postName, coordinate: coordinate)
                 }
                 .mapStyle(.standard)
-                .frame(height: 200)
+                .frame(height: 200.0)
                 .cornerRadius(CornerRadius.medium)
             }
             #endif
@@ -485,7 +486,11 @@ struct FoodItemDetailView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(Spacing.md)
+                #if !SKIP
                 .background(.ultraThinMaterial)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.small))
             }
         }
@@ -556,7 +561,11 @@ struct FoodItemDetailView: View {
                 .padding(.vertical, Spacing.sm)
                 .background(
                     Capsule()
+                        #if !SKIP
                         .fill(.ultraThinMaterial)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Capsule()
                                 .stroke(
@@ -687,7 +696,7 @@ struct ContactSellerSheet: View {
                                     }
                             }
                         }
-                        .frame(width: 60, height: 60)
+                        .frame(width: 60.0, height: 60)
                         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.small))
                     }
 
@@ -706,7 +715,11 @@ struct ContactSellerSheet: View {
                     Spacer()
                 }
                 .padding(Spacing.md)
+                #if !SKIP
                 .background(.ultraThinMaterial)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
                 // Message input
@@ -716,11 +729,15 @@ struct ContactSellerSheet: View {
                         .foregroundColor(.DesignSystem.textSecondary)
 
                     TextEditor(text: $message)
-                        .frame(height: 120)
+                        .frame(height: 120.0)
                         .scrollContentBackground(.hidden)
                         .foregroundStyle(Color.DesignSystem.text)
                         .padding(Spacing.sm)
+                        #if !SKIP
                         .background(.ultraThinMaterial)
+                        #else
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.small))
                 }
 
@@ -858,7 +875,11 @@ struct QuickMessageChip: View {
                 .foregroundColor(.DesignSystem.text)
                 .padding(.horizontal, Spacing.md)
                 .padding(.vertical, Spacing.sm)
+                #if !SKIP
                 .background(.ultraThinMaterial)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(Capsule())
         }
     }
@@ -926,7 +947,7 @@ struct ReportItemSheet: View {
 
                 Section(t.t("Reports.additionalDetails")) {
                     TextEditor(text: $additionalInfo)
-                        .frame(height: 100)
+                        .frame(height: 100.0)
                         .foregroundStyle(Color.DesignSystem.text)
                 }
             }
@@ -1045,4 +1066,288 @@ final class FoodItemDetailViewModel {
         }
         .environment(AppState())
     }
+
+#endif
+
+#else
+// MARK: - Android FoodItemDetailView (Skip)
+
+import SwiftUI
+
+struct FoodItemDetailView: View {
+    let item: FoodItem
+
+    @Environment(AppState.self) var appState
+    @State private var isArranging = false
+    @State private var arrangeSuccess = false
+    @State private var isMessaging = false
+    @State private var showError = false
+    @State private var errorMessage = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0.0) {
+                // Image Gallery
+                if let images = item.images, !images.isEmpty {
+                    TabView {
+                        ForEach(Array(images.enumerated()), id: \.offset) { index, imageUrl in
+                            if let url = URL(string: imageUrl) {
+                                AsyncImage(url: url) { phase in
+                                    switch phase {
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: ContentMode.fill)
+                                    case .failure:
+                                        detailImagePlaceholder
+                                    default:
+                                        ProgressView()
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .frame(height: 300.0)
+                    .tabViewStyle(.page)
+                } else if let imageUrl = item.displayImageUrl, let url = URL(string: imageUrl) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: ContentMode.fill)
+                                .frame(height: 300.0)
+                                .clipped()
+                        default:
+                            detailImagePlaceholder
+                                .frame(height: 300.0)
+                        }
+                    }
+                } else {
+                    detailImagePlaceholder
+                        .frame(height: 300.0)
+                }
+
+                VStack(alignment: .leading, spacing: 16.0) {
+                    // Title + Status
+                    HStack {
+                        Text(item.title)
+                            .font(.system(size: 24.0, weight: .bold))
+                            .foregroundStyle(Color.white)
+
+                        Spacer()
+
+                        Text(item.status.displayName)
+                            .font(.system(size: 12.0, weight: .medium))
+                            .foregroundStyle(Color.white)
+                            .padding(.horizontal, 10.0)
+                            .padding(.vertical, 4.0)
+                            .background(item.isAvailable ? Color(red: 0.18, green: 0.8, blue: 0.44) : Color.orange)
+                            .clipShape(Capsule())
+                    }
+
+                    // Description
+                    if let desc = item.description {
+                        Text(desc)
+                            .font(.system(size: 15.0))
+                            .foregroundStyle(Color.white.opacity(0.8))
+                    }
+
+                    // Info Section
+                    VStack(alignment: .leading, spacing: 10.0) {
+                        if let pickupTime = item.pickupTime {
+                            DetailInfoRow(icon: "clock.fill", label: "Pickup", value: pickupTime)
+                        }
+
+                        if let address = item.displayAddress {
+                            DetailInfoRow(icon: "location.fill", label: "Location", value: address)
+                        }
+
+                        if let distance = item.distanceDisplay {
+                            DetailInfoRow(icon: "figure.walk", label: "Distance", value: distance)
+                        }
+
+                        DetailInfoRow(icon: "eye.fill", label: "Views", value: "\(item.postViews)")
+
+                        if let likes = item.postLikeCounter, likes > 0 {
+                            DetailInfoRow(icon: "heart.fill", label: "Likes", value: "\(likes)")
+                        }
+                    }
+                    .padding(16.0)
+                    .background(Color.white.opacity(0.06))
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+
+                    // Arrange Button
+                    if item.isAvailable && appState.isAuthenticated {
+                        Button(action: { Task { await arrangeListing() } }) {
+                            HStack {
+                                if isArranging {
+                                    ProgressView()
+                                        .tint(.white)
+                                } else if arrangeSuccess {
+                                    Image(systemName: "checkmark.circle.fill")
+                                } else {
+                                    Image(systemName: "hand.raised.fill")
+                                }
+                                Text(arrangeSuccess ? "Arranged!" : "I'll Take This")
+                            }
+                            .font(.system(size: 16.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14.0)
+                        }
+                        .background(arrangeSuccess ? Color(red: 0.13, green: 0.6, blue: 0.33) : Color(red: 0.2, green: 0.7, blue: 0.4))
+                        .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                        .disabled(isArranging || arrangeSuccess)
+                    }
+
+                    // Message Button
+                    if appState.isAuthenticated {
+                        Button(action: { Task { await startChat() } }) {
+                            HStack {
+                                if isMessaging {
+                                    ProgressView()
+                                        .tint(.white)
+                                } else {
+                                    Image(systemName: "message.fill")
+                                }
+                                Text("Message")
+                            }
+                            .font(.system(size: 16.0, weight: .semibold))
+                            .foregroundStyle(Color.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14.0)
+                        }
+                        .background(Color.white.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                        .disabled(isMessaging)
+                    }
+                }
+                .padding(16.0)
+            }
+        }
+        .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+        .navigationTitle(item.title)
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("Error", isPresented: $showError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage)
+        }
+    }
+
+    private func arrangeListing() async {
+        isArranging = true
+
+        let baseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        let apiKey = AppEnvironment.supabasePublishableKey ?? ""
+
+        guard let url = URL(string: "\(baseURL)/functions/v1/api-v1-engagement") else {
+            isArranging = false
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "apikey")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = AuthenticationService.shared.accessToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        let body: [String: Any] = ["post_id": item.id, "action": "arrange"]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 300 {
+                arrangeSuccess = true
+            } else {
+                errorMessage = "Could not arrange pickup. Please try again."
+                showError = true
+            }
+        } catch {
+            errorMessage = "Network error. Please check your connection."
+            showError = true
+        }
+
+        isArranging = false
+    }
+
+    private func startChat() async {
+        isMessaging = true
+
+        let baseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        let apiKey = AppEnvironment.supabasePublishableKey ?? ""
+
+        guard let url = URL(string: "\(baseURL)/functions/v1/api-v1-chat?mode=food&action=create") else {
+            isMessaging = false
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "apikey")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = AuthenticationService.shared.accessToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        let body: [String: Any] = ["postId": item.id]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 300 {
+                // Chat room created — user can navigate to Chats tab
+                // TODO: Navigate directly to the new chat room
+            } else {
+                errorMessage = "Could not start conversation. Please try again."
+                showError = true
+            }
+        } catch {
+            errorMessage = "Network error. Please check your connection."
+            showError = true
+        }
+
+        isMessaging = false
+    }
+
+    private var detailImagePlaceholder: some View {
+        ZStack {
+            Color.white.opacity(0.05)
+            Image(systemName: "leaf.fill")
+                .font(.system(size: 48.0))
+                .foregroundStyle(Color.white.opacity(0.2))
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+private struct DetailInfoRow: View {
+    let icon: String
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack(spacing: 10.0) {
+            Image(systemName: icon)
+                .font(.system(size: 14.0))
+                .foregroundStyle(Color(red: 0.2, green: 0.7, blue: 0.4))
+                .frame(width: 20.0)
+
+            Text(label)
+                .font(.system(size: 14.0))
+                .foregroundStyle(Color.white.opacity(0.5))
+
+            Spacer()
+
+            Text(value)
+                .font(.system(size: 14.0))
+                .foregroundStyle(Color.white.opacity(0.8))
+        }
+    }
+}
+
 #endif

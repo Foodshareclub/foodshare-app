@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  Logger.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized logging utility with structured persistence
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -196,4 +197,5 @@ actor AppLogger {
 
 // MARK: - Supabase Logger
 // Custom logger implementation removed - using default Supabase logging
+
 #endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PushNotificationService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Push notification service for real-time alerts
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import Supabase
@@ -270,4 +271,5 @@ extension PushNotificationService {
         )
     }
 }
+
 #endif

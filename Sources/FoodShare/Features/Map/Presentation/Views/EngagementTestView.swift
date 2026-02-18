@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 struct EngagementTestView: View {
@@ -61,3 +63,5 @@ struct EngagementTestView: View {
 #Preview {
     EngagementTestView()
 }
+
+#endif

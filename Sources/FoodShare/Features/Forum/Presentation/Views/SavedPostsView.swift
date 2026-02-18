@@ -6,6 +6,8 @@
 //  Part of Forum UI improvements
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -186,7 +188,11 @@ struct SavedPostsView: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -208,8 +214,12 @@ struct SavedPostsView: View {
         VStack(spacing: Spacing.lg) {
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 100.0, height: 100)
                     .overlay(
                         Circle()
                             .stroke(
@@ -362,7 +372,7 @@ private struct SavedPostCard: View {
                                 .fill(Color.DesignSystem.glassBackground)
                         }
                     }
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: CornerRadius.small))
                 } else {
                     // Placeholder with category color
@@ -377,7 +387,7 @@ private struct SavedPostCard: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 80, height: 80)
+                        .frame(width: 80.0, height: 80)
                         .overlay {
                             Image(systemName: post.category?.systemIconName ?? "doc.text")
                                 .font(.system(size: 24))
@@ -434,7 +444,7 @@ private struct SavedPostCard: View {
                     Image(systemName: "bookmark.fill")
                         .font(.system(size: 16))
                         .foregroundStyle(Color.DesignSystem.accentOrange)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 36.0, height: 36)
                         .background(
                             Circle()
                                 .fill(Color.DesignSystem.accentOrange.opacity(0.1)),
@@ -445,7 +455,11 @@ private struct SavedPostCard: View {
             .padding(Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -465,4 +479,6 @@ private struct SavedPostCard: View {
     //     SavedPostsView(repository: MockForumRepository())
     //         .environment(AppState())
     // }
+#endif
+
 #endif

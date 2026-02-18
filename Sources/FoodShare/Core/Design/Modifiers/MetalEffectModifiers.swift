@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MetalEffectModifiers.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Enhanced with unified MetalEffect API and iOS 17+ ShaderLibrary support
 //
 
+
+#if !SKIP
 import MetalKit
 import SwiftUI
 
@@ -341,4 +342,5 @@ extension View {
         )
     }
 }
+
 #endif

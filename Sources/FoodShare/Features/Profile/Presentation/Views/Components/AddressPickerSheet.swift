@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AddressPickerSheet.swift
 //  FoodShare
@@ -7,6 +6,8 @@
 //  Allows users to set their address via map pin or manual entry
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -119,7 +120,7 @@ struct AddressPickerSheet: View {
 
             ZStack(alignment: .center) {
                 Map(coordinateRegion: $mapRegion, interactionModes: [.pan, .zoom])
-                    .frame(height: 250)
+                    .frame(height: 250.0)
                     .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -139,7 +140,7 @@ struct AddressPickerSheet: View {
                     // Pin shadow/stem
                     Ellipse()
                         .fill(Color.black.opacity(0.2))
-                        .frame(width: 12, height: 4)
+                        .frame(width: 12.0, height: 4)
                         .offset(y: -2)
                 }
                 .offset(y: -18) // Offset so pin point is at center
@@ -148,7 +149,7 @@ struct AddressPickerSheet: View {
                 if isReverseGeocoding {
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .fill(Color.black.opacity(0.3))
-                        .frame(height: 250)
+                        .frame(height: 250.0)
 
                     ProgressView()
                         .tint(Color.white)
@@ -199,7 +200,7 @@ struct AddressPickerSheet: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.small)
                             .fill(Color.DesignSystem.brandGreen.opacity(0.15))
-                            .frame(width: 36, height: 36)
+                            .frame(width: 36.0, height: 36)
 
                         if isRequestingLocation {
                             ProgressView()
@@ -378,4 +379,5 @@ struct AddressPickerSheet: View {
         onSave: { print("Save tapped") }
     )
 }
+
 #endif

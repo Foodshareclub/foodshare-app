@@ -29,8 +29,18 @@ import androidx.core.app.ActivityCompat
 
 internal val logger: SkipLogger = SkipLogger(subsystem = "food.share", category = "FoodShare")
 
-private typealias AppRootView = FoodShareRootView
-private typealias AppDelegate = FoodShareAppDelegate
+private typealias AppRootView = FoodShareApp
+
+/// Minimal app delegate stub — iOS-specific lifecycle is handled by #if !SKIP guards
+private object AppDelegate {
+    fun onInit() {}
+    fun onLaunch() {}
+    fun onResume() {}
+    fun onPause() {}
+    fun onStop() {}
+    fun onDestroy() {}
+    fun onLowMemory() {}
+}
 
 /// AndroidAppMain is the `android.app.Application` entry point, and must match `application android:name` in the AndroidMainfest.xml file.
 open class AndroidAppMain: Application {
@@ -41,7 +51,12 @@ open class AndroidAppMain: Application {
         super.onCreate()
         logger.info("starting app")
         ProcessInfo.launch(applicationContext)
-        AppDelegate.shared.onInit()
+
+        // Inject BuildConfig values into ProcessInfo environment for AppEnvironment
+        ProcessInfo.processInfo.environment["SUPABASE_URL"] = BuildConfig.SUPABASE_URL
+        ProcessInfo.processInfo.environment["SUPABASE_PUBLISHABLE_KEY"] = BuildConfig.SUPABASE_PUBLISHABLE_KEY
+
+        AppDelegate.onInit()
     }
 
     companion object {
@@ -67,7 +82,7 @@ open class MainActivity: AppCompatActivity {
             }
         }
 
-        AppDelegate.shared.onLaunch()
+        AppDelegate.onLaunch()
 
         // Example of requesting permissions on startup.
         // These must match the permissions in the AndroidManifest.xml file.
@@ -88,27 +103,27 @@ open class MainActivity: AppCompatActivity {
 
     override fun onResume() {
         super.onResume()
-        AppDelegate.shared.onResume()
+        AppDelegate.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        AppDelegate.shared.onPause()
+        AppDelegate.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        AppDelegate.shared.onStop()
+        AppDelegate.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        AppDelegate.shared.onDestroy()
+        AppDelegate.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        AppDelegate.shared.onLowMemory()
+        AppDelegate.onLowMemory()
     }
 
     override fun onRestart() {

@@ -12,6 +12,8 @@
 //  - Achievement unlocks
 //
 
+
+#if !SKIP
 #if !SKIP
 import SwiftUI
 
@@ -253,7 +255,7 @@ struct ParticleBurstView: View {
             // Fade out
             if elapsed > config.duration {
                 let fadeProgress = (elapsed - config.duration) / config.fadeOutDuration
-                particles[i].opacity = max(0, 1 - fadeProgress)
+                particles[i].opacity = max(0.0, 1 - fadeProgress)
             }
         }
     }
@@ -467,7 +469,7 @@ struct ParticleBurstOverlay: View {
                         // Tap anywhere burst
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .fill(Color.DesignSystem.brandGreen.opacity(0.2))
-                            .frame(height: 100)
+                            .frame(height: 100.0)
                             .overlay(
                                 Text("Tap anywhere")
                                     .foregroundStyle(Color.DesignSystem.text),
@@ -540,3 +542,5 @@ struct ParticleBurstOverlay: View {
     }
 #endif
 #endif // !SKIP
+
+#endif

@@ -1,3 +1,5 @@
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -344,3 +346,5 @@ extension Double {
         DistanceUnit.kilometersFromLocalized(self)
     }
 }
+
+#endif

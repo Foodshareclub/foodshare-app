@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 
@@ -26,4 +27,5 @@ extension NetworkRequest {
     /// Default timeout
     var timeout: TimeInterval { 30.0 }
 }
+
 #endif

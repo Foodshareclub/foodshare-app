@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A section containing schedule-based notification controls.
@@ -110,7 +113,7 @@ public struct ScheduleSection: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 44, height: 44)
+                        .frame(width: 44.0, height: 44)
 
                     Image(systemName: "sun.max.fill")
                         .font(.system(size: 20, weight: .semibold))
@@ -161,7 +164,7 @@ public struct ScheduleSection: View {
                                 endPoint: .bottomTrailing,
                             ),
                         )
-                        .frame(width: 44, height: 44)
+                        .frame(width: 44.0, height: 44)
 
                     Image(systemName: "calendar")
                         .font(.system(size: 20, weight: .semibold))
@@ -256,7 +259,7 @@ public struct ScheduleSection: View {
             Image(systemName: icon)
                 .font(.system(size: 12))
                 .foregroundColor(.DesignSystem.brandBlue)
-                .frame(width: 20)
+                .frame(width: 20.0)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -325,3 +328,6 @@ public struct ScheduleSection: View {
 
     return PreviewContainer()
 }
+
+
+#endif

@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import SwiftUI
 
 
@@ -238,7 +241,7 @@ struct AdminDashboardView: View {
                 activePosts: viewModel.stats.activePosts,
                 healthLabel: t.t("admin.health")
             )
-            .frame(width: 120, height: 120)
+            .frame(width: 120.0, height: 120)
 
             // Summary stats
             VStack(alignment: .leading, spacing: Spacing.md) {
@@ -296,7 +299,7 @@ struct AdminDashboardView: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
 
                 Image(systemName: "lock.shield")
                     .font(.system(size: 40, weight: .medium))
@@ -343,7 +346,7 @@ struct StatCard: View {
                 ZStack {
                     Circle()
                         .fill(color.opacity(0.15))
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40.0, height: 40)
 
                     Image(systemName: icon)
                         .font(.system(size: 18, weight: .semibold))
@@ -381,7 +384,7 @@ struct AdminActivityCard: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.brandBlue.opacity(0.15))
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
 
                 Image(systemName: icon)
                     .font(.system(size: 16, weight: .semibold))
@@ -430,7 +433,7 @@ struct QuickActionButton: View {
                 ZStack {
                     Circle()
                         .fill(color.opacity(0.15))
-                        .frame(width: 44, height: 44)
+                        .frame(width: 44.0, height: 44)
 
                     Image(systemName: icon)
                         .font(.system(size: 18, weight: .semibold))
@@ -562,28 +565,28 @@ struct HealthMetric: View {
             Text(label)
                 .font(.DesignSystem.caption)
                 .foregroundColor(.DesignSystem.textSecondary)
-                .frame(width: 90, alignment: .leading)
+                .frame(width: 90.0, alignment: .leading)
 
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     // Background
                     RoundedRectangle(cornerRadius: 3)
                         .fill(color.opacity(0.15))
-                        .frame(height: 6)
+                        .frame(height: 6.0)
 
                     // Progress
                     RoundedRectangle(cornerRadius: 3)
                         .fill(color)
-                        .frame(width: max(0, geometry.size.width * animatedValue), height: 6)
+                        .frame(width: max(0.0, geometry.size.width * animatedValue), height: 6)
                 }
             }
-            .frame(height: 6)
+            .frame(height: 6.0)
 
             Text("\(Int(animatedValue * 100))%")
                 .font(.DesignSystem.captionSmall)
                 .fontWeight(.medium)
                 .foregroundColor(color)
-                .frame(width: 36, alignment: .trailing)
+                .frame(width: 36.0, alignment: .trailing)
         }
         .onAppear {
             withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.5)) {
@@ -597,3 +600,6 @@ struct HealthMetric: View {
         }
     }
 }
+
+
+#endif

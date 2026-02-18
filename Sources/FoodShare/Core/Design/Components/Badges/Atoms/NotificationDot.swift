@@ -19,6 +19,8 @@
 //  - Active/inactive color states
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// A pulsing notification dot indicator following Liquid Glass design principles.
@@ -264,3 +266,5 @@ struct NotificationDot: View {
 
     return PreviewWrapper()
 }
+
+#endif

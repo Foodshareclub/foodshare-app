@@ -5,6 +5,8 @@
 //  Search result row component for displaying food items
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Search Result Row
@@ -33,12 +35,12 @@ struct SearchResultRow: View {
                                 .foregroundColor(.DesignSystem.textSecondary)
                         }
                 }
-                .frame(width: 80, height: 80)
+                .frame(width: 80.0, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             } else {
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
                     .overlay {
                         Image(systemName: category.icon)
                             .font(.title2)
@@ -92,7 +94,11 @@ struct SearchResultRow: View {
         .padding(Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -100,3 +106,5 @@ struct SearchResultRow: View {
         )
     }
 }
+
+#endif

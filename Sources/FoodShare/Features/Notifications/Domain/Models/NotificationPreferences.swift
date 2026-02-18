@@ -1,8 +1,9 @@
-#if !SKIP
 // MARK: - NotificationPreferences.swift
 // Enterprise Notification Preferences Domain Models
 // FoodShare iOS - Clean Architecture Domain Layer
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Notification Category
@@ -495,5 +496,6 @@ public struct EnableDNDRequest: Codable, Sendable {
         self.duration_hours = durationHours
     }
 }
+
 
 #endif

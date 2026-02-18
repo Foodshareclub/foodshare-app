@@ -6,6 +6,8 @@
 //  Extracted from ForumView for better organization and reusability.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Forum Filters Sheet
@@ -32,7 +34,7 @@ struct ForumFiltersSheet: View {
             .navigationTitle(t.t("forum.filters.title"))
             .navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
             #endif
             .toolbar {
                 toolbarLeading
@@ -106,7 +108,7 @@ struct ForumFiltersSheet: View {
                     .foregroundColor(filters.sortBy == option
                         ? .DesignSystem.brandGreen
                         : .DesignSystem.textSecondary)
-                    .frame(width: 24)
+                    .frame(width: 24.0)
                     #if !SKIP
                     .symbolEffect(.pulse, options: .repeating, value: filters.sortBy == option)
                     #endif
@@ -170,7 +172,7 @@ struct ForumFiltersSheet: View {
                     .foregroundColor(filters.postType == type
                         ? .DesignSystem.brandGreen
                         : .DesignSystem.textSecondary)
-                    .frame(width: 24)
+                    .frame(width: 24.0)
 
                 Text(displayName)
                     .font(.DesignSystem.bodySmall)
@@ -278,7 +280,7 @@ struct ForumFiltersSheet: View {
                 ZStack {
                     Circle()
                         .fill(iconColor.opacity(0.15))
-                        .frame(width: 36, height: 36)
+                        .frame(width: 36.0, height: 36)
 
                     Image(systemName: icon)
                         .font(.system(size: 16, weight: .medium))
@@ -323,7 +325,7 @@ struct ForumFiltersSheet: View {
             .padding(.vertical, Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                    .fill(.ultraThinMaterial)
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -349,7 +351,7 @@ struct ForumFiltersSheet: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
 
                 Image(systemName: icon)
                     .font(.system(size: 16, weight: .medium))
@@ -386,7 +388,7 @@ struct ForumFiltersSheet: View {
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -526,7 +528,7 @@ struct ForumFiltersSheet: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
 
                     Image(systemName: icon)
                         .font(.system(size: 16, weight: .medium))
@@ -552,7 +554,7 @@ struct ForumFiltersSheet: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -564,3 +566,5 @@ struct ForumFiltersSheet: View {
         .animation(ProMotionAnimation.smooth, value: sectionAppearStates[id])
     }
 }
+
+#endif

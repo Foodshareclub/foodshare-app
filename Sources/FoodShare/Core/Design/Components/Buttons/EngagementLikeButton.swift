@@ -7,6 +7,8 @@
 //  ProMotion 120Hz optimized with interpolating springs
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -540,7 +542,7 @@ struct CompactEngagementLikeButton: View {
                 // Expanding ring
                 Circle()
                     .stroke(Color.DesignSystem.brandPink.opacity(ringOpacity), lineWidth: 2)
-                    .frame(width: 40 * ringScale, height: 40 * ringScale)
+                    .frame(width: 40.0 * ringScale, height: 40 * ringScale)
 
                 // Particles
                 if showParticles {
@@ -566,7 +568,7 @@ struct CompactEngagementLikeButton: View {
                     )
                     .scaleEffect(heartScale)
             }
-            .frame(width: 44, height: 44)
+            .frame(width: 44.0, height: 44)
         }
         .buttonStyle(HeartButtonStyle())
         .accessibilityLabel(isLiked ? "Unlike" : "Like")
@@ -949,4 +951,6 @@ struct CompactChallengeLikeButton: View {
     .padding()
     .background(Color.black)
 }
+#endif
+
 #endif

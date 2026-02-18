@@ -7,6 +7,7 @@
 //  GPU-accelerated glass effects for smooth rendering
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -110,7 +111,7 @@ struct GlassToast: View {
         ZStack {
             Circle()
                 .fill(notification.style.color.opacity(0.15))
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
 
             Image(systemName: notification.style.icon)
                 .font(.system(size: 14, weight: .semibold))
@@ -158,7 +159,7 @@ struct GlassToast: View {
             Image(systemName: "xmark")
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(Color.DesignSystem.textSecondary)
-                .frame(width: 24, height: 24)
+                .frame(width: 24.0, height: 24)
                 .background(
                     Circle()
                         .fill(Color.DesignSystem.textSecondary.opacity(0.1)),
@@ -172,7 +173,11 @@ struct GlassToast: View {
     private var glassBackground: some View {
         ZStack {
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Tinted gradient based on style
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -377,4 +382,5 @@ extension View {
 
     return PreviewContainer()
 }
+
 #endif

@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  ValidationAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor ValidationAPIService {
@@ -31,4 +32,5 @@ struct ValidationResponse: Codable {
     let valid: Bool
     let message: String?
 }
+
 #endif

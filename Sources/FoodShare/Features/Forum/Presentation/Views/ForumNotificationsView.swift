@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ForumNotificationsView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Follows Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -594,4 +595,5 @@ struct NotificationSettingsSheet: View {
         func deleteReadNotifications(profileId: UUID) async throws {}
     }
 #endif
+
 #endif

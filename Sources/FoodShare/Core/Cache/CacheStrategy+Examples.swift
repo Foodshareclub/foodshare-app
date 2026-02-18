@@ -6,6 +6,8 @@
 //  This file demonstrates how to use the caching system in practice
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Example: Repository with Stale-While-Revalidate
@@ -463,3 +465,5 @@ import Foundation
     - Use consistent radius units (meters)
     - Consider cache key collisions
  */
+
+#endif

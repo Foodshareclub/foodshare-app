@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  RequestDeduplicator.swift
 //  Foodshare
@@ -11,6 +10,8 @@
 //  - Race conditions from concurrent identical requests
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -350,4 +351,5 @@ actor ThrottledRequest<T: Sendable> {
         pendingResult = nil
     }
 }
+
 #endif

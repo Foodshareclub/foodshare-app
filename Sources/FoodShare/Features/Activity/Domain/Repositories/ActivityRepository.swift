@@ -5,6 +5,8 @@
 //  Repository protocol for activity feed operations
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Repository for managing activity feed data
@@ -24,3 +26,5 @@ protocol ActivityRepository: Sendable {
     /// - Parameter activities: Activities to cache
     func cacheActivities(_ activities: [ActivityItem]) async throws
 }
+
+#endif

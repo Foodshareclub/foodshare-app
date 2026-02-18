@@ -6,6 +6,8 @@
 //  Eliminates hardcoded values and enables server-side configuration changes.
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -362,3 +364,5 @@ struct RateLimitsConfig: Codable, Sendable {
         case searchDebounceMs = "search_debounce_ms"
     }
 }
+
+#endif

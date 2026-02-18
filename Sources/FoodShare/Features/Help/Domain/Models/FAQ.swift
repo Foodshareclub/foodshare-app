@@ -5,6 +5,8 @@
 //  Domain model for Help Center FAQs
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Represents a FAQ item
@@ -96,3 +98,5 @@ struct FAQSection: Identifiable, Sendable {
         )
     ]
 }
+
+#endif

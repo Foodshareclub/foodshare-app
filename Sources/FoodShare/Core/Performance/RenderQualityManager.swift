@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  RenderQualityManager.swift
 //  FoodShare
@@ -25,6 +24,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Combine
 import Foundation
 import OSLog
@@ -824,7 +825,11 @@ private struct AdaptiveGlassEffectModifier: ViewModifier {
                 .background(
                     ZStack {
                         RoundedRectangle(cornerRadius: cornerRadius)
+                            #if !SKIP
                             .fill(.ultraThinMaterial)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
 
                         if quality.enableComplexGradients {
                             RoundedRectangle(cornerRadius: cornerRadius)
@@ -936,4 +941,5 @@ extension Animation {
         }
     }
 }
+
 #endif

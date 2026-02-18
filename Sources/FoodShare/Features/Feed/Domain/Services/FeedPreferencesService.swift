@@ -6,6 +6,9 @@
 //  Manages local storage and database synchronization.
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -321,3 +324,6 @@ final class FeedSearchRadiusService {
 enum FeedRadiusError: Error {
     case timeout
 }
+
+
+#endif

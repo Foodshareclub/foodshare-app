@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  DeviceCheckService.swift
 //  Foodshare
@@ -11,14 +10,12 @@
 //  - Track device trust level over time
 //
 
+
 #if !SKIP
 import DeviceCheck
-#endif
 import Foundation
 import OSLog
-#if !SKIP
 import UIKit
-#endif
 
 // MARK: - Device Check Service
 
@@ -311,4 +308,5 @@ extension DeviceCheckService {
         }
     }
 #endif
+
 #endif

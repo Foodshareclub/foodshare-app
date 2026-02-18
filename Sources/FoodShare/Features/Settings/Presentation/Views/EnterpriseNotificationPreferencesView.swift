@@ -6,6 +6,9 @@
 // This view composes all atomic, molecular, and organism components
 // into a complete, production-ready notification preferences interface.
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// Enterprise-grade notification preferences view with full feature set.
@@ -911,3 +914,6 @@ public struct EnterpriseNotificationPreferencesView: View {
 
     return TabPreview()
 }
+
+
+#endif

@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -419,3 +422,6 @@ private struct DashboardStatsDTO: Decodable {
         case newPostsToday = "new_posts_today"
     }
 }
+
+
+#endif

@@ -6,6 +6,9 @@
 //  Liquid Glass v27 design with backdrop blur, state handling, and animations
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Notification Dropdown
@@ -188,7 +191,7 @@ struct NotificationDropdown: View {
             }
         }
         .padding(Spacing.sm)
-        .frame(height: 220)
+        .frame(height: 220.0)
     }
 
     // MARK: - Empty State
@@ -208,7 +211,7 @@ struct NotificationDropdown: View {
                             endRadius: 40,
                         ),
                     )
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "bell.slash")
                     .font(.system(size: 28, weight: .medium))
@@ -226,7 +229,7 @@ struct NotificationDropdown: View {
                     .multilineTextAlignment(.center)
             }
         }
-        .frame(height: 180)
+        .frame(height: 180.0)
         .frame(maxWidth: .infinity)
         #if !SKIP
         .accessibilityElement(children: .combine)
@@ -266,7 +269,7 @@ struct NotificationDropdown: View {
             }
             .buttonStyle(.plain)
         }
-        .frame(height: 180)
+        .frame(height: 180.0)
         .frame(maxWidth: .infinity)
         .padding(.horizontal, Spacing.md)
     }
@@ -290,7 +293,7 @@ struct NotificationDropdown: View {
                     .multilineTextAlignment(.center)
             }
         }
-        .frame(height: 150)
+        .frame(height: 150.0)
         .frame(maxWidth: .infinity)
     }
 
@@ -329,7 +332,11 @@ struct NotificationDropdown: View {
         ZStack {
             // Ultra thin material for glass effect
             Rectangle()
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Subtle gradient overlay for depth
             LinearGradient(
@@ -355,18 +362,18 @@ private struct CompactNotificationSkeleton: View {
             // Icon skeleton
             Circle()
                 .fill(Color.DesignSystem.textTertiary.opacity(0.15))
-                .frame(width: 36, height: 36)
+                .frame(width: 36.0, height: 36)
 
             VStack(alignment: .leading, spacing: Spacing.xxxs) {
                 // Title skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(Color.DesignSystem.textTertiary.opacity(0.15))
-                    .frame(width: 140, height: 14)
+                    .frame(width: 140.0, height: 14)
 
                 // Body skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(Color.DesignSystem.textTertiary.opacity(0.1))
-                    .frame(width: 100, height: 10)
+                    .frame(width: 100.0, height: 10)
             }
 
             Spacer()
@@ -374,11 +381,11 @@ private struct CompactNotificationSkeleton: View {
             // Time skeleton
             RoundedRectangle(cornerRadius: 4)
                 .fill(Color.DesignSystem.textTertiary.opacity(0.1))
-                .frame(width: 30, height: 10)
+                .frame(width: 30.0, height: 10)
         }
         .padding(.horizontal, Spacing.sm)
         .padding(.vertical, Spacing.xs)
-        .frame(height: 64)
+        .frame(height: 64.0)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
                 .fill(Color.DesignSystem.glassBackground.opacity(0.3)),
@@ -397,7 +404,7 @@ private struct CompactNotificationSkeleton: View {
                 startPoint: .leading,
                 endPoint: .trailing,
             )
-            .frame(width: 100)
+            .frame(width: 100.0)
             .offset(x: shimmerOffset)
             .onAppear {
                 withAnimation(
@@ -421,7 +428,7 @@ private struct CompactNotificationSkeleton: View {
                 .ignoresSafeArea()
 
             VStack {
-                Spacer().frame(height: 60)
+                Spacer().frame(height: 60.0)
 
                 NotificationDropdown(
                     viewModel: .preview(),
@@ -441,7 +448,7 @@ private struct CompactNotificationSkeleton: View {
                 .ignoresSafeArea()
 
             VStack {
-                Spacer().frame(height: 60)
+                Spacer().frame(height: 60.0)
 
                 NotificationDropdown(
                     viewModel: .emptyPreview(),
@@ -461,7 +468,7 @@ private struct CompactNotificationSkeleton: View {
                 .ignoresSafeArea()
 
             VStack {
-                Spacer().frame(height: 60)
+                Spacer().frame(height: 60.0)
 
                 NotificationDropdown(
                     viewModel: .loadingPreview(),
@@ -474,4 +481,7 @@ private struct CompactNotificationSkeleton: View {
             }
         }
     }
+#endif
+
+
 #endif

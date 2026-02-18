@@ -6,6 +6,9 @@
 //  Controls for privacy blur, clipboard, session timeout, etc.
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 
@@ -162,3 +165,6 @@ struct PrivacySettingsView: View {
         PrivacySettingsView()
     }
 }
+
+
+#endif

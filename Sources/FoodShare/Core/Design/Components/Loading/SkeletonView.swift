@@ -5,6 +5,8 @@
 //  Skeleton loading states for smooth UX
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Skeleton Modifier
@@ -218,4 +220,6 @@ struct SkeletonList<Content: View>: View {
         }
         .background(Color.backgroundGradient)
     }
+#endif
+
 #endif

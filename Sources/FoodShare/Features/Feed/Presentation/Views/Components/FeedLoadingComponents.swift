@@ -6,6 +6,8 @@
 //  Extracted from FeedView for better organization
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Feed Skeleton Card
@@ -20,33 +22,33 @@ struct FeedSkeletonCard: View {
             // Image placeholder
             Rectangle()
                 .fill(skeletonGradient)
-                .frame(height: 160)
+                .frame(height: 160.0)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 // Title skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(height: 20)
+                    .frame(height: 20.0)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.trailing, 80)
 
                 // Subtitle skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 150, height: 14)
+                    .frame(width: 150.0, height: 14)
 
                 HStack {
                     // Badge skeleton
                     Capsule()
                         .fill(skeletonGradient)
-                        .frame(width: 60, height: 24)
+                        .frame(width: 60.0, height: 24)
 
                     Spacer()
 
                     // Distance skeleton
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 40, height: 12)
+                        .frame(width: 40.0, height: 12)
                 }
             }
             .padding(Spacing.md)
@@ -72,7 +74,11 @@ struct FeedSkeletonCard: View {
                 )
         } else {
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder.opacity(0.5), lineWidth: 1)
@@ -102,7 +108,7 @@ struct FeedSkeletonCard: View {
                 startPoint: .leading,
                 endPoint: .trailing,
             )
-            .frame(width: 150)
+            .frame(width: 150.0)
             .offset(x: shimmerPhase)
             .onAppear {
                 withAnimation(
@@ -171,7 +177,11 @@ struct FeedLoadingMoreIndicator: View {
         .padding(Spacing.md)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -179,3 +189,5 @@ struct FeedLoadingMoreIndicator: View {
         )
     }
 }
+
+#endif

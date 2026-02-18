@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 
@@ -94,4 +95,5 @@ actor NetworkServiceImpl: NetworkService {
         return urlRequest
     }
 }
+
 #endif

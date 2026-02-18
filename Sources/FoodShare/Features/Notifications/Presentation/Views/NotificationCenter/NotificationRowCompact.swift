@@ -6,6 +6,9 @@
 //  Liquid Glass v27 design with swipe actions
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Notification Row Compact
@@ -54,7 +57,7 @@ struct NotificationRowCompact: View {
                 .offset(x: offset)
                 .gesture(swipeGesture)
         }
-        .frame(height: 64)
+        .frame(height: 64.0)
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
     }
 
@@ -111,7 +114,7 @@ struct NotificationRowCompact: View {
         ZStack {
             Circle()
                 .fill(iconColor.opacity(0.15))
-                .frame(width: 36, height: 36)
+                .frame(width: 36.0, height: 36)
 
             Image(systemName: notification.type.icon)
                 .font(.system(size: 14, weight: .medium))
@@ -143,7 +146,7 @@ struct NotificationRowCompact: View {
                     endPoint: .bottomTrailing,
                 ),
             )
-            .frame(width: 8, height: 8)
+            .frame(width: 8.0, height: 8)
             .shadow(color: .DesignSystem.brandGreen.opacity(0.5), radius: 2)
     }
 
@@ -204,7 +207,7 @@ struct NotificationRowCompact: View {
             Image(systemName: icon)
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.white)
-                .frame(width: 50, height: 64)
+                .frame(width: 50.0, height: 64)
                 .background(color)
         }
         .buttonStyle(.plain)
@@ -313,3 +316,6 @@ struct NotificationRowCompact: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

@@ -5,6 +5,8 @@
 //  Settings view for accessibility options
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct AccessibilitySettingsView: View {
@@ -60,7 +62,7 @@ struct AccessibilitySettingsView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "accessibility")
                     .font(.system(size: 36, weight: .medium))
@@ -80,7 +82,11 @@ struct AccessibilitySettingsView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -220,7 +226,7 @@ struct AccessibilitySettingsView: View {
                     Image(systemName: "gear")
                         .font(.system(size: 18))
                         .foregroundStyle(Color.DesignSystem.brandBlue)
-                        .frame(width: 28)
+                        .frame(width: 28.0)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(t.t("system_accessibility_settings"))
@@ -272,7 +278,7 @@ struct AccessibilitySettingsView: View {
         HStack(spacing: Spacing.sm) {
             Circle()
                 .fill(isEnabled ? Color.DesignSystem.success : Color.DesignSystem.textTertiary)
-                .frame(width: 8, height: 8)
+                .frame(width: 8.0, height: 8)
 
             Text(title)
                 .font(.DesignSystem.caption)
@@ -342,3 +348,5 @@ struct AccessibilitySettingsView: View {
         AccessibilitySettingsView()
     }
 }
+
+#endif

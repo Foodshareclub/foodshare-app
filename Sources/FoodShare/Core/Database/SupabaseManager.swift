@@ -3,9 +3,12 @@
 //  Foodshare
 //
 //  Singleton wrapper providing access to the shared SupabaseClient
-//  This bridges the AuthenticationService's client to a simple shared interface
+//  iOS: Delegates to AuthenticationService's client
+//  Android: Creates supabase-kt client directly from AppEnvironment
 //
 
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -29,3 +32,29 @@ final class SupabaseManager {
 
     private init() {}
 }
+
+#else
+
+import Foundation
+
+/// Singleton providing Supabase configuration (Android/Skip)
+/// Stores the URL and key. Actual supabase-kt client creation happens in Kotlin.
+final class SupabaseManager {
+    // MARK: - Singleton
+
+    static let shared = SupabaseManager()
+
+    // MARK: - Properties
+
+    let supabaseURL: String
+    let supabaseKey: String
+
+    // MARK: - Initialization
+
+    private init() {
+        self.supabaseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        self.supabaseKey = AppEnvironment.supabasePublishableKey ?? ""
+    }
+}
+
+#endif

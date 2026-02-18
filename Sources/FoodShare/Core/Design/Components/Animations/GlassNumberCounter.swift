@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized number transitions with fluid interpolation
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -412,7 +414,11 @@ struct GlassStatCounter: View {
         .padding(.vertical, Spacing.xs)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(color.opacity(0.2), lineWidth: 1)
@@ -503,4 +509,6 @@ struct GlassStatCounter: View {
     }
     .background(Color.DesignSystem.background)
 }
+#endif
+
 #endif

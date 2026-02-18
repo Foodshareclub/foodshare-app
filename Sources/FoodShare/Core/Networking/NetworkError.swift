@@ -1,3 +1,5 @@
+
+#if !SKIP
 import Foundation
 
 /// Network-specific errors with contextual information
@@ -142,3 +144,5 @@ enum NetworkError: LocalizedError, Sendable {
         }
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -77,3 +79,5 @@ struct ServerSearchResult: Sendable {
         hasMore: false,
     )
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Review domain model - Maps to `reviews` table in Supabase
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Represents a user review
@@ -262,5 +264,7 @@ struct CreateReviewRequest: Encodable, Sendable {
             )
         }
     }
+
+#endif
 
 #endif

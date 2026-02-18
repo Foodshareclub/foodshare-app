@@ -6,6 +6,8 @@
 //  Ensures WCAG 2.1 AA compliance across all glass components
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -563,7 +565,7 @@ public enum GlassAccessibilityPreset {
                     // Accessible Glass
                     RoundedRectangle(cornerRadius: 16)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 100)
+                        .frame(height: 100.0)
                         .overlay(Text("Glass Card"))
                         .accessibleGlass(
                             label: "Sample glass card",
@@ -578,7 +580,7 @@ public enum GlassAccessibilityPreset {
                     // High Contrast Border
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.DesignSystem.primary)
-                        .frame(height: 50)
+                        .frame(height: 50.0)
                         .highContrastBorder(RoundedRectangle(cornerRadius: 12))
                         .overlay(Text("High Contrast").foregroundStyle(.white))
 
@@ -609,4 +611,6 @@ public enum GlassAccessibilityPreset {
 
     return AccessibilityDemo()
 }
+#endif
+
 #endif

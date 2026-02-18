@@ -5,6 +5,8 @@
 //  Settings view for configuring app lock with biometric authentication
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct AppLockSettingsView: View {
@@ -71,7 +73,7 @@ struct AppLockSettingsView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: appLockService.biometricIconName)
                     .font(.system(size: 36, weight: .medium))
@@ -96,7 +98,11 @@ struct AppLockSettingsView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -112,7 +118,7 @@ struct AppLockSettingsView: View {
                 Image(systemName: appLockService.biometricIconName)
                     .font(.system(size: 18))
                     .foregroundStyle(Color.DesignSystem.brandBlue)
-                    .frame(width: 28)
+                    .frame(width: 28.0)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(t.t("require_biometric", args: ["biometric": appLockService.biometricDisplayName]))
@@ -183,7 +189,7 @@ struct AppLockSettingsView: View {
                 Image(systemName: "clock.fill")
                     .font(.system(size: 18))
                     .foregroundStyle(Color.DesignSystem.brandTeal)
-                    .frame(width: 28)
+                    .frame(width: 28.0)
 
                 Text(t.t("lock_delay"))
                     .font(.DesignSystem.bodyMedium)
@@ -255,3 +261,5 @@ struct AppLockSettingsView: View {
         AppLockSettingsView()
     }
 }
+
+#endif

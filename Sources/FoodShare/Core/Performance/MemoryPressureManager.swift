@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MemoryPressureManager.swift
 //  FoodShare
@@ -14,6 +13,8 @@
 //  - Metrics reporting
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -424,4 +425,5 @@ extension View {
         modifier(MemoryAwareModifier())
     }
 }
+
 #endif

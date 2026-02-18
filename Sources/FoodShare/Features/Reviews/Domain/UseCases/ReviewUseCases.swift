@@ -5,6 +5,8 @@
 //  Use cases for review operations
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Submit Review Use Case
@@ -134,3 +136,5 @@ enum ReviewError: LocalizedError, Sendable {
         }
     }
 }
+
+#endif

@@ -5,6 +5,9 @@
 //  ViewModel for Settings screen following MVVM + Clean Architecture
 //
 
+
+
+#if !SKIP
 import Foundation
 import Supabase
 import SwiftUI
@@ -198,3 +201,6 @@ enum SettingsNotificationType {
     case messages
     case likes
 }
+
+
+#endif

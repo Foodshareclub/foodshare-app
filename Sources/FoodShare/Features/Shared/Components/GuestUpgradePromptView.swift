@@ -6,6 +6,8 @@
 //  Following CareEcho pattern for feature lock UI
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GuestUpgradePromptView: View {
@@ -65,7 +67,7 @@ struct GuestUpgradePromptView: View {
                         endRadius: 100
                     )
                 )
-                .frame(width: 200, height: 200)
+                .frame(width: 200.0, height: 200)
                 .scaleEffect(isAnimating ? 1.1 : 0.9)
                 .animation(
                     .easeInOut(duration: 2.5).repeatForever(autoreverses: true),
@@ -74,8 +76,12 @@ struct GuestUpgradePromptView: View {
 
             // Icon container
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 100, height: 100)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 100.0, height: 100)
                 .overlay(
                     Circle()
                         .stroke(
@@ -159,7 +165,11 @@ struct GuestUpgradePromptView: View {
     private var benefitsBackground: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             RoundedRectangle(cornerRadius: 16)
                 .fill(
@@ -227,7 +237,7 @@ private struct BenefitRow: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
                 .background(
                     Circle()
                         .fill(Color.DesignSystem.accentBlue.opacity(0.15))
@@ -248,3 +258,5 @@ private struct BenefitRow: View {
     GuestUpgradePromptView(feature: .messaging)
         .environment(GuestManager())
 }
+
+#endif

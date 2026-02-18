@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Animated Background with floating orbs
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct AnimatedGlassBackground: View {
@@ -52,7 +54,7 @@ struct AnimatedGlassBackground: View {
                                 endRadius: 200,
                             ),
                         )
-                        .frame(width: 300, height: 300)
+                        .frame(width: 300.0, height: 300)
                         .blur(radius: 60)
                         .scaleEffect(scales.indices.contains(index) ? scales[index] : 1.0)
                         .position(
@@ -115,3 +117,5 @@ struct AnimatedGlassBackground: View {
 #Preview {
     AnimatedGlassBackground()
 }
+
+#endif

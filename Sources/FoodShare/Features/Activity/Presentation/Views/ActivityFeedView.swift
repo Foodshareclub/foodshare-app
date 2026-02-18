@@ -5,6 +5,9 @@
 //  Activity Feed with Liquid Glass design
 //
 
+
+
+#if !SKIP
 import SwiftUI
 
 #if canImport(Inject)
@@ -95,7 +98,7 @@ struct ActivityFeedView: View {
                     .padding(Spacing.lg)
             } else {
                 Color.clear
-                    .frame(height: 1)
+                    .frame(height: 1.0)
                     .onAppear {
                         Task { await viewModel.loadMore() }
                     }
@@ -121,7 +124,7 @@ struct ActivityFeedView: View {
                             endRadius: 80,
                         ),
                     )
-                    .frame(width: 160, height: 160)
+                    .frame(width: 160.0, height: 160)
 
                 Image(systemName: "clock.arrow.circlepath")
                     .font(.system(size: 50))
@@ -159,7 +162,7 @@ struct ActivityCard: View {
             ZStack {
                 Circle()
                     .fill(activity.type.color.opacity(0.15))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
 
                 Image(systemName: activity.type.icon)
                     .font(.system(size: 18))
@@ -205,11 +208,11 @@ struct ActivityCard: View {
                                     defaultAvatar
                                 }
                             }
-                            .frame(width: 20, height: 20)
+                            .frame(width: 20.0, height: 20)
                             .clipShape(Circle())
                         } else {
                             defaultAvatar
-                                .frame(width: 20, height: 20)
+                                .frame(width: 20.0, height: 20)
                         }
 
                         Text(actorName)
@@ -242,7 +245,7 @@ struct ActivityCard: View {
                             .fill(Color.DesignSystem.glassBackground)
                     }
                 }
-                .frame(width: 60, height: 60)
+                .frame(width: 60.0, height: 60)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.small))
             }
         }
@@ -295,32 +298,32 @@ private struct ActivitySkeletonRow: View {
             // Icon skeleton
             Circle()
                 .fill(skeletonGradient)
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 HStack {
                     // Title skeleton
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 150, height: 16)
+                        .frame(width: 150.0, height: 16)
 
                     Spacer()
 
                     // Time skeleton
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 40, height: 12)
+                        .frame(width: 40.0, height: 12)
                 }
 
                 // Subtitle skeleton
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 100, height: 12)
+                    .frame(width: 100.0, height: 12)
 
                 // Badge skeleton
                 Capsule()
                     .fill(skeletonGradient)
-                    .frame(width: 70, height: 18)
+                    .frame(width: 70.0, height: 18)
             }
 
             Spacer()
@@ -357,7 +360,7 @@ private struct ActivitySkeletonRow: View {
                 startPoint: .leading,
                 endPoint: .trailing,
             )
-            .frame(width: 150)
+            .frame(width: 150.0)
             .offset(x: shimmerPhase)
             .onAppear {
                 withAnimation(
@@ -371,3 +374,6 @@ private struct ActivitySkeletonRow: View {
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
     }
 }
+
+
+#endif

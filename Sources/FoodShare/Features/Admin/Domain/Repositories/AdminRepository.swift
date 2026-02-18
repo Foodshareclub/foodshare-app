@@ -1,3 +1,5 @@
+
+#if !SKIP
 import Foundation
 
 // MARK: - Moderation Stats Result
@@ -390,3 +392,5 @@ enum ResourceTypeHelper {
         }
     }
 }
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SecurityScoreView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Shows account protection level with actionable recommendations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -31,7 +32,7 @@ struct SecurityScoreCard: View {
                 ZStack {
                     Circle()
                         .stroke(Color.DesignSystem.glassBackground, lineWidth: 6)
-                        .frame(width: 56, height: 56)
+                        .frame(width: 56.0, height: 56)
 
                     Circle()
                         .trim(from: 0, to: animateProgress ? CGFloat(score) / 100 : 0)
@@ -39,7 +40,7 @@ struct SecurityScoreCard: View {
                             level.color,
                             style: StrokeStyle(lineWidth: 6, lineCap: .round)
                         )
-                        .frame(width: 56, height: 56)
+                        .frame(width: 56.0, height: 56)
                         .rotationEffect(.degrees(-90))
 
                     Text("\(score)")
@@ -73,7 +74,11 @@ struct SecurityScoreCard: View {
             .padding(Spacing.md)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(level.color.opacity(0.3), lineWidth: 1)
@@ -160,7 +165,7 @@ struct SecurityDetailView: View {
                 // Background circle
                 Circle()
                     .stroke(Color.DesignSystem.glassBackground, lineWidth: 12)
-                    .frame(width: 140, height: 140)
+                    .frame(width: 140.0, height: 140)
 
                 // Progress circle
                 Circle()
@@ -169,7 +174,7 @@ struct SecurityDetailView: View {
                         level.color,
                         style: StrokeStyle(lineWidth: 12, lineCap: .round)
                     )
-                    .frame(width: 140, height: 140)
+                    .frame(width: 140.0, height: 140)
                     .rotationEffect(.degrees(-90))
 
                 // Score text
@@ -204,7 +209,11 @@ struct SecurityDetailView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -261,7 +270,11 @@ struct SecurityDetailView: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -336,7 +349,7 @@ struct SecurityCheckRow: View {
                     .fill(check.isEnabled
                           ? Color.DesignSystem.brandGreen.opacity(0.15)
                           : Color.DesignSystem.textTertiary.opacity(0.1))
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.0, height: 40)
 
                 Image(systemName: check.icon)
                     .font(.system(size: 16))
@@ -445,7 +458,11 @@ struct BiometricSetupOnboardingCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(
@@ -466,4 +483,5 @@ struct BiometricSetupOnboardingCard: View {
         SecurityDetailView()
     }
 }
+
 #endif

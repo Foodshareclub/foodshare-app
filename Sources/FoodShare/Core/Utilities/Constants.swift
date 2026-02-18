@@ -1,3 +1,4 @@
+
 import Foundation
 
 /// Static constants for values that don't change based on configuration.
@@ -5,10 +6,17 @@ import Foundation
 enum Constants {
     // MARK: - App Identity
 
+    #if !SKIP
     static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "com.flutterflow.foodshare"
     static let appName = "Foodshare"
-    static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "3.0.0"
+    static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "3.0"
     static let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "246"
+    #else
+    static let bundleIdentifier = "com.flutterflow.foodshare"
+    static let appName = "Foodshare"
+    static let appVersion = "3.0"
+    static let buildNumber = "246"
+    #endif
 
     // MARK: - Unit Conversions (immutable)
 

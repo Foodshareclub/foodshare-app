@@ -6,6 +6,8 @@
 //  These properties require CoreLocation which is not available in FoodshareCore
 //
 
+
+#if !SKIP
 #if canImport(FoodshareCore)
 import CoreLocation
 import FoodshareCore
@@ -41,4 +43,6 @@ struct Location: Equatable, Sendable {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
+#endif
+
 #endif

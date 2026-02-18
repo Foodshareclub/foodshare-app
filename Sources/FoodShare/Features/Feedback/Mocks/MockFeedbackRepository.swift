@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MockFeedbackRepository.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Mock feedback repository for testing and previews
 //
 
+
+#if !SKIP
 import Foundation
 
 #if DEBUG
@@ -88,4 +89,5 @@ import Foundation
         }
     }
 #endif
+
 #endif

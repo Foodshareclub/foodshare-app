@@ -1,6 +1,7 @@
+
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 import Supabase
@@ -340,3 +341,6 @@ private struct ForumSearchResult: Codable {
         )
     }
 }
+
+
+#endif

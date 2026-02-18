@@ -7,6 +7,8 @@
 //  haptic feedback, and full glassmorphism styling
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Action Sheet
@@ -152,7 +154,7 @@ struct GlassActionSheet: View {
                 if let icon = action.icon {
                     Image(systemName: icon)
                         .font(.system(size: 18, weight: .medium))
-                        .frame(width: 24)
+                        .frame(width: 24.0)
                 }
 
                 Text(action.title)
@@ -161,7 +163,7 @@ struct GlassActionSheet: View {
             }
             .foregroundColor(action.style.color)
             .frame(maxWidth: .infinity)
-            .frame(height: 56)
+            .frame(height: 56.0)
             #if !SKIP
             .contentShape(Rectangle())
             #endif
@@ -186,7 +188,7 @@ struct GlassActionSheet: View {
                 .fontWeight(.semibold)
                 .foregroundColor(.DesignSystem.brandPink)
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 56.0)
         }
         .buttonStyle(ActionSheetButtonStyle())
         .background(sheetBackground)
@@ -203,7 +205,11 @@ struct GlassActionSheet: View {
     private var sheetBackground: some View {
         ZStack {
             Rectangle()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Top highlight
             LinearGradient(
@@ -465,3 +471,5 @@ struct GlassConfirmationDialog {
         )
     )
 }
+
+#endif

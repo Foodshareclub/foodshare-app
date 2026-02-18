@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SecurityScoreService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Provides visual feedback on account protection status
 //
 
+
+#if !SKIP
 import Foundation
 import LocalAuthentication
 import SwiftUI
@@ -256,4 +257,5 @@ final class SecurityScoreService {
         getSecurityChecks().filter { $0.isEnabled }
     }
 }
+
 #endif

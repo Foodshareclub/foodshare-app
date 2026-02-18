@@ -9,6 +9,8 @@
 //  3. Press Ctrl+= in Xcode to trigger hot reload after saving
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -36,5 +38,7 @@ import SwiftUI
             self
         }
     }
+
+#endif
 
 #endif

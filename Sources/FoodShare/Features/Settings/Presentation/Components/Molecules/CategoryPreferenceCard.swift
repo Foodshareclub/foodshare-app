@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A card displaying all notification channels for a single category.
@@ -203,7 +206,7 @@ public struct CategoryPreferenceCard: View {
             Image(systemName: channel.icon)
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.DesignSystem.textSecondary)
-                .frame(width: 20)
+                .frame(width: 20.0)
 
             // Channel name
             Text(channel.displayName)
@@ -417,3 +420,6 @@ public struct CompactCategoryPreferenceCard: View {
     }
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

@@ -5,6 +5,8 @@
 //  Repository protocol for challenge operations
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - User Challenges with Counts Result
@@ -98,5 +100,7 @@ struct ChallengeLeaderboardEntry: Codable, Identifiable, Sendable {
             )
         }
     }
+
+#endif
 
 #endif

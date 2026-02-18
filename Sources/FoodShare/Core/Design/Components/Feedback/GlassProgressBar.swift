@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Progress Bar Component with ProMotion-optimized animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Progress Bar
@@ -25,7 +27,7 @@ struct GlassProgressBar: View {
         showPercentage: Bool = false,
         animated: Bool = true,
     ) {
-        self.progress = max(0, min(1, progress))
+        self.progress = max(0.0, min(1.0, progress))
         self.height = height
         self.accentColor = accentColor
         self.showPercentage = showPercentage
@@ -40,7 +42,11 @@ struct GlassProgressBar: View {
                     // Background track
                     Capsule()
                         .fill(Color.white.opacity(0.08))
-                        .background(.ultraThinMaterial)
+                        #if !SKIP
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .clipShape(Capsule())
                         .overlay(
                             Capsule()
@@ -85,7 +91,7 @@ struct GlassProgressBar: View {
                 Text("\(Int(animatedProgress * 100))%")
                     .font(.DesignSystem.captionSmall)
                     .foregroundStyle(Color.DesignSystem.textSecondary)
-                    .frame(width: 40, alignment: .trailing)
+                    .frame(width: 40.0, alignment: .trailing)
                     #if !SKIP
                     .contentTransition(.numericText())
                     #endif
@@ -147,7 +153,7 @@ struct GlassProgressCard: View {
                     ZStack {
                         Circle()
                             .fill(accentColor.opacity(0.15))
-                            .frame(width: 36, height: 36)
+                            .frame(width: 36.0, height: 36)
 
                         Image(systemName: icon)
                             .font(.system(size: 16, weight: .medium))
@@ -188,7 +194,11 @@ struct GlassProgressCard: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(Color.white.opacity(0.05))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(
@@ -233,7 +243,7 @@ struct GlassCircularProgress: View {
         accentColor: Color = .DesignSystem.brandGreen,
         showPercentage: Bool = true,
     ) {
-        self.progress = max(0, min(1, progress))
+        self.progress = max(0.0, min(1.0, progress))
         self.size = size
         self.lineWidth = lineWidth
         self.accentColor = accentColor
@@ -331,7 +341,7 @@ struct GlassStepProgress<Item: Identifiable>: View {
                                     ? accentColor
                                     : Color.white.opacity(0.15),
                             )
-                            .frame(height: 2)
+                            .frame(height: 2.0)
                             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: currentStep)
                     }
                 }
@@ -353,7 +363,7 @@ struct GlassStepProgress<Item: Identifiable>: View {
                             ? accentColor.opacity(0.2)
                             : Color.white.opacity(0.08),
                 )
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
                 .overlay(
                     Circle()
                         .stroke(
@@ -408,7 +418,7 @@ struct GlassUploadProgress: View {
             ZStack {
                 RoundedRectangle(cornerRadius: CornerRadius.small)
                     .fill(stateColor.opacity(0.15))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
 
                 stateIcon
             }
@@ -478,7 +488,11 @@ struct GlassUploadProgress: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
                 .fill(Color.white.opacity(0.05))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
         .overlay(
@@ -668,3 +682,5 @@ private struct Step: Identifiable {
         }
     }
 }
+
+#endif

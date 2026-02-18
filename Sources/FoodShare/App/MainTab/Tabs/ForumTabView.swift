@@ -5,6 +5,8 @@
 //  Forum tab for community discussions
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Forum Tab View
@@ -35,3 +37,5 @@ struct ForumTabView: View {
         }
     }
 }
+
+#endif

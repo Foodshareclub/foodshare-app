@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PostEngagementService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Routes all operations through EngagementAPIService (Edge Function).
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -225,4 +226,5 @@ enum EngagementError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

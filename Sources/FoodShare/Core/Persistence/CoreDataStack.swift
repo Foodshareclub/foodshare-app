@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CoreDataStack.swift
 //  Foodshare
@@ -6,9 +5,9 @@
 //  Core Data stack for offline caching
 //
 
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 
@@ -1134,4 +1133,5 @@ public class SyncMetadata: NSManagedObject {
     @NSManaged public var lastSyncedAt: Date
     @NSManaged public var lastSyncedId: String?
 }
+
 #endif

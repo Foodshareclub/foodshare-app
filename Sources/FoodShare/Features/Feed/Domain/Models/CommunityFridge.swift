@@ -6,9 +6,10 @@
 //  Key differentiator feature for Foodshare
 //
 
+
+
 #if !SKIP
 import CoreLocation
-#endif
 import Foundation
 
 /// Represents a community fridge location
@@ -398,5 +399,8 @@ extension CommunityFridge {
             .fixture(id: UUID(), name: "Berkeley Fridge", city: "Berkeley", latitude: 37.8716, longitude: -122.2727),
         ]
     }
+
+
+#endif
 
 #endif

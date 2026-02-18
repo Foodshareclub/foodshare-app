@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AnalyticsAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized API service for analytics
 //
 
+
+#if !SKIP
 import Foundation
 
 actor AnalyticsAPIService {
@@ -29,4 +30,5 @@ private struct TrackEventBody: Encodable {
     let event: String
     let properties: [String: String]
 }
+
 #endif

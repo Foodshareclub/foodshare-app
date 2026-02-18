@@ -6,6 +6,8 @@
 //  Reference: https://cldr.unicode.org/index/cldr-spec/plural-rules
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Plural Category
@@ -218,3 +220,5 @@ extension EnhancedTranslationService {
         #endif
     }
 }
+
+#endif

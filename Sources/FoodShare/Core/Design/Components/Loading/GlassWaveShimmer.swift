@@ -1,3 +1,5 @@
+
+#if !SKIP
 #if !SKIP
 import SwiftUI
 
@@ -348,7 +350,7 @@ struct SkeletonWaveMessageRow: View {
 #Preview("Wave Shimmer") {
     VStack(spacing: Spacing.lg) {
         GlassWaveShimmer()
-            .frame(height: 100)
+            .frame(height: 100.0)
 
         SkeletonWaveLine(width: 200)
 
@@ -369,3 +371,5 @@ struct SkeletonWaveMessageRow: View {
         .background(Color.DesignSystem.background)
 }
 #endif // !SKIP
+
+#endif

@@ -6,6 +6,8 @@
 //  Replaces 20+ duplicate ScrollView(.horizontal) + HStack patterns
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - GlassHorizontalScroll
@@ -104,7 +106,7 @@ struct GlassHorizontalScroll<Content: View>: View {
                 value: proxy.frame(in: .named("scroll")).minX
             )
         }
-        .frame(height: 0)
+        .frame(height: 0.0)
         .onPreferenceChange(HorizontalScrollOffsetPreferenceKey.self) { value in
             scrollOffset = -value
         }
@@ -215,7 +217,7 @@ struct GlassHorizontalScrollSection<Header: View, Content: View>: View {
                     ForEach(0..<10) { index in
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .fill(Color.DesignSystem.brandGreen.opacity(0.3))
-                            .frame(width: 120, height: 80)
+                            .frame(width: 120.0, height: 80)
                             .overlay(
                                 Text("Item \(index)")
                                     .font(.DesignSystem.labelMedium)
@@ -236,7 +238,7 @@ struct GlassHorizontalScrollSection<Header: View, Content: View>: View {
                     ForEach(0..<10) { index in
                         Capsule()
                             .fill(Color.DesignSystem.brandBlue.opacity(0.3))
-                            .frame(width: 80, height: 32)
+                            .frame(width: 80.0, height: 32)
                             .overlay(
                                 Text("Tag \(index)")
                                     .font(.DesignSystem.caption)
@@ -263,7 +265,7 @@ struct GlassHorizontalScrollSection<Header: View, Content: View>: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .frame(width: 280, height: 160)
+                            .frame(width: 280.0, height: 160)
                             .overlay(
                                 Text("Card \(index)")
                                     .font(.DesignSystem.headlineMedium)
@@ -290,7 +292,7 @@ struct GlassHorizontalScrollSection<Header: View, Content: View>: View {
                 ForEach(0..<8) { index in
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .fill(Color.orange.opacity(0.2))
-                        .frame(width: 100, height: 100)
+                        .frame(width: 100.0, height: 100)
                         .overlay(
                             VStack {
                                 Image(systemName: "star.fill")
@@ -307,3 +309,5 @@ struct GlassHorizontalScrollSection<Header: View, Content: View>: View {
     }
     .background(Color.DesignSystem.background)
 }
+
+#endif

@@ -5,6 +5,9 @@
 //  Color utilities: hex initialization and interpolation
 //
 
+
+
+#if !SKIP
 import SwiftUI
 #if !SKIP
 import UIKit
@@ -68,7 +71,7 @@ extension Color {
     ///   - amount: Interpolation amount (0.0 = self, 1.0 = target color)
     /// - Returns: Interpolated color
     func interpolate(to color: Color, amount: Double) -> Color {
-        let clampedAmount = min(max(0, amount), 1)
+        let clampedAmount = min(max(0.0, amount), 1)
 
         #if !SKIP
         guard let c1 = UIColor(self).cgColor.components,
@@ -100,3 +103,6 @@ extension Color {
         #endif
     }
 }
+
+
+#endif

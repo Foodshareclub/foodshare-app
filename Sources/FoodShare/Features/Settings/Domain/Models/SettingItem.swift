@@ -5,6 +5,8 @@
 //  Searchable settings item model for settings search functionality
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Represents a single searchable setting item
@@ -402,3 +404,5 @@ extension SettingItem {
             .sorted { $0.relevanceScore(for: query) > $1.relevanceScore(for: query) }
     }
 }
+
+#endif

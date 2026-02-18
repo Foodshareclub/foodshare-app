@@ -5,6 +5,8 @@
 //  Search query domain model
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -93,3 +95,5 @@ extension SearchSuggestion {
         SearchSuggestion(text: text, type: type)
     }
 }
+
+#endif

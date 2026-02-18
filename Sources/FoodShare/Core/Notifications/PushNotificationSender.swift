@@ -5,6 +5,8 @@
 //  Service for sending push notifications via NotificationAPIService
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -144,3 +146,5 @@ final class PushNotificationSender {
 extension PushNotificationSender {
     static let shared = PushNotificationSender(supabase: SupabaseManager.shared.client)
 }
+
+#endif

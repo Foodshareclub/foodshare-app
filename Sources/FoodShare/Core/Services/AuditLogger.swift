@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AuditLogger.swift
 //  Foodshare
@@ -14,6 +13,8 @@
 //  - Rich context capture (user, device, location)
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -637,4 +638,5 @@ extension AuditLogger {
         }
     }
 #endif
+
 #endif

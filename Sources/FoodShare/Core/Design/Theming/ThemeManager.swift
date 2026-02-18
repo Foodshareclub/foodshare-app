@@ -9,6 +9,8 @@
 //  Visual theme (color palette) remains local-only as it's a device preference
 //
 
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -220,3 +222,5 @@ final class ThemeManager {
 // For previews, use the `.previewWithTheme(_:scheme:)` view modifier
 // from ThemeEnvironment.swift which injects theme via environment values
 // without mutating the singleton state.
+
+#endif

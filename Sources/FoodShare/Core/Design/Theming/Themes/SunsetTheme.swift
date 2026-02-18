@@ -6,6 +6,8 @@
 //  Warm sunset glow with vibrant colors
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Sunset theme with orange and pink colors
@@ -92,3 +94,5 @@ struct SunsetTheme: Theme {
         )
     }
 }
+
+#endif

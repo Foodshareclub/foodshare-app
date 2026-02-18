@@ -6,6 +6,7 @@
 //  Provides consistent, contextual haptic feedback across the app
 //
 
+
 #if !SKIP
 import UIKit
 
@@ -336,4 +337,5 @@ enum HapticManager {
     static func feedback(_ style: FeedbackStyle) {}
     static func setEnabled(_ enabled: Bool) {}
 }
+
 #endif

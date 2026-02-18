@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CacheServiceClient.swift
 //  Foodshare
@@ -13,6 +12,8 @@
 //  - User-scoped keys prevent cross-user cache access
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -458,4 +459,5 @@ actor CacheServiceClient: CacheServiceClientProtocol {
         }
     }
 #endif
+
 #endif

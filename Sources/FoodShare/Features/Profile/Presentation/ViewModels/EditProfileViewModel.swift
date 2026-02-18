@@ -9,6 +9,9 @@
 //  - Save with success feedback
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -207,7 +210,7 @@ final class EditProfileViewModel {
         }
 
         // Resize to 512x512 for avatars
-        let resizedImage = resizeImage(originalImage, targetSize: CGSize(width: 512, height: 512))
+        let resizedImage = resizeImage(originalImage, targetSize: CGSize(width: 512.0, height: 512.0))
 
         // Compress to JPEG with 0.8 quality
         guard let compressedData = resizedImage.jpegData(compressionQuality: 0.8) else {
@@ -388,3 +391,6 @@ final class EditProfileViewModel {
         address = newAddress
     }
 }
+
+
+#endif

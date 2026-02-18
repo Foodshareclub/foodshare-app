@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  EmailPreferencesService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Actor-based, thread-safe implementation
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -254,4 +255,5 @@ enum EmailPreferencesError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

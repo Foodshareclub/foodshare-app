@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ChatMetalEffects.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  GPU-accelerated messaging effects optimized for ProMotion 120Hz
 //
 
+
+#if !SKIP
 import MetalKit
 import SwiftUI
 
@@ -280,7 +281,7 @@ struct MetalTypingIndicator: View {
                 ForEach(0 ..< 3, id: \.self) { _ in
                     Circle()
                         .fill(Color.DesignSystem.textSecondary)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 8.0, height: 8)
                 }
             }
             .padding(.horizontal, Spacing.md)
@@ -292,7 +293,7 @@ struct MetalTypingIndicator: View {
                 primaryColor: .DesignSystem.brandGreen,
                 secondaryColor: .DesignSystem.brandBlue,
             )
-            .frame(width: 60, height: 30)
+            .frame(width: 60.0, height: 30)
         }
     }
 }
@@ -387,7 +388,7 @@ struct MetalUnreadBadge: View {
                     intensity: 0.6,
                     primaryColor: .DesignSystem.brandGreen,
                 )
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
             }
 
             Text(count > 99 ? "99+" : "\(count)")
@@ -422,7 +423,7 @@ struct MetalVoiceWaveform: View {
                                 ? Color.DesignSystem.brandGreen
                                 : Color.DesignSystem.textTertiary,
                         )
-                        .frame(width: 3, height: CGFloat.random(in: 8 ... 24))
+                        .frame(width: 3.0, height: CGFloat.random(in: 8 ... 24))
                 }
             }
         } else {
@@ -471,7 +472,7 @@ struct MetalReadReceipt: View {
                 secondaryColor: .DesignSystem.textTertiary,
                 isRead: status == .read,
             )
-            .frame(width: 24, height: 16)
+            .frame(width: 24.0, height: 16)
         }
     }
 
@@ -500,7 +501,7 @@ struct MetalReactionBurst: View {
                 secondaryColor: .DesignSystem.accentYellow,
                 progress: progress,
             )
-            .frame(width: 60, height: 60)
+            .frame(width: 60.0, height: 60)
             .opacity(isAnimating ? 1 : 0)
 
             Text(emoji)
@@ -629,7 +630,7 @@ struct GlassConversationRow: View {
                     } placeholder: {
                         avatarPlaceholder
                     }
-                    .frame(width: 54, height: 54)
+                    .frame(width: 54.0, height: 54)
                     .clipShape(Circle())
                 } else {
                     avatarPlaceholder
@@ -666,7 +667,7 @@ struct GlassConversationRow: View {
                     if isTyping {
                         HStack(spacing: Spacing.xxs) {
                             MetalTypingIndicator()
-                                .frame(width: 40, height: 20)
+                                .frame(width: 40.0, height: 20)
 
                             Text("typing...")
                                 .font(.LiquidGlass.bodySmall)
@@ -723,7 +724,7 @@ struct GlassConversationRow: View {
                     endPoint: .bottomTrailing,
                 ),
             )
-            .frame(width: 54, height: 54)
+            .frame(width: 54.0, height: 54)
             .overlay(
                 Image(systemName: "person.fill")
                     .font(.system(size: 22, weight: .medium))
@@ -777,7 +778,7 @@ struct GlassConversationRow: View {
                 .font(.DesignSystem.headlineSmall)
 
             MetalTypingIndicator()
-                .frame(height: 40)
+                .frame(height: 40.0)
                 .background(Color.DesignSystem.glassBackground)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
@@ -873,4 +874,5 @@ struct GlassConversationRow: View {
     .background(Color.DesignSystem.background)
     .preferredColorScheme(.dark)
 }
+
 #endif

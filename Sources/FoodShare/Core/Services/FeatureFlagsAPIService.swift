@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  FeatureFlagsAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor FeatureFlagsAPIService {
@@ -31,4 +32,5 @@ actor FeatureFlagsAPIService {
 struct FeatureFlagResponse: Codable {
     let enabled: Bool
 }
+
 #endif

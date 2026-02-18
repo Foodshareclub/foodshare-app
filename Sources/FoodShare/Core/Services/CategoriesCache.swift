@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CategoriesCache.swift
 //  Foodshare
@@ -8,6 +7,8 @@
 //  category caching to eliminate duplicate API calls.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -165,4 +166,5 @@ extension CategoriesCache {
         return Dictionary(uniqueKeysWithValues: allCategories.map { ($0.id, $0.name) })
     }
 }
+
 #endif

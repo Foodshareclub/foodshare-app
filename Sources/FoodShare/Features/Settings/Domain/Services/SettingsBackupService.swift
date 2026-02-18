@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SettingsBackupService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Service for backing up and restoring app settings
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 #if !SKIP
@@ -92,7 +93,7 @@ actor SettingsBackupService {
     // MARK: - Properties
 
     private let logger = Logger(subsystem: "com.flutterflow.foodshare", category: "SettingsBackup")
-    private let currentVersion = "1.0.0"
+    private let currentVersion = "1.0"
 
     // MARK: - Initialization
 
@@ -308,4 +309,5 @@ actor SettingsBackupService {
         logger.info("Deleted backup: \(url.lastPathComponent)")
     }
 }
+
 #endif

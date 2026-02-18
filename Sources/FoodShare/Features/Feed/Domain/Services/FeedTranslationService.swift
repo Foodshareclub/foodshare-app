@@ -6,6 +6,9 @@
 //  Provides batched translation fetching with timeout and error handling.
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -182,3 +185,6 @@ extension FoodItem {
     }
 
 }
+
+
+#endif

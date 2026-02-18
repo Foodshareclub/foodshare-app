@@ -6,6 +6,8 @@
 //  Provides environment keys and view modifiers for theme injection
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Environment Keys
@@ -17,12 +19,12 @@ private struct ThemeKey: EnvironmentKey {
 
 /// Environment key for the current theme palette
 private struct ThemePaletteKey: EnvironmentKey {
-    static let defaultValue: ThemePalette = NatureTheme().palette(for: .dark)
+    static let defaultValue: ThemePalette = NatureTheme().palette(for: ColorScheme.dark)
 }
 
 /// Environment key for the effective color scheme
 private struct EffectiveColorSchemeKey: EnvironmentKey {
-    static let defaultValue: ColorScheme = .dark
+    static let defaultValue: ColorScheme = ColorScheme.dark
 }
 
 // MARK: - Environment Values Extension
@@ -157,7 +159,7 @@ extension View {
 #Preview("Theme Environment - Nature Dark") {
     VStack(spacing: 20) {
         ThemedGradient()
-            .frame(height: 100)
+            .frame(height: 100.0)
             .clipShape(RoundedRectangle(cornerRadius: 16))
 
         ThemedGlow(size: 150, blur: 30)
@@ -170,7 +172,7 @@ extension View {
 #Preview("Theme Environment - Nature Light") {
     VStack(spacing: 20) {
         ThemedGradient()
-            .frame(height: 100)
+            .frame(height: 100.0)
             .clipShape(RoundedRectangle(cornerRadius: 16))
 
         ThemedGlow(size: 150, blur: 30)
@@ -179,3 +181,5 @@ extension View {
     .background(Color.white)
     .previewWithTheme(NatureTheme(), scheme: .light)
 }
+
+#endif

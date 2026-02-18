@@ -6,6 +6,8 @@
 //  Enhanced with Instagram-style like button animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct FoodListingCard: View {
@@ -30,7 +32,11 @@ struct FoodListingCard: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.xl)
                         .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -101,8 +107,12 @@ struct FoodListingCard: View {
                     )
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
-                            .frame(width: 36, height: 36),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
+                            .frame(width: 36.0, height: 36),
                     )
 
                     // Bookmark button
@@ -113,8 +123,12 @@ struct FoodListingCard: View {
                     )
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
-                            .frame(width: 36, height: 36),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
+                            .frame(width: 36.0, height: 36),
                     )
                 }
                 .padding(Spacing.sm)
@@ -134,7 +148,7 @@ struct FoodListingCard: View {
                 }
             }
         }
-        .frame(height: 200)
+        .frame(height: 200.0)
         .clipped()
         .clipShape(
             .rect(
@@ -306,7 +320,7 @@ private struct ImageShimmerPlaceholder: View {
                     startPoint: .leading,
                     endPoint: .trailing,
                 )
-                .frame(width: 150)
+                .frame(width: 150.0)
                 .offset(x: shimmerPhase)
                 .onAppear {
                     withAnimation(
@@ -336,4 +350,6 @@ private struct ImageShimmerPlaceholder: View {
         .padding()
         .background(Color(.systemBackground))
     }
+#endif
+
 #endif

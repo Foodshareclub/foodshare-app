@@ -1,3 +1,4 @@
+
 #if !SKIP
 #if !SKIP
 import QuartzCore
@@ -351,7 +352,7 @@ public struct FlingGesture: Gesture {
 
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.DesignSystem.brandGreen)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
                     .momentumDrag(friction: 0.95)
             }
         }
@@ -359,4 +360,5 @@ public struct FlingGesture: Gesture {
 
     return MomentumDemo()
 }
+
 #endif

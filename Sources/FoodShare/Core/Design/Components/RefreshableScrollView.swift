@@ -5,6 +5,8 @@
 //  Custom pull-to-refresh with Liquid Glass styling
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Refreshable Container
@@ -294,4 +296,6 @@ struct AsyncContentView<T, Content: View>: View {
             try? await Task.sleep(for: .seconds(1))
         }
     }
+#endif
+
 #endif

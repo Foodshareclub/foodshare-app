@@ -6,6 +6,8 @@
 //  CareEcho-inspired feature highlight with glass background and gradient icon
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Compact feature icon with glass background and gradient icon
@@ -121,7 +123,7 @@ struct FeatureRow: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: 28)
+                .frame(width: 28.0)
 
             Text(text)
                 .font(.system(size: 15, weight: .medium))
@@ -149,11 +151,11 @@ struct CheckboxRow: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(isChecked ? Color.DesignSystem.accentBlue.opacity(0.2) : Color.clear)
-                        .frame(width: 26, height: 26)
+                        .frame(width: 26.0, height: 26)
 
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(checkboxBorderGradient, lineWidth: 2)
-                        .frame(width: 26, height: 26)
+                        .frame(width: 26.0, height: 26)
 
                     if isChecked {
                         Image(systemName: "checkmark")
@@ -235,3 +237,5 @@ struct CheckboxRow: View {
         .padding()
     }
 }
+
+#endif

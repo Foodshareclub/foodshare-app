@@ -20,6 +20,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 
 #if !SKIP
@@ -367,4 +369,6 @@ public func tryOrDefault<T: Sendable>(
         body,
     ) ?? defaultValue()
 }
+#endif
+
 #endif

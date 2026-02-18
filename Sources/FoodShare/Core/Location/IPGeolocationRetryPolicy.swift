@@ -5,6 +5,9 @@
 //  Retry logic with exponential backoff for IP geolocation requests.
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Retry Policy
@@ -82,7 +85,7 @@ struct IPGeolocationRetryPolicy: Sendable {
         // Add jitter to prevent thundering herd
         let jitterRange = cappedDelay * jitterFactor
         let jitter = Double.random(in: -jitterRange ... jitterRange)
-        let finalDelay = max(0, cappedDelay + jitter)
+        let finalDelay = max(0.0, cappedDelay + jitter)
 
         // Convert to seconds
         return finalDelay / 1000.0
@@ -249,3 +252,6 @@ struct RetryStatistics: Sendable {
         return success
     }
 }
+
+
+#endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MetalEffect.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Provides type-safe, composable GPU shader effects
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - MetalEffect Enum
@@ -277,4 +278,5 @@ extension MetalEffect {
         ])
     }
 }
+
 #endif

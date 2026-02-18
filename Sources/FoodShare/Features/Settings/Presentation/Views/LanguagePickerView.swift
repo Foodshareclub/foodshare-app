@@ -6,6 +6,8 @@
 //  Features: Search, accessibility, haptic feedback, confirmation
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct LanguagePickerView: View {
@@ -149,7 +151,7 @@ struct LanguagePickerView: View {
                 HStack(spacing: Spacing.md) {
                     Text("🌐")
                         .font(.system(size: 28))
-                        .frame(width: 36)
+                        .frame(width: 36.0)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(translationService.t("settings.language.system_default"))
@@ -228,7 +230,7 @@ struct LanguagePickerView: View {
             HStack(spacing: Spacing.md) {
                 Text(locale.flag)
                     .font(.system(size: 28))
-                    .frame(width: 36)
+                    .frame(width: 36.0)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(locale.nativeName.capitalized)
@@ -305,7 +307,8 @@ struct LanguagePickerView: View {
                 }
             }
             .padding(Spacing.xl)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: CornerRadius.large))
+            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+            .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         }
         #if !SKIP
         .accessibilityElement(children: .combine)
@@ -418,3 +421,5 @@ struct LanguagePickerView: View {
     LanguagePickerView()
         .preferredColorScheme(.dark)
 }
+
+#endif

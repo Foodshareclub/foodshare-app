@@ -6,6 +6,8 @@
 //  Triggers system share sheet via ShareService
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Share Button
@@ -82,7 +84,7 @@ struct ShareButton: View {
         Image(systemName: "square.and.arrow.up")
             .font(.system(size: style.iconSize, weight: .medium))
             .foregroundColor(.DesignSystem.textSecondary)
-            .frame(width: 44, height: 44)
+            .frame(width: 44.0, height: 44)
             .background(
                 Circle()
                     .fill(Color.white.opacity(0.06))
@@ -330,4 +332,6 @@ private let previewItem = FoodItem.fixture()
     .padding()
     .background(Color.black)
 }
+#endif
+
 #endif

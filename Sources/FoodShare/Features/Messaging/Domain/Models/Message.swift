@@ -6,6 +6,8 @@
 //  Updated to match actual database schema (December 2025)
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Represents a chat message in a room
@@ -182,5 +184,7 @@ enum ConversationStatus: String, Codable, Sendable {
             .fixture(lastMessage: "See you tomorrow")
         ]
     }
+
+#endif
 
 #endif

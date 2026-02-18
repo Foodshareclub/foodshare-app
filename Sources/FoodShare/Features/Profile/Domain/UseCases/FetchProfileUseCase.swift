@@ -5,6 +5,8 @@
 //  Use case for fetching user profile
 //
 
+
+#if !SKIP
 import Foundation
 
 @MainActor
@@ -19,3 +21,5 @@ final class FetchProfileUseCase {
         try await repository.fetchProfile(userId: userId)
     }
 }
+
+#endif

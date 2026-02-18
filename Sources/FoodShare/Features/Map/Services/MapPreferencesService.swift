@@ -1,3 +1,4 @@
+
 #if !SKIP
 import CoreHaptics
 import CoreMotion
@@ -472,4 +473,5 @@ struct MapPreferencesResponse: Codable {
     let success: Bool
     let preferences: MapPreferences?
 }
+
 #endif

@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized horizontal paging with parallax effects
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Carousel
@@ -217,7 +219,11 @@ struct GlassCarousel<Item: Identifiable, Content: View>: View {
         .padding(.horizontal, Spacing.md)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -270,7 +276,11 @@ struct GlassCarouselCard<Content: View>: View {
                 )
             } else {
                 Color.DesignSystem.glassBackground
-                    .background(.ultraThinMaterial)
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             }
 
             // Content
@@ -380,7 +390,7 @@ struct GlassFeaturedCard: View {
                                 gradient: item.gradient
                             )
                         }
-                        .frame(height: 200)
+                        .frame(height: 200.0)
                     }
 
                     // Auto-advancing carousel
@@ -401,7 +411,7 @@ struct GlassFeaturedCard: View {
                                 gradient: item.gradient
                             )
                         }
-                        .frame(height: 180)
+                        .frame(height: 180.0)
                     }
 
                     // No indicators
@@ -422,7 +432,7 @@ struct GlassFeaturedCard: View {
                                 gradient: item.gradient
                             )
                         }
-                        .frame(height: 150)
+                        .frame(height: 150.0)
                     }
                 }
                 .padding(.vertical, Spacing.lg)
@@ -433,3 +443,5 @@ struct GlassFeaturedCard: View {
 
     return PreviewWrapper()
 }
+
+#endif

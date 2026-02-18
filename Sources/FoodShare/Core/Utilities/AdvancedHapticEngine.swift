@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AdvancedHapticEngine.swift
 //  FoodShare
@@ -14,6 +13,8 @@
 //  - Battery-conscious design
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreHaptics
 #endif
@@ -587,4 +588,5 @@ extension View {
         modifier(AdvancedHapticModifier(pattern: pattern))
     }
 }
+
 #endif

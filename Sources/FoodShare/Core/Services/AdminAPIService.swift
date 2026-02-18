@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AdminAPIService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Routes use path-based routing: api-v1-admin/users, api-v1-admin/listings, etc.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -104,4 +105,5 @@ private struct UpdateRoleBody: Encodable {
 private struct BulkIdsBody: Encodable {
     let ids: [Int]
 }
+
 #endif

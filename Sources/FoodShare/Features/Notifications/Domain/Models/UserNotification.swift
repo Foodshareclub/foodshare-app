@@ -5,6 +5,9 @@
 //  User notification model for in-app notification center
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Notification Type
@@ -252,3 +255,6 @@ extension UserNotification {
         ]
     }
 }
+
+
+#endif

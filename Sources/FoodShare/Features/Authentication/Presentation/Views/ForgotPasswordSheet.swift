@@ -5,6 +5,8 @@
 //  Forgot Password sheet with Liquid Glass v26 design
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct ForgotPasswordSheet: View {
@@ -218,3 +220,5 @@ struct ForgotPasswordSheet: View {
             supabaseKey: "example-key"
         )))
 }
+
+#endif

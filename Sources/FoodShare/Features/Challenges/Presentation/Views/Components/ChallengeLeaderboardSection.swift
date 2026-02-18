@@ -5,6 +5,8 @@
 //  Extracted challenge leaderboard section
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct ChallengeLeaderboardSection: View {
@@ -165,14 +167,14 @@ struct LeaderboardRow: View {
                 if entry.rank <= 3 {
                     Circle()
                         .fill(rankGradient)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 32.0, height: 32)
                         .shadow(color: rankColor.opacity(0.4), radius: 4, y: 2)
                 }
                 Text(entry.rank <= 3 ? "\(entry.rank)" : "#\(entry.rank)")
                     .font(entry.rank <= 3 ? .system(size: 14, weight: .bold) : .LiquidGlass.bodySmall)
                     .foregroundColor(entry.rank <= 3 ? .white : .DesignSystem.textSecondary)
             }
-            .frame(width: 40)
+            .frame(width: 40.0)
 
             // Avatar with ring
             if let avatarUrl = entry.avatarUrl,
@@ -183,7 +185,7 @@ struct LeaderboardRow: View {
                 } placeholder: {
                     Circle().fill(Color.DesignSystem.glassBackground)
                 }
-                .frame(width: 36, height: 36)
+                .frame(width: 36.0, height: 36)
                 .clipShape(Circle())
                 .overlay(
                     Circle()
@@ -203,7 +205,7 @@ struct LeaderboardRow: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
                     .overlay {
                         Text(entry.nickname.prefix(1).uppercased())
                             .font(.LiquidGlass.bodySmall)
@@ -275,4 +277,6 @@ struct LeaderboardRow: View {
         viewModel: ChallengesViewModel(repository: MockChallengeRepository())
     )
 }
+#endif
+
 #endif

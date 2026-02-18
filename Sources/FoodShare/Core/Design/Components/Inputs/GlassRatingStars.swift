@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized star rating with fluid fill animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Rating Stars
@@ -102,7 +104,7 @@ struct GlassRatingStars: View {
             case .increment:
                 rating = min(Double(maxStars), rating + (allowHalfStars ? 0.5 : 1))
             case .decrement:
-                rating = max(0, rating - (allowHalfStars ? 0.5 : 1))
+                rating = max(0.0, rating - (allowHalfStars ? 0.5 : 1))
             @unknown default:
                 break
             }
@@ -331,7 +333,11 @@ struct GlassRatingBadge: View {
         .padding(.vertical, size.padding)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -379,7 +385,11 @@ struct GlassRatingSummary: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -396,7 +406,7 @@ struct GlassRatingSummary: View {
             Text("\(stars)")
                 .font(.DesignSystem.captionSmall)
                 .foregroundStyle(Color.DesignSystem.textSecondary)
-                .frame(width: 12)
+                .frame(width: 12.0)
 
             Image(systemName: "star.fill")
                 .font(.system(size: 10))
@@ -420,12 +430,12 @@ struct GlassRatingSummary: View {
                         .frame(width: geometry.size.width * percentage)
                 }
             }
-            .frame(height: 8)
+            .frame(height: 8.0)
 
             Text("\(count)")
                 .font(.DesignSystem.captionSmall)
                 .foregroundStyle(Color.DesignSystem.textSecondary)
-                .frame(width: 30, alignment: .trailing)
+                .frame(width: 30.0, alignment: .trailing)
         }
     }
 }
@@ -539,3 +549,5 @@ struct GlassRatingSummary: View {
 
     return PreviewWrapper()
 }
+
+#endif

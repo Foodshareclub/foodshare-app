@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CertificatePinning.swift
 //  Foodshare
@@ -11,6 +10,8 @@
 //  - https://medium.com/@ahmed.elmemy21/implementing-certificate-pinning-in-ios-enhancing-app-security-fec46a0df676
 //
 
+
+#if !SKIP
 import CommonCrypto
 import Foundation
 import OSLog
@@ -90,7 +91,7 @@ final class CertificatePinningManager: NSObject, @unchecked Sendable {
     /// Domains that should always be allowed (e.g., for development)
     private let allowedDomains: Set<String> = [
         "localhost",
-        "127.0.0.1"
+        "127.0.1"
     ]
 
     /// Whether pinning is enabled (disable for debug builds if needed)
@@ -283,4 +284,5 @@ extension CertificatePinningManager: URLSessionTaskDelegate {
         urlSession(session, didReceive: challenge, completionHandler: completionHandler)
     }
 }
+
 #endif

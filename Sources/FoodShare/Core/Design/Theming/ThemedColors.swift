@@ -5,6 +5,8 @@
 //  Dynamic color provider bridging themes and design tokens
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Themed Colors Extension
@@ -102,3 +104,5 @@ struct ThemedColors {
         )
     }
 }
+
+#endif

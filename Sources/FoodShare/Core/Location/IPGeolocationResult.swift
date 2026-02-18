@@ -5,6 +5,8 @@
 //  Rich result type for IP geolocation with confidence scoring and metadata.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Location Confidence
@@ -400,3 +402,5 @@ extension IPGeolocationResult {
         countryCode: "US",
     )
 }
+
+#endif

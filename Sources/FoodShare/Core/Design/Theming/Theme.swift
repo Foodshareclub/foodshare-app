@@ -6,6 +6,8 @@
 //  Defines the contract for all themes with dark/light mode support
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Theme Palette
@@ -148,3 +150,5 @@ enum ThemeID: String, CaseIterable, Sendable {
     case midnight
     case monochrome
 }
+
+#endif

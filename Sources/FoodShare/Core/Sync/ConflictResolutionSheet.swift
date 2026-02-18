@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Sync Conflict
@@ -195,7 +197,7 @@ public struct ConflictResolutionSheet: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.warning.opacity(0.2))
-                    .frame(width: 60, height: 60)
+                    .frame(width: 60.0, height: 60)
 
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.system(size: 28))
@@ -241,7 +243,7 @@ public struct ConflictResolutionSheet: View {
                     .fontWeight(.bold)
                     .foregroundStyle(Color.DesignSystem.textSecondary)
             }
-            .frame(width: 30)
+            .frame(width: 30.0)
 
             // Server version
             versionCard(
@@ -570,3 +572,5 @@ public struct ConflictQueueSheet: View {
         onDismiss: {},
     )
 }
+
+#endif

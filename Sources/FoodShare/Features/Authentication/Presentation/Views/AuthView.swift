@@ -7,6 +7,8 @@
 //  Premium animated mesh background with guest mode as PRIMARY CTA
 //
 
+
+#if !SKIP
 #if !SKIP
 import AuthenticationServices
 #endif
@@ -102,7 +104,7 @@ struct AuthView: View {
             ForgotPasswordSheet()
                 .environment(authViewModel)
                 #if !SKIP
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                 .presentationCornerRadius(CornerRadius.xl)
                 #endif
         }
@@ -129,7 +131,7 @@ struct AuthView: View {
                             endRadius: 95 + 10 * sin(breathingPhase),
                         ),
                     )
-                    .frame(width: 150 + 10 * sin(breathingPhase), height: 150 + 10 * sin(breathingPhase))
+                    .frame(width: 150.0 + 10 * sin(breathingPhase), height: 150 + 10 * sin(breathingPhase))
                     .blur(radius: 25 + 5 * sin(breathingPhase))
 
                 // App logo with subtle scale animation (circular for auth screens)
@@ -175,7 +177,7 @@ struct AuthView: View {
         HStack(spacing: Spacing.xs) {
             Rectangle()
                 .fill(Color.DesignSystem.glassBorder)
-                .frame(height: 1)
+                .frame(height: 1.0)
 
             Text(t.t("auth.or_sign_in"))
                 .font(.DesignSystem.caption)
@@ -185,7 +187,7 @@ struct AuthView: View {
 
             Rectangle()
                 .fill(Color.DesignSystem.glassBorder)
-                .frame(height: 1)
+                .frame(height: 1.0)
         }
     }
 
@@ -337,7 +339,7 @@ struct AuthView: View {
                 }
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 56.0)
                 .background(
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -399,7 +401,7 @@ struct AuthView: View {
                         .foregroundColor(.black)
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 56.0)
                 .background(
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -558,7 +560,7 @@ private struct AuthGlassTextField: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 26)
+                .frame(width: 26.0)
                 .animation(.interpolatingSpring(stiffness: 300, damping: 24), value: isFocused)
 
             TextField(placeholder, text: $text)
@@ -638,7 +640,7 @@ private struct AuthGlassSecureField: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 26)
+                .frame(width: 26.0)
                 .animation(.interpolatingSpring(stiffness: 300, damping: 24), value: isFocused)
 
             if isPasswordVisible {
@@ -735,7 +737,7 @@ private struct AuthFeatureIcon: View {
                             endRadius: 30,
                         ),
                     )
-                    .frame(width: 60, height: 60)
+                    .frame(width: 60.0, height: 60)
                     .blur(radius: 8)
 
                 Image(systemName: icon)
@@ -747,10 +749,10 @@ private struct AuthFeatureIcon: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 48, height: 48)
+                    .frame(width: 48.0, height: 48)
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                             .overlay(
                                 Circle()
                                     .stroke(
@@ -795,3 +797,96 @@ private struct AuthFeatureIcon: View {
         )))
         .environment(GuestManager())
 }
+
+#else
+// MARK: - Android AuthView Stub (Skip)
+// Full implementation in Phase 1c (Task 16)
+
+import SwiftUI
+
+struct AuthView: View {
+    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(GuestManager.self) var guestManager
+
+    @State private var isSignUp = false
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24.0) {
+                Spacer()
+
+                Text("FoodShare")
+                    .font(.system(size: 32.0, weight: .bold))
+                    .foregroundStyle(Color.white)
+
+                Text("Share food, reduce waste")
+                    .font(.system(size: 16.0))
+                    .foregroundStyle(Color.white.opacity(0.7))
+
+                VStack(spacing: 16.0) {
+                    TextField("Email", text: Binding(get: { authViewModel.email }, set: { authViewModel.email = $0 }))
+                        .textFieldStyle(.roundedBorder)
+                        .autocorrectionDisabled(true)
+
+                    SecureField("Password", text: Binding(get: { authViewModel.password }, set: { authViewModel.password = $0 }))
+                        .textFieldStyle(.roundedBorder)
+
+                    if let errorMessage = authViewModel.errorMessage {
+                        Text(errorMessage)
+                            .font(.system(size: 14.0))
+                            .foregroundStyle(Color.red)
+                            .multilineTextAlignment(.center)
+                    }
+
+                    Button(action: {
+                        Task {
+                            if isSignUp {
+                                await authViewModel.signUpEmail()
+                            } else {
+                                await authViewModel.signInEmail()
+                            }
+                        }
+                    }) {
+                        if authViewModel.isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12.0)
+                        } else {
+                            Text(isSignUp ? "Sign Up" : "Sign In")
+                                .font(.system(size: 16.0, weight: .semibold))
+                                .foregroundStyle(Color.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12.0)
+                        }
+                    }
+                    .background(Color(red: 0.2, green: 0.7, blue: 0.4))
+                    .clipShape(RoundedRectangle(cornerRadius: 12.0))
+                    .disabled(authViewModel.isLoading)
+
+                    Button(action: { isSignUp = !isSignUp }) {
+                        Text(isSignUp ? "Already have an account? Sign In" : "Don't have an account? Sign Up")
+                            .font(.system(size: 14.0))
+                            .foregroundStyle(Color.white.opacity(0.7))
+                    }
+                }
+                .padding(.horizontal, 32.0)
+
+                Spacer()
+
+                Button(action: { guestManager.enableGuestMode() }) {
+                    Text("Continue as Guest")
+                        .font(.system(size: 16.0, weight: .medium))
+                        .foregroundStyle(Color.white.opacity(0.8))
+                        .padding(.vertical, 12.0)
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, 32.0)
+                .padding(.bottom, 32.0)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+        }
+    }
+}
+
+#endif

@@ -6,6 +6,8 @@
 //  Part of Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Poll Card
@@ -149,7 +151,7 @@ struct GlassPollCard: View {
             .font(.DesignSystem.labelMedium)
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
-            .frame(height: 44)
+            .frame(height: 44.0)
             .background(
                 RoundedRectangle(cornerRadius: Spacing.radiusMD)
                     .fill(Color.DesignSystem.primary),
@@ -199,11 +201,19 @@ struct GlassPollCard: View {
             Color(uiColor: .secondarySystemBackground)
         } else {
             Color.clear
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         }
         #else
         Color.clear
-            .background(.ultraThinMaterial)
+            #if !SKIP
+            .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
         #endif
     }
 
@@ -339,12 +349,12 @@ private struct PollOptionRow: View {
                         isSelected || isUserVote ? Color.DesignSystem.primary : Color.DesignSystem.textTertiary,
                         lineWidth: 2,
                     )
-                    .frame(width: 20, height: 20)
+                    .frame(width: 20.0, height: 20)
 
                 if isSelected || isUserVote {
                     Circle()
                         .fill(Color.DesignSystem.primary)
-                        .frame(width: 12, height: 12)
+                        .frame(width: 12.0, height: 12)
                         .transition(AnyTransition.scale.combined(with: AnyTransition.opacity))
                 }
             }
@@ -356,12 +366,12 @@ private struct PollOptionRow: View {
                         isSelected || isUserVote ? Color.DesignSystem.primary : Color.DesignSystem.textTertiary,
                         lineWidth: 2,
                     )
-                    .frame(width: 20, height: 20)
+                    .frame(width: 20.0, height: 20)
 
                 if isSelected || isUserVote {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.DesignSystem.primary)
-                        .frame(width: 20, height: 20)
+                        .frame(width: 20.0, height: 20)
                         .overlay(
                             Image(systemName: "checkmark")
                                 .font(.system(size: 12, weight: .bold))
@@ -519,4 +529,6 @@ private struct PollOptionRow: View {
     }
     .background(Color.DesignSystem.background)
 }
+#endif
+
 #endif

@@ -6,6 +6,8 @@
 //  Enhanced with Instagram-style like button animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Trending Item Card
@@ -47,7 +49,7 @@ struct TrendingItemCard: View {
                         }
                     }
                 }
-                .frame(width: 140, height: 100)
+                .frame(width: 140.0, height: 100)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
                 // Top overlay: Like button + Trending badge
@@ -66,8 +68,12 @@ struct TrendingItemCard: View {
                         .scaleEffect(0.7)
                         .background(
                             Circle()
-                                .fill(.ultraThinMaterial)
-                                .frame(width: 28, height: 28),
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
+                                .frame(width: 28.0, height: 28),
                         )
                     }
                     .padding(4)
@@ -113,11 +119,15 @@ struct TrendingItemCard: View {
             }
             .foregroundColor(.DesignSystem.textTertiary)
         }
-        .frame(width: 140)
+        .frame(width: 140.0)
         .padding(Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -162,7 +172,13 @@ struct FeedStatPill: View {
         .padding(.vertical, Spacing.xxs)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial),
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
     }
 }
+
+#endif

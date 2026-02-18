@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// A circular icon with gradient background for notification categories and channels.
@@ -266,7 +269,7 @@ extension NotificationChannel {
                             .foregroundColor(.DesignSystem.textSecondary)
                             .multilineTextAlignment(.center)
                             .lineLimit(2)
-                            .frame(height: 30)
+                            .frame(height: 30.0)
                     }
                 }
             }
@@ -348,3 +351,6 @@ extension NotificationChannel {
     .padding(Spacing.lg)
     .background(Color.DesignSystem.background)
 }
+
+
+#endif

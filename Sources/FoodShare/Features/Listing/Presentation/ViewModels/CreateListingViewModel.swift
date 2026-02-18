@@ -6,6 +6,9 @@
 //  Enhanced with draft saving, validation feedback, and image optimization
 //
 
+
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -610,3 +613,6 @@ enum DietaryTag: String, CaseIterable, Codable, Sendable {
         }
     }
 }
+
+
+#endif

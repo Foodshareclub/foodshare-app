@@ -6,6 +6,8 @@
 //  Premium component for date/time selection with smooth animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Date Picker
@@ -84,7 +86,11 @@ struct GlassDatePicker: View {
                 .background(
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
 
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .fill(
@@ -184,7 +190,11 @@ struct GlassDatePicker: View {
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -222,7 +232,11 @@ struct GlassDatePickerCompact: View {
         .padding(.vertical, Spacing.xs)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.small)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.small)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -302,3 +316,5 @@ struct GlassTimePicker: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

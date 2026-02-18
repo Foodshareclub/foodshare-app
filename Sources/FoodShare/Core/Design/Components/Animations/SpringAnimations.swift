@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Spring Animation Presets
 //
 
+
+#if !SKIP
 import SwiftUI
 
 enum SpringAnimation {
@@ -84,3 +86,5 @@ struct ScaleAndBlurModifier: ViewModifier {
             .blur(radius: blur)
     }
 }
+
+#endif

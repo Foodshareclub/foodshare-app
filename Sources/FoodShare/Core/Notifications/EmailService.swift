@@ -5,6 +5,9 @@
 //  Email notification service using Resend API
 //
 
+
+
+#if !SKIP
 import Foundation
 import Supabase
 
@@ -113,3 +116,6 @@ actor EmailService {
         return emailResponse.id ?? "unknown"
     }
 }
+
+
+#endif

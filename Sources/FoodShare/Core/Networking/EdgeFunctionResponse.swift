@@ -6,6 +6,9 @@
 //  All edge functions return { success, data, meta, pagination?, error? }
 //
 
+
+
+#if !SKIP
 import Foundation
 
 /// Standard envelope for all Edge Function responses
@@ -42,3 +45,6 @@ struct EdgePagination: Decodable, Sendable {
     let nextOffset: Int?
     let nextCursor: String?
 }
+
+
+#endif

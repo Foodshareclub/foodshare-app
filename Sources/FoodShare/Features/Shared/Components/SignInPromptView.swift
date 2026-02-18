@@ -5,6 +5,8 @@
 //  Reusable Liquid Glass sign-in prompt for unauthenticated users
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct SignInPromptView: View {
@@ -76,12 +78,16 @@ struct SignInPromptView: View {
                         endRadius: 80,
                     ),
                 )
-                .frame(width: 160, height: 160)
+                .frame(width: 160.0, height: 160)
 
             // Glass circle background
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 100, height: 100)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 100.0, height: 100)
                 .overlay(
                     Circle()
                         .stroke(
@@ -195,3 +201,5 @@ extension SignInPromptView {
     SignInPromptView.messaging()
         .environment(AppState())
 }
+
+#endif

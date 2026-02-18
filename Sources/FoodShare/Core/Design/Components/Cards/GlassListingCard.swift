@@ -6,6 +6,8 @@
 //  Premium glassmorphism effects with advanced animations
 //
 
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -235,8 +237,12 @@ struct GlassListingCard: View {
                             )
                             .background(
                                 Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 36, height: 36),
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
+                                    .frame(width: 36.0, height: 36),
                             )
 
                             BookmarkButton(
@@ -358,7 +364,7 @@ struct GlassListingCard: View {
                 // User avatar placeholder
                 Circle()
                     .fill(categoryColor.opacity(0.2))
-                    .frame(width: 28, height: 28)
+                    .frame(width: 28.0, height: 28)
                     .overlay(
                         Image(systemName: "person.fill")
                             .font(.system(size: 12))
@@ -402,7 +408,11 @@ struct GlassListingCard: View {
 
     private var modernBackground: some View {
         RoundedRectangle(cornerRadius: cardCornerRadius)
-            .fill(.ultraThinMaterial)
+            #if !SKIP
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
             .overlay(
                 RoundedRectangle(cornerRadius: cardCornerRadius)
                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -471,7 +481,11 @@ struct GlassListingCard: View {
         ZStack {
             // Base ultra-thin material
             RoundedRectangle(cornerRadius: CornerRadius.xl)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Subtle category-tinted gradient at bottom
             RoundedRectangle(cornerRadius: CornerRadius.xl)
@@ -638,7 +652,11 @@ struct GlassListingCard: View {
                 .fill(categoryColor.opacity(0.9))
                 .background(
                     Capsule()
-                        .fill(.ultraThinMaterial),
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                 ),
         )
     }
@@ -672,7 +690,11 @@ struct GlassListingCard: View {
                 .fill(.black.opacity(0.5))
                 .background(
                     Capsule()
-                        .fill(.ultraThinMaterial),
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                 ),
         )
     }
@@ -872,7 +894,7 @@ struct CompactListingRow: View {
         HStack(spacing: Spacing.md) {
             // Thumbnail with AsyncImage for proper error handling
             thumbnailView
-                .frame(width: 80, height: 80)
+                .frame(width: 80.0, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -950,7 +972,11 @@ struct CompactListingRow: View {
         .padding(Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -1123,4 +1149,6 @@ private struct CardParallaxModifier: ViewModifier {
         }
         .background(Color.DesignSystem.background)
     }
+#endif
+
 #endif

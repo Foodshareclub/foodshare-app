@@ -1,3 +1,4 @@
+
 #if !SKIP
 import LocalAuthentication
 import SwiftUI
@@ -123,7 +124,7 @@ public struct GlassBiometricPrompt: View {
             ForEach(0 ..< 3, id: \.self) { index in
                 Circle()
                     .stroke(iconColor.opacity(0.15 - Double(index) * 0.04), lineWidth: 2)
-                    .frame(width: 120 + CGFloat(index) * 20, height: 120 + CGFloat(index) * 20)
+                    .frame(width: 120.0 + CGFloat(index) * 20, height: 120 + CGFloat(index) * 20)
                     .scaleEffect(pulseScale)
                     .opacity(authState == .authenticating ? 1 : 0)
             }
@@ -131,7 +132,7 @@ public struct GlassBiometricPrompt: View {
             // Glow background
             Circle()
                 .fill(iconColor.opacity(glowOpacity * 0.3))
-                .frame(width: 100, height: 100)
+                .frame(width: 100.0, height: 100)
                 .blur(radius: 20)
 
             // Icon background
@@ -146,7 +147,7 @@ public struct GlassBiometricPrompt: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 80, height: 80)
+                .frame(width: 80.0, height: 80)
 
             // Icon
             Image(systemName: currentIconName)
@@ -177,7 +178,11 @@ public struct GlassBiometricPrompt: View {
     private var glassBackground: some View {
         ZStack {
             RoundedRectangle(cornerRadius: CornerRadius.xl)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             RoundedRectangle(cornerRadius: CornerRadius.xl)
                 .fill(
@@ -395,4 +400,5 @@ extension View {
         )
     }
 }
+
 #endif

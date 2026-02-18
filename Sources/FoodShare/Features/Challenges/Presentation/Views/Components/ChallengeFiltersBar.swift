@@ -5,6 +5,8 @@
 //  Extracted challenge filter chips component
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct ChallengeFiltersBar: View {
@@ -99,7 +101,11 @@ struct FilterChipView: View {
                             .shadow(color: .DesignSystem.brandGreen.opacity(0.4), radius: 8, y: 2)
                     } else {
                         Capsule()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 Capsule()
                                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -111,3 +117,5 @@ struct FilterChipView: View {
         .buttonStyle(.plain)
     }
 }
+
+#endif

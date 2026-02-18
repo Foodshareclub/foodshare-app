@@ -5,6 +5,8 @@
 //  Glass-styled search bar for settings search functionality
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Glass-styled search bar for filtering settings
@@ -49,7 +51,11 @@ struct SettingsSearchBar: View {
         .padding(.vertical, Spacing.sm + 2)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(
@@ -189,3 +195,5 @@ struct SettingsSearchEmptyState: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

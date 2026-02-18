@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized chip selection with fluid animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Chip Input
@@ -193,7 +195,11 @@ struct GlassChipInput<ID: Hashable>: View {
             color.opacity(0.2)
         } else {
             Color.clear
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         }
     }
 
@@ -557,3 +563,5 @@ struct GlassSelectedChips<ID: Hashable>: View {
 
     return PreviewWrapper()
 }
+
+#endif

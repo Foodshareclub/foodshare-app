@@ -6,6 +6,9 @@
 //  Features: Delta sync, background refresh, offline support, typed keys, RTL, pluralization.
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -747,14 +750,14 @@ extension EnhancedTranslationService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("ios", forHTTPHeaderField: "x-platform")
         request.setValue(
-            Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0",
+            Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
             forHTTPHeaderField: "x-app-version",
         )
 
         let body: [String: Any] = [
             "missing_keys": keysToReport,
             "locale": currentLocale,
-            "app_version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0",
+            "app_version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
             "platform": "ios",
         ]
 
@@ -1949,7 +1952,7 @@ extension EnhancedTranslationService {
 
 extension Bundle {
     fileprivate var appVersion: String {
-        infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
 }
 
@@ -2013,3 +2016,6 @@ extension EnvironmentValues {
         set { self[TranslationServiceEnvironmentKey.self] = newValue }
     }
 }
+
+
+#endif

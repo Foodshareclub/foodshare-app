@@ -6,6 +6,8 @@
 //  Night sky elegance with deep, luxurious colors
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Midnight theme with indigo and purple colors
@@ -92,3 +94,5 @@ struct MidnightTheme: Theme {
         )
     }
 }
+
+#endif

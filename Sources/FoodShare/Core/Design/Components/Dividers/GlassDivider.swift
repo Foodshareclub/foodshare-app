@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Divider Component
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassDivider: View {
@@ -26,12 +28,12 @@ struct GlassDivider: View {
         case .horizontal:
             Rectangle()
                 .fill(Color.DesignSystem.glassBorder)
-                .frame(height: 1)
+                .frame(height: 1.0)
 
         case .vertical:
             Rectangle()
                 .fill(Color.DesignSystem.glassBorder)
-                .frame(width: 1)
+                .frame(width: 1.0)
 
         case .gradient:
             Rectangle()
@@ -46,14 +48,14 @@ struct GlassDivider: View {
                         endPoint: .trailing,
                     ),
                 )
-                .frame(height: 1)
+                .frame(height: 1.0)
 
         case .dotted:
             HStack(spacing: Spacing.xs) {
                 ForEach(0 ..< 20, id: \.self) { _ in
                     Circle()
                         .fill(Color.DesignSystem.glassBorder)
-                        .frame(width: 2, height: 2)
+                        .frame(width: 2.0, height: 2)
                 }
             }
         }
@@ -80,10 +82,12 @@ struct GlassDivider: View {
         HStack(spacing: Spacing.md) {
             Text("Vertical")
             GlassDivider(style: .vertical)
-                .frame(height: 50)
+                .frame(height: 50.0)
             Text("Divider")
         }
     }
     .padding()
     .background(LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
 }
+
+#endif

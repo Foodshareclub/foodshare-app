@@ -6,6 +6,8 @@
 //  Foodshare brand Pink gradient with premium glass effects
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct FloatingActionButton: View {
@@ -226,3 +228,5 @@ struct FloatingActionButton: View {
         }
     }
 }
+
+#endif

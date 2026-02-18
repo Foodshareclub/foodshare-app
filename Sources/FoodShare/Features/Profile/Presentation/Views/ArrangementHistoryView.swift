@@ -9,6 +9,8 @@
 //  - Efficient data filtering with extensions
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Localized Display Names Extension
@@ -375,7 +377,11 @@ private struct HistorySearchBar: View {
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(
                     Color.DesignSystem.glassBorder,
                     lineWidth: 1,
@@ -462,7 +468,11 @@ private struct HistoryFilterSelector: View {
         .padding(Spacing.xs)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(RoundedRectangle(cornerRadius: CornerRadius.large).stroke(
                     Color.DesignSystem.glassBorder,
                     lineWidth: 1,
@@ -763,7 +773,7 @@ private struct ArrangementHistoryCard: View {
             // Type indicator
             Circle()
                 .fill(record.isSharer ? Color.DesignSystem.brandGreen : Color.DesignSystem.primary)
-                .frame(width: 40, height: 40)
+                .frame(width: 40.0, height: 40)
                 .overlay(
                     Image(systemName: record.isSharer ? "arrow.up" : "arrow.down")
                         .foregroundStyle(.white),
@@ -796,3 +806,5 @@ private struct ArrangementHistoryCard: View {
         #endif
     }
 }
+
+#endif

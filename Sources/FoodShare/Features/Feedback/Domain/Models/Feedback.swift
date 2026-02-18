@@ -6,6 +6,8 @@
 //  Matches database schema: public.feedback table
 //
 
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -96,3 +98,5 @@ struct CreateFeedbackInput: Codable, Sendable {
         case feedbackType = "feedback_type"
     }
 }
+
+#endif

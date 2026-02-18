@@ -6,6 +6,8 @@
 //  Optimized for 120Hz ProMotion displays with GPU rasterization
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassLoadingView: View {
@@ -27,7 +29,7 @@ struct GlassLoadingView: View {
             VStack(spacing: Spacing.md) {
                 // 120Hz ProMotion optimized spinner using TimelineView
                 ProMotionSpinner()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 60.0, height: 60)
 
                 Text(message)
                     .font(.DesignSystem.bodyLarge)
@@ -39,7 +41,11 @@ struct GlassLoadingView: View {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: Spacing.radiusXL)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     RoundedRectangle(cornerRadius: Spacing.radiusXL)
                         .strokeBorder(
@@ -157,7 +163,7 @@ struct ProMotionSpinner: View {
                     arcPath,
                     with: .linearGradient(
                         gradient,
-                        startPoint: CGPoint(x: 0, y: 0),
+                        startPoint: CGPoint(x: 0.0, y: 0.0),
                         endPoint: CGPoint(x: size.width, y: size.height)
                     ),
                     style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
@@ -238,3 +244,5 @@ struct ProMotionPulseRing: View {
         GlassLoadingView(message: "Sharing food...")
     }
 }
+
+#endif

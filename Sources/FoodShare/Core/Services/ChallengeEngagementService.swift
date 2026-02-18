@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ChallengeEngagementService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Uses single RPC calls for optimal performance (Phase 3: Ultra-Thin Client)
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -167,4 +168,5 @@ enum ChallengeEngagementError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

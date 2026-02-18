@@ -6,6 +6,9 @@
 //  Maps to `posts`, `categories`, and `community_fridges` tables
 //
 
+
+
+#if !SKIP
 import Foundation
 
 /// Repository for fetching and managing food listings feed
@@ -129,3 +132,6 @@ struct FeedInitialData: Sendable {
     let trendingItems: [FoodItem]
     let stats: FeedStats
 }
+
+
+#endif

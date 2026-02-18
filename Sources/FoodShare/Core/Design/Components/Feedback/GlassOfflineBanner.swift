@@ -6,6 +6,8 @@
 //  Features: Animated pulse, breathing effects, glass styling
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Enhanced Glass Offline Banner
@@ -89,14 +91,18 @@ struct GlassOfflineBanner: View {
             // Outer pulse ring
             Circle()
                 .fill(Color.DesignSystem.warning.opacity(0.1))
-                .frame(width: 40, height: 40)
+                .frame(width: 40.0, height: 40)
                 .scaleEffect(isPulsing ? 1.3 : 1.0)
                 .opacity(isPulsing ? 0 : 0.5)
 
             // Inner glass circle
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 36, height: 36)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 36.0, height: 36)
                 .overlay(
                     Circle()
                         .stroke(
@@ -147,7 +153,11 @@ struct GlassOfflineBanner: View {
             .padding(.vertical, Spacing.sm)
             .background(
                 Capsule()
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         Capsule()
                             .stroke(
@@ -174,7 +184,11 @@ struct GlassOfflineBanner: View {
         ZStack {
             // Base material
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Warning tinted gradient
             RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -260,7 +274,7 @@ struct OfflineIndicatorDot: View {
             if isOffline {
                 Circle()
                     .fill(Color.DesignSystem.warning.opacity(0.3))
-                    .frame(width: 16, height: 16)
+                    .frame(width: 16.0, height: 16)
                     .scaleEffect(isPulsing ? 1.5 : 1.0)
                     .opacity(isPulsing ? 0 : 0.6)
             }
@@ -276,7 +290,7 @@ struct OfflineIndicatorDot: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(width: 10, height: 10)
+                .frame(width: 10.0, height: 10)
                 .overlay(
                     Circle()
                         .stroke(
@@ -461,8 +475,12 @@ struct GlassCacheStatusBanner: View {
     private var statusIcon: some View {
         ZStack {
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 28, height: 28)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 28.0, height: 28)
                 .overlay(
                     Circle()
                         .stroke(status.color.opacity(0.3), lineWidth: 1),
@@ -494,10 +512,14 @@ struct GlassCacheStatusBanner: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(status.color)
                 .rotationEffect(.degrees(rotationAngle))
-                .frame(width: 28, height: 28)
+                .frame(width: 28.0, height: 28)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .stroke(status.color.opacity(0.2), lineWidth: 1),
@@ -512,7 +534,11 @@ struct GlassCacheStatusBanner: View {
     private var glassBackground: some View {
         ZStack {
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             RoundedRectangle(cornerRadius: CornerRadius.medium)
                 .fill(
@@ -616,8 +642,12 @@ struct GlassSyncingBanner: View {
             // Animated sync icon
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 28, height: 28)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 28.0, height: 28)
                     .overlay(
                         Circle()
                             .stroke(
@@ -654,7 +684,11 @@ struct GlassSyncingBanner: View {
         .padding(.vertical, Spacing.sm)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(
@@ -723,3 +757,5 @@ struct GlassSyncingBanner: View {
     .padding()
     .background(Color.black)
 }
+
+#endif

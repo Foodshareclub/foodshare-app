@@ -5,6 +5,8 @@
 //  Leaderboard view with Liquid Glass design
 //
 
+
+#if !SKIP
 import Supabase
 import SwiftUI
 
@@ -338,7 +340,7 @@ struct LeaderboardView: View {
                     RankChangeIndicator(change: change)
                 }
             }
-            .frame(width: 44)
+            .frame(width: 44.0)
 
             // Avatar
             AsyncImage(url: entry.avatarURL) { phase in
@@ -361,7 +363,7 @@ struct LeaderboardView: View {
                         )
                 }
             }
-            .frame(width: 44, height: 44)
+            .frame(width: 44.0, height: 44)
             .clipShape(Circle())
 
             // Name
@@ -784,3 +786,5 @@ struct ShareLeaderboardSheet: View {
         LeaderboardView(client: AuthenticationService.shared.supabase)
     }
 }
+
+#endif

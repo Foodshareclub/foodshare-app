@@ -5,6 +5,8 @@
 //  Protocol for notification data access
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Paginated Notifications Result
@@ -54,3 +56,5 @@ protocol NotificationRepository: Sendable {
         onNotification: @escaping @Sendable (UserNotification) -> Void,
     ) async
 }
+
+#endif

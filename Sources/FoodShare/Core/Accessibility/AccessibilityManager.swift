@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AccessibilityManager.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Tracks Dynamic Type, Reduce Motion, VoiceOver, and High Contrast preferences
 //
 
+
+#if !SKIP
 #if !SKIP
 import Combine
 #endif
@@ -420,4 +421,5 @@ extension AccessibilityManager {
         AccessibilityStateView()
     }
 }
+
 #endif

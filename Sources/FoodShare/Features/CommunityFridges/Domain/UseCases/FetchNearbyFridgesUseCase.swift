@@ -5,6 +5,8 @@
 //  Use case for fetching nearby community fridges
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case for fetching community fridges near a location
@@ -34,3 +36,5 @@ final class FetchNearbyFridgesUseCase {
         )
     }
 }
+
+#endif

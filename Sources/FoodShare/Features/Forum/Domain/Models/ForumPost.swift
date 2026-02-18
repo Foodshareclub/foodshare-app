@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Forum Post Model
@@ -405,4 +408,7 @@ struct ForumAuthor: Codable, Identifiable, Hashable, Sendable {
             )
         }
     }
+#endif
+
+
 #endif

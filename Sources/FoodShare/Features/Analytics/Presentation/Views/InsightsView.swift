@@ -5,6 +5,8 @@
 //  User insights and analytics dashboard
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -57,7 +59,7 @@ struct InsightsView: View {
             ZStack {
                 Circle()
                     .stroke(Color.DesignSystem.glassBackground, lineWidth: 12)
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
 
                 Circle()
                     .trim(from: 0, to: CGFloat(insights.impactScore) / 100)
@@ -69,7 +71,7 @@ struct InsightsView: View {
                         ),
                         style: StrokeStyle(lineWidth: 12, lineCap: .round),
                     )
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
                     .rotationEffect(.degrees(-90))
 
                 VStack(spacing: 2) {
@@ -87,7 +89,11 @@ struct InsightsView: View {
         }
         .padding(Spacing.lg)
         .frame(maxWidth: .infinity)
-        .background(.ultraThinMaterial)
+        #if !SKIP
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+        #else
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        #endif
         .cornerRadius(Spacing.md)
     }
 
@@ -155,7 +161,7 @@ struct InsightsView: View {
             .frame(maxWidth: .infinity)
 
             Divider()
-                .frame(height: 60)
+                .frame(height: 60.0)
 
             VStack(spacing: Spacing.xs) {
                 Image(systemName: "trophy.fill")
@@ -173,7 +179,11 @@ struct InsightsView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(Spacing.lg)
-        .background(.ultraThinMaterial)
+        #if !SKIP
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+        #else
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        #endif
         .cornerRadius(Spacing.md)
     }
 
@@ -214,7 +224,11 @@ struct InsightsView: View {
             }
         }
         .padding(Spacing.md)
-        .background(.ultraThinMaterial)
+        #if !SKIP
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+        #else
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        #endif
         .cornerRadius(Spacing.md)
     }
 }
@@ -243,7 +257,11 @@ private struct InsightsStatCard: View {
         }
         .frame(maxWidth: .infinity)
         .padding(Spacing.md)
-        .background(.ultraThinMaterial)
+        #if !SKIP
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+        #else
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        #endif
         .cornerRadius(Spacing.md)
     }
 }
@@ -261,7 +279,7 @@ struct ImpactRow: View {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(color)
-                .frame(width: 30)
+                .frame(width: 30.0)
 
             Text(title)
                 .font(.DesignSystem.bodyMedium)
@@ -282,4 +300,6 @@ struct ImpactRow: View {
             InsightsView(insights: .fixture())
         }
     }
+#endif
+
 #endif

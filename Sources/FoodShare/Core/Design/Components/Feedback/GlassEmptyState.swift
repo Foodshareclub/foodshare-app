@@ -7,6 +7,8 @@
 //  and ProMotion 120Hz optimized animations for smooth visual feedback
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Empty State
@@ -64,14 +66,18 @@ struct GlassEmptyState: View {
                         endRadius: 80
                     )
                 )
-                .frame(width: 160, height: 160)
+                .frame(width: 160.0, height: 160)
                 .blur(radius: 20)
                 .scaleEffect(isAnimating ? 1.1 : 0.9)
 
             // Glass circle background
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 100, height: 100)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 100.0, height: 100)
                 .overlay(
                     Circle()
                         .stroke(
@@ -640,7 +646,11 @@ struct GlassEmptyStateCompact: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -742,3 +752,5 @@ extension View {
         .padding()
     }
 }
+
+#endif

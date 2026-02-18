@@ -6,6 +6,7 @@
 //  Fully Sendable for safe concurrent error propagation
 //
 
+
 import Foundation
 
 /// Application-wide error types with Sendable conformance for safe concurrent usage
@@ -85,6 +86,7 @@ enum AppError: LocalizedError, Equatable, Sendable {
         }
     }
 
+    #if !SKIP
     /// Localized user-friendly error message for display in UI
     @MainActor
     func localizedUserFriendlyMessage(using t: EnhancedTranslationService) -> String {
@@ -115,6 +117,7 @@ enum AppError: LocalizedError, Equatable, Sendable {
             t.t("errors.app.unknown")
         }
     }
+    #endif
 
     /// Whether this error is recoverable by retrying
     var isRetryable: Bool {
@@ -158,6 +161,7 @@ enum AppError: LocalizedError, Equatable, Sendable {
 
     // MARK: - Factory Methods
 
+    #if !SKIP
     /// Create from NetworkError
     static func from(_ error: NetworkError) -> AppError {
         switch error {
@@ -191,7 +195,9 @@ enum AppError: LocalizedError, Equatable, Sendable {
             .databaseError(error.localizedDescription)
         }
     }
+    #endif
 
+    #if !SKIP
     /// Create from any Error type
     /// Attempts to convert known error types, falls back to unknown
     static func from(_ error: any Error) -> AppError {
@@ -200,7 +206,7 @@ enum AppError: LocalizedError, Equatable, Sendable {
             return appError
         }
 
-        // Known error types
+        // Known error types (iOS-only typed errors)
         if let networkError = error as? NetworkError {
             return from(networkError)
         }
@@ -232,11 +238,11 @@ enum AppError: LocalizedError, Equatable, Sendable {
                 return .decodingError("Missing key: \(key.stringValue)")
             case let .typeMismatch(type, context):
                 return .decodingError(
-                    "Type mismatch for \(type): \(context.codingPath.map(\.stringValue).joined(separator: "."))",
+                    "Type mismatch for \(type): \(context.codingPath.map(\.stringValue).joined(separator: "."))"
                 )
             case let .valueNotFound(type, context):
                 return .decodingError(
-                    "Missing value for \(type): \(context.codingPath.map(\.stringValue).joined(separator: "."))",
+                    "Missing value for \(type): \(context.codingPath.map(\.stringValue).joined(separator: "."))"
                 )
             case let .dataCorrupted(context):
                 return .decodingError("Data corrupted: \(context.debugDescription)")
@@ -248,6 +254,15 @@ enum AppError: LocalizedError, Equatable, Sendable {
         // Fallback
         return .unknown(error.localizedDescription)
     }
+    #else
+    /// Create from Error (Android/Skip version)
+    static func from(_ error: Error) -> AppError {
+        if let appError = error as? AppError {
+            return appError
+        }
+        return .unknown(error.localizedDescription)
+    }
+    #endif
 }
 
 // MARK: - Equatable for Associated Values
@@ -325,9 +340,11 @@ enum ValidationError: LocalizedError, Equatable, Sendable {
         errorDescription ?? "Please check your input."
     }
 
+    #if !SKIP
     /// Localized user-friendly error message for display in UI
     @MainActor
     func localizedUserFriendlyMessage(using t: EnhancedTranslationService) -> String {
         errorDescription ?? t.t("errors.validation.check_input")
     }
+    #endif
 }

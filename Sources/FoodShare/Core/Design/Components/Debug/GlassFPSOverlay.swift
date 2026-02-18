@@ -1,3 +1,4 @@
+
 #if !SKIP
 import SwiftUI
 
@@ -11,7 +12,7 @@ public struct GlassFPSOverlay: View {
 
     @State private var monitor = FrameRateMonitor.shared
     @State private var isExpanded = false
-    @State private var position = CGPoint(x: 80, y: 100)
+    @State private var position = CGPoint(x: 80.0, y: 100.0)
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion: Bool
 
@@ -60,7 +61,7 @@ public struct GlassFPSOverlay: View {
             // FPS indicator circle
             Circle()
                 .fill(tierColor)
-                .frame(width: 8, height: 8)
+                .frame(width: 8.0, height: 8)
 
             // FPS value
             Text("\(Int(monitor.currentFPS))")
@@ -152,7 +153,7 @@ public struct GlassFPSOverlay: View {
                     .clipShape(RoundedRectangle(cornerRadius: 4))
             }
         }
-        .frame(width: 140)
+        .frame(width: 140.0)
     }
 
     private func detailRow(
@@ -265,4 +266,5 @@ extension View {
         }
     }
 #endif
+
 #endif

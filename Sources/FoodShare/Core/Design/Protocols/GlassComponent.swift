@@ -6,6 +6,8 @@
 //  Provides composable, type-safe foundation for glass UI elements
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - GlassComponent Protocol
@@ -154,7 +156,11 @@ struct GlassComponentEffectModifier: ViewModifier {
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .fill(Color.white.opacity(fillOpacity))
-                    .background(.ultraThinMaterial)
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             .overlay(
@@ -222,3 +228,5 @@ extension View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

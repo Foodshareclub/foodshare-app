@@ -6,6 +6,8 @@
 //  Copyright © 2025 FoodShare. All rights reserved.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// A standardized container for tab views that provides consistent background handling,
@@ -233,3 +235,5 @@ public struct TabViewContainer<Content: View>: View {
         .navigationTitle("Tab View")
     }
 }
+
+#endif

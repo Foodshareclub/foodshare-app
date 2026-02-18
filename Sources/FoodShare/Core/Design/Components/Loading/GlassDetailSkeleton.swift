@@ -6,6 +6,8 @@
 //  Provides premium loading states with staggered shimmer animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassDetailSkeleton: View {
@@ -48,7 +50,7 @@ struct GlassDetailSkeleton: View {
     private var imagePlaceholder: some View {
         Rectangle()
             .fill(skeletonGradient)
-            .frame(height: 320)
+            .frame(height: 320.0)
             .overlay(shimmerOverlay)
     }
 
@@ -267,7 +269,11 @@ struct GlassDetailSkeleton: View {
             .padding(Spacing.lg)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -327,7 +333,7 @@ struct GlassDetailSkeleton: View {
                 startPoint: .leading,
                 endPoint: .trailing
             )
-            .frame(width: 150)
+            .frame(width: 150.0)
             .offset(x: shimmerPhase)
             .onAppear {
                 shimmerPhase = -150
@@ -359,3 +365,5 @@ struct GlassDetailSkeleton: View {
     GlassDetailSkeleton(style: .forumPost, showImage: false)
         .background(Color.DesignSystem.background)
 }
+
+#endif

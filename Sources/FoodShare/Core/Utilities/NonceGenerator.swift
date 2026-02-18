@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  NonceGenerator.swift
 //  Foodshare
@@ -8,6 +7,8 @@
 //  Extracted from AuthenticationService for better reusability and separation of concerns
 //
 
+
+#if !SKIP
 #if !SKIP
 import CryptoKit
 #endif
@@ -138,4 +139,5 @@ extension Data {
         NonceGenerator.sha256Base64(self)
     }
 }
+
 #endif

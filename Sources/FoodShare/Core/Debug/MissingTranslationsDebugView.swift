@@ -5,6 +5,8 @@
 //  Debug view to display missing translation keys
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -259,4 +261,6 @@ import SwiftUI
     #Preview {
         MissingTranslationsDebugView()
     }
+#endif
+
 #endif

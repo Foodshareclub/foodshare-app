@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  GeocodingAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor GeocodingAPIService {
@@ -34,4 +35,5 @@ struct ReverseGeocodingResponse: Codable {
     let city: String?
     let country: String?
 }
+
 #endif

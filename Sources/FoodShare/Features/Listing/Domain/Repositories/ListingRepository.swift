@@ -5,6 +5,9 @@
 //  Repository protocol for listing operations
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Arrangement Record
@@ -113,3 +116,6 @@ protocol ListingRepository: Sendable {
     /// Increment view count for a listing
     func incrementViewCount(listingId: Int) async throws
 }
+
+
+#endif

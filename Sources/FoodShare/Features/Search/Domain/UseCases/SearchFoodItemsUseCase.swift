@@ -5,6 +5,8 @@
 //  Use case for searching food items
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -83,3 +85,5 @@ enum SearchError: LocalizedError, Sendable {
         }
     }
 }
+
+#endif

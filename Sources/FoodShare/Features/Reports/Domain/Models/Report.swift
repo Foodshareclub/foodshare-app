@@ -5,6 +5,8 @@
 //  Report model for reporting posts
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Reasons for reporting a post
@@ -85,3 +87,5 @@ struct CreateReportInput: Codable, Sendable {
         case description
     }
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  Premium component with 120Hz ProMotion optimization
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Segmented Control
@@ -42,7 +44,11 @@ struct GlassSegmentedControl<T: Hashable>: View {
             ZStack {
                 // Glass background
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
 
                 // Inner shadow for depth
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -191,7 +197,7 @@ struct GlassSegmentedControlCompact<T: Hashable>: View {
                                 ? Color.DesignSystem.accentBlue
                                 : Color.DesignSystem.textSecondary
                         )
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40.0, height: 40)
                         .background {
                             if selection == option {
                                 Circle()
@@ -208,7 +214,11 @@ struct GlassSegmentedControlCompact<T: Hashable>: View {
         .padding(Spacing.xxxs)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -279,3 +289,5 @@ struct GlassSegmentedControlCompact<T: Hashable>: View {
     .background(Color.black)
     .preferredColorScheme(.dark)
 }
+
+#endif

@@ -1,9 +1,10 @@
-#if !SKIP
 //
 //  SyncAPIService.swift
 //  Foodshare
 //
 
+
+#if !SKIP
 import Foundation
 
 actor SyncAPIService {
@@ -30,4 +31,5 @@ struct SyncResponse: Decodable {
 }
 
 // AnyCodable is defined in Core/Utilities/AnyCodable.swift
+
 #endif

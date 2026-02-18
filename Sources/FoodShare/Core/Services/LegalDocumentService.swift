@@ -5,6 +5,9 @@
 //  Service for fetching localized legal documents via ProfileAPIService
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -102,3 +105,6 @@ enum LegalDocumentError: LocalizedError {
         }
     }
 }
+
+
+#endif

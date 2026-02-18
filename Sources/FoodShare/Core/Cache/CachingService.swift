@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CachingService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Provides cache-first loading strategy for app data
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Cache Keys
@@ -299,4 +300,5 @@ actor CachedFeedRepository {
         return fridges
     }
 }
+
 #endif

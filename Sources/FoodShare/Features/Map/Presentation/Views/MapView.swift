@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MapView.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Liquid Glass v27 design system with ProMotion 120Hz optimizations
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -314,7 +315,11 @@ struct Glass3DControlGroup<Content: View>: View {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: CornerRadius.large)
+                        #if !SKIP
                         .fill(.ultraThinMaterial)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     // Inner highlight (3D effect)
                     RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -410,7 +415,7 @@ struct Glass3DDivider: View {
     var body: some View {
         Rectangle()
             .fill(Color.DesignSystem.glassBorder.opacity(0.4))
-            .frame(width: 28, height: 0.5)
+            .frame(width: 28.0, height: 0.5)
     }
 }
 
@@ -443,7 +448,11 @@ struct LiquidGlassItemCountBadge: View {
         }
         .padding(.horizontal, Spacing.md)
         .padding(.vertical, Spacing.sm)
+        #if !SKIP
         .background(.ultraThinMaterial)
+        #else
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        #endif
         .clipShape(Capsule())
         .overlay(
             Capsule()
@@ -480,14 +489,18 @@ struct LiquidGlassMapMarker: View {
                 if isSelected {
                     Circle()
                         .fill(category.color.opacity(0.3))
-                        .frame(width: 56, height: 56)
+                        .frame(width: 56.0, height: 56)
                         .blur(radius: 8)
                 }
 
                 // Glass background
                 Circle()
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
-                    .frame(width: 48, height: 48)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 48.0, height: 48)
                     .overlay(
                         Circle()
                             .stroke(
@@ -551,7 +564,11 @@ struct LiquidGlassMapMarker: View {
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
+                #if !SKIP
                 .background(.ultraThinMaterial, in: Capsule())
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .transition(.scale.combined(with: .opacity))
                 .offset(y: 4)
             }
@@ -572,12 +589,16 @@ struct LiquidGlassMarkerPointer: View {
             if isSelected {
                 Triangle()
                     .fill(color.opacity(0.4))
-                    .frame(width: 16, height: 10)
+                    .frame(width: 16.0, height: 10)
                     .blur(radius: 4)
             }
             Triangle()
+                #if !SKIP
                 .fill(.ultraThinMaterial)
-                .frame(width: 14, height: 9)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 14.0, height: 9)
                 .overlay(
                     Triangle()
                         .stroke(isSelected ? color.opacity(0.8) : Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -611,7 +632,13 @@ struct LiquidGlassLoadingIndicator: View {
                 .foregroundColor(.secondary)
         }
         .padding(Spacing.lg)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: CornerRadius.large))
+        .background {
+            #if !SKIP
+            RoundedRectangle(cornerRadius: CornerRadius.large).fill(.ultraThinMaterial)
+            #else
+            Color.DesignSystem.glassSurface.opacity(0.15)
+            #endif
+        }
         .transition(.scale.combined(with: .opacity))
     }
 }
@@ -764,13 +791,13 @@ struct LiquidGlassMapDetailSheet: View {
                                     }
                                 }
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 240)
+                                .frame(height: 240.0)
                                 .clipped()
                                 .tag(index)
                             }
                         }
                         .tabViewStyle(.page(indexDisplayMode: .never))
-                        .frame(height: 240)
+                        .frame(height: 240.0)
 
                         // Gradient overlay for better depth
                         LinearGradient(
@@ -778,7 +805,7 @@ struct LiquidGlassMapDetailSheet: View {
                             startPoint: .top,
                             endPoint: .bottom,
                         )
-                        .frame(height: 100)
+                        .frame(height: 100.0)
 
                         // Image indicators (if multiple images)
                         if validImages.count > 1 {
@@ -786,7 +813,7 @@ struct LiquidGlassMapDetailSheet: View {
                                 ForEach(0 ..< validImages.count, id: \.self) { index in
                                     Circle()
                                         .fill(index == selectedImageIndex ? Color.white : Color.white.opacity(0.4))
-                                        .frame(width: 7, height: 7)
+                                        .frame(width: 7.0, height: 7)
                                         .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
                                         .animation(.interpolatingSpring(stiffness: 300, damping: 24), value: selectedImageIndex)
                                 }
@@ -824,7 +851,11 @@ struct LiquidGlassMapDetailSheet: View {
                         .padding(.vertical, 8)
                         .background(
                             Capsule()
+                                #if !SKIP
                                 .fill(.ultraThinMaterial)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                                 .overlay(
                                     Capsule()
                                         .fill(category.color.opacity(0.15)),
@@ -943,7 +974,11 @@ struct LiquidGlassMapDetailSheet: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(
                                 RoundedRectangle(cornerRadius: CornerRadius.medium)
+                                    #if !SKIP
                                     .fill(.ultraThinMaterial)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
                                     .overlay(
                                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                                             .stroke(Color.DesignSystem.glassBorder.opacity(0.3), lineWidth: 0.5),
@@ -1088,12 +1123,16 @@ private struct DetailInfoCard: View {
                             endRadius: 24,
                         ),
                     )
-                    .frame(width: 48, height: 48)
+                    .frame(width: 48.0, height: 48)
                     .blur(radius: 4)
 
                 // Main circle
                 Circle()
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         Circle()
                             .fill(
@@ -1104,7 +1143,7 @@ private struct DetailInfoCard: View {
                                 ),
                             ),
                     )
-                    .frame(width: 46, height: 46)
+                    .frame(width: 46.0, height: 46)
                     .overlay(
                         Circle()
                             .stroke(
@@ -1149,7 +1188,11 @@ private struct DetailInfoCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(
@@ -1254,7 +1297,7 @@ private struct StatusBadge: View {
 
     var body: some View {
         HStack(spacing: Spacing.xxs) {
-            Circle().fill(statusInfo.color).frame(width: 6, height: 6)
+            Circle().fill(statusInfo.color).frame(width: 6.0, height: 6)
             Text(statusInfo.text)
                 .font(.DesignSystem.captionSmall)
                 .fontWeight(.semibold)
@@ -1366,4 +1409,5 @@ struct MapItemDetailSheet: View {
     MapView(feedRepository: DependencyContainer.preview.feedRepository)
         .environment(AppState())
 }
+
 #endif

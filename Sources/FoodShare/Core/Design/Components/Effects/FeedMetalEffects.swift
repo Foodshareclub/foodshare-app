@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  FeedMetalEffects.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  GPU-accelerated card effects optimized for ProMotion 120Hz
 //
 
+
+#if !SKIP
 import MetalKit
 import SwiftUI
 
@@ -331,7 +332,7 @@ struct MetalTrendingBadge: View {
                     .foregroundStyle(.orange)
             } else {
                 FeedMetalEffectView(effect: .trendingBadge, intensity: 1.0)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 20.0, height: 20)
             }
 
             Text(t.t("feed.trending"))
@@ -372,7 +373,7 @@ struct MetalUrgentIndicator: View {
                         intensity: 0.8,
                         primaryColor: .DesignSystem.warning
                     )
-                    .frame(width: 24, height: 24)
+                    .frame(width: 24.0, height: 24)
 
                     Image(systemName: "clock.fill")
                         .font(.system(size: 12))
@@ -426,7 +427,7 @@ struct MetalSaveButton: View {
                         primaryColor: .DesignSystem.brandPink,
                         progress: animationProgress
                     )
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
                 }
 
                 Image(systemName: isSaved ? "heart.fill" : "heart")
@@ -434,10 +435,14 @@ struct MetalSaveButton: View {
                     .foregroundStyle(isSaved ? Color.DesignSystem.brandPink : .white)
                     .scaleEffect(isSaved ? 1.1 : 1.0)
             }
-            .frame(width: 44, height: 44)
+            .frame(width: 44.0, height: 44)
             .background(
                 Circle()
+                    #if !SKIP
                     .fill(.ultraThinMaterial)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
         }
         .buttonStyle(.plain)
@@ -481,7 +486,7 @@ struct MetalDistanceIndicator: View {
                         intensity: 1.0,
                         progress: progress
                     )
-                    .frame(width: 40, height: 6)
+                    .frame(width: 40.0, height: 6)
                     .clipShape(Capsule())
 
                     Text(distanceText)
@@ -515,7 +520,7 @@ struct MetalDistanceIndicator: View {
                 .font(.DesignSystem.headlineSmall)
 
             MetalShimmerCard()
-                .frame(height: 200)
+                .frame(height: 200.0)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
 
             Text("Trending Badge")
@@ -554,4 +559,5 @@ struct MetalDistanceIndicator: View {
     .background(Color.DesignSystem.background)
     .preferredColorScheme(.dark)
 }
+
 #endif

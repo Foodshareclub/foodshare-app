@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AuthAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Centralized API service for authentication
 //
 
+
+#if !SKIP
 import Foundation
 
 actor AuthAPIService {
@@ -70,4 +71,5 @@ struct SessionInfo: Codable {
     let locale: String
     let localeSource: String
 }
+
 #endif

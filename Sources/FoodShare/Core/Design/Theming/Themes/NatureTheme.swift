@@ -7,6 +7,8 @@
 //  Current default theme for the app
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Nature theme with green and blue colors
@@ -94,3 +96,5 @@ struct NatureTheme: Theme {
         )
     }
 }
+
+#endif

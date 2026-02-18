@@ -1,3 +1,5 @@
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -39,3 +41,5 @@ protocol FoodItemRepository: Sendable {
         sortOption: String,
     ) async throws -> [FoodItem]
 }
+
+#endif

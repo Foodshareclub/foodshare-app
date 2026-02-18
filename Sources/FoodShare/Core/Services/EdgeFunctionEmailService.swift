@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  EdgeFunctionEmailService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Secure email service that routes all email operations through EmailAPIService
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -245,4 +246,5 @@ actor EdgeFunctionEmailService: EdgeFunctionEmailServiceProtocol {
         }
     }
 #endif
+
 #endif

@@ -5,6 +5,9 @@
 //  Fetch nearby food items use case
 //
 
+
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -138,3 +141,6 @@ enum FeedError: LocalizedError, Sendable {
         }
     }
 }
+
+
+#endif

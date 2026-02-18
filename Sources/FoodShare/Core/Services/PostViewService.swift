@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PostViewService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Routes view recording through EngagementAPIService batch operations.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import SwiftUI
@@ -222,4 +223,5 @@ actor ForumViewService {
         await PostViewService.shared.recordForumView(forumId: forumId)
     }
 }
+
 #endif

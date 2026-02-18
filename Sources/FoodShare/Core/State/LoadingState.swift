@@ -5,37 +5,13 @@
 //  Unified loading state pattern for async operations
 //
 
+
 import Foundation
 
 /// Unified loading state for all async data operations
 ///
 /// This enum provides a consistent pattern for managing loading, loaded, and error states
 /// across all ViewModels. It eliminates manual `isLoading`, `isRefreshing`, and `error` flags.
-///
-/// Usage:
-/// ```swift
-/// @Observable
-/// final class MyViewModel {
-///     var dataState: LoadingState<[Item]> = .idle
-///
-///     func loadData() async {
-///         dataState = .loading
-///         do {
-///             let items = try await repository.fetch()
-///             dataState = .loaded(items)
-///         } catch {
-///             dataState = .failed(AppError.from(error))
-///         }
-///     }
-///
-///     func refresh() async {
-///         if let existing = dataState.value {
-///             dataState = .refreshing(existing: existing)
-///         }
-///         // ... load and update
-///     }
-/// }
-/// ```
 enum LoadingState<T: Sendable>: Sendable {
     /// Initial state before any loading
     case idle
@@ -95,20 +71,26 @@ enum LoadingState<T: Sendable>: Sendable {
     /// The current value if available
     var value: T? {
         switch self {
-        case let .loaded(v), let .refreshing(existing: v), let .loadingMore(existing: v):
-            v
+        case let .loaded(v):
+            return v
+        case let .refreshing(existing: v):
+            return v
+        case let .loadingMore(existing: v):
+            return v
         default:
-            nil
+            return nil
         }
     }
 
     /// The current error if any
     var error: AppError? {
         switch self {
-        case let .failed(e), let .retrying(_, previousError: e):
-            e
+        case let .failed(e):
+            return e
+        case let .retrying(_, previousError: e):
+            return e
         default:
-            nil
+            return nil
         }
     }
 
@@ -244,12 +226,22 @@ extension LoadingState {
 
     /// Whether to show an empty state
     var showEmptyState: Bool {
+        #if !SKIP
         if case let .loaded(value) = self {
             if let array = value as? (any Collection) {
                 return array.isEmpty
             }
         }
         return false
+        #else
+        // Skip: simplified check — only works for arrays
+        if case let .loaded(value) = self {
+            if let array = value as? [Any] {
+                return array.isEmpty
+            }
+        }
+        return false
+        #endif
     }
 
     /// Whether to show error state

@@ -6,6 +6,8 @@
 //  Tropical warmth with soft, inviting colors
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Coral theme with coral and peach colors
@@ -92,3 +94,5 @@ struct CoralTheme: Theme {
         )
     }
 }
+
+#endif

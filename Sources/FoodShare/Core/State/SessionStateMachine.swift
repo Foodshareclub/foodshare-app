@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SessionStateMachine.swift
 //  FoodShare
@@ -9,7 +8,6 @@
 
 #if !SKIP
 import Combine
-#endif
 import Foundation
 import OSLog
 import Supabase
@@ -418,4 +416,5 @@ extension SessionStateMachine {
         }
     }
 #endif
+
 #endif

@@ -6,6 +6,9 @@
 //  Uses RealtimeChannelManager for proper channel lifecycle management
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -315,3 +318,6 @@ extension JSONDecoder {
         return decoder
     }
 }
+
+
+#endif

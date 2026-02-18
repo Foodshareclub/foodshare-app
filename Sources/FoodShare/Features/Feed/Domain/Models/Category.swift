@@ -5,11 +5,12 @@
 //  Food category model - Maps to `categories` table in Supabase
 //
 
+
 import Foundation
 
 /// Represents a food category for classification
 /// Maps to `categories` table in Supabase
-struct Category: Codable, Identifiable, Sendable, Hashable {
+struct Category: Codable, Identifiable, Hashable {
     let id: Int // bigint in database
     let name: String // category name (unique)
     let description: String? // category description
@@ -35,21 +36,21 @@ struct Category: Codable, Identifiable, Sendable, Hashable {
     var icon: String {
         switch name.lowercased() {
         case "produce", "fruits", "vegetables":
-            "leaf.fill"
+            return "leaf.fill"
         case "dairy":
-            "drop.fill"
+            return "drop.fill"
         case "baked goods", "bakery", "bread":
-            "birthday.cake.fill"
+            return "birthday.cake.fill"
         case "meat", "fish", "meat & fish":
-            "fish.fill"
+            return "fish.fill"
         case "pantry", "pantry items", "canned":
-            "basket.fill"
+            return "basket.fill"
         case "prepared food", "prepared meals", "cooked":
-            "fork.knife"
+            return "fork.knife"
         case "beverages", "drinks":
-            "cup.and.saucer.fill"
+            return "cup.and.saucer.fill"
         default:
-            "ellipsis.circle.fill"
+            return "ellipsis.circle.fill"
         }
     }
 }

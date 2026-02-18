@@ -5,6 +5,8 @@
 //  Use cases for post arrangement flow
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Arrange Post Use Case
@@ -144,3 +146,5 @@ enum ArrangementError: LocalizedError, Sendable {
         }
     }
 }
+
+#endif

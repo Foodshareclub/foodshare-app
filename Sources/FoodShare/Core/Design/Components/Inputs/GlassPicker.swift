@@ -5,6 +5,8 @@
 //  Liquid Glass v26 Picker Component with ProMotion-optimized animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Picker
@@ -63,7 +65,11 @@ struct GlassPicker<SelectionValue: Hashable, Content: View>: View {
                 .background(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .fill(Color.white.opacity(0.08))
-                        .background(.ultraThinMaterial),
+                        #if !SKIP
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                 )
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
                 .overlay(
@@ -150,7 +156,11 @@ struct GlassSegmentedPicker<SelectionValue: Hashable & CaseIterable & CustomStri
             .background(
                 Capsule()
                     .fill(Color.white.opacity(0.06))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(Capsule())
             .overlay(
@@ -239,7 +249,11 @@ struct GlassOptionPicker<T: Hashable & Identifiable>: View {
                                         ? Color.DesignSystem.brandGreen.opacity(0.15)
                                         : Color.white.opacity(0.06),
                                 )
-                                .background(.ultraThinMaterial),
+                                #if !SKIP
+                                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                         )
                         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
                         .overlay(
@@ -387,7 +401,11 @@ struct GlassDropdown<T: Hashable & Identifiable>: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(isExpanded ? 0.1 : 0.08))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -473,4 +491,6 @@ private struct CategoryOption: Identifiable, Hashable {
         }
     }
 }
+#endif
+
 #endif

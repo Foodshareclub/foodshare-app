@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  LegalDocumentView.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Legal document viewer for Privacy Policy and Terms of Service
 //
 
+
+#if !SKIP
 import SafariServices
 import SwiftUI
 
@@ -83,4 +84,5 @@ struct SafariWebView: UIViewControllerRepresentable {
 #Preview("Terms") {
     LegalDocumentView(type: .terms)
 }
+
 #endif

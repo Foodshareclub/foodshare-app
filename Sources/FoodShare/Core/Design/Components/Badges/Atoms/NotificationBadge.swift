@@ -19,6 +19,8 @@
 //  - GPU-optimized with .drawingGroup()
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// A numbered notification badge following Liquid Glass design principles.
@@ -372,3 +374,5 @@ struct NotificationBadge: View {
 
     return PreviewWrapper()
 }
+
+#endif

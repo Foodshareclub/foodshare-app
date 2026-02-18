@@ -6,6 +6,8 @@
 //  Part of Forum UI improvements
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Trending Posts Section
@@ -115,7 +117,7 @@ private struct TrendingPostCard: View {
                     ZStack {
                         Circle()
                             .fill(rankGradient)
-                            .frame(width: 24, height: 24)
+                            .frame(width: 24.0, height: 24)
                             .shadow(color: rankColor.opacity(0.4), radius: 4, y: 2)
 
                         Text("#\(rank)")
@@ -137,8 +139,12 @@ private struct TrendingPostCard: View {
                     .scaleEffect(0.65)
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
-                            .frame(width: 26, height: 26),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
+                            .frame(width: 26.0, height: 26),
                     )
 
                     // Category chip
@@ -210,7 +216,7 @@ private struct TrendingPostCard: View {
                 }
             }
             .padding(Spacing.sm)
-            .frame(width: 170, height: 140)
+            .frame(width: 170.0, height: 140)
             .background(cardBackground)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             .overlay(
@@ -248,7 +254,11 @@ private struct TrendingPostCard: View {
     private var cardBackground: some View {
         ZStack {
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Subtle rank-colored tint at top
             RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -351,4 +361,6 @@ struct EmptyTrendingView: View {
         .padding()
         .background(Color.DesignSystem.background)
     }
+#endif
+
 #endif

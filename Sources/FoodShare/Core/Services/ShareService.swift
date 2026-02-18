@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ShareService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Uses UIActivityViewController for system share sheet
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -314,4 +315,5 @@ extension View {
         modifier(ShareSheetModifier(item: item, isPresented: isPresented, onComplete: onComplete))
     }
 }
+
 #endif

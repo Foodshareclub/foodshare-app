@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -417,3 +420,6 @@ final class AdminViewModel {
         successMessage = nil
     }
 }
+
+
+#endif

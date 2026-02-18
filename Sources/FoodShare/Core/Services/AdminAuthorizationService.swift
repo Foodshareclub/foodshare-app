@@ -6,6 +6,9 @@
 //  Handles admin and super admin permissions
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -331,3 +334,6 @@ enum AdminAuthorizationError: LocalizedError, Sendable {
         }
     }
 }
+
+
+#endif

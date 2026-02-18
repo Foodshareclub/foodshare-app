@@ -5,6 +5,8 @@
 //  Advanced Liquid Glass v26 Info Card with animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassInfoCard: View {
@@ -53,7 +55,7 @@ struct GlassInfoCard: View {
             ZStack {
                 Circle()
                     .fill(accentColor.opacity(0.2))
-                    .frame(width: 60, height: 60)
+                    .frame(width: 60.0, height: 60)
                     .blur(radius: 10)
 
                 Circle()
@@ -67,7 +69,7 @@ struct GlassInfoCard: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 56, height: 56)
+                    .frame(width: 56.0, height: 56)
 
                 Image(systemName: icon)
                     .font(.system(size: 24, weight: .semibold))
@@ -99,7 +101,11 @@ struct GlassInfoCard: View {
         .background(
             ZStack {
                 RoundedRectangle(cornerRadius: Spacing.radiusLG)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
 
                 RoundedRectangle(cornerRadius: Spacing.radiusLG)
                     .strokeBorder(
@@ -162,3 +168,5 @@ struct GlassInfoCard: View {
     .padding()
     .background(LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
 }
+
+#endif

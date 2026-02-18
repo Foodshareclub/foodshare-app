@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  VoiceOverHelpers.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Provides custom labels, hints, actions, and announcement utilities
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Accessibility Label Builder
@@ -753,4 +754,5 @@ extension View {
         VoiceOverDemo()
     }
 }
+
 #endif

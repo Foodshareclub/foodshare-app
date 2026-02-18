@@ -5,6 +5,8 @@
 //  Wrapper view for deep-linking to a specific user profile
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Wrapper view for deep-linking to a specific user profile
@@ -49,3 +51,5 @@ struct DeepLinkProfileView: View {
         )
     }
 }
+
+#endif

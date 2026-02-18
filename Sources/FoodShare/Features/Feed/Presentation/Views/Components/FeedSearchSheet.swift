@@ -6,6 +6,8 @@
 //  Extracted from FeedView for better organization
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Full Search Sheet (Airbnb-style)
@@ -144,7 +146,7 @@ struct FeedSearchSheet: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.DesignSystem.text)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 30.0, height: 30)
                             .background(
                                 Circle()
                                     .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -216,7 +218,7 @@ private struct SearchTab: View {
 
                 Rectangle()
                     .fill(isSelected ? Color.DesignSystem.text : Color.clear)
-                    .frame(height: 2)
+                    .frame(height: 2.0)
             }
         }
     }
@@ -233,7 +235,7 @@ private struct RecentSearchRow: View {
         HStack(spacing: Spacing.md) {
             Text(icon)
                 .font(.system(size: 24))
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
                 .background(
                     Circle()
                         .fill(Color.DesignSystem.surface),
@@ -259,3 +261,5 @@ private struct RecentSearchRow: View {
 // MARK: - Type Alias for Backward Compatibility
 
 typealias FullSearchSheet = FeedSearchSheet
+
+#endif

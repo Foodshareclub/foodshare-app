@@ -6,6 +6,8 @@
 //  Premium component with staggered item appearance and haptic feedback
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Context Menu Modifier
@@ -129,7 +131,7 @@ struct GlassActionMenu: View {
             HStack(spacing: Spacing.sm) {
                 Image(systemName: item.icon)
                     .font(.system(size: 16, weight: .medium))
-                    .frame(width: 24)
+                    .frame(width: 24.0)
 
                 Text(item.title)
                     .font(.DesignSystem.bodyMedium)
@@ -163,7 +165,11 @@ struct GlassActionMenu: View {
     private var menuBackground: some View {
         ZStack {
             Rectangle()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             LinearGradient(
                 colors: [
@@ -243,10 +249,14 @@ struct GlassQuickActionButton: View {
             Image(systemName: icon)
                 .font(.system(size: 18, weight: .medium))
                 .foregroundColor(.DesignSystem.text)
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -325,3 +335,5 @@ struct GlassQuickActionButton: View {
         )
     }
 }
+
+#endif

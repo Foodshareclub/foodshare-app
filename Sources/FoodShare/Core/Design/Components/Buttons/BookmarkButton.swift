@@ -6,6 +6,8 @@
 //  ProMotion 120Hz optimized with interpolating springs
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Bookmark Button
@@ -210,3 +212,5 @@ struct BookmarkButton: View {
     .padding()
     .background(Color.black)
 }
+
+#endif

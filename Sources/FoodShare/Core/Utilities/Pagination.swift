@@ -1,4 +1,4 @@
-#if !SKIP
+
 import Foundation
 
 // MARK: - Cursor Direction
@@ -23,7 +23,7 @@ struct CursorPaginationParams: Sendable, Equatable {
         limit: Int = 20,
         cursor: String? = nil,
         cursorColumn: String = "created_at",
-        direction: CursorDirection = .backward,
+        direction: CursorDirection = .backward
     ) {
         self.limit = limit
         self.cursor = cursor
@@ -37,7 +37,7 @@ struct CursorPaginationParams: Sendable, Equatable {
             limit: limit,
             cursor: cursor,
             cursorColumn: cursorColumn,
-            direction: direction,
+            direction: direction
         )
     }
 
@@ -47,13 +47,14 @@ struct CursorPaginationParams: Sendable, Equatable {
             limit: limit,
             cursor: cursor,
             cursorColumn: cursorColumn,
-            direction: direction == .forward ? .backward : .forward,
+            direction: direction == .forward ? .backward : .forward
         )
     }
 
     static let `default` = CursorPaginationParams()
 }
 
+#if !SKIP
 // MARK: - Cursor Pagination State
 
 /// Cursor-based pagination state manager for efficient infinite scroll
@@ -91,7 +92,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
     init(
         pageSize: Int = 20,
         cursorColumn: String = "created_at",
-        extractCursor: @escaping CursorExtractor,
+        extractCursor: @escaping CursorExtractor
     ) {
         self.pageSize = pageSize
         self.cursorColumn = cursorColumn
@@ -113,7 +114,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
     /// Load initial page using cursor-based pagination
     @MainActor
     func loadInitial(
-        using loader: @escaping (CursorPaginationParams) async throws -> [T],
+        using loader: @escaping (CursorPaginationParams) async throws -> [T]
     ) async {
         guard !isLoading else { return }
 
@@ -127,7 +128,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
                 limit: pageSize,
                 cursor: nil,
                 cursorColumn: cursorColumn,
-                direction: .backward,
+                direction: .backward
             )
             let newItems = try await loader(params)
             items = newItems
@@ -149,7 +150,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
     /// Load next page (older items) using cursor
     @MainActor
     func loadMore(
-        using loader: @escaping (CursorPaginationParams) async throws -> [T],
+        using loader: @escaping (CursorPaginationParams) async throws -> [T]
     ) async {
         guard canLoadMore else { return }
 
@@ -161,7 +162,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
                 limit: pageSize,
                 cursor: nextCursor,
                 cursorColumn: cursorColumn,
-                direction: .backward,
+                direction: .backward
             )
             let newItems = try await loader(params)
 
@@ -179,7 +180,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
     /// Load previous page (newer items) using cursor - for bidirectional scroll
     @MainActor
     func loadPrevious(
-        using loader: @escaping (CursorPaginationParams) async throws -> [T],
+        using loader: @escaping (CursorPaginationParams) async throws -> [T]
     ) async {
         guard canLoadPrevious else { return }
 
@@ -191,7 +192,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
                 limit: pageSize,
                 cursor: previousCursor,
                 cursorColumn: cursorColumn,
-                direction: .forward,
+                direction: .forward
             )
             let newItems = try await loader(params)
 
@@ -209,7 +210,7 @@ final class CursorPaginationState<T: Identifiable & Sendable>: @unchecked Sendab
     /// Refresh (reload from beginning)
     @MainActor
     func refresh(
-        using loader: @escaping (CursorPaginationParams) async throws -> [T],
+        using loader: @escaping (CursorPaginationParams) async throws -> [T]
     ) async {
         reset()
         await loadInitial(using: loader)
@@ -306,7 +307,7 @@ final class PaginationState<T: Identifiable & Sendable>: @unchecked Sendable {
     /// Load initial page
     @MainActor
     func loadInitial(
-        using loader: @escaping (Int, Int) async throws -> [T],
+        using loader: @escaping (Int, Int) async throws -> [T]
     ) async {
         guard !isLoading else { return }
 
@@ -328,7 +329,7 @@ final class PaginationState<T: Identifiable & Sendable>: @unchecked Sendable {
     /// Load next page
     @MainActor
     func loadMore(
-        using loader: @escaping (Int, Int) async throws -> [T],
+        using loader: @escaping (Int, Int) async throws -> [T]
     ) async {
         guard canLoadMore else { return }
 
@@ -351,7 +352,7 @@ final class PaginationState<T: Identifiable & Sendable>: @unchecked Sendable {
     /// Refresh (reload from beginning)
     @MainActor
     func refresh(
-        using loader: @escaping (Int, Int) async throws -> [T],
+        using loader: @escaping (Int, Int) async throws -> [T]
     ) async {
         reset()
         await loadInitial(using: loader)
@@ -383,9 +384,11 @@ final class PaginationState<T: Identifiable & Sendable>: @unchecked Sendable {
         }
     }
 }
+#endif
 
 // MARK: - Paginated Response
 
+#if !SKIP
 /// Generic paginated response from API
 struct PaginatedResponse<T: Codable>: Codable {
     let items: [T]
@@ -398,6 +401,7 @@ struct PaginatedResponse<T: Codable>: Codable {
         hasMore ? page + 1 : nil
     }
 }
+#endif
 
 // MARK: - Pagination Parameters
 
@@ -442,13 +446,12 @@ extension View {
     func infiniteScroll(
         isLoading: Bool,
         hasMore: Bool,
-        loadMore: @escaping () async -> Void,
+        loadMore: @escaping () async -> Void
     ) -> some View {
         modifier(InfiniteScrollModifier(
             isLoading: isLoading,
             hasMore: hasMore,
-            loadMore: loadMore,
+            loadMore: loadMore
         ))
     }
 }
-#endif

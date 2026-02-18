@@ -5,6 +5,8 @@
 //  Enterprise error types for IP-based geolocation with detailed diagnostics.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - IP Geolocation Provider
@@ -293,3 +295,5 @@ extension IPGeolocationError {
         providerErrors.reduce(0) { $0 + $1.attemptDuration }
     }
 }
+
+#endif

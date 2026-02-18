@@ -7,6 +7,9 @@
 //  Features retry logic with exponential backoff for transient failures
 //
 
+
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -198,3 +201,6 @@ final class SupabaseFoodItemRepository: BaseSupabaseRepository, FoodItemReposito
         }
     }
 }
+
+
+#endif

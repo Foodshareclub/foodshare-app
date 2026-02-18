@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -349,3 +352,6 @@ extension View {
         modifier(ScreenStateRestorationModifier(screenId: screenId))
     }
 }
+
+
+#endif

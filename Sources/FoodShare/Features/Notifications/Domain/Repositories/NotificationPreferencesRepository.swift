@@ -2,6 +2,8 @@
 // Enterprise Notification Preferences Repository Protocol
 // FoodShare iOS - Clean Architecture Domain Layer
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Repository Protocol
@@ -362,4 +364,6 @@ public enum NotificationPreferencesError: Error, LocalizedError, Sendable {
             return prefs
         }
     }
+#endif
+
 #endif

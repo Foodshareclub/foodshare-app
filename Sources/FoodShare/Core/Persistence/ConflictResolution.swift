@@ -19,6 +19,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -487,4 +489,6 @@ extension Syncable {
         }
     }
 }
+#endif
+
 #endif

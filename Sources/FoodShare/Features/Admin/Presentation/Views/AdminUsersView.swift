@@ -1,3 +1,6 @@
+
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -127,7 +130,7 @@ struct AdminUserRow: View {
                 } placeholder: {
                     Circle().fill(Color.white.opacity(0.1))
                 }
-                .frame(width: 44, height: 44)
+                .frame(width: 44.0, height: 44)
                 .clipShape(Circle())
 
                 // Info
@@ -226,7 +229,7 @@ struct AdminUserDetailSheet: View {
                         } placeholder: {
                             Circle().fill(Color.white.opacity(0.1))
                         }
-                        .frame(width: 80, height: 80)
+                        .frame(width: 80.0, height: 80)
                         .clipShape(Circle())
 
                         Text(user.displayName)
@@ -456,3 +459,6 @@ struct RoleAssignmentSheet: View {
         .presentationDetents([PresentationDetent.medium])
     }
 }
+
+
+#endif

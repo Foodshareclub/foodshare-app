@@ -5,6 +5,8 @@
 //  SwiftUI environment integration for reactive localization.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Global Convenience Function
@@ -314,7 +316,11 @@ public struct TranslationDebugOverlay: ViewModifier {
                     }
                     .font(.caption2)
                     .padding(6)
-                    .background(.ultraThinMaterial)
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .cornerRadius(CornerRadius.small)
                     .padding(8)
                 }
@@ -493,3 +499,5 @@ struct LocalePickerSheet: View {
         }
     }
 }
+
+#endif

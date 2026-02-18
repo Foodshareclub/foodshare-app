@@ -1,3 +1,4 @@
+
 #if !SKIP
 import MetalKit
 import SwiftUI
@@ -153,7 +154,7 @@ struct LiquidDistortionModifier: ViewModifier {
                                 .float2(center.x, center.y),
                                 .float2(proxy.size.width, proxy.size.height),
                             ),
-                            maxSampleOffset: CGSize(width: 20, height: 20),
+                            maxSampleOffset: CGSize(width: 20.0, height: 20.0),
                         )
                 }
         } else {
@@ -206,7 +207,7 @@ struct DepthBlurModifier: ViewModifier {
                                 .float(strength),
                                 .float2(proxy.size.width, proxy.size.height),
                             ),
-                            maxSampleOffset: CGSize(width: 50, height: 50),
+                            maxSampleOffset: CGSize(width: 50.0, height: 50.0),
                         )
                 }
         } else {
@@ -235,7 +236,7 @@ struct GlassFrostModifier: ViewModifier {
                                 .float(time),
                                 .float2(proxy.size.width, proxy.size.height),
                             ),
-                            maxSampleOffset: CGSize(width: 10, height: 10),
+                            maxSampleOffset: CGSize(width: 10.0, height: 10.0),
                         )
                 }
         } else {
@@ -448,14 +449,14 @@ public struct AnimatedGlassFrost<Content: View>: View {
         // Chromatic Aberration
         RoundedRectangle(cornerRadius: 20)
             .fill(Color.DesignSystem.brandGreen)
-            .frame(height: 100)
+            .frame(height: 100.0)
             .chromaticAberration(intensity: 0.5)
             .overlay(Text("Chromatic").foregroundStyle(.white))
 
         // Glow
         RoundedRectangle(cornerRadius: 20)
             .fill(Color.DesignSystem.brandGreen)
-            .frame(height: 100)
+            .frame(height: 100.0)
             .glowEffect(color: .DesignSystem.brandGreen, intensity: 0.8, radius: 15)
             .overlay(Text("Glow").foregroundStyle(.white))
 
@@ -468,11 +469,12 @@ public struct AnimatedGlassFrost<Content: View>: View {
                     endPoint: .bottom,
                 ),
             )
-            .frame(height: 100)
+            .frame(height: 100.0)
             .depthBlur(focusPoint: 0.5, focusRange: 0.3, strength: 0.5)
             .overlay(Text("Depth Blur").foregroundStyle(.white))
     }
     .padding()
     .background(Color.DesignSystem.background)
 }
+
 #endif

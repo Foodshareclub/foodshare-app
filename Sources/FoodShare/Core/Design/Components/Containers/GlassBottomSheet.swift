@@ -6,6 +6,8 @@
 //  Premium component with drag gesture, rubber-band effect, and multiple detents
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Bottom Sheet
@@ -106,7 +108,7 @@ struct GlassBottomSheet<Content: View>: View {
         VStack(spacing: 0) {
             Capsule()
                 .fill(Color.DesignSystem.textTertiary)
-                .frame(width: 36, height: 5)
+                .frame(width: 36.0, height: 5)
                 .padding(.top, Spacing.sm)
                 .padding(.bottom, Spacing.md)
         }
@@ -118,7 +120,11 @@ struct GlassBottomSheet<Content: View>: View {
         ZStack {
             // Ultra thin material
             Rectangle()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Gradient overlay for depth
             LinearGradient(
@@ -181,9 +187,9 @@ struct GlassBottomSheet<Content: View>: View {
 
     private func backgroundOpacity(screenHeight: CGFloat, sheetHeight: CGFloat) -> Double {
         let baseOpacity = 0.4
-        let adjustedOffset = max(0, dragOffset)
+        let adjustedOffset = max(0.0, dragOffset)
         let dismissProgress = adjustedOffset / (sheetHeight * 0.5)
-        return max(0, baseOpacity * (1 - dismissProgress))
+        return max(0.0, baseOpacity * (1 - dismissProgress))
     }
 
     private func maxSheetHeight(for screenHeight: CGFloat) -> CGFloat {
@@ -297,7 +303,7 @@ extension View {
                     HStack {
                         Circle()
                             .fill(Color.DesignSystem.accentBlue.opacity(0.3))
-                            .frame(width: 44, height: 44)
+                            .frame(width: 44.0, height: 44)
 
                         VStack(alignment: .leading) {
                             Text("Item \(index + 1)")
@@ -341,3 +347,5 @@ extension View {
             .padding()
         }
 }
+
+#endif

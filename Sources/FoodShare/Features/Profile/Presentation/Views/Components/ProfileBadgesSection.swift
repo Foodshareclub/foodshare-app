@@ -5,6 +5,8 @@
 //  Displays user badges and achievements in a horizontal scroll.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Badges Section
@@ -98,7 +100,7 @@ struct BadgesContent: View {
                     progress: nil,
                     onTap: nil
                 )
-                .frame(width: 72)
+                .frame(width: 72.0)
             }
         }
     }
@@ -138,3 +140,5 @@ struct BadgesContent: View {
     }
 }
 
+
+#endif

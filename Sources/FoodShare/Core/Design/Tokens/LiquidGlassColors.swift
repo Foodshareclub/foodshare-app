@@ -13,8 +13,8 @@ import SwiftUI
 #if SKIP
 // MARK: - Skip-compatible Color.DesignSystem
 
-/// Helper to create Color from hex UInt on Skip
-private func _colorFromHex(_ hex: UInt) -> Color {
+/// Helper to create Color from hex Int on Skip
+private func _colorFromHex(_ hex: Int) -> Color {
     let r = Double((hex >> 16) & 0xFF) / 255.0
     let g = Double((hex >> 8) & 0xFF) / 255.0
     let b = Double(hex & 0xFF) / 255.0
@@ -59,9 +59,9 @@ enum _ColorDesignSystem {
     static var primaryDark: Color { _colorFromHex(0xE6284C) }
 
     // MARK: - Semantic Background Colors
-    static var background: Color { Color(red: 0x1C/255, green: 0x1C/255, blue: 0x1E/255) }
-    static var surface: Color { Color(red: 0x1C/255, green: 0x1C/255, blue: 0x1E/255) }
-    static var surfaceElevated: Color { Color(red: 0x2C/255, green: 0x2C/255, blue: 0x2E/255) }
+    static var background: Color { Color(red: Double(0x1C)/255.0, green: Double(0x1C)/255.0, blue: Double(0x1E)/255.0) }
+    static var surface: Color { Color(red: Double(0x1C)/255.0, green: Double(0x1C)/255.0, blue: Double(0x1E)/255.0) }
+    static var surfaceElevated: Color { Color(red: Double(0x2C)/255.0, green: Double(0x2C)/255.0, blue: Double(0x2E)/255.0) }
 
     // MARK: - Text Colors
     static var text: Color { Color.primary }

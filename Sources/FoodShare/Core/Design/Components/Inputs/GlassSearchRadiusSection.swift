@@ -6,6 +6,8 @@
 //  Used in FilterSheet, EditProfileView, and SettingsView
 //
 
+
+#if !SKIP
 import OSLog
 import SwiftUI
 
@@ -124,7 +126,7 @@ struct GlassSearchRadiusSection: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 28)
+                    .frame(width: 28.0)
 
                 Text("Search Radius")
                     .font(.DesignSystem.bodyMedium)
@@ -292,7 +294,11 @@ struct GlassSearchRadiusSection: View {
                                 )
                                 .background(
                                     Capsule()
-                                        .fill(.ultraThinMaterial),
+                                        #if !SKIP
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                        #else
+                                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                        #endif
                                 ),
                         )
                         .overlay(
@@ -387,7 +393,11 @@ struct GlassSearchRadiusSection: View {
                         .padding(Spacing.lg)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.large)
-                                .fill(.ultraThinMaterial),
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                         )
 
                         // Full style - Miles
@@ -405,7 +415,11 @@ struct GlassSearchRadiusSection: View {
                         .padding(Spacing.lg)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.large)
-                                .fill(.ultraThinMaterial),
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                         )
 
                         // Compact style (for Settings)
@@ -421,13 +435,21 @@ struct GlassSearchRadiusSection: View {
                             )
                             .background(
                                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                                    .fill(.ultraThinMaterial),
+                                    #if !SKIP
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                    #else
+                                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                    #endif
                             )
                         }
                         .padding(Spacing.lg)
                         .background(
                             RoundedRectangle(cornerRadius: CornerRadius.large)
-                                .fill(.ultraThinMaterial),
+                                #if !SKIP
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                                #else
+                                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                                #endif
                         )
                     }
                     .padding()
@@ -438,3 +460,5 @@ struct GlassSearchRadiusSection: View {
 
     return PreviewWrapper()
 }
+
+#endif

@@ -3,6 +3,8 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+#if !SKIP
 import SwiftUI
 
 /// A banner showing offline status and pending changes.
@@ -424,3 +426,5 @@ public struct OfflineBanner: View {
     }
     .background(Color.DesignSystem.background)
 }
+
+#endif

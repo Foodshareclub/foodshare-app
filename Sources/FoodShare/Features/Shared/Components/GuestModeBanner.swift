@@ -6,6 +6,8 @@
 //  Following CareEcho pattern for guest mode UI
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GuestModeBanner: View {
@@ -81,7 +83,11 @@ struct GuestModeBanner: View {
         ZStack {
             // Base glass effect
             RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             // Orange tint overlay
             RoundedRectangle(cornerRadius: 16)
@@ -130,3 +136,5 @@ struct GuestModeBanner: View {
     }
     .environment(GuestManager())
 }
+
+#endif

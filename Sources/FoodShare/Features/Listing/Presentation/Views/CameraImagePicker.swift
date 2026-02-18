@@ -5,6 +5,8 @@
 //  Camera capture wrapper for UIImagePickerController
 //
 
+
+#if !SKIP
 import SwiftUI
 #if !SKIP
 import UIKit
@@ -50,3 +52,5 @@ struct CameraImagePicker: UIViewControllerRepresentable {
         }
     }
 }
+
+#endif

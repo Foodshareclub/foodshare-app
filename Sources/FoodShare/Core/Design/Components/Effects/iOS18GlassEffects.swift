@@ -6,6 +6,7 @@
 //  Leverages new SwiftUI capabilities for enhanced Liquid Glass design
 //
 
+
 #if !SKIP
 import SwiftUI
 
@@ -328,7 +329,11 @@ struct FloatingGlassPanel<Content: View>: View {
                 ZStack {
                     // Base glass material
                     RoundedRectangle(cornerRadius: cornerRadius)
+                        #if !SKIP
                         .fill(.ultraThinMaterial)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     // Top highlight
                     RoundedRectangle(cornerRadius: cornerRadius)
@@ -526,7 +531,7 @@ struct GlassStatusBar: View {
             startPoint: .leading,
             endPoint: .trailing
         )
-        .frame(width: 60)
+        .frame(width: 60.0)
         .offset(x: shimmerOffset)
     }
 
@@ -632,4 +637,5 @@ extension View {
     .background(Color.DesignSystem.background)
     .preferredColorScheme(.dark)
 }
+
 #endif

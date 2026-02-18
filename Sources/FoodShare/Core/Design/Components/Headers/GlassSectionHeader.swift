@@ -6,6 +6,8 @@
 //  Reusable across all detail views
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassSectionHeader: View {
@@ -272,3 +274,5 @@ extension GlassSectionHeader {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

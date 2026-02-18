@@ -6,6 +6,8 @@
 //  Extracted from AuthenticationService for reusability
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Password strength levels with visual feedback
@@ -60,3 +62,5 @@ enum PasswordStrength: Sendable, Equatable {
         }
     }
 }
+
+#endif

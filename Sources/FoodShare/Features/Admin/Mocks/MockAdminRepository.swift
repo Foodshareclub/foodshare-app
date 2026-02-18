@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MockAdminRepository.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Mock admin repository for testing and previews
 //
 
+
+#if !SKIP
 import Foundation
 
 #if DEBUG
@@ -415,4 +416,5 @@ import Foundation
         }
     }
 #endif
+
 #endif

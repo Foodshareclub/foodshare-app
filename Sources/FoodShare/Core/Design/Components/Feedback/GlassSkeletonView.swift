@@ -6,6 +6,8 @@
 //  Premium shimmer loading states with staggered animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Skeleton Modifier
@@ -41,7 +43,7 @@ struct GlassSkeletonModifier: ViewModifier {
                 startPoint: .leading,
                 endPoint: .trailing
             )
-            .frame(width: 100)
+            .frame(width: 100.0)
             .offset(x: shimmerOffset)
             .onAppear {
                 withAnimation(
@@ -171,3 +173,5 @@ struct GlassConditionalSkeleton<Content: View, Skeleton: View>: View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

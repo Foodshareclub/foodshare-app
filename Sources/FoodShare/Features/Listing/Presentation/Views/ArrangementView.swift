@@ -5,6 +5,8 @@
 //  View for managing post arrangements
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -166,3 +168,5 @@ struct ArrangementView: View {
         }
     }
 }
+
+#endif

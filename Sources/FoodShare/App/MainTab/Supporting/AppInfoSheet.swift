@@ -5,6 +5,8 @@
 //  App information and guidelines sheet
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - App Info Sheet
@@ -90,7 +92,7 @@ struct AppInfoSheet: View {
                             endRadius: 95,
                         ),
                     )
-                    .frame(width: 150, height: 150)
+                    .frame(width: 150.0, height: 150)
                     .blur(radius: 25)
 
                 AppLogoView(size: .large, showGlow: false, circular: true)
@@ -224,7 +226,7 @@ private struct AppInfoGuidelineRow: View {
             Image(systemName: icon)
                 .font(.system(size: 16))
                 .foregroundColor(.DesignSystem.brandGreen)
-                .frame(width: 24)
+                .frame(width: 24.0)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -304,3 +306,5 @@ extension View {
             )
     }
 }
+
+#endif

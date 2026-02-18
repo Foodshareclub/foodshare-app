@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  UserLocationOverrideManager.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Allows users to manually set their location when IP geolocation is inaccurate.
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -38,7 +39,7 @@ struct LocationOverride: Codable, Sendable {
 
     /// Time remaining until expiry
     var timeRemaining: TimeInterval {
-        max(0, expiresAt.timeIntervalSince(Date()))
+        max(0.0, expiresAt.timeIntervalSince(Date()))
     }
 
     /// Formatted time remaining
@@ -331,4 +332,5 @@ extension UserLocationOverrideManager {
         }
     }
 }
+
 #endif

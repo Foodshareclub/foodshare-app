@@ -5,6 +5,9 @@
 //  Upstash Redis service wrapper via CacheAPIService
 //
 
+
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -77,3 +80,6 @@ extension UpstashService {
         return try decoder.decode(type, from: data)
     }
 }
+
+
+#endif

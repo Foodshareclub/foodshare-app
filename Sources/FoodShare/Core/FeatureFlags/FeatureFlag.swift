@@ -5,6 +5,8 @@
 //  Enterprise feature flag definitions for controlled rollouts
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Feature Flag
@@ -287,3 +289,5 @@ struct FeatureFlagOverride: Sendable, Codable {
         self.createdAt = Date()
     }
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  Minimalist grayscale for a clean, professional look
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Monochrome theme with grayscale colors
@@ -92,3 +94,5 @@ struct MonochromeTheme: Theme {
         )
     }
 }
+
+#endif

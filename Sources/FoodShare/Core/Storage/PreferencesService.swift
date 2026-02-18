@@ -5,6 +5,9 @@
 //  User preferences storage service using AppStorage
 //
 
+
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -57,3 +60,6 @@ final class PreferencesService {
         }
     }
 }
+
+
+#endif

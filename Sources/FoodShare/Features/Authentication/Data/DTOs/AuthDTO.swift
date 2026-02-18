@@ -5,6 +5,8 @@
 //  Data Transfer Objects for authentication
 //
 
+
+#if !SKIP
 import Foundation
 
 /// DTO for Supabase auth user response
@@ -72,3 +74,5 @@ struct SignInRequestDTO: Codable {
 struct PasswordResetRequestDTO: Codable {
     let email: String
 }
+
+#endif

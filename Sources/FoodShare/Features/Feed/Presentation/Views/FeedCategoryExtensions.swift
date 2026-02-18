@@ -6,6 +6,8 @@
 //  GlassCategoryBar and GlassCategoryChip are in Core/Design/Components/Navigation
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - ListingCategory Conformance
@@ -30,3 +32,5 @@ extension ListingCategory: CategoryDisplayable {
         }
     }
 }
+
+#endif

@@ -23,6 +23,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import SwiftUI
@@ -178,7 +180,7 @@ public final class ConsentManager {
     public static let shared = ConsentManager()
 
     // Current privacy policy version - increment when policy changes
-    nonisolated public static let currentPolicyVersion = "1.0.0"
+    nonisolated public static let currentPolicyVersion = "1.0"
 
     // MARK: - Published State
 
@@ -450,7 +452,7 @@ struct ConsentToggleRow: View {
             HStack(spacing: Spacing.sm) {
                 Image(systemName: type.icon)
                     .foregroundStyle(type.isRequired ? Color.DesignSystem.brandGreen : Color.DesignSystem.textSecondary)
-                    .frame(width: 24)
+                    .frame(width: 24.0)
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     HStack {
@@ -598,7 +600,7 @@ struct OnboardingConsentCard: View {
                 Image(systemName: type.icon)
                     .font(.system(size: 24))
                     .foregroundStyle(isSelected ? Color.DesignSystem.brandGreen : Color.DesignSystem.textSecondary)
-                    .frame(width: 32)
+                    .frame(width: 32.0)
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(type.localizedDisplayName(using: t))
@@ -621,7 +623,11 @@ struct OnboardingConsentCard: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(
@@ -649,4 +655,6 @@ struct OnboardingConsentCard: View {
         }
         .preferredColorScheme(.dark)
     }
+#endif
+
 #endif

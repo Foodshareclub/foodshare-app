@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  InputValidator.swift
 //  FoodShare
@@ -7,6 +6,8 @@
 //  Provides SQL injection, XSS, and general input sanitization
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Validation Result
@@ -523,4 +524,5 @@ public final class ValidationBuilder: @unchecked Sendable {
         return .invalid(errors)
     }
 }
+
 #endif

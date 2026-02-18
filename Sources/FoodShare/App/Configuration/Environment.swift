@@ -3,10 +3,14 @@
 //  Foodshare
 //
 //  Environment configuration
-//  Reads from environment variables (Xcode scheme) or Config.plist (bundled file)
+//  iOS: Reads from environment variables (Xcode scheme) or Config.plist (bundled file)
+//  Android: Reads from ProcessInfo environment (set from BuildConfig in Main.kt)
 //
 
+
 import Foundation
+
+#if !SKIP
 
 /// Token class used to locate the framework bundle containing Config.plist
 private final class _EnvironmentBundleToken {}
@@ -90,3 +94,49 @@ enum AppEnvironment {
         #endif
     }
 }
+
+#else
+
+// MARK: - Android Environment (Skip)
+// Reads from ProcessInfo.processInfo.environment which is populated from
+// BuildConfig values in Main.kt's AndroidAppMain.onCreate()
+
+enum AppEnvironment {
+    /// Get value from environment, returning nil for empty strings
+    private static func getValue(key: String) -> String? {
+        if let value = ProcessInfo.processInfo.environment[key], !value.isEmpty {
+            return value
+        }
+        return nil
+    }
+
+    static var supabaseURL: String? {
+        getValue(key: "SUPABASE_URL")
+    }
+
+    static var supabasePublishableKey: String? {
+        getValue(key: "SUPABASE_PUBLISHABLE_KEY")
+    }
+
+    static var upstashRedisURL: String? {
+        getValue(key: "UPSTASH_REDIS_URL")
+    }
+
+    static var upstashRedisToken: String? {
+        getValue(key: "UPSTASH_REDIS_TOKEN")
+    }
+
+    static var resendAPIKey: String? {
+        getValue(key: "RESEND_API_KEY")
+    }
+
+    static var nextdoorClientId: String? {
+        getValue(key: "NEXTDOOR_CLIENT_ID")
+    }
+
+    static var verboseLogging: Bool {
+        true // Always verbose in development
+    }
+}
+
+#endif

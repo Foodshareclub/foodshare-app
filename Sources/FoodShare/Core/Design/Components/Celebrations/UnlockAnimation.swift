@@ -13,6 +13,8 @@
 //  - Haptic feedback integration
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -161,7 +163,7 @@ struct UnlockAnimationView<Badge: View>: View {
                     colors: [
                         config.primaryColor.opacity(glowIntensity * 0.8),
                         config.primaryColor.opacity(glowIntensity * 0.4),
-                        config.primaryColor.opacity(0)
+                        config.primaryColor.opacity(0.0)
                     ],
                     center: .center,
                     startRadius: config.size * 0.3,
@@ -204,7 +206,7 @@ struct UnlockAnimationView<Badge: View>: View {
             // Glow overlay on ring
             if progress > 0 {
                 Circle()
-                    .trim(from: max(0, progress - 0.1), to: progress)
+                    .trim(from: max(0.0, progress - 0.1), to: progress)
                     .stroke(
                         config.primaryColor,
                         style: StrokeStyle(lineWidth: config.ringWidth + 2, lineCap: .round),
@@ -463,7 +465,11 @@ struct BadgeUnlockCell: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -510,7 +516,11 @@ extension View {
                     .padding(Spacing.xl)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.xxl)
-                            .fill(.ultraThinMaterial),
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                     )
                 }
                 .transition(.opacity.combined(with: .scale))
@@ -650,4 +660,6 @@ extension View {
             .preferredColorScheme(.dark)
     }
 #endif
+#endif
+
 #endif

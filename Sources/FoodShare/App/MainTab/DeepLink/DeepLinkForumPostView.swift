@@ -5,6 +5,8 @@
 //  Wrapper view for deep-linking to a specific forum post
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Wrapper view for deep-linking to a specific forum post
@@ -46,3 +48,5 @@ struct DeepLinkForumPostView: View {
         }
     }
 }
+
+#endif

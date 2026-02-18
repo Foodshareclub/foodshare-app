@@ -6,6 +6,8 @@
 //  Provides contextual error UI with recovery actions
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Error View
@@ -87,13 +89,17 @@ struct GlassErrorView: View {
                         endRadius: 80
                     )
                 )
-                .frame(width: 160, height: 160)
+                .frame(width: 160.0, height: 160)
                 .scaleEffect(isAnimating ? 1.1 : 1.0)
 
             // Glass circle
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: 100, height: 100)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
+                .frame(width: 100.0, height: 100)
                 .overlay(
                     Circle()
                         .stroke(
@@ -194,7 +200,11 @@ struct GlassErrorView: View {
             .padding(.vertical, Spacing.sm)
             .background(
                 Capsule()
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .overlay(
                 Capsule()
@@ -418,7 +428,7 @@ struct GlassInlineErrorBanner: View {
                     .foregroundColor(style.color)
             }
         }
-        .frame(width: 20, height: 20)
+        .frame(width: 20.0, height: 20)
     }
 
     @ViewBuilder
@@ -435,7 +445,7 @@ struct GlassInlineErrorBanner: View {
                     #endif
 
                 CircularProgressView(progress: countdownProgress)
-                    .frame(width: 16, height: 16)
+                    .frame(width: 16.0, height: 16)
             }
         } else if let action {
             Button {
@@ -470,7 +480,11 @@ struct GlassInlineErrorBanner: View {
     private var glassBackground: some View {
         ZStack {
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
 
             RoundedRectangle(cornerRadius: CornerRadius.medium)
                 .fill(style.color.opacity(0.05))
@@ -645,12 +659,16 @@ struct GlassEmptyStateView: View {
                             endRadius: 60
                         )
                     )
-                    .frame(width: 120, height: 120)
+                    .frame(width: 120.0, height: 120)
                     .scaleEffect(isAnimating ? 1.1 : 1.0)
 
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 80, height: 80)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 80.0, height: 80)
                     .overlay(
                         Circle()
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -842,3 +860,5 @@ extension View {
         dismissAction: {}
     )
 }
+
+#endif

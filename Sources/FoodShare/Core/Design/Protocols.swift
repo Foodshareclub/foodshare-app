@@ -5,6 +5,8 @@
 //  Shared protocols for the Liquid Glass design system
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Category Displayable Protocol
@@ -16,3 +18,5 @@ protocol CategoryDisplayable {
     var categoryIcon: String { get }
     var displayColor: Color { get }
 }
+
+#endif

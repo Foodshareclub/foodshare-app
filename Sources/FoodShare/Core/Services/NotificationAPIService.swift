@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  NotificationAPIService.swift
 //  Foodshare
@@ -9,6 +8,8 @@
 //  managing notification preferences.
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Notification API Service
@@ -147,4 +148,5 @@ struct PushResponse: Codable, Sendable {
         let invalidTokens: [String]
     }
 }
+
 #endif

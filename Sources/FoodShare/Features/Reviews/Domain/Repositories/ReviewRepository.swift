@@ -5,6 +5,8 @@
 //  Repository protocol for review operations
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Reviews with Average Result
@@ -49,3 +51,5 @@ protocol ReviewRepository: Sendable {
     /// Check if user has already reviewed a post
     func hasReviewed(postId: Int, userId: UUID) async throws -> Bool
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Challenges tab with gamification features
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Challenges Tab View
@@ -56,8 +58,8 @@ struct ChallengesTabView: View {
             // Animated loading icon with glass effect
             ZStack {
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 80, height: 80)
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    .frame(width: 80.0, height: 80)
                     .overlay(
                         Circle()
                             .stroke(
@@ -92,7 +94,7 @@ struct ChallengesTabView: View {
         .background(Color.DesignSystem.background)
         .navigationTitle(t.t("tabs.challenges"))
         #if !SKIP
-        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+        .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
         #endif
     }
 
@@ -105,3 +107,5 @@ struct ChallengesTabView: View {
         )
     }
 }
+
+#endif

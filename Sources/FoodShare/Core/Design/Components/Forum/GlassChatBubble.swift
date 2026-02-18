@@ -6,6 +6,8 @@
 //  Glass-styled chat bubbles with tail morphing and status indicators
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Glass Chat Bubble
@@ -84,7 +86,7 @@ struct GlassChatBubble: View {
                 avatarView
             } else {
                 Spacer()
-                    .frame(width: 32)
+                    .frame(width: 32.0)
             }
 
             VStack(alignment: isOutgoing ? .trailing : .leading, spacing: Spacing.xxxs) {
@@ -159,7 +161,7 @@ struct GlassChatBubble: View {
                     )
             }
         }
-        .frame(width: 32, height: 32)
+        .frame(width: 32.0, height: 32)
         .clipShape(Circle())
     }
 
@@ -186,7 +188,11 @@ struct GlassChatBubble: View {
             )
         } else {
             Color.clear
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -199,7 +205,7 @@ struct GlassChatBubble: View {
         HStack(spacing: Spacing.xs) {
             RoundedRectangle(cornerRadius: 2)
                 .fill(Color.DesignSystem.brandGreen)
-                .frame(width: 3)
+                .frame(width: 3.0)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(reply.senderName)
@@ -237,7 +243,11 @@ struct GlassChatBubble: View {
         .padding(.vertical, Spacing.xxxs)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -464,7 +474,7 @@ struct GlassTypingIndicator: View {
         HStack(alignment: .bottom, spacing: Spacing.xs) {
             Circle()
                 .fill(Color.DesignSystem.glassBorder)
-                .frame(width: 32, height: 32)
+                .frame(width: 32.0, height: 32)
 
             VStack(alignment: .leading, spacing: Spacing.xxxs) {
                 if let name = senderName {
@@ -478,7 +488,7 @@ struct GlassTypingIndicator: View {
                     ForEach(0..<3) { index in
                         Circle()
                             .fill(Color.DesignSystem.textSecondary)
-                            .frame(width: 8, height: 8)
+                            .frame(width: 8.0, height: 8)
                             .scaleEffect(animationPhase == index ? 1.2 : 0.8)
                             .opacity(animationPhase == index ? 1 : 0.5)
                     }
@@ -487,7 +497,11 @@ struct GlassTypingIndicator: View {
                 .padding(.vertical, Spacing.sm)
                 .background(
                     Color.clear
-                        .background(.ultraThinMaterial)
+                        #if !SKIP
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .clipShape(ChatBubbleShape(isOutgoing: false))
                         .overlay(
                             ChatBubbleShape(isOutgoing: false)
@@ -579,3 +593,5 @@ struct GlassTypingIndicator: View {
     }
     .background(Color.DesignSystem.background)
 }
+
+#endif

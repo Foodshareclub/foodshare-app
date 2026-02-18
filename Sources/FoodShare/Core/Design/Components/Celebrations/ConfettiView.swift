@@ -13,6 +13,8 @@
 //  - Configurable particle count and spread
 //
 
+
+#if !SKIP
 #if !SKIP
 import SwiftUI
 
@@ -323,7 +325,7 @@ struct ConfettiView: View {
             let fadeStart = configuration.duration * 0.7
             if elapsed > fadeStart {
                 let fadeProgress = (elapsed - fadeStart) / (configuration.duration - fadeStart)
-                particles[i].opacity = max(0, 1.0 - fadeProgress)
+                particles[i].opacity = max(0.0, 1.0 - fadeProgress)
             }
         }
     }
@@ -426,3 +428,5 @@ extension View {
     }
 #endif
 #endif // !SKIP
+
+#endif

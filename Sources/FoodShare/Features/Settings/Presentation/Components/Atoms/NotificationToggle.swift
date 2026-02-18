@@ -3,6 +3,9 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+
+#if !SKIP
 import SwiftUI
 
 /// An animated toggle control for notification preferences with loading state support.
@@ -81,11 +84,11 @@ struct NotificationToggle: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: accentColor))
                         .scaleEffect(0.7)
-                        .frame(width: 51, height: 31) // Standard toggle size
+                        .frame(width: 51.0, height: 31) // Standard toggle size
                 }
             }
         }
-        .frame(width: 51, height: 31)
+        .frame(width: 51.0, height: 31)
         .onChange(of: isOn) { oldValue, newValue in
             if !isLoading {
                 // Haptic feedback on change
@@ -199,3 +202,6 @@ struct NotificationToggle: View {
 
     return InteractivePreview()
 }
+
+
+#endif

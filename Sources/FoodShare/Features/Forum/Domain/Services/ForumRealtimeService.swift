@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ForumRealtimeService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Supports live updates for posts, comments, and reactions
 //
 
+
+#if !SKIP
 import Foundation
 @preconcurrency import Realtime
 import Supabase
@@ -546,4 +547,5 @@ extension AnyJSON {
         }
     }
 #endif
+
 #endif

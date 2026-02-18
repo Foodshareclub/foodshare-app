@@ -1,3 +1,5 @@
+
+#if !SKIP
 import Foundation
 
 // MARK: - Forum Comment Model
@@ -180,4 +182,6 @@ struct CreateCommentRequest: Codable, Sendable {
             )
         }
     }
+#endif
+
 #endif

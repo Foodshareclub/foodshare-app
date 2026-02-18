@@ -5,6 +5,9 @@
 //  Challenge domain model - Maps to `challenges` table in Supabase
 //
 
+
+
+#if !SKIP
 import Foundation
 
 /// Represents a community challenge
@@ -385,5 +388,8 @@ enum ChallengeUserStatus: String, Sendable {
             )
         }
     }
+
+#endif
+
 
 #endif

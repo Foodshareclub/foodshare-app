@@ -9,6 +9,8 @@
 //  - Accessibility-first design
 //
 
+
+#if !SKIP
 import CoreImage.CIFilterBuiltins
 import Kingfisher
 import PhotosUI
@@ -399,7 +401,7 @@ private struct ProfileContentView: View {
             ZStack {
                 Circle()
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 32, weight: .light))
@@ -496,7 +498,7 @@ private struct FilteredBadgesSection: View {
                         progress: nil,
                         onTap: nil,
                     )
-                    .frame(width: 72)
+                    .frame(width: 72.0)
                 }
             }
         }
@@ -628,7 +630,7 @@ private struct EnhancedProfileAvatarView: View {
                 avatarPlaceholder
             }
         }
-        .frame(width: 100, height: 100)
+        .frame(width: 100.0, height: 100)
         .clipShape(Circle())
         .overlay(
             Circle().stroke(
@@ -940,7 +942,7 @@ struct ProfileMenuRow: View {
         HStack {
             Image(systemName: icon)
                 .foregroundStyle(color)
-                .frame(width: 24)
+                .frame(width: 24.0)
 
             Text(title)
                 .font(.LiquidGlass.labelLarge)
@@ -1075,7 +1077,7 @@ struct LevelProgressCard: View {
                                     endPoint: .bottomTrailing,
                                 ),
                             )
-                            .frame(width: 36, height: 36)
+                            .frame(width: 36.0, height: 36)
 
                         Image(systemName: level.iconName)
                             .font(.system(size: 16, weight: .semibold))
@@ -1118,7 +1120,7 @@ struct LevelProgressCard: View {
                 ZStack(alignment: .leading) {
                     Capsule()
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 10)
+                        .frame(height: 10.0)
 
                     Capsule()
                         .fill(
@@ -1138,7 +1140,7 @@ struct LevelProgressCard: View {
                         )
                 }
             }
-            .frame(height: 10)
+            .frame(height: 10.0)
         }
         .padding(Spacing.md)
         .glassEffect(cornerRadius: CornerRadius.large)
@@ -1192,7 +1194,7 @@ struct StreakIndicatorCard: View {
                 // Glow effect
                 Circle()
                     .fill(flameColor.opacity(0.2))
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .scaleEffect(isFlameAnimating ? 1.2 : 1.0)
                     .opacity(isFlameAnimating ? 0.3 : 0.6)
 
@@ -1243,7 +1245,7 @@ struct StreakIndicatorCard: View {
                 ForEach(0 ..< 7, id: \.self) { day in
                     Circle()
                         .fill(day < streakDays % 7 || streakDays >= 7 ? flameColor : Color.DesignSystem.glassBackground)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 8.0, height: 8)
                 }
             }
         }
@@ -1289,7 +1291,7 @@ struct ProfileQRCodeView: View {
                             KFImage(url)
                                 .resizable()
                                 .aspectRatio(contentMode: ContentMode.fill)
-                                .frame(width: 80, height: 80)
+                                .frame(width: 80.0, height: 80)
                                 .clipShape(Circle())
                                 .overlay(
                                     Circle().stroke(
@@ -1307,7 +1309,7 @@ struct ProfileQRCodeView: View {
                         } else {
                             Circle()
                                 .fill(Color.DesignSystem.primary.opacity(0.2))
-                                .frame(width: 80, height: 80)
+                                .frame(width: 80.0, height: 80)
                                 .overlay {
                                     Image(systemName: "person.fill")
                                         .font(.system(size: 32))
@@ -1363,7 +1365,7 @@ struct ProfileQRCodeView: View {
                             Image(uiImage: qrCodeImage)
                                 .interpolation(.none)
                                 .resizable()
-                                .frame(width: 200, height: 200)
+                                .frame(width: 200.0, height: 200)
                                 .padding(Spacing.lg)
                                 .background(Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
@@ -1472,3 +1474,5 @@ struct ProfileQRCodeView: View {
     }
     #endif
 }
+
+#endif

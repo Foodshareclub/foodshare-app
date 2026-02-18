@@ -8,6 +8,9 @@
 //  MIGRATED: From ObservableObject to @Observable for improved performance
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -296,3 +299,6 @@ final class MFAService {
         currentEnrollment = nil
     }
 }
+
+
+#endif

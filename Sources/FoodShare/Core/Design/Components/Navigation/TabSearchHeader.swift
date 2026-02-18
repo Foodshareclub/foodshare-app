@@ -12,6 +12,8 @@
 //  - iOS 17+ @FocusState integration
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Tab Search Header
@@ -166,10 +168,14 @@ struct GlassActionButton: View {
                 .font(.system(size: 22, weight: .medium))
                 .foregroundColor(.DesignSystem.text)
                 .rotationEffect(.degrees(rotationDegrees))
-                .frame(width: 56, height: 56)
+                .frame(width: 56.0, height: 56)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -228,7 +234,11 @@ struct GlassActionButtonWithNotification: View {
                 .frame(width: buttonSize, height: buttonSize)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             Circle()
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -376,3 +386,5 @@ struct GlassActionButtonWithNotification: View {
 
     return PreviewWrapper()
 }
+
+#endif

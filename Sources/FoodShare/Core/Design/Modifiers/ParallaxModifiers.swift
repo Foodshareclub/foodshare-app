@@ -12,6 +12,8 @@
 //  - GPU-optimized transforms
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Parallax Configuration
@@ -377,7 +379,7 @@ extension View {
                 HStack {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.DesignSystem.primary.opacity(0.2))
-                        .frame(height: 100)
+                        .frame(height: 100.0)
                         .overlay(
                             Text("Card \(index + 1)")
                                 .font(Font.DesignSystem.headlineSmall)
@@ -392,4 +394,6 @@ extension View {
     #Preview("Parallax Effects") {
         ParallaxPreviewContent()
     }
+#endif
+
 #endif

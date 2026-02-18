@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ErrorReportingService.swift
 //  Foodshare
@@ -15,6 +14,8 @@
 //  - Error rate tracking
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -482,4 +483,5 @@ public func withErrorCaptureOrNil<T: Sendable>(
         body,
     )
 }
+
 #endif

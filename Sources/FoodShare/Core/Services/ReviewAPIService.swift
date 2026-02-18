@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  ReviewAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  API service for reviews via api-v1-reviews edge function
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Review API Service
@@ -70,4 +71,5 @@ struct SubmitReviewRequest: Encodable, Sendable {
     let rating: Int
     let feedback: String?
 }
+
 #endif

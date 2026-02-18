@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  NetworkMonitor.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  Posts notifications when connectivity status changes
 //
 
+
+#if !SKIP
 import Foundation
 #if !SKIP
 import Network
@@ -273,4 +274,5 @@ extension NetworkMonitor {
         }
     }
 }
+
 #endif

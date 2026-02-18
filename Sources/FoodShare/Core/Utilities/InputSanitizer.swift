@@ -5,6 +5,9 @@
 //  Input sanitization utilities for security
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Input Sanitizer
@@ -184,3 +187,6 @@ enum ValidationPattern {
         input.range(of: pattern, options: String.CompareOptions.regularExpression) != nil
     }
 }
+
+
+#endif

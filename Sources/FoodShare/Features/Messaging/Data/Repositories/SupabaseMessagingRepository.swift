@@ -9,9 +9,10 @@
 //  Migrated to use ChatAPIService (Edge Functions) for CRUD operations
 //
 
+
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 import Realtime
@@ -766,3 +767,6 @@ private struct UpdateRoomMessageParams: Encodable, Sendable {
         case pSentBy = "p_sent_by"
     }
 }
+
+
+#endif

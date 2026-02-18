@@ -6,6 +6,8 @@
 //  Part of Forum UI improvements
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Author Preview Sheet
@@ -34,7 +36,7 @@ struct AuthorPreviewSheet: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
             #endif
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -112,7 +114,7 @@ struct AuthorPreviewSheet: View {
                         ),
                         lineWidth: 3
                     )
-                    .frame(width: 90, height: 90)
+                    .frame(width: 90.0, height: 90)
                     .glassBreathing(intensity: 0.3)
 
                 AsyncImage(url: author.avatarURL) { phase in
@@ -138,7 +140,7 @@ struct AuthorPreviewSheet: View {
                             }
                     }
                 }
-                .frame(width: 80, height: 80)
+                .frame(width: 80.0, height: 80)
                 .clipShape(Circle())
             }
 
@@ -263,7 +265,7 @@ struct AuthorPreviewSheet: View {
                 ForEach(0..<3, id: \.self) { _ in
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(height: 70)
+                        .frame(height: 70.0)
                 }
             }
             .glassShimmer(isActive: true)
@@ -277,7 +279,7 @@ struct AuthorPreviewSheet: View {
                 ForEach(0..<6, id: \.self) { _ in
                     Circle()
                         .fill(Color.DesignSystem.glassBackground)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 50.0, height: 50)
                 }
             }
             .glassShimmer(isActive: true)
@@ -367,7 +369,7 @@ private struct AuthorStatCard: View {
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -395,7 +397,7 @@ private struct BadgeItem: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
 
                 Image(systemName: badge.badge.sfSymbolName)
                     .font(.system(size: 24))
@@ -426,4 +428,6 @@ private struct BadgeItem: View {
 //         onViewProfile: {}
 //     )
 // }
+#endif
+
 #endif

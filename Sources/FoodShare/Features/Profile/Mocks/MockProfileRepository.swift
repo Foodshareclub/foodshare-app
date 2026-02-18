@@ -5,6 +5,8 @@
 //  Mock profile repository for previews and testing
 //
 
+
+#if !SKIP
 import Foundation
 
 #if DEBUG
@@ -254,4 +256,6 @@ import Foundation
             unblockCallCount = 0
         }
     }
+#endif
+
 #endif

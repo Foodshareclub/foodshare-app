@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 
@@ -103,4 +104,5 @@ enum DatabaseError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

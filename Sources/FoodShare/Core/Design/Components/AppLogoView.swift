@@ -5,6 +5,8 @@
 //  Reusable app logo component with Liquid Glass styling
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Reusable app logo view with configurable size and styling
@@ -84,3 +86,5 @@ private struct AppLogoShimmerModifier: ViewModifier {
     .padding()
     .background(Color.backgroundGradient)
 }
+
+#endif

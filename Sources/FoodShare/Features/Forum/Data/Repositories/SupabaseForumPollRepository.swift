@@ -1,3 +1,4 @@
+
 #if !SKIP
 import Foundation
 import OSLog
@@ -307,4 +308,5 @@ enum ForumPollError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

@@ -7,9 +7,10 @@
 //  Migrated from ObservableObject for improved performance and type safety
 //
 
+
+
 #if !SKIP
 import AuthenticationServices
-#endif
 import Foundation
 import Observation
 import OSLog
@@ -591,4 +592,199 @@ final class ASContextProvider: NSObject, ASAuthorizationControllerPresentationCo
         return window
     }
 }
+
+#endif
+
+#else
+// MARK: - Android AuthViewModel (Skip)
+
+import Foundation
+import Observation
+
+/// Use AppAuthError for authentication error handling
+typealias AuthenticationError = AppAuthError
+
+@MainActor
+@Observable
+final class AuthViewModel {
+    // MARK: - Observable Properties
+
+    var email = ""
+    var password = ""
+    var errorMessage: String?
+    var authError: AuthenticationError?
+    var isLoading = false
+    var showEmailVerificationPrompt = false
+
+    // MARK: - Dependencies
+
+    private let authService: AuthenticationService = AuthenticationService.shared
+    private let log = AppLog(category: "AuthViewModel")
+
+    // MARK: - Initialization
+
+    init() {}
+
+    // MARK: - Error Handling
+
+    private func setError(_ error: AuthenticationError) {
+        authError = error
+        errorMessage = error.errorDescription
+        log.warning("Auth error: \(error.errorDescription ?? "Unknown")")
+    }
+
+    func clearError() {
+        authError = nil
+        errorMessage = nil
+    }
+
+    // MARK: - Email Sign Up
+
+    func signUpEmail() async {
+        clearError()
+        isLoading = true
+
+        guard isValidEmail(email) else {
+            setError(.invalidEmail)
+            HapticManager.error()
+            isLoading = false
+            return
+        }
+
+        guard isValidPassword(password) else {
+            setError(.weakPassword)
+            HapticManager.error()
+            isLoading = false
+            return
+        }
+
+        do {
+            try await authService.signUp(email: email, password: password, name: nil)
+            clearError()
+            if !authService.isEmailVerified {
+                showEmailVerificationPrompt = true
+            }
+            isLoading = false
+            HapticManager.success()
+        } catch {
+            isLoading = false
+            if let authErr = error as? AppAuthError {
+                setError(authErr)
+            } else {
+                setError(.serverError(statusCode: 0, errorMessage: error.localizedDescription))
+            }
+            HapticManager.error()
+        }
+    }
+
+    // MARK: - Email Sign In
+
+    func signInEmail() async {
+        clearError()
+        isLoading = true
+
+        guard isValidEmail(email) else {
+            setError(.invalidEmail)
+            HapticManager.error()
+            isLoading = false
+            return
+        }
+
+        guard !password.isEmpty else {
+            setError(.invalidCredentials)
+            HapticManager.error()
+            isLoading = false
+            return
+        }
+
+        do {
+            try await authService.signIn(email: email, password: password)
+            clearError()
+            isLoading = false
+            HapticManager.success()
+        } catch {
+            isLoading = false
+            if let authErr = error as? AppAuthError {
+                setError(authErr)
+                if case .emailNotConfirmed = authErr {
+                    showEmailVerificationPrompt = true
+                }
+            } else {
+                setError(.serverError(statusCode: 0, errorMessage: error.localizedDescription))
+            }
+            HapticManager.error()
+        }
+    }
+
+    // MARK: - Validation Helpers
+
+    private func isValidEmail(_ email: String) -> Bool {
+        // Simple email validation without regex (Skip-compatible)
+        return email.contains("@") && email.contains(".")
+    }
+
+    private func isValidPassword(_ password: String) -> Bool {
+        guard password.count >= 8 else { return false }
+        var hasLetter = false
+        var hasNumber = false
+        for char in password {
+            if (char >= "a" && char <= "z") || (char >= "A" && char <= "Z") {
+                hasLetter = true
+            }
+            if char >= "0" && char <= "9" {
+                hasNumber = true
+            }
+        }
+        return hasLetter && hasNumber
+    }
+
+    // MARK: - Sign Out
+
+    func signOut() async {
+        clearError()
+        isLoading = true
+        await authService.signOut()
+        email = ""
+        password = ""
+        isLoading = false
+        HapticManager.light()
+    }
+
+    // MARK: - Password Reset
+
+    func resetPassword(email: String) async {
+        clearError()
+        isLoading = true
+        do {
+            try await authService.resetPassword(email: email)
+            errorMessage = "Password reset email sent to \(email)"
+            authError = nil
+            isLoading = false
+            HapticManager.success()
+        } catch {
+            isLoading = false
+            if let authErr = error as? AppAuthError {
+                setError(authErr)
+            } else {
+                setError(.serverError(statusCode: 0, errorMessage: error.localizedDescription))
+            }
+            HapticManager.error()
+        }
+    }
+
+    // MARK: - Resend Confirmation Email
+
+    func resendConfirmationEmail(email: String) async {
+        clearError()
+        isLoading = true
+        // On Android, we don't have direct access to supabase.auth.resend
+        // Show a message directing user to check email
+        errorMessage = "Please check your email for a confirmation link"
+        authError = nil
+        isLoading = false
+        showEmailVerificationPrompt = true
+        HapticManager.success()
+    }
+}
+
 #endif

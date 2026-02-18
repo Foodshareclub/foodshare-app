@@ -5,6 +5,8 @@
 //  ViewModel for reporting posts
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 
@@ -95,3 +97,5 @@ final class ReportViewModel {
         showError = false
     }
 }
+
+#endif

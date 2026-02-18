@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AppIconOption.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Model for alternate app icon options
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Represents an app icon option that users can select
@@ -141,4 +142,5 @@ private func colorFromHex(_ hex: String) -> Color? {
 
     return Color(red: red, green: green, blue: blue)
 }
+
 #endif

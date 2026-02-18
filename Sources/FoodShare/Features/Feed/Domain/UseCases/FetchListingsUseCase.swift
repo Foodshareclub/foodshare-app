@@ -5,6 +5,8 @@
 //  Use case for fetching food listings with pagination support
 //
 
+
+#if !SKIP
 import Foundation
 
 /// Use case protocol for fetching food listings
@@ -79,3 +81,5 @@ final class DefaultFetchListingsUseCase: FetchListingsUseCase {
         return listings.filter(\.isAvailable)
     }
 }
+
+#endif

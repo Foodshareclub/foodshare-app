@@ -10,6 +10,8 @@
 //  - Staggered appearance animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Edit Profile View
@@ -252,7 +254,11 @@ struct EditProfileView: View {
         .padding(.vertical, Spacing.md)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.brandGreen.opacity(0.3), lineWidth: 1)
@@ -283,4 +289,6 @@ struct EditProfileView: View {
         profile: .fixture()
     )
 }
+#endif
+
 #endif

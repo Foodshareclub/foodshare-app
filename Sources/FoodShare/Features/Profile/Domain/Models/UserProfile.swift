@@ -5,6 +5,8 @@
 //  User profile domain model
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Dietary Preferences
@@ -439,3 +441,5 @@ extension UserStats {
         UserStats(shared: shared, received: received, rating: rating)
     }
 }
+
+#endif

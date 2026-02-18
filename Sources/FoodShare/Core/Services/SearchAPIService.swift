@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SearchAPIService.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  API service for search via api-v1-search edge function
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Search API Service
@@ -87,4 +88,5 @@ struct SearchItemDTO: Codable, Identifiable, Sendable {
     let images: [String]?
     let postType: String?
 }
+
 #endif

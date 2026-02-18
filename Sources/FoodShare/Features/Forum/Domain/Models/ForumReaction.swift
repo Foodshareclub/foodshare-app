@@ -6,6 +6,8 @@
 //  Maps to reaction_types, forum_reactions, forum_comment_reactions tables
 //
 
+
+#if !SKIP
 import Foundation
 
 // MARK: - Reaction Type
@@ -252,4 +254,6 @@ struct ToggleReactionResult: Codable, Sendable {
             )
         }
     }
+#endif
+
 #endif

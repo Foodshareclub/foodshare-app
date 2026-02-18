@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SecureStorage.swift
 //  FoodShare
@@ -14,6 +13,8 @@
 //  ```
 //
 
+
+#if !SKIP
 #if !SKIP
 import CryptoKit
 #endif
@@ -358,4 +359,5 @@ actor SecureStorage {
         return directory.appendingPathComponent("\(sanitizedKey).encrypted")
     }
 }
+
 #endif

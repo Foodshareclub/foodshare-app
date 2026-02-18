@@ -5,6 +5,8 @@
 //  Structured log entry model with JSON serialization
 //
 
+
+#if !SKIP
 import Foundation
 
 /// A structured log entry for persistence and analysis
@@ -99,3 +101,5 @@ struct LogEntry: Codable, Sendable, Identifiable {
 
 // Note: AnyCodable is defined in FoodShare/Core/Services/PostActivityService.swift
 // and is used for flexible context values in log entries
+
+#endif

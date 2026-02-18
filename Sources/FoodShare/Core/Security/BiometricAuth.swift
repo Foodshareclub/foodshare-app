@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  BiometricAuth.swift
 //  FoodShare
@@ -7,6 +6,8 @@
 //  Provides Face ID / Touch ID with failed-attempt tracking and lockout.
 //
 
+
+#if !SKIP
 import Foundation
 import LocalAuthentication
 
@@ -237,4 +238,5 @@ final class BiometricAuth: Sendable {
         UserDefaults.standard.removeObject(forKey: lockoutEndTimeKey)
     }
 }
+
 #endif

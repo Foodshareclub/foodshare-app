@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PrivacyProtectionService.swift
 //  Foodshare
@@ -8,6 +7,8 @@
 //  clipboard auto-clear, and session timeout
 //
 
+
+#if !SKIP
 #if !SKIP
 import Combine
 #endif
@@ -397,4 +398,5 @@ enum SessionTimeoutOption: Double, CaseIterable, Identifiable {
         rawValue == 0 ? .infinity : rawValue
     }
 }
+
 #endif

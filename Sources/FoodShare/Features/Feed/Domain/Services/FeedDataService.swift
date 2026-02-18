@@ -6,6 +6,9 @@
 //  Extracted from FeedViewModel to improve separation of concerns.
 //
 
+
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -232,3 +235,6 @@ enum FeedDataError: Error, LocalizedError {
         }
     }
 }
+
+
+#endif

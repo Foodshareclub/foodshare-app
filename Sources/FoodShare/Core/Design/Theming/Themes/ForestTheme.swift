@@ -6,6 +6,8 @@
 //  Deep forest greens, natural and grounded
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Forest theme with emerald and moss green colors
@@ -92,3 +94,5 @@ struct ForestTheme: Theme {
         )
     }
 }
+
+#endif

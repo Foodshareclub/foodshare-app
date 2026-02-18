@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  CurrentUserCache.swift
 //  Foodshare
@@ -9,6 +8,8 @@
 //  to eliminate duplicate API calls.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -165,4 +166,5 @@ extension CurrentUserCache {
         profile?.searchRadiusKm
     }
 }
+
 #endif

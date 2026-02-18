@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  SettingsBackupView.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  View for backing up and restoring app settings
 //
 
+
+#if !SKIP
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -96,7 +97,7 @@ struct SettingsBackupView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 80, height: 80)
+                    .frame(width: 80.0, height: 80)
 
                 Image(systemName: "externaldrive.fill")
                     .font(.system(size: 36, weight: .medium))
@@ -116,7 +117,11 @@ struct SettingsBackupView: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -136,7 +141,7 @@ struct SettingsBackupView: View {
                     Image(systemName: "square.and.arrow.up.fill")
                         .font(.system(size: 18))
                         .foregroundStyle(Color.DesignSystem.brandGreen)
-                        .frame(width: 28)
+                        .frame(width: 28.0)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(t.t("create_backup"))
@@ -173,7 +178,7 @@ struct SettingsBackupView: View {
                     Image(systemName: "square.and.arrow.down.fill")
                         .font(.system(size: 18))
                         .foregroundStyle(Color.DesignSystem.brandBlue)
-                        .frame(width: 28)
+                        .frame(width: 28.0)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(t.t("restore_from_file"))
@@ -222,7 +227,7 @@ struct SettingsBackupView: View {
             Image(systemName: "doc.fill")
                 .font(.system(size: 18))
                 .foregroundStyle(Color.DesignSystem.brandTeal)
-                .frame(width: 28)
+                .frame(width: 28.0)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(filename)
@@ -387,4 +392,5 @@ struct DocumentPicker: UIViewControllerRepresentable {
         SettingsBackupView()
     }
 }
+
 #endif

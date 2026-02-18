@@ -6,6 +6,8 @@
 //  Enhanced version of DetailStatPill with number counter animation
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassStatPill: View {
@@ -245,3 +247,5 @@ struct GlassStatPillData: Identifiable {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

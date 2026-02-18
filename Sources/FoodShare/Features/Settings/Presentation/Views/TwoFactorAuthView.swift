@@ -6,6 +6,8 @@
 //  Uses Liquid Glass Design System v26
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -99,7 +101,7 @@ struct TwoFactorAuthView: View {
                         endRadius: 250,
                     ),
                 )
-                .frame(width: 500, height: 500)
+                .frame(width: 500.0, height: 500)
                 .blur(radius: 80)
                 .offset(y: -200)
                 .animation(.interpolatingSpring(stiffness: 200, damping: 20), value: mfaService.status)
@@ -115,13 +117,17 @@ struct TwoFactorAuthView: View {
                 // Outer glow
                 Circle()
                     .fill(statusColor.opacity(0.1))
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
                     .blur(radius: 15)
 
                 // Glass circle background
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 80, height: 80)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 80.0, height: 80)
                     .overlay(
                         Circle()
                             .stroke(
@@ -181,7 +187,11 @@ struct TwoFactorAuthView: View {
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.xl)
                 .fill(Color.white.opacity(0.05))
-                .background(.ultraThinMaterial),
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.xl))
         .overlay(
@@ -245,7 +255,7 @@ struct TwoFactorAuthView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .fill(Color.DesignSystem.brandGreen.opacity(0.15))
-                            .frame(width: 44, height: 44)
+                            .frame(width: 44.0, height: 44)
 
                         Image(systemName: "qrcode")
                             .font(.system(size: 20, weight: .medium))
@@ -274,7 +284,11 @@ struct TwoFactorAuthView: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(0.05))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -310,7 +324,7 @@ struct TwoFactorAuthView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .fill(Color.DesignSystem.warning.opacity(0.15))
-                            .frame(width: 44, height: 44)
+                            .frame(width: 44.0, height: 44)
 
                         Image(systemName: "arrow.clockwise")
                             .font(.system(size: 20, weight: .medium))
@@ -338,7 +352,11 @@ struct TwoFactorAuthView: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(0.05))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -372,7 +390,7 @@ struct TwoFactorAuthView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                 .fill(Color.DesignSystem.brandGreen.opacity(0.15))
-                                .frame(width: 44, height: 44)
+                                .frame(width: 44.0, height: 44)
 
                             Image(systemName: factor.factorType == "totp" ? "lock.shield" : "phone")
                                 .font(.system(size: 20, weight: .medium))
@@ -389,7 +407,7 @@ struct TwoFactorAuthView: View {
                                     .fill(factor.status == .verified
                                         ? Color.DesignSystem.success
                                         : Color.DesignSystem.warning)
-                                        .frame(width: 6, height: 6)
+                                        .frame(width: 6.0, height: 6)
                                 Text("\(t.t("settings.mfa.totp")) • \(factor.status == .verified ? t.t("common.active") : t.t("common.pending"))")
                                     .font(.DesignSystem.caption)
                                     .foregroundStyle(Color.DesignSystem.textSecondary)
@@ -406,7 +424,7 @@ struct TwoFactorAuthView: View {
                             Image(systemName: "trash")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color.DesignSystem.error)
-                                .frame(width: 36, height: 36)
+                                .frame(width: 36.0, height: 36)
                                 .background(
                                     Circle()
                                         .fill(Color.DesignSystem.error.opacity(0.1)),
@@ -425,7 +443,7 @@ struct TwoFactorAuthView: View {
                                     endPoint: .trailing,
                                 ),
                             )
-                            .frame(height: 1)
+                            .frame(height: 1.0)
                             .padding(.leading, 60)
                     }
                 }
@@ -433,7 +451,11 @@ struct TwoFactorAuthView: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(0.05))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -473,7 +495,7 @@ struct TwoFactorAuthView: View {
                             endPoint: .trailing,
                         ),
                     )
-                    .frame(height: 1)
+                    .frame(height: 1.0)
 
                 infoRow(
                     icon: "apps.iphone",
@@ -490,7 +512,7 @@ struct TwoFactorAuthView: View {
                             endPoint: .trailing,
                         ),
                     )
-                    .frame(height: 1)
+                    .frame(height: 1.0)
 
                 infoRow(
                     icon: "clock",
@@ -503,7 +525,11 @@ struct TwoFactorAuthView: View {
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(Color.white.opacity(0.05))
-                    .background(.ultraThinMaterial),
+                    #if !SKIP
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
             )
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .overlay(
@@ -526,7 +552,7 @@ struct TwoFactorAuthView: View {
             ZStack {
                 Circle()
                     .fill(iconColor.opacity(0.12))
-                    .frame(width: 36, height: 36)
+                    .frame(width: 36.0, height: 36)
 
                 Image(systemName: icon)
                     .font(.system(size: 16, weight: .medium))
@@ -568,3 +594,5 @@ struct TwoFactorAuthView: View {
 #Preview {
     TwoFactorAuthView()
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Block user with reason - Apple App Review requirement
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct BlockUserSheet: View {
@@ -86,12 +88,12 @@ struct BlockUserSheet: View {
                     Circle()
                         .fill(Color.DesignSystem.textTertiary.opacity(0.3))
                 }
-                .frame(width: 56, height: 56)
+                .frame(width: 56.0, height: 56)
                 .clipShape(Circle())
             } else {
                 Circle()
                     .fill(Color.DesignSystem.textTertiary.opacity(0.3))
-                    .frame(width: 56, height: 56)
+                    .frame(width: 56.0, height: 56)
                     .overlay(
                         Image(systemName: "person.fill")
                             .foregroundStyle(Color.DesignSystem.textTertiary),
@@ -113,7 +115,11 @@ struct BlockUserSheet: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -185,7 +191,7 @@ struct BlockUserSheet: View {
                 Image(systemName: reason.icon)
                     .font(.system(size: 18))
                     .foregroundStyle(reason.color)
-                    .frame(width: 28)
+                    .frame(width: 28.0)
 
                 Text(t.t(reason.titleKey))
                     .font(.DesignSystem.bodyMedium)
@@ -199,7 +205,7 @@ struct BlockUserSheet: View {
                 } else {
                     Circle()
                         .stroke(Color.DesignSystem.textTertiary, lineWidth: 2)
-                        .frame(width: 20, height: 20)
+                        .frame(width: 20.0, height: 20)
                 }
             }
             .padding(Spacing.md)
@@ -233,7 +239,11 @@ struct BlockUserSheet: View {
                 .padding(Spacing.md)
                 .background(
                     RoundedRectangle(cornerRadius: CornerRadius.medium)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             RoundedRectangle(cornerRadius: CornerRadius.medium)
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -392,3 +402,5 @@ enum BlockReason: String, CaseIterable {
     )
     .environment(AppState.preview)
 }
+
+#endif

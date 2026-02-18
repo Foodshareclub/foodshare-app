@@ -3,6 +3,8 @@
 // FoodShare iOS - Liquid Glass Design System
 // Version: 1.0 - Enterprise Grade
 
+
+#if !SKIP
 import SwiftUI
 
 /// An expandable header for notification channel sections.
@@ -383,3 +385,5 @@ public struct CompactChannelHeader: View {
     .padding(Spacing.md)
     .background(Color.DesignSystem.background)
 }
+
+#endif

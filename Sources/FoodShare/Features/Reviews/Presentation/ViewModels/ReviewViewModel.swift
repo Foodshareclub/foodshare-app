@@ -5,6 +5,8 @@
 //  ViewModel for reviews
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 
@@ -132,3 +134,5 @@ final class ReviewViewModel {
         showError = false
     }
 }
+
+#endif

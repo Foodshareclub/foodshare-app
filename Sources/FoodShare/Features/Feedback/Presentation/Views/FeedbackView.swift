@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  FeedbackView.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  View for submitting feedback
 //
 
+
+#if !SKIP
 import SwiftUI
 
 
@@ -140,7 +141,11 @@ struct FeedbackView: View {
                     .padding(Spacing.md)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
+                            #if !SKIP
                             .fill(.ultraThinMaterial)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                                     .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -198,7 +203,11 @@ struct FeedbackView: View {
                     .padding(Spacing.sm)
                     .background(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
+                            #if !SKIP
                             .fill(.ultraThinMaterial)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                                     .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -222,7 +231,11 @@ struct FeedbackView: View {
         .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
+                #if !SKIP
                 .fill(.ultraThinMaterial)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassStroke, lineWidth: 1),
@@ -246,4 +259,5 @@ struct FeedbackView: View {
     )
 }
 #endif
+
 #endif

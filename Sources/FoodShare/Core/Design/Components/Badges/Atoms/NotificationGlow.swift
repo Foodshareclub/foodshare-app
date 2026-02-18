@@ -18,6 +18,8 @@
 //  - Blur radius control for depth effect
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// A pulsing glow effect for notification indicators following Liquid Glass design principles.
@@ -132,7 +134,7 @@ struct NotificationGlow: View {
                     ZStack {
                         Circle()
                             .fill(Color.DesignSystem.brandGreen)
-                            .frame(width: 48, height: 48)
+                            .frame(width: 48.0, height: 48)
 
                         NotificationGlow(
                             isActive: isActive,
@@ -155,7 +157,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandPink)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -172,7 +174,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandGreen)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -189,7 +191,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.error)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -212,7 +214,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandBlue)
-                                .frame(width: 32, height: 32)
+                                .frame(width: 32.0, height: 32)
 
                             NotificationGlow(
                                 isActive: true,
@@ -229,7 +231,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandBlue)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -246,7 +248,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandBlue)
-                                .frame(width: 64, height: 64)
+                                .frame(width: 64.0, height: 64)
 
                             NotificationGlow(
                                 isActive: true,
@@ -269,7 +271,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandOrange)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -287,7 +289,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandOrange)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -305,7 +307,7 @@ struct NotificationGlow: View {
                         ZStack {
                             Circle()
                                 .fill(Color.DesignSystem.brandOrange)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 48.0, height: 48)
 
                             NotificationGlow(
                                 isActive: true,
@@ -328,7 +330,7 @@ struct NotificationGlow: View {
                     ZStack {
                         Circle()
                             .fill(Color.DesignSystem.brandGreen)
-                            .frame(width: 48, height: 48)
+                            .frame(width: 48.0, height: 48)
 
                         NotificationGlow(
                             isActive: isActive,
@@ -352,3 +354,5 @@ struct NotificationGlow: View {
 
     return PreviewWrapper()
 }
+
+#endif

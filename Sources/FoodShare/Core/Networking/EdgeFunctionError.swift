@@ -6,6 +6,9 @@
 //  Error codes from foodshare-backend/_shared/errors.ts
 //
 
+
+
+#if !SKIP
 import Foundation
 
 enum EdgeFunctionError: LocalizedError, Sendable {
@@ -100,3 +103,6 @@ enum EdgeFunctionError: LocalizedError, Sendable {
         }
     }
 }
+
+
+#endif

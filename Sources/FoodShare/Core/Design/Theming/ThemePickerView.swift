@@ -6,6 +6,8 @@
 //  Displays all available themes with visual previews
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Theme Picker View
@@ -57,7 +59,7 @@ struct ThemePickerView: View {
                         endPoint: .bottomTrailing,
                     ),
                 )
-                .frame(height: 120)
+                .frame(height: 120.0)
                 .overlay(
                     VStack(spacing: Spacing.xs) {
                         Image(systemName: themeManager.currentTheme.icon)
@@ -82,7 +84,11 @@ struct ThemePickerView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -141,7 +147,7 @@ private struct ThemeCard: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(height: 80)
+                    .frame(height: 80.0)
                     .overlay(
                         Image(systemName: theme.icon)
                             .font(.system(size: 24, weight: .medium))
@@ -166,7 +172,11 @@ private struct ThemeCard: View {
             .padding(Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.large)
                             .stroke(
@@ -190,14 +200,16 @@ private struct ThemeCard: View {
 
 #Preview("Theme Card - Selected") {
     ThemeCard(theme: NatureTheme(), isSelected: true) {}
-        .frame(width: 160)
+        .frame(width: 160.0)
         .padding()
         .background(Color.black)
 }
 
 #Preview("Theme Card - Unselected") {
     ThemeCard(theme: OceanTheme(), isSelected: false) {}
-        .frame(width: 160)
+        .frame(width: 160.0)
         .padding()
         .background(Color.black)
 }
+
+#endif

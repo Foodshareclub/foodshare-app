@@ -5,9 +5,10 @@
 //  Detail view for a community fridge
 //
 
+
+
 #if !SKIP
 import MapKit
-#endif
 import SwiftUI
 
 struct CommunityFridgeDetailView: View {
@@ -124,7 +125,7 @@ struct CommunityFridgeDetailView: View {
                         fridgePlaceholder
                     }
                 }
-                .frame(height: 200)
+                .frame(height: 200.0)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             } else {
                 fridgePlaceholder
@@ -154,7 +155,7 @@ struct CommunityFridgeDetailView: View {
     private var fridgePlaceholder: some View {
         RoundedRectangle(cornerRadius: Spacing.md)
             .fill(Color.DesignSystem.glassBackground)
-            .frame(height: 200)
+            .frame(height: 200.0)
             .overlay(
                 Image(systemName: "refrigerator")
                     .font(.system(size: 60))
@@ -200,7 +201,7 @@ struct CommunityFridgeDetailView: View {
                     if interval < 86400 { return "\(Int(interval / 3600))h ago" }
                     return "\(Int(interval / 86400))d ago"
                 }()]))
-                    .font(Font.LiquidGlass.caption)
+                    .font(Font.DesignSystem.caption)
                     .foregroundColor(Color.DesignSystem.textSecondary)
                 #endif
             }
@@ -243,7 +244,7 @@ struct CommunityFridgeDetailView: View {
                     Marker(fridge.name, coordinate: coordinate)
                 }
                 .mapStyle(.standard)
-                .frame(height: 200)
+                .frame(height: 200.0)
                 .cornerRadius(CornerRadius.medium)
             }
             #endif
@@ -592,7 +593,7 @@ private struct FridgeImageShimmer: View {
                     startPoint: .leading,
                     endPoint: .trailing,
                 )
-                .frame(width: 150)
+                .frame(width: 150.0)
                 .offset(x: shimmerPhase)
                 .onAppear {
                     withAnimation(
@@ -613,4 +614,7 @@ private struct FridgeImageShimmer: View {
     #Preview {
         CommunityFridgeDetailView(fridge: .fixture())
     }
+
+#endif
+
 #endif

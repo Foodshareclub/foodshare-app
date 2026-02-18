@@ -7,6 +7,8 @@
 //  120Hz ProMotion optimized animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 struct GlassTabBar<Tab: Hashable>: View {
@@ -58,14 +60,14 @@ struct GlassTabBar<Tab: Hashable>: View {
                         // Outer glow pulse
                         Circle()
                             .fill(Color.DesignSystem.brandGreen.opacity(0.3))
-                            .frame(width: 56, height: 56)
+                            .frame(width: 56.0, height: 56)
                             .scaleEffect(1.0 + 0.1 * sin(breathingPhase))
                             .blur(radius: 4)
 
                         // Main selection circle
                         Circle()
                             .fill(Color.DesignSystem.brandGreen)
-                            .frame(width: 48, height: 48)
+                            .frame(width: 48.0, height: 48)
                             #if !SKIP
                             .matchedGeometryEffect(id: "tabBackground", in: animation)
                             #endif
@@ -80,7 +82,7 @@ struct GlassTabBar<Tab: Hashable>: View {
                     Image(systemName: isSelected ? tab.selectedIcon : tab.icon)
                         .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
                         .foregroundColor(isSelected ? .white : .DesignSystem.textSecondary)
-                        .frame(width: 48, height: 48)
+                        .frame(width: 48.0, height: 48)
                         .scaleEffect(isSelected ? 1.0 : 0.95)
                         .animation(.interpolatingSpring(stiffness: 400, damping: 15), value: isSelected)
 
@@ -116,7 +118,11 @@ struct GlassTabBar<Tab: Hashable>: View {
 
     private var tabBarBackground: some View {
         Capsule()
-            .fill(.ultraThinMaterial)
+            #if !SKIP
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
             .overlay(
                 Capsule()
                     .stroke(
@@ -228,10 +234,14 @@ struct GlassActionBar: View {
                         }
                     }
                     .foregroundColor(action.color)
-                    .frame(width: 56, height: 56)
+                    .frame(width: 56.0, height: 56)
                     .background(
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
                             .overlay(
                                 Circle()
                                     .stroke(action.color.opacity(0.3), lineWidth: 1),
@@ -244,7 +254,11 @@ struct GlassActionBar: View {
         .padding(Spacing.sm)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -322,3 +336,5 @@ struct GlassActionBarItem: Identifiable {
     }
     .background(Color.DesignSystem.background)
 }
+
+#endif

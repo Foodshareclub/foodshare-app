@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  StoreKitService.swift
 //  Foodshare
@@ -7,6 +6,8 @@
 //  with robust backend sync, retry logic, caching, and offline support.
 //
 
+
+#if !SKIP
 import Foundation
 #if !SKIP
 import Network
@@ -931,4 +932,5 @@ final class StoreKitService {
         }
     }
 }
+
 #endif

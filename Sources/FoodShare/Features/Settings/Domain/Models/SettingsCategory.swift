@@ -5,6 +5,8 @@
 //  Settings category enumeration for organizing and filtering settings
 //
 
+
+#if !SKIP
 import SwiftUI
 
 /// Categories for organizing settings sections
@@ -101,3 +103,5 @@ enum SettingsCategory: String, CaseIterable, Identifiable, Sendable {
         allCases.sorted { $0.order < $1.order }
     }
 }
+
+#endif

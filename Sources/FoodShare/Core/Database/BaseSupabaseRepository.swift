@@ -4,8 +4,10 @@
 //
 //  Base repository providing common Supabase operations.
 //  Eliminates duplication across 14+ repository implementations.
-//  Ported from FoodShareRepository package, adapted for monolithic structure.
+//  iOS: Uses supabase-swift with OSLog and PostgrestError mapping
+//  Android: Uses supabase-kt with print logging
 //
+
 
 #if !SKIP
 import Foundation
@@ -238,10 +240,64 @@ open class BaseSupabaseRepository: @unchecked Sendable {
     }
 }
 
-// MARK: - Transactional Result Protocol
+#else
+
+import Foundation
+
+/// Base repository providing common Supabase operations (Android/Skip)
+/// Subclasses implement actual supabase-kt operations directly.
+/// This base provides error mapping shared across all repositories.
+open class BaseSupabaseRepository {
+    // MARK: - Properties
+
+    public let log: AppLog
+
+    // MARK: - Initialization
+
+    public init(category: String) {
+        self.log = AppLog(category: category)
+    }
+
+    // MARK: - Error Mapping
+
+    /// Unified error mapping for all repositories
+    public func mapError(_ error: Error) -> Error {
+        let message = error.localizedDescription.lowercased()
+        if message.contains("not found") || message.contains("pgrst116") {
+            return AppError.notFound(resource: "Resource")
+        }
+        if message.contains("permission denied") || message.contains("42501") {
+            return AppError.unauthorized(action: "access this resource")
+        }
+        if message.contains("duplicate") || message.contains("23505") {
+            return AppError.databaseError("Duplicate entry")
+        }
+        return error
+    }
+
+    /// Map transactional error from RPC
+    public func mapTransactionalError(_ error: RPCTransactionalError) -> Error {
+        switch error.code {
+        case "VALIDATION_ERROR":
+            return AppError.validationError(error.message)
+        case "RESOURCE_NOT_FOUND":
+            return AppError.notFound(resource: error.message)
+        case "AUTH_FORBIDDEN":
+            return AppError.unauthorized(action: error.message)
+        case "DUPLICATE_ENTRY":
+            return AppError.databaseError("Duplicate entry: \(error.message)")
+        default:
+            return AppError.databaseError(error.message)
+        }
+    }
+}
+
+#endif
+
+// MARK: - Shared Types (both platforms)
 
 /// Protocol for transactional RPC results
-public protocol TransactionalResult {
+public protocol TransactionalResult: Decodable {
     var success: Bool { get }
     var error: RPCTransactionalError? { get }
 }
@@ -266,4 +322,3 @@ public struct EmptyParams: Encodable, Sendable {
 
 /// Empty response for RPCs that don't return data
 public struct EmptyResponse: Decodable, Sendable {}
-#endif

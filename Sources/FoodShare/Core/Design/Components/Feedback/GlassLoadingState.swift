@@ -6,6 +6,8 @@
 //  Supports spinner, shimmer, skeleton, and glass pulse animations
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - GlassLoadingState
@@ -127,7 +129,7 @@ struct GlassLoadingState: View {
                             endRadius: 50
                         )
                     )
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100.0, height: 100)
                     .blur(radius: 10)
                     .scaleEffect(pulseScale)
 
@@ -146,7 +148,7 @@ struct GlassLoadingState: View {
                         ),
                         style: StrokeStyle(lineWidth: 3, lineCap: .round)
                     )
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .rotationEffect(Angle.degrees(rotationAngle))
                 #else
                 Circle()
@@ -163,7 +165,7 @@ struct GlassLoadingState: View {
                         ),
                         style: StrokeStyle(lineWidth: 3, lineCap: .round)
                     )
-                    .frame(width: 50, height: 50)
+                    .frame(width: 50.0, height: 50)
                     .rotationEffect(Angle.degrees(rotationAngle))
                 #endif
 
@@ -203,7 +205,7 @@ struct GlassLoadingState: View {
                     startPoint: .leading,
                     endPoint: .trailing
                 )
-                .frame(width: 100)
+                .frame(width: 100.0)
                 .offset(x: shimmerOffset)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -242,34 +244,38 @@ struct GlassLoadingState: View {
         VStack(alignment: .leading, spacing: 0) {
             Rectangle()
                 .fill(skeletonGradient)
-                .frame(height: 160)
+                .frame(height: 160.0)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(height: 16)
+                    .frame(height: 16.0)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.trailing, 60)
 
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 120, height: 14)
+                    .frame(width: 120.0, height: 14)
 
                 HStack {
                     Capsule()
                         .fill(skeletonGradient)
-                        .frame(width: 60, height: 24)
+                        .frame(width: 60.0, height: 24)
                     Spacer()
                     RoundedRectangle(cornerRadius: 4)
                         .fill(skeletonGradient)
-                        .frame(width: 40, height: 12)
+                        .frame(width: 40.0, height: 12)
                 }
             }
             .padding(Spacing.md)
         }
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(shimmerOverlay)
@@ -279,15 +285,15 @@ struct GlassLoadingState: View {
         HStack(spacing: Spacing.md) {
             Circle()
                 .fill(skeletonGradient)
-                .frame(width: 60, height: 60)
+                .frame(width: 60.0, height: 60)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 120, height: 16)
+                    .frame(width: 120.0, height: 16)
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 80, height: 12)
+                    .frame(width: 80.0, height: 12)
             }
 
             Spacer()
@@ -295,7 +301,11 @@ struct GlassLoadingState: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
         .overlay(shimmerOverlay)
@@ -305,22 +315,26 @@ struct GlassLoadingState: View {
         HStack(spacing: Spacing.sm) {
             Circle()
                 .fill(skeletonGradient)
-                .frame(width: 48, height: 48)
+                .frame(width: 48.0, height: 48)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(width: 100, height: 14)
+                    .frame(width: 100.0, height: 14)
                 RoundedRectangle(cornerRadius: 4)
                     .fill(skeletonGradient)
-                    .frame(height: 12)
+                    .frame(height: 12.0)
                     .frame(maxWidth: .infinity)
             }
         }
         .padding(Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
         )
         .overlay(shimmerOverlay)
     }
@@ -332,7 +346,7 @@ struct GlassLoadingState: View {
             ForEach(0..<(columns * rows), id: \.self) { _ in
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                     .fill(skeletonGradient)
-                    .frame(height: 100)
+                    .frame(height: 100.0)
             }
         }
         .overlay(shimmerOverlay)
@@ -395,7 +409,7 @@ struct GlassLoadingState: View {
                 startPoint: .leading,
                 endPoint: .trailing
             )
-            .frame(width: 150)
+            .frame(width: 150.0)
             .offset(x: shimmerOffset)
             .onAppear {
                 shimmerOffset = -150
@@ -428,7 +442,7 @@ struct GlassLoadingState: View {
                             ),
                             lineWidth: 2
                         )
-                        .frame(width: 60 + CGFloat(index) * 30, height: 60 + CGFloat(index) * 30)
+                        .frame(width: 60.0 + CGFloat(index) * 30, height: 60 + CGFloat(index) * 30)
                         .scaleEffect(isAnimating ? 1.2 : 0.8)
                         .opacity(isAnimating ? 0 : 1)
                         .animation(
@@ -442,8 +456,12 @@ struct GlassLoadingState: View {
 
                 // Center content
                 Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 60, height: 60)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
+                    .frame(width: 60.0, height: 60)
                     .overlay(
                         Image(systemName: "hourglass")
                             .font(.system(size: 24, weight: .medium))
@@ -482,7 +500,11 @@ struct GlassLoadingState: View {
             .padding(Spacing.xl)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.xl)
-                    .fill(.ultraThinMaterial)
+                    #if !SKIP
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                    #else
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                    #endif
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.xl)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -509,7 +531,11 @@ struct GlassLoadingState: View {
         .padding(.vertical, Spacing.sm)
         .background(
             Capsule()
-                .fill(.ultraThinMaterial)
+                #if !SKIP
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .overlay(
                     Capsule()
                         .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -558,7 +584,11 @@ private struct ConditionalBackground: ViewModifier {
             content
                 .background(
                     RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
                         .overlay(
                             RoundedRectangle(cornerRadius: CornerRadius.large)
                                 .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -681,7 +711,7 @@ extension View {
             ForEach(0..<3, id: \.self) { index in
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
                     .fill(Color.DesignSystem.brandGreen.opacity(0.3))
-                    .frame(height: 100)
+                    .frame(height: 100.0)
                     .overlay(Text("Item \(index + 1)"))
             }
         }
@@ -690,3 +720,5 @@ extension View {
     .padding()
     .background(Color.DesignSystem.background)
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Displays profile completion progress with circular progress ring.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Profile Completion Card
@@ -56,7 +58,7 @@ struct ProfileCompletionCard: View {
         ZStack {
             Circle()
                 .stroke(Color.DesignSystem.glassBackground, lineWidth: 8)
-                .frame(width: 70, height: 70)
+                .frame(width: 70.0, height: 70)
 
             Circle()
                 .trim(from: 0, to: animatedProgress / 100)
@@ -68,7 +70,7 @@ struct ProfileCompletionCard: View {
                     ),
                     style: StrokeStyle(lineWidth: 8, lineCap: .round),
                 )
-                .frame(width: 70, height: 70)
+                .frame(width: 70.0, height: 70)
                 .rotationEffect(.degrees(-90))
 
             VStack(spacing: 0) {
@@ -120,3 +122,5 @@ struct ProfileCompletionCard: View {
     }
 }
 
+
+#endif

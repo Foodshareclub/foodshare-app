@@ -6,6 +6,8 @@
 //  Liquid Glass v26 design with ProMotion 120Hz optimization
 //
 
+
+#if !SKIP
 import Kingfisher
 import SwiftUI
 
@@ -53,7 +55,7 @@ private struct SwipeIndicator: View {
                         endRadius: 80,
                     ),
                 )
-                .frame(width: 120, height: 60)
+                .frame(width: 120.0, height: 60)
                 .scaleEffect(isPulsing ? 1.2 : 1.0)
 
             // Main badge
@@ -136,7 +138,7 @@ struct ChallengeCardDeck: View {
     private func calculateCardSize(from size: CGSize) -> CGSize {
         // Default fallback size
         guard size.width > 0, size.height > 0 else {
-            return CGSize(width: 350, height: 540)
+            return CGSize(width: 350.0, height: 540.0)
         }
 
         let aspectRatio: CGFloat = 350.0 / 540.0 // 0.648
@@ -302,8 +304,8 @@ struct ChallengeCardDeck: View {
 
         // Accept indicator (right swipe)
         if dragOffset.width > 20 {
-            SwipeIndicator(type: SwipeIndicator.IndicatorType.accept, intensity: min(1, swipeProgress))
-                .opacity(min(1, dragOffset.width / (swipeThreshold * 0.6)))
+            SwipeIndicator(type: SwipeIndicator.IndicatorType.accept, intensity: min(1.0, swipeProgress))
+                .opacity(min(1.0, dragOffset.width / (swipeThreshold * 0.6)))
                 .offset(x: -70, y: -120)
                 .scaleEffect(0.9 + (swipeProgress * 0.2))
                 .animation(.spring(response: 0.25, dampingFraction: 0.6), value: dragOffset.width)
@@ -311,8 +313,8 @@ struct ChallengeCardDeck: View {
 
         // Decline indicator (left swipe)
         if dragOffset.width < -20 {
-            SwipeIndicator(type: SwipeIndicator.IndicatorType.decline, intensity: min(1, swipeProgress))
-                .opacity(min(1, abs(dragOffset.width) / (swipeThreshold * 0.6)))
+            SwipeIndicator(type: SwipeIndicator.IndicatorType.decline, intensity: min(1.0, swipeProgress))
+                .opacity(min(1.0, abs(dragOffset.width) / (swipeThreshold * 0.6)))
                 .offset(x: 70, y: -120)
                 .scaleEffect(0.9 + (swipeProgress * 0.2))
                 .animation(.spring(response: 0.25, dampingFraction: 0.6), value: dragOffset.width)
@@ -654,7 +656,7 @@ struct DeckChallengeCard: View {
     let challenge: Challenge
     let userStatus: ChallengeUserStatus
     let isFaceUp: Bool
-    var cardSize = CGSize(width: 350, height: 540)
+    var cardSize = CGSize(width: 350.0, height: 540.0)
 
     var body: some View {
         Group {
@@ -727,7 +729,11 @@ struct DeckChallengeCard: View {
                 ZStack {
                     // Blur effect
                     Rectangle()
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     // Gradient overlay for depth
                     LinearGradient(
@@ -749,7 +755,7 @@ struct DeckChallengeCard: View {
                                     endPoint: .bottom,
                                 ),
                             )
-                            .frame(height: 1)
+                            .frame(height: 1.0)
                         Spacer()
                     }
                 },
@@ -872,7 +878,7 @@ struct DeckChallengeCard: View {
 
     private var cardBackground: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: CornerRadius.xl).fill(.ultraThinMaterial)
+            RoundedRectangle(cornerRadius: CornerRadius.xl).fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
             RoundedRectangle(cornerRadius: CornerRadius.xl)
                 .fill(
                     LinearGradient(
@@ -899,7 +905,7 @@ struct DeckChallengeCard: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing,
             )
-            Color.clear.background(.ultraThinMaterial.opacity(0.3))
+            Color.clear.background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */.opacity(0.3))
         }
     }
 
@@ -1128,7 +1134,7 @@ struct ShuffleButton: View {
                                 endRadius: 100,
                             ),
                         )
-                        .frame(width: 180, height: 70)
+                        .frame(width: 180.0, height: 70)
                         .blur(radius: 15)
                         .scaleEffect(isAnimating ? 1.3 : 1.0)
                         .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: isAnimating)
@@ -1140,7 +1146,7 @@ struct ShuffleButton: View {
                         if isAnimating {
                             Circle()
                                 .fill(Color.white.opacity(0.4))
-                                .frame(width: 28, height: 28)
+                                .frame(width: 28.0, height: 28)
                                 .blur(radius: 6)
                         }
 
@@ -1173,7 +1179,7 @@ struct ShuffleButton: View {
                             startPoint: .leading,
                             endPoint: .trailing,
                         )
-                        .frame(width: 80)
+                        .frame(width: 80.0)
                         .offset(x: shimmerOffset)
                         .mask(Capsule())
                     },
@@ -1232,7 +1238,11 @@ struct CardDeckHeader: View {
                 .foregroundColor(.DesignSystem.textSecondary)
                 .padding(.horizontal, Spacing.md)
                 .padding(.vertical, Spacing.xs)
-                .background(.ultraThinMaterial)
+                #if !SKIP
+                .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(Capsule())
                 #if !SKIP
                 .contentTransition(.numericText())
@@ -1269,4 +1279,6 @@ struct CardDeckHeader: View {
         }
         .preferredColorScheme(.dark)
     }
+#endif
+
 #endif
