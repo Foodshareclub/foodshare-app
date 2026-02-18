@@ -6,6 +6,8 @@
 //  Advanced glassmorphism with ProMotion 120Hz optimization
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if !SKIP
@@ -82,7 +84,7 @@ struct PremiumGlassCard<Content: View>: View {
             if reduceTransparency {
                 Color(.systemBackground).opacity(0.95)
             } else {
-                Color.clear.background(.ultraThinMaterial)
+                Color.clear.background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
             }
 
             // Top highlight
@@ -100,7 +102,7 @@ struct PremiumGlassCard<Content: View>: View {
 
     private var auroraBackground: some View {
         ZStack {
-            Color.clear.background(.ultraThinMaterial)
+            Color.clear.background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
 
             // Animated aurora colors
             TimelineView(.animation(minimumInterval: 1/60)) { timeline in
@@ -128,7 +130,7 @@ struct PremiumGlassCard<Content: View>: View {
 
     private var neonBackground: some View {
         ZStack {
-            Color.clear.background(.ultraThinMaterial)
+            Color.clear.background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
 
             // Inner glow
             RoundedRectangle(cornerRadius: cornerRadius - 2)
@@ -172,7 +174,7 @@ struct PremiumGlassCard<Content: View>: View {
 
     private var holographicBackground: some View {
         ZStack {
-            Color.clear.background(.ultraThinMaterial)
+            Color.clear.background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
 
             // Animated holographic shimmer
             TimelineView(.animation(minimumInterval: 1/60)) { timeline in
@@ -469,7 +471,11 @@ struct InteractiveGlassModifier: ViewModifier {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(.ultraThinMaterial)
+                        #if !SKIP
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                        #else
+                        .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                        #endif
 
                     // Press highlight
                     if isPressed {
@@ -548,7 +554,7 @@ struct GlassSpotlightModifier: ViewModifier {
                     .easeInOut(duration: 4.0)
                         .repeatForever(autoreverses: true)
                 ) {
-                    offset = CGSize(width: 100, height: 100)
+                    offset = CGSize(width: 100.0, height: 100.0)
                 }
             }
     }
@@ -661,19 +667,19 @@ extension View {
         HStack(spacing: Spacing.md) {
             Text("Flat")
                 .padding(Spacing.md)
-                .frame(width: 100)
+                .frame(width: 100.0)
                 .interactiveGlass()
                 .glassDepth(.flat)
 
             Text("Raised")
                 .padding(Spacing.md)
-                .frame(width: 100)
+                .frame(width: 100.0)
                 .interactiveGlass()
                 .glassDepth(.raised)
 
             Text("Floating")
                 .padding(Spacing.md)
-                .frame(width: 100)
+                .frame(width: 100.0)
                 .interactiveGlass()
                 .glassDepth(.floating)
         }
@@ -689,4 +695,6 @@ extension View {
     .background(Color.DesignSystem.background)
     .preferredColorScheme(.dark)
 }
+#endif
+
 #endif

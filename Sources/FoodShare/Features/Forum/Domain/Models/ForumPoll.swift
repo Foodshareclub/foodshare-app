@@ -6,6 +6,9 @@
 //  Maps to forum_polls, forum_poll_options, forum_poll_votes tables
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Forum Poll
@@ -427,4 +430,7 @@ extension CreatePollRequest {
             )
         }
     }
+#endif
+
+
 #endif

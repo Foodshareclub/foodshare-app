@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  AppStateManager.swift
 //  Foodshare
@@ -13,6 +12,8 @@
 //  - Thread-safe with @MainActor
 //
 
+
+#if !SKIP
 #if !SKIP
 import Combine
 #endif
@@ -298,4 +299,5 @@ extension AppStateManager {
         return manager
     }
 }
+
 #endif

@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  RetryPolicy.swift
 //  Foodshare
@@ -23,6 +22,8 @@
 //  ```
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 
@@ -462,7 +463,7 @@ public struct RetryPolicy: Sendable {
     private func addJitter(to delay: TimeInterval) -> TimeInterval {
         let jitterRange = delay * config.jitterFactor
         let jitter = Double.random(in: -jitterRange ... jitterRange)
-        return max(0, delay + jitter)
+        return max(0.0, delay + jitter)
     }
 }
 
@@ -593,4 +594,5 @@ public func withRetryAndCapture<T: Sendable>(
         throw error
     }
 }
+
 #endif

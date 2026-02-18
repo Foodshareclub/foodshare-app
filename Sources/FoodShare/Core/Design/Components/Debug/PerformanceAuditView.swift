@@ -17,6 +17,8 @@
 //  - Network request counter
 //
 
+
+#if !SKIP
 import SwiftUI
 
 #if DEBUG
@@ -184,10 +186,14 @@ import SwiftUI
                         animationTab.tag(2)
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: 140)
+                    .frame(height: 140.0)
                 }
             }
-            .background(.ultraThinMaterial)
+            #if !SKIP
+            .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+            #else
+            .background(Color.DesignSystem.glassSurface.opacity(0.15))
+            #endif
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .shadow(color: .black.opacity(0.2), radius: 10, y: 5)
             .padding(Spacing.sm)
@@ -207,7 +213,7 @@ import SwiftUI
                 HStack(spacing: Spacing.xs) {
                     Circle()
                         .fill(fpsColor)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 8.0, height: 8)
 
                     Text("\(Int(metrics.currentFPS)) FPS")
                         .font(.system(size: 12, weight: .bold, design: .monospaced))
@@ -358,7 +364,7 @@ import SwiftUI
                             .frame(width: geo.size.width * min(metrics.memoryUsageMB / 300, 1))
                     }
                 }
-                .frame(height: 8)
+                .frame(height: 8.0)
                 .padding(.horizontal, Spacing.md)
 
                 HStack {
@@ -591,5 +597,7 @@ import SwiftUI
             PerformanceAuditView()
         }
     }
+
+#endif
 
 #endif

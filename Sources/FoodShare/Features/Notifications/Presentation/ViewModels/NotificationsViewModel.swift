@@ -5,6 +5,9 @@
 //  ViewModel for notifications list with real-time updates
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 
@@ -218,3 +221,6 @@ final class NotificationsViewModel {
         showError = true
     }
 }
+
+
+#endif

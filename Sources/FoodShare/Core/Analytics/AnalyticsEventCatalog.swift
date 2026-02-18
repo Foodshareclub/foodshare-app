@@ -6,6 +6,9 @@
 //  Eliminates inconsistent event naming and ensures proper parameter types
 //
 
+
+
+#if !SKIP
 import Foundation
 
 // MARK: - Analytics Event Protocol
@@ -83,13 +86,6 @@ public enum AuthAnalyticsEvent: AnalyticsEventProtocol, Sendable {
     public var category: AnalyticsCategory {
         .authentication
     }
-}
-
-public enum AuthMethod: String, Sendable {
-    case email
-    case apple
-    case google
-    case guest
 }
 
 // MARK: - Listing Events
@@ -487,3 +483,6 @@ public final class AnalyticsService {
         }
     }
 }
+
+
+#endif

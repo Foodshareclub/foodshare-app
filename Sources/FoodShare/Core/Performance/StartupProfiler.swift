@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  StartupProfiler.swift
 //  FoodShare
@@ -13,6 +12,8 @@
 //  - Historical tracking for regression detection
 //
 
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -285,7 +286,7 @@ public final class StartupProfiler {
                 phase: .preMain,
                 startTime: processStartTime,
                 endTime: StartupProfiler.preMainEndTime,
-                durationMs: max(0, preMainDuration),
+                durationMs: max(0.0, preMainDuration),
             ))
         }
 
@@ -516,11 +517,16 @@ extension View {
                     }
                 }
                 .padding(Spacing.sm)
+                #if !SKIP
                 .background(.ultraThinMaterial)
+                #else
+                .background(Color.DesignSystem.glassSurface.opacity(0.15))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
     }
 #endif
+
 
 #endif

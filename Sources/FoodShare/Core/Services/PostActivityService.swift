@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  PostActivityService.swift
 //  Foodshare
@@ -11,6 +10,8 @@
 //  endpoint exists for activity log reads.
 //
 
+
+#if !SKIP
 import Foundation
 import OSLog
 import Supabase
@@ -371,4 +372,5 @@ enum PostActivityError: LocalizedError, Sendable {
         }
     }
 }
+
 #endif

@@ -6,6 +6,9 @@
 //  Features: Real-time sync, optimistic UI, retry logic, offline queue, analytics
 //
 
+
+
+#if !SKIP
 import Foundation
 import Observation
 import OSLog
@@ -556,4 +559,7 @@ final class NotificationCenterViewModel {
             return viewModel
         }
     }
+#endif
+
+
 #endif

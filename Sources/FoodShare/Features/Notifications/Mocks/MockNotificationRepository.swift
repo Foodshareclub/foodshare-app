@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  MockNotificationRepository.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Mock implementation of NotificationRepository for testing
 //
 
+
+#if !SKIP
 import Foundation
 
 #if DEBUG
@@ -231,4 +232,5 @@ import Foundation
         }
     }
 #endif
+
 #endif

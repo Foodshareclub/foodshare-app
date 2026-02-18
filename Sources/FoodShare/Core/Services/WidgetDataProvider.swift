@@ -1,4 +1,3 @@
-#if !SKIP
 //
 //  WidgetDataProvider.swift
 //  Foodshare
@@ -6,6 +5,8 @@
 //  Service for updating widget data in the shared App Group container
 //
 
+
+#if !SKIP
 #if !SKIP
 import CoreLocation
 #endif
@@ -379,4 +380,5 @@ struct ActiveChallengeDTO: Codable {
     let reward: String
     let category: String
 }
+
 #endif

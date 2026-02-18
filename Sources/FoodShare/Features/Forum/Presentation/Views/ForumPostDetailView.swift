@@ -1,3 +1,5 @@
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Forum Post Detail View
@@ -81,7 +83,7 @@ struct ForumPostDetailView: View {
             .navigationTitle(t.t("forum.discussion"))
             .navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
             #endif
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -182,7 +184,7 @@ struct ForumPostDetailView: View {
                 } placeholder: {
                     Circle().fill(Color.DesignSystem.glassBackground)
                 }
-                .frame(width: 48, height: 48)
+                .frame(width: 48.0, height: 48)
                 .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
@@ -287,7 +289,7 @@ struct ForumPostDetailView: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(.ultraThinMaterial),
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */),
         )
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.medium)
@@ -316,20 +318,20 @@ struct ForumPostDetailView: View {
             HStack {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(width: 60, height: 16)
+                    .frame(width: 60.0, height: 16)
                 Spacer()
             }
 
             ForEach(0 ..< 3, id: \.self) { _ in
                 RoundedRectangle(cornerRadius: Spacing.radiusMD)
                     .fill(Color.DesignSystem.glassBackground)
-                    .frame(height: 48)
+                    .frame(height: 48.0)
             }
         }
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: Spacing.radiusLG)
-                .fill(.ultraThinMaterial),
+                .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */),
         )
         .redacted(reason: .placeholder)
     }
@@ -536,7 +538,7 @@ struct ForumPostDetailView: View {
             .disabled(newComment.isEmpty || isSubmitting)
         }
         .padding()
-        .background(.ultraThinMaterial)
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
     }
 
     // MARK: - Background
@@ -1156,7 +1158,7 @@ struct CommentRow: View {
             } placeholder: {
                 Circle().fill(Color.DesignSystem.glassBackground)
             }
-            .frame(width: 36, height: 36)
+            .frame(width: 36.0, height: 36)
             .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
@@ -1439,7 +1441,7 @@ struct LiquidGlassActionButtonStyle: ButtonStyle {
                             .fill(activeColor.opacity(0.15))
                     } else {
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
-                            .fill(.ultraThinMaterial)
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                     }
                 }
                 .overlay(
@@ -1464,7 +1466,7 @@ struct GlassActionButtonStyle: ButtonStyle {
             .padding(Edge.Set.vertical, Spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: CornerRadius.medium)
-                    .fill(.ultraThinMaterial)
+                    .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                     .overlay(
                         RoundedRectangle(cornerRadius: CornerRadius.medium)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1),
@@ -1577,7 +1579,7 @@ struct ReplyCommentSheet: View {
             .navigationTitle(isQuoteReply ? t.t("forum.quote_reply") : t.t("common.reply"))
             .navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
             #endif
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -1614,7 +1616,7 @@ struct ReplyCommentSheet: View {
                 // Thread indicator
                 Rectangle()
                     .fill(Color.DesignSystem.primary.opacity(0.3))
-                    .frame(width: 3)
+                    .frame(width: 3.0)
                     .clipShape(RoundedRectangle(cornerRadius: 2))
 
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
@@ -1625,7 +1627,7 @@ struct ReplyCommentSheet: View {
                         } placeholder: {
                             Circle().fill(Color.DesignSystem.glassBackground)
                         }
-                        .frame(width: 24, height: 24)
+                        .frame(width: 24.0, height: 24)
                         .clipShape(Circle())
 
                         Text(comment.author?.displayName ?? t.t("common.anonymous"))
@@ -1716,7 +1718,7 @@ private struct QuotePreviewCard: View {
             // Quote indicator line
             Rectangle()
                 .fill(Color.DesignSystem.primary)
-                .frame(width: 3)
+                .frame(width: 3.0)
                 .clipShape(RoundedRectangle(cornerRadius: 2))
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
@@ -1788,7 +1790,7 @@ struct EditCommentSheet: View {
                             } placeholder: {
                                 Circle().fill(Color.DesignSystem.glassBackground)
                             }
-                            .frame(width: 32, height: 32)
+                            .frame(width: 32.0, height: 32)
                             .clipShape(Circle())
 
                             VStack(alignment: .leading, spacing: 2) {
@@ -1889,7 +1891,7 @@ struct EditCommentSheet: View {
             .navigationTitle(t.t("forum.edit_comment"))
             .navigationBarTitleDisplayMode(.inline)
             #if !SKIP
-            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */, for: .navigationBar)
             #endif
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -1930,3 +1932,5 @@ private func relativeTimeString(from date: Date) -> String {
         return "\(days)d ago"
     }
 }
+
+#endif

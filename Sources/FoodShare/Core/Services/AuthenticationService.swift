@@ -9,21 +9,15 @@
 //  MIGRATED: From ObservableObject to @Observable for improved performance
 //
 
-#if !SKIP
-import AuthenticationServices
-import CryptoKit
-#endif
+
+
 import Foundation
 import Observation
-import OSLog
-import Supabase
-#if !SKIP
-import UIKit
-#endif
 
 // MARK: - Auth User Profile Model (Basic auth state, distinct from Profile feature's UserProfile)
+// Shared across iOS and Android
 
-struct AuthUserProfile: Codable, Sendable, Identifiable {
+struct AuthUserProfile: Codable, Identifiable {
     let id: UUID
     let email: String?
     let nickname: String?
@@ -55,29 +49,34 @@ struct AuthUserProfile: Codable, Sendable, Identifiable {
         return email?.components(separatedBy: "@").first ?? "User"
     }
 
-    /// Check if user has admin role
-    /// - Warning: Always returns `false`. Admin roles are not stored in profiles.
-    /// - Important: Use `AdminAuthorizationService.shared.isAdminUser` from `@MainActor` context
-    ///   or call `AdminAuthorizationService.shared.isAdmin()` async method for accurate status.
-    ///   Admin roles are stored in the `user_roles` table joined with `roles` table.
+    #if !SKIP
     @available(*, deprecated, message: "Use AdminAuthorizationService.shared.isAdminUser from @MainActor context")
-    var isAdmin: Bool {
-        // Cannot access AdminAuthorizationService from Sendable struct (actor isolation)
-        // Views should use AdminAuthorizationService.shared.isAdminUser directly
-        false
-    }
+    var isAdmin: Bool { false }
 
-    /// Check if user has super admin role
-    /// - Warning: Always returns `false`. Super admin roles are not stored in profiles.
-    /// - Important: Use `AdminAuthorizationService.shared.isSuperAdminUser` from `@MainActor` context
-    ///   or call `AdminAuthorizationService.shared.isSuperAdmin()` async method for accurate status.
     @available(*, deprecated, message: "Use AdminAuthorizationService.shared.isSuperAdminUser from @MainActor context")
-    var isSuperAdmin: Bool {
-        // Cannot access AdminAuthorizationService from Sendable struct (actor isolation)
-        // Views should use AdminAuthorizationService.shared.isSuperAdminUser directly
-        false
-    }
+    var isSuperAdmin: Bool { false }
+    #endif
 }
+
+// MARK: - Auth Method
+
+public enum AuthMethod: String, Sendable {
+    case email
+    case apple
+    case google
+    case guest
+}
+
+#if !SKIP
+#if !SKIP
+import AuthenticationServices
+import CryptoKit
+#endif
+import OSLog
+import Supabase
+#if !SKIP
+import UIKit
+#endif
 
 // MARK: - Nextdoor Token Response
 
@@ -1889,3 +1888,256 @@ private class AppleAuthDelegate: NSObject, ASAuthorizationControllerDelegate,
     }
 }
 #endif // !SKIP (Web Auth + Apple Auth delegates)
+
+
+#else
+
+// MARK: - Android/Skip Authentication Service
+
+import Foundation
+import Observation
+
+/// Simplified AuthenticationService for Android/Skip
+/// Uses direct HTTP calls to Supabase Auth REST API
+@MainActor
+@Observable
+final class AuthenticationService {
+    static let shared = AuthenticationService()
+
+    // MARK: - Observable State
+
+    var currentUser: AuthUserProfile?
+    var isAuthenticated: Bool = false
+    var isLoading: Bool = false
+    var isEmailVerified: Bool = false
+    var currentUserEmail: String?
+
+    // MARK: - Configuration
+
+    private let baseURL: String
+    private let apiKey: String
+    private(set) var accessToken: String?
+    private var refreshToken: String?
+    private let log = AppLog(category: "AuthenticationService")
+
+    // MARK: - Initialization
+
+    private init() {
+        self.baseURL = AppEnvironment.supabaseURL ?? "https://api.foodshare.club"
+        self.apiKey = AppEnvironment.supabasePublishableKey ?? ""
+    }
+
+    // MARK: - Session Management
+
+    func checkCurrentSession() async {
+        guard let token = accessToken, !token.isEmpty else {
+            log.info("No stored session found")
+            isAuthenticated = false
+            return
+        }
+        // Try to use stored token to get current user
+        do {
+            try await fetchCurrentUser()
+            isAuthenticated = true
+            isEmailVerified = true
+        } catch {
+            log.warning("Stored session invalid: \(error.localizedDescription)")
+            accessToken = nil
+            refreshToken = nil
+            isAuthenticated = false
+        }
+    }
+
+    // MARK: - Email/Password Auth
+
+    func signIn(email: String, password: String) async throws {
+        isLoading = true
+        defer { isLoading = false }
+
+        let url = URL(string: "\(baseURL)/auth/v1/token?grant_type=password")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(apiKey, forHTTPHeaderField: "apikey")
+
+        let body: [String: String] = ["email": email, "password": password]
+        request.httpBody = try JSONEncoder().encode(body)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw AppAuthError.networkError(reason: "Invalid response")
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            let errorBody = String(data: data, encoding: .utf8) ?? "Unknown error"
+            if httpResponse.statusCode == 400 {
+                throw AppAuthError.invalidCredentials
+            }
+            throw AppAuthError.serverError(statusCode: httpResponse.statusCode, errorMessage: errorBody)
+        }
+
+        let authResponse = try JSONDecoder().decode(AuthTokenResponse.self, from: data)
+        self.accessToken = authResponse.accessToken
+        self.refreshToken = authResponse.refreshToken
+        self.currentUserEmail = email
+        self.isAuthenticated = true
+        self.isEmailVerified = true
+
+        // Fetch user profile
+        try await fetchCurrentUser()
+        log.info("Sign in successful for \(email)")
+    }
+
+    func signUp(email: String, password: String, name: String? = nil) async throws {
+        isLoading = true
+        defer { isLoading = false }
+
+        let url = URL(string: "\(baseURL)/auth/v1/signup")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(apiKey, forHTTPHeaderField: "apikey")
+
+        var body: [String: String] = ["email": email, "password": password]
+        if let name {
+            body["data"] = "{\"name\":\"\(name)\"}"
+        }
+        request.httpBody = try JSONEncoder().encode(body)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw AppAuthError.networkError(reason: "Invalid response")
+        }
+
+        guard httpResponse.statusCode == 200 || httpResponse.statusCode == 201 else {
+            let errorBody = String(data: data, encoding: .utf8) ?? "Unknown error"
+            if errorBody.contains("already registered") {
+                throw AppAuthError.emailAlreadyInUse
+            }
+            throw AppAuthError.serverError(statusCode: httpResponse.statusCode, errorMessage: errorBody)
+        }
+
+        self.currentUserEmail = email
+        self.isEmailVerified = false
+        log.info("Sign up successful for \(email)")
+    }
+
+    func signOut() async {
+        if let token = accessToken {
+            let url = URL(string: "\(baseURL)/auth/v1/logout")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue(apiKey, forHTTPHeaderField: "apikey")
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            _ = try? await URLSession.shared.data(for: request)
+        }
+
+        accessToken = nil
+        refreshToken = nil
+        currentUser = nil
+        isAuthenticated = false
+        isEmailVerified = false
+        currentUserEmail = nil
+        log.info("Sign out complete")
+    }
+
+    // MARK: - User Profile
+
+    private func fetchCurrentUser() async throws {
+        guard let token = accessToken else { return }
+
+        let url = URL(string: "\(baseURL)/auth/v1/user")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue(apiKey, forHTTPHeaderField: "apikey")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw AppAuthError.sessionExpired
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+        let userResponse = try decoder.decode(SupabaseUserResponse.self, from: data)
+
+        self.currentUser = AuthUserProfile(
+            id: userResponse.id,
+            email: userResponse.email,
+            nickname: userResponse.userMetadata?.name,
+            firstName: nil,
+            secondName: nil,
+            avatarUrl: userResponse.userMetadata?.avatarUrl,
+            createdTime: userResponse.createdAt
+        )
+    }
+
+    // MARK: - Password Reset
+
+    func resetPassword(email: String) async throws {
+        let url = URL(string: "\(baseURL)/auth/v1/recover")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(apiKey, forHTTPHeaderField: "apikey")
+
+        let body = ["email": email]
+        request.httpBody = try JSONEncoder().encode(body)
+
+        let (_, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw AppAuthError.networkError(reason: "Password reset request failed")
+        }
+
+        log.info("Password reset email sent to \(email)")
+    }
+}
+
+// MARK: - Auth DTOs (Android)
+
+private struct AuthTokenResponse: Decodable {
+    let accessToken: String
+    let refreshToken: String
+    let tokenType: String?
+    let expiresIn: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case refreshToken = "refresh_token"
+        case tokenType = "token_type"
+        case expiresIn = "expires_in"
+    }
+}
+
+private struct SupabaseUserResponse: Decodable {
+    let id: UUID
+    let email: String?
+    let createdAt: Date?
+    let userMetadata: UserMetadata?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case email
+        case createdAt = "created_at"
+        case userMetadata = "user_metadata"
+    }
+
+    struct UserMetadata: Decodable {
+        let name: String?
+        let avatarUrl: String?
+
+        enum CodingKeys: String, CodingKey {
+            case name
+            case avatarUrl = "avatar_url"
+        }
+    }
+}
+
+#endif

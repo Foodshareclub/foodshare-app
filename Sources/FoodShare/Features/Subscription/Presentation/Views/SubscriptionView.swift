@@ -6,6 +6,8 @@
 //  Required for App Store Guideline 3.1.2 compliance
 //
 
+
+#if !SKIP
 import OSLog
 #if !SKIP
 import StoreKit
@@ -75,7 +77,7 @@ struct SubscriptionView: View {
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 28))
-                            .foregroundStyle(.ultraThinMaterial)
+                            .foregroundStyle(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
                             #if !SKIP
                             .symbolRenderingMode(.hierarchical)
                             #endif
@@ -179,7 +181,7 @@ struct SubscriptionView: View {
                             ),
                             lineWidth: 2,
                         )
-                        .frame(width: 120 + CGFloat(index * 30), height: 120 + CGFloat(index * 30))
+                        .frame(width: 120.0 + CGFloat(index * 30), height: 120 + CGFloat(index * 30))
                         .opacity(animateHeader ? 0.3 : 0)
                         .scaleEffect(animateHeader ? 1.2 : 0.8)
                         .animation(
@@ -209,7 +211,7 @@ struct SubscriptionView: View {
                     .rotationEffect(.degrees(animateHeader ? 0 : -180))
                     .animation(.spring(response: 0.8, dampingFraction: 0.6), value: animateHeader)
             }
-            .frame(height: 180)
+            .frame(height: 180.0)
 
             VStack(spacing: Spacing.sm) {
                 Text(t.t("subscription.foodshare_premium"))
@@ -303,7 +305,7 @@ struct SubscriptionView: View {
                             endPoint: .bottomTrailing,
                         ),
                     )
-                    .frame(width: 56, height: 56)
+                    .frame(width: 56.0, height: 56)
                     .shadow(color: gradient[0].opacity(0.4), radius: 8, y: 4)
 
                 Image(systemName: icon)
@@ -325,7 +327,11 @@ struct SubscriptionView: View {
             Spacer(minLength: 0)
         }
         .padding(Spacing.md)
-        .background(.ultraThinMaterial)
+        #if !SKIP
+        .background(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+        #else
+        .background(Color.DesignSystem.glassSurface.opacity(0.15))
+        #endif
         .cornerRadius(CornerRadius.large)
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.large)
@@ -493,7 +499,11 @@ struct SubscriptionView: View {
                     if isSelected {
                         // Selected state with holographic effect
                         RoundedRectangle(cornerRadius: CornerRadius.xl)
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
 
                         RoundedRectangle(cornerRadius: CornerRadius.xl)
                             .stroke(
@@ -525,7 +535,11 @@ struct SubscriptionView: View {
                     } else {
                         // Unselected state
                         RoundedRectangle(cornerRadius: CornerRadius.xl)
-                            .fill(.ultraThinMaterial)
+                            #if !SKIP
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15) /* ultraThinMaterial fallback */)
+                            #else
+                            .fill(Color.DesignSystem.glassSurface.opacity(0.15))
+                            #endif
 
                         RoundedRectangle(cornerRadius: CornerRadius.xl)
                             .stroke(Color.DesignSystem.glassBorder, lineWidth: 1)
@@ -647,7 +661,7 @@ struct SubscriptionView: View {
                 .font(.DesignSystem.bodyMedium)
                 .foregroundColor(Color.DesignSystem.textSecondary)
         }
-        .frame(height: 150)
+        .frame(height: 150.0)
     }
 
     private var emptyProductsView: some View {
@@ -679,7 +693,7 @@ struct SubscriptionView: View {
             }
             .foregroundColor(Color.DesignSystem.brandPink)
         }
-        .frame(height: 180)
+        .frame(height: 180.0)
     }
 
     // MARK: - Purchase Button
@@ -743,7 +757,7 @@ struct SubscriptionView: View {
                 }
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 56.0)
             }
         }
         .disabled(selectedProduct == nil || isPurchasing || storeService.isLoading)
@@ -893,3 +907,5 @@ struct SubscriptionView: View {
     SubscriptionView()
         .environment(AppState())
 }
+
+#endif

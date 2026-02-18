@@ -5,6 +5,8 @@
 //  Displays environmental impact statistics with real-world comparisons.
 //
 
+
+#if !SKIP
 import SwiftUI
 
 // MARK: - Impact Stats Section
@@ -163,7 +165,7 @@ struct ImpactMetricView: View {
             ZStack {
                 Circle()
                     .fill(color.opacity(0.15))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
                     .scaleEffect(isAnimating ? 1.1 : 1.0)
 
                 Image(systemName: icon)
@@ -216,7 +218,7 @@ struct SimpleImpactMetricView: View {
             ZStack {
                 Circle()
                     .fill(color.opacity(0.15))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 44.0, height: 44)
 
                 Image(systemName: icon)
                     .font(.system(size: 18, weight: .semibold))
@@ -239,3 +241,5 @@ struct SimpleImpactMetricView: View {
         .frame(maxWidth: .infinity)
     }
 }
+
+#endif

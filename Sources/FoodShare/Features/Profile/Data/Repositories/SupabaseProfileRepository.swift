@@ -6,9 +6,10 @@
 //  Features retry logic with exponential backoff for transient failures
 //
 
+
+
 #if !SKIP
 import CoreData
-#endif
 import Foundation
 import OSLog
 import Supabase
@@ -811,3 +812,6 @@ struct AddressUpsertDTO: Encodable {
         case longitude
     }
 }
+
+
+#endif

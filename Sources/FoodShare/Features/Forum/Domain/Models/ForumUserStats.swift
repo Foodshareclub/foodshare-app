@@ -6,6 +6,9 @@
 //  Maps to `forum_user_stats` table
 //
 
+
+
+#if !SKIP
 import Foundation
 import SwiftUI
 
@@ -1065,4 +1068,7 @@ extension ForumUserStats {
             )
         }
     }
+#endif
+
+
 #endif
