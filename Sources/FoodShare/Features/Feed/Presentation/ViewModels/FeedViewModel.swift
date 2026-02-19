@@ -191,9 +191,28 @@ final class FeedViewModel {
             logger.info("Received \(items.count) items")
 
             if items.isEmpty {
-                logger.info("No nearby listings — falling back to recent items globally")
-                isLoading = false
-                await loadRecentItemsFallback()
+                // Progressively expand radius instead of showing all posts globally
+                let expandedRadii: [Double] = [50, 200, 800]
+                for radius in expandedRadii where radius > searchRadius {
+                    let expanded = try await dataService.loadItems(
+                        location: location,
+                        radiusKm: radius,
+                        limit: pageSize,
+                        offset: 0,
+                        postType: selectedPostType
+                    )
+                    if !expanded.isEmpty {
+                        logger.info("Found \(expanded.count) items at expanded radius \(radius)km")
+                        foodItems = expanded
+                        hasMoreItems = expanded.count >= pageSize
+                        var itemsToTranslate = foodItems
+                        await translationService.translateItems(&itemsToTranslate)
+                        foodItems = itemsToTranslate
+                        updateFeedStats()
+                        return
+                    }
+                }
+                logger.info("No listings found even at max expanded radius")
                 return
             }
 
